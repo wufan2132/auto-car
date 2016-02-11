@@ -22,7 +22,7 @@ lon_controller_conf:
     ki: 0.03
     kd: 0.0
     kaw: 0.0
-    output_saturation_level: 1.0
+    output_saturation_level: 3.0
 
 lat_controller_conf:
   ts: 0.01

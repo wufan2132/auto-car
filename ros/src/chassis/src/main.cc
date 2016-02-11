@@ -79,8 +79,8 @@ using namespace std;
 using namespace boost::asio;
 Usart car_chassis_usart("/dev/ttyTHS2");
 //to m/s2
-#define ACC_RATE 23.2199546
-#define DEC_RATE 238.095238
+#define ACC_RATE 1 //23.2199546
+#define DEC_RATE 1 //238.095238
 void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg){
  
  car_chassis_usart.send_to_serial((uint16_t)(control_cmd_msg.throttle * ACC_RATE),
