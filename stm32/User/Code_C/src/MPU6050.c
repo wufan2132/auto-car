@@ -3,6 +3,7 @@
 
 #define CALIBRATE_CYCLE 3000
 #define ACC_1G 4095
+#define EARTH_ACC_SCALER 0.00239316239316
 #define Address_Base 0x080E0000
 #define Address_ACC  (0*3)
 #define Address_GYRO (4*3)
@@ -77,9 +78,9 @@ void MPU6050_Read_ACC(void)
 	MPU6050_Data.ACC_ADC_Original.y = (float)ACC_Temp[1];
 	MPU6050_Data.ACC_ADC_Original.z = (float)ACC_Temp[2];	
 	
-	MPU6050_Data.ACC_ADC.x = MPU6050_Data.ACC_ADC_Original.x - MPU6050_Data.ACC_Offset.x;
-	MPU6050_Data.ACC_ADC.y = MPU6050_Data.ACC_ADC_Original.y - MPU6050_Data.ACC_Offset.y;
-	MPU6050_Data.ACC_ADC.z = MPU6050_Data.ACC_ADC_Original.z - MPU6050_Data.ACC_Offset.z;
+	MPU6050_Data.ACC_ADC.x = -(MPU6050_Data.ACC_ADC_Original.x - MPU6050_Data.ACC_Offset.x)*EARTH_ACC_SCALER;
+	MPU6050_Data.ACC_ADC.y = (MPU6050_Data.ACC_ADC_Original.y - MPU6050_Data.ACC_Offset.y)*EARTH_ACC_SCALER;
+	MPU6050_Data.ACC_ADC.z = (MPU6050_Data.ACC_ADC_Original.z - MPU6050_Data.ACC_Offset.z)*EARTH_ACC_SCALER;
 	
 	MPU6050_Data.ACC_ADC = ACC_Filter.LPF2ndFilter(MPU6050_Data.ACC_ADC);
 }

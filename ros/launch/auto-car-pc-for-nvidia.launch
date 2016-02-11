@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="model" default="$(find prius_description)/urdf/prius.urdf"/>
+  <arg name="rvizconfig" default="$(find car_demo)/rviz/demo.rviz" />
+
+  <param name="robot_description" textfile="$(arg model)"/>
+
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+</launch>

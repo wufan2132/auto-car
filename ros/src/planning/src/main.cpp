@@ -1,3 +1,4 @@
+
 #include "planning/common.h"
 #include "planning/planning.h"
 
@@ -9,23 +10,14 @@ bool DEBUG=0;
 int main(int argc, char **argv)
 {
     //判断是否为debug模式
-    char cwd[50];
-    getcwd(cwd,sizeof(cwd));
-    string runpath = cwd;
-    if(runpath.find(".ros")==std::string::npos)
-        DEBUG = 1;
+    Common::debug_check();
 
     /* code for main function */
     ros::init(argc, argv, "planning");
     ros::NodeHandle car_planning_NodeHandle;
     
     /*planning模块初始化*/
-    string path = PLANNING_CONF_DIR;
-    if(DEBUG){
-        string str = "auto-car/ros/";
-        int index = path.find(str);
-        path = path.substr(index+str.size());
-    }
+    string path = Common::convert_to_debugpath(PLANNING_CONF_DIR);
     Car_Planning planning(YAML::LoadFile(path));
 
     
@@ -40,7 +32,7 @@ int main(int argc, char **argv)
     planning.trajectory_publisher = 
         car_planning_NodeHandle.advertise<car_msgs::trajectory>("trajectory_topic", 1000);
     //planning_init
-    planning.Init();
+      planning.Init();
     // 创建ros定时器
     ros::Timer cycle_timer;
     if(planning.conf.mode == "send"){

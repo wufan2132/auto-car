@@ -6,6 +6,7 @@
 #include "car_msgs/localization.h"
 #include "car_msgs/trajectory_point.h"
 #include "planning/common.h"
+#include "planning/obstacle/obstacle.h"
 #include "stdlib.h"
 #include <unistd.h>
 #include <iostream>
@@ -25,8 +26,11 @@ class replay{
 
         void reset();
         void close();
+        //trajectory_point
         bool saveOnce(car_msgs::trajectory_point point, int period=100);
         bool readOnce(car_msgs::trajectory_point &point);
+        //obstacle
+        bool readOnce(Obstacle& object);
 
         int mode;
         ifstream inFile;

@@ -21,19 +21,26 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.14.0_KEIL
 Dialog DLL:      TCM.DLL V1.14.4.0
  
 <h2>Project:</h2>
-C:\Users\14755\Desktop\auto_Car\stm32连接板\stm32\Project\Pro.uvprojx
-Project File Date:  12/15/2018
+C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\Pro.uvprojx
+Project File Date:  12/21/2018
 
 <h2>Output:</h2>
 Build target 'Target 1'
-compiling Communication.c...
+compiling SysState.c...
+..\User\Code_C\src\SysState.c(34): warning:  #177-D: variable "IsAnyError" was declared but never referenced
+        BOOL IsAnyError = False;
+..\User\Code_C\src\SysState.c(74): warning:  #550-D: variable "LockCnt" was set but never used
+        static u16 LockCnt = 0;
+..\User\Code_C\src\SysState.c(76): warning:  #177-D: variable "ModeCnt" was declared but never referenced
+        static u16 ModeCnt = 0;
+..\User\Code_C\src\SysState.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=47362 RO-data=3174 RW-data=2952 ZI-data=4872  
+Program Size: Code=48846 RO-data=3178 RW-data=2988 ZI-data=4908  
 FromELF: creating hex file...
-".\Browse\Pro.axf" - 0 Error(s), 0 Warning(s).
+".\Browse\Pro.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\14755\Desktop\auto_Car\stm32连接板\stm32\Project\RTE
+  C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0
 
 <h2>Collection of Component Files used:</h2>
