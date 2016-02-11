@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
-  <!--include file="$(find cartographer_ros)/launch/demo_backpack_2d_localization.launch"-->
-  <!--arg name="load_state_filename" value="~/Downloads/demo.pbstream"/-->
-  <!--/include-->
+  <include file="$(find cartographer_ros)/launch/demo_backpack_2d_localization.launch"/>
 
   <node pkg="control" type="control_node" name="control_node" output="screen" >
   </node>
