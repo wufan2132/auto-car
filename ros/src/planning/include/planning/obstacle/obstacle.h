@@ -21,10 +21,13 @@ type 1:矩形
 
 class Obstacle:public car_msgs::base_obstacle{
 public:
-    Obstacle(){};
-    Obstacle(const car_msgs::base_obstacle& object)
-    :car_msgs::base_obstacle(object){};
+    Obstacle();
+    Obstacle(const car_msgs::base_obstacle& object);
     
+    //sl坐标
+    vector<double> sa;
+    vector<double> la;
+
 };
 
 

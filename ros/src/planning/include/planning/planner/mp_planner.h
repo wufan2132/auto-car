@@ -11,6 +11,8 @@
 #include "planning/dp_road_graph.h"
 #include "planning/dp_st_cost.h"
 #include "planning/dp_st_graph.h"
+#include "planning/obstacle/obstacle_method.h"
+#include "planning/debugger/debugger.h"
 
 class MpPlanner_Conf{
 public:
@@ -29,6 +31,9 @@ public:
 class MpPlanner: public Planner{
 public:
     MpPlanner(YAML::Node yaml_conf);
+
+    void init(ObstacleList* obslist);
+
     void process(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
              const Spline_Out* refrenceline_Sp,  const car_msgs::trajectory& reference_line,
              car_msgs::trajectory& trajectory_out);

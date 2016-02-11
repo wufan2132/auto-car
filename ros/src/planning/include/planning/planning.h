@@ -12,7 +12,7 @@
 #include "planning/planner/mp_planner.h"
 #include "planning/planner/test_planner.h"
 #include "planning/obstacle/obstacle_list.h"
-#include "planning/common.h"
+#include "planning/debugger/debugger.h"
 #include <Eigen/Dense>
 #include "stdlib.h"
 #include <iostream>
@@ -26,6 +26,7 @@ class Car_Planning_Conf{
 public:
     string mode;
     double period;
+    string refrenceline_source;
     double wait_time;
     string trajectory_dir;
     int sampling_period;
@@ -41,14 +42,14 @@ class Car_Planning{
 
         void OnTimer(const ros::TimerEvent&);
 
-        void load_trajectory_from_replay(replay& replayer, car_msgs::trajectory&);
-
-
         void localization_callback(const car_msgs::localization& localization);
 
         void chassis_callback(const car_msgs::chassis& chassis);
 
-        car_msgs::trajectory_point generate_trajectory_point(const car_msgs::localization& localization,const car_msgs::chassis& chassis);
+        void obstacle_callback(const car_msgs::base_obstacle_list& obstacle_msg);
+
+        car_msgs::trajectory_point generate_trajectory_point(const car_msgs::localization& localization,
+                                                                const car_msgs::chassis& chassis);
     //标志位
     bool STATE;
     //接收状态缓存
@@ -67,6 +68,7 @@ class Car_Planning{
     //ros通信模块
     ros::Subscriber localization_subscriber;
     ros::Subscriber chassis_subscriber;
+    ros::Subscriber obstacle_subscriber;
     ros::Publisher trajectory_publisher;
     ros::Publisher refrenceline_publisher;
     //配置参数

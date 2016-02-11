@@ -1,9 +1,13 @@
 #include "planning/dp_road_graph.h"
 
 DpRoadGraph::DpRoadGraph(YAML::Node yaml_conf){
-    trajectorycost = new TrajectoryCost(yaml_conf);
+    trajectorycost = new TrajectoryCost(yaml_conf["TrajectoryCost_conf"]);
 }
 
+void DpRoadGraph::init(ObstacleList* obslist){
+    obstaclelist = obslist;
+    trajectorycost->init(obslist);
+}
 
 void DpRoadGraph::reset(Car_State_SL init_sl,Car_State_SL car_status, int total_level){
     init_SLpoint = init_sl;
@@ -26,6 +30,7 @@ void DpRoadGraph::process(const vector<Car_State_SL>& path_waypoints,
 void DpRoadGraph::process(const vector<vector<Car_State_SL> >& path_waypoints,
                             vector<RoadGraphNode> *min_cost_path){
 //生成图节点
+graph_nodes.clear();
 graph_nodes.emplace_back();
 graph_nodes.back().emplace_back(init_SLpoint);//插入初始点
 RoadGraphNode &front = graph_nodes.front().front();
@@ -76,7 +81,9 @@ void DpRoadGraph::UpdateNode(const list<RoadGraphNode> &prev_nodes,
                                             cur_node->s - pre_node.s);
         //曲线评估
         //IsValidCurve(QP5);
-        double cost = trajectorycost->evaluate(QP5, pre_node.s, cur_node->s, level);
+        ConCost cost;
+        trajectorycost->evaluate(QP5, pre_node.s, cur_node->s, level, cost);
+        cost += pre_node.minCost;
         // cout<<"UpdateNode:---"<<"level:"<<level<<"-------------------"<<endl;
         // cout<<"cur_node->l:"<<cur_node->l<<endl;
         // cout<<"cur_node->s:"<<cur_node->s<<endl;
@@ -96,7 +103,8 @@ void DpRoadGraph::UpdateNode(const list<RoadGraphNode> &prev_nodes,
                                             cur_node->s - front->s);
         //曲线评估
         //IsValidCurve(QP5);
-        double cost = trajectorycost->evaluate(QP5, front->s, cur_node->s, level);
+        ConCost cost;
+        trajectorycost->evaluate(QP5, front->s, cur_node->s, level, cost);
         cur_node->UpdateCost(front, QP5, cost);
     }
 }

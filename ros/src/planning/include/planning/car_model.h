@@ -40,7 +40,7 @@ public:
 class Coordinate_converter{
 public:
     //这个只计算x,y
-    static pair<double, double> POS_to_SL(const car_msgs::trajectory& reference_line, double x, double y, int start);
+    static pair<double, double> POS_to_SL(const car_msgs::trajectory& reference_line, double x, double y, int start, int end);
     static bool POS_to_SL(const car_msgs::trajectory& reference_line,car_msgs::trajectory_point& point, Car_State_SL& status_sl);
     static void SL_to_POS(const double s, const double l, const MatrixXf& sx, const MatrixXf& sy, car_msgs::trajectory_point& point, const int start_index=-1);
     

@@ -76,6 +76,17 @@ mpc_controller_conf:
   brake_deadzone: 0
   throttle_deadzone: 1
 
+
+#
+#     ^ y
+#     +      
+#     +
+#     + + + + > x 
+#
+# 车头向 -x
+# 航向角参考+x ,左正右负 单位弧度
+# 加速度值m/s2 速度值m/s
+# 单向最大转角 29度
 vehicle_param:
   front_edge_to_center: 0.3
   back_edge_to_center: 0.3

@@ -19,18 +19,24 @@ int main(int argc, char **argv)
     /*planning模块初始化*/
     string path = Common::convert_to_debugpath(PLANNING_CONF_DIR);
     Car_Planning planning(YAML::LoadFile(path));
-
+    debugger = new Debugger();
     
     /*订阅*/
     planning.localization_subscriber = 
         car_planning_NodeHandle.subscribe("localization_topic", 1, &Car_Planning::localization_callback,&planning);
     planning.chassis_subscriber = 
         car_planning_NodeHandle.subscribe("chassis_topic", 1, &Car_Planning::chassis_callback,&planning);
+    planning.obstacle_subscriber = 
+        car_planning_NodeHandle.subscribe("obstacle_topic", 1, &Car_Planning::obstacle_callback,&planning);
     /*发布*/
     planning.refrenceline_publisher = 
         car_planning_NodeHandle.advertise<car_msgs::trajectory>("refrenceline_topic", 1000);
     planning.trajectory_publisher = 
         car_planning_NodeHandle.advertise<car_msgs::trajectory>("trajectory_topic", 1000);
+
+    //debugger
+    debugger->set_NodeHandle(&car_planning_NodeHandle);
+
     //planning_init
       planning.Init();
     // 创建ros定时器

@@ -6,4 +6,5 @@ add_library(optimizer
     dp_road_graph.cpp
     trajectory_cost.cpp
     dp_st_graph.cpp
-    dp_st_cost.cpp)
+    dp_st_cost.cpp
+    ConCost.cpp)

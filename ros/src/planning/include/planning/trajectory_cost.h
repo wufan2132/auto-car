@@ -1,11 +1,18 @@
 #pragma once
 #include "planning/common.h"
 #include "planning/car_model.h"
-
+#include "planning/obstacle/obstacle_list.h"
+#include "planning/ConCost.h"
 
 class TrajectoryCost_conf{
 public:
-    double k_smooth;
+    double k_path=1.0; /*路径*/
+    double k_smooth_l=1.0; //曲线偏差
+    double k_smooth_dl=1.0; //一阶导
+    double k_smooth_ddl=1.0; //二阶导
+    double k_smooth_dddl=1.0; //三阶导
+
+    double k_obstacle_l=1.0;//障碍距离
 };
 
 
@@ -14,14 +21,23 @@ public:
 class TrajectoryCost{
 public:
     TrajectoryCost(YAML::Node yaml_conf);
+    void init(ObstacleList* obslist);
     void reset(int totallevel);
-    double evaluate(const VectorXf& QP5,
+    void evaluate(const VectorXf& QP5,
                     const double start_s,
                     const double end_s,
-                    int cur_level);
-    TrajectoryCost_conf* conf;
+                    int cur_level,
+                    ConCost& cost);
+    TrajectoryCost_conf conf;
 private:
-    double smoothcost(const VectorXf& QP5,
+
+    double smoothcostdl(const VectorXf& QP5,
+                    const double start_s,
+                    const double end_s);
+    double smoothcostddl(const VectorXf& QP5,
+                    const double start_s,
+                    const double end_s);
+    double smoothcostdddl(const VectorXf& QP5,
                     const double start_s,
                     const double end_s);
     double lengthcost(const VectorXf& QP5,
@@ -30,22 +46,11 @@ private:
     double nearcost(const VectorXf& QP5,
                     const double start_s,
                     const double end_s);
+    double obstaclecost(const VectorXf& QP5,
+                        const double start_s,
+                        const double end_s);
     //临时变量
     int total_level;
-
-    //cost类
-    class Cost{
-    public:
-        struct pathcost_
-        {
-            /* data */
-            double smoothcost=0;
-            double lengthcost=0;
-            double nearcost=0;
-            double sum=0;
-        };
-        pathcost_ pathcost;
-        double total_cost=0;
-    };
-
+    /**********引用模块*************/
+    ObstacleList* obstaclelist;
 };

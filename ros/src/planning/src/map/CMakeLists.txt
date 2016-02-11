@@ -3,4 +3,5 @@
 add_library(map
             A_star.cpp
             Image.cpp
-            road.cpp)
+            road.cpp
+            map_convert.cpp)
