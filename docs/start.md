@@ -32,3 +32,6 @@ https://github.com/CPFL/Autoware
 https://github.com/osrf/car_demo          //里面有gazebo模型
 
 TODO
+
+->ubuntu16.04 install nvidia docker
+https://blog.csdn.net/junxiacaocao/article/details/79471770
