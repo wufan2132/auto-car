@@ -1,1 +1,4 @@
-
+carsim/car-model/
+!carsim/car-model/*.mdl 
+!carsim/car-model/*.cpar
+!carsim/car-model/*.md
