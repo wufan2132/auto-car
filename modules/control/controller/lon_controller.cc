@@ -1,10 +1,22 @@
 #include "modules/control/controller/lon_controller.h"
 #include "modules/common/log.h"
 
-  PIDController speed_pid_controller_;
-  PIDController station_pid_controller_;
 
-  //speed_pid_controller_.init()
+
+PIDController speed_pid_controller_;
+PIDController station_pid_controller_;
+using namespace std; 
+int main(int argc, char** argv){
+
+      google::InitGoogleLogging(argv[0]); // 初始化
+       //google::SetLogDestination(google::GLOG_INFO, "log/prefix_");
+       FLAGS_log_dir = "./log";
+       FLAGS_alsologtostderr = true;  //设置日志消息除了日志文件之外是否去标准输出
+       FLAGS_colorlogtostderr = true;  //设置记录到标准输出的颜色消息（如果终端支持）
+      //FLAGS_logtostderr = true;
+      LOG(INFO) << "hello glog"; // 打印log：“hello glog. 类似于C++ stream。
+      google::ShutdownGoogleLogging();
+}
 
 
 
