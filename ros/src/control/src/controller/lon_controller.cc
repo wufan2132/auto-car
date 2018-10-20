@@ -16,7 +16,7 @@ bool LonController::ComputeControlCommand(const msgs::localization *localization
 
 }
 bool LonController::Reset(){
-
+      
 }
 
 
