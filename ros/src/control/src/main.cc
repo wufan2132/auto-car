@@ -1,6 +1,6 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-#include "msgs/chassisCommand.h"
+#include "control.h"
 #include <time.h>
 // void messageCallback(const std_msgs::String::ConstPtr& msg)//每次该节点收到一条消息时都调用此函数，就可以使用或处理数据。本例中，将收到道数据在命令窗口中输出来  
 // {
@@ -20,6 +20,7 @@
 
 int main(int argc, char **argv)
 {
+  Control control;
   ros::init(argc, argv, "example1_a");
   ros::NodeHandle n;
   ros::Publisher pub = n.advertise<msgs::chassisCommand>("message", 1000);

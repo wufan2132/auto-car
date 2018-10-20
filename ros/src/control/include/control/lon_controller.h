@@ -1,8 +1,3 @@
-#include <map>
-#include <memory>
-#include <string>
-#include <vector>
-
 #include "control/lon_controller_conf.pb.h"
 #include "control/pid_controller.h"
 #include "msgs/chassisCommand.h"
@@ -27,7 +22,7 @@ class LonController {
    * @param control_conf control configurations
    * @return Status initialization status
    */
-  bool Init(const lon_controller_conf *control_conf);
+  bool Init(const LonControllerConf *control_conf);
 
   /**
    * @brief compute brake / throttle values based on current vehicle status
@@ -60,7 +55,7 @@ class LonController {
   const msgs::chassis *chassis_ = nullptr;
   const msgs::trajectory *trajectory_message_ = nullptr;
 
-  PIDController speed_pid_controller_;
   PIDController station_pid_controller_;
+  PIDController speed_pid_controller_;
 };
 

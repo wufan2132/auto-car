@@ -5,9 +5,9 @@ LonController::LonController(){
 
 }
 
-bool LonController::Init(const lon_controller_conf *control_conf){
-      control_conf.
-
+bool LonController::Init(const LonControllerConf *control_conf){
+      station_pid_controller_ = control_conf->station_pid_conf();
+      speed_pid_controller_ = control_conf->speed_pid_conf();
 }
 bool LonController::ComputeControlCommand(const msgs::localization *localization,
                                           const msgs::chassis *chassis,
@@ -17,18 +17,6 @@ bool LonController::ComputeControlCommand(const msgs::localization *localization
 }
 bool LonController::Reset(){
 
-}
-
-int main(int argc, char** argv){
-
-      google::InitGoogleLogging(argv[0]); // 初始化
-       //google::SetLogDestination(google::GLOG_INFO, "log/prefix_");
-       FLAGS_log_dir = "./log";
-       FLAGS_alsologtostderr = true;  //设置日志消息除了日志文件之外是否去标准输出
-       FLAGS_colorlogtostderr = true;  //设置记录到标准输出的颜色消息（如果终端支持）
-      //FLAGS_logtostderr = true;
-      LOG(INFO) << "hello glog"; // 打印log：“hello glog. 类似于C++ stream。
-      google::ShutdownGoogleLogging();
 }
 
 
