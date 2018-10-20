@@ -22,7 +22,7 @@
 #ifndef MODULES_CONTROL_COMMON_PID_CONTROLLER_H_
 #define MODULES_CONTROL_COMMON_PID_CONTROLLER_H_
 
-#include "modules/control/proto/pid_conf.pb.h"
+#include "control/pid_conf.pb.h"
 
 /**
  * @namespace apollo::control

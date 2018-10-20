@@ -48,24 +48,24 @@ struct TableStruct_pid_5fconf_2eproto {
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors_pid_5fconf_2eproto();
-namespace apollo {
+namespace autocar {
 namespace control {
 class PidConf;
 class PidConfDefaultTypeInternal;
 extern PidConfDefaultTypeInternal _PidConf_default_instance_;
 }  // namespace control
-}  // namespace apollo
+}  // namespace autocar
 namespace google {
 namespace protobuf {
-template<> ::apollo::control::PidConf* Arena::CreateMaybeMessage<::apollo::control::PidConf>(Arena*);
+template<> ::autocar::control::PidConf* Arena::CreateMaybeMessage<::autocar::control::PidConf>(Arena*);
 }  // namespace protobuf
 }  // namespace google
-namespace apollo {
+namespace autocar {
 namespace control {
 
 // ===================================================================
 
-class PidConf : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:apollo.control.PidConf) */ {
+class PidConf : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:autocar.control.PidConf) */ {
  public:
   PidConf();
   virtual ~PidConf();
@@ -215,7 +215,7 @@ class PidConf : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   bool integrator_enable() const;
   void set_integrator_enable(bool value);
 
-  // @@protoc_insertion_point(class_scope:apollo.control.PidConf)
+  // @@protoc_insertion_point(class_scope:autocar.control.PidConf)
  private:
   class HasBitSetters;
 
@@ -251,13 +251,13 @@ inline void PidConf::clear_integrator_enable() {
   _has_bits_[0] &= ~0x00000040u;
 }
 inline bool PidConf::integrator_enable() const {
-  // @@protoc_insertion_point(field_get:apollo.control.PidConf.integrator_enable)
+  // @@protoc_insertion_point(field_get:autocar.control.PidConf.integrator_enable)
   return integrator_enable_;
 }
 inline void PidConf::set_integrator_enable(bool value) {
   _has_bits_[0] |= 0x00000040u;
   integrator_enable_ = value;
-  // @@protoc_insertion_point(field_set:apollo.control.PidConf.integrator_enable)
+  // @@protoc_insertion_point(field_set:autocar.control.PidConf.integrator_enable)
 }
 
 // optional double integrator_saturation_level = 2;
@@ -269,13 +269,13 @@ inline void PidConf::clear_integrator_saturation_level() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline double PidConf::integrator_saturation_level() const {
-  // @@protoc_insertion_point(field_get:apollo.control.PidConf.integrator_saturation_level)
+  // @@protoc_insertion_point(field_get:autocar.control.PidConf.integrator_saturation_level)
   return integrator_saturation_level_;
 }
 inline void PidConf::set_integrator_saturation_level(double value) {
   _has_bits_[0] |= 0x00000001u;
   integrator_saturation_level_ = value;
-  // @@protoc_insertion_point(field_set:apollo.control.PidConf.integrator_saturation_level)
+  // @@protoc_insertion_point(field_set:autocar.control.PidConf.integrator_saturation_level)
 }
 
 // optional double kp = 3;
@@ -287,13 +287,13 @@ inline void PidConf::clear_kp() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline double PidConf::kp() const {
-  // @@protoc_insertion_point(field_get:apollo.control.PidConf.kp)
+  // @@protoc_insertion_point(field_get:autocar.control.PidConf.kp)
   return kp_;
 }
 inline void PidConf::set_kp(double value) {
   _has_bits_[0] |= 0x00000002u;
   kp_ = value;
-  // @@protoc_insertion_point(field_set:apollo.control.PidConf.kp)
+  // @@protoc_insertion_point(field_set:autocar.control.PidConf.kp)
 }
 
 // optional double ki = 4;
@@ -305,13 +305,13 @@ inline void PidConf::clear_ki() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline double PidConf::ki() const {
-  // @@protoc_insertion_point(field_get:apollo.control.PidConf.ki)
+  // @@protoc_insertion_point(field_get:autocar.control.PidConf.ki)
   return ki_;
 }
 inline void PidConf::set_ki(double value) {
   _has_bits_[0] |= 0x00000004u;
   ki_ = value;
-  // @@protoc_insertion_point(field_set:apollo.control.PidConf.ki)
+  // @@protoc_insertion_point(field_set:autocar.control.PidConf.ki)
 }
 
 // optional double kd = 5;
@@ -323,13 +323,13 @@ inline void PidConf::clear_kd() {
   _has_bits_[0] &= ~0x00000008u;
 }
 inline double PidConf::kd() const {
-  // @@protoc_insertion_point(field_get:apollo.control.PidConf.kd)
+  // @@protoc_insertion_point(field_get:autocar.control.PidConf.kd)
   return kd_;
 }
 inline void PidConf::set_kd(double value) {
   _has_bits_[0] |= 0x00000008u;
   kd_ = value;
-  // @@protoc_insertion_point(field_set:apollo.control.PidConf.kd)
+  // @@protoc_insertion_point(field_set:autocar.control.PidConf.kd)
 }
 
 // optional double kaw = 6 [default = 0];
@@ -341,13 +341,13 @@ inline void PidConf::clear_kaw() {
   _has_bits_[0] &= ~0x00000010u;
 }
 inline double PidConf::kaw() const {
-  // @@protoc_insertion_point(field_get:apollo.control.PidConf.kaw)
+  // @@protoc_insertion_point(field_get:autocar.control.PidConf.kaw)
   return kaw_;
 }
 inline void PidConf::set_kaw(double value) {
   _has_bits_[0] |= 0x00000010u;
   kaw_ = value;
-  // @@protoc_insertion_point(field_set:apollo.control.PidConf.kaw)
+  // @@protoc_insertion_point(field_set:autocar.control.PidConf.kaw)
 }
 
 // optional double output_saturation_level = 7;
@@ -359,13 +359,13 @@ inline void PidConf::clear_output_saturation_level() {
   _has_bits_[0] &= ~0x00000020u;
 }
 inline double PidConf::output_saturation_level() const {
-  // @@protoc_insertion_point(field_get:apollo.control.PidConf.output_saturation_level)
+  // @@protoc_insertion_point(field_get:autocar.control.PidConf.output_saturation_level)
   return output_saturation_level_;
 }
 inline void PidConf::set_output_saturation_level(double value) {
   _has_bits_[0] |= 0x00000020u;
   output_saturation_level_ = value;
-  // @@protoc_insertion_point(field_set:apollo.control.PidConf.output_saturation_level)
+  // @@protoc_insertion_point(field_set:autocar.control.PidConf.output_saturation_level)
 }
 
 #ifdef __GNUC__
@@ -375,7 +375,7 @@ inline void PidConf::set_output_saturation_level(double value) {
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace control
-}  // namespace apollo
+}  // namespace autocar
 
 // @@protoc_insertion_point(global_scope)
 

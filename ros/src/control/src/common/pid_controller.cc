@@ -14,11 +14,9 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/control/common/pid_controller.h"
+#include "control/pid_controller.h"
 
 #include <cmath>
-
-#include "modules/common/log.h"
 
 namespace apollo {
 namespace control {

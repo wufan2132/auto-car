@@ -16,23 +16,23 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 
-namespace apollo {
+namespace autocar {
 namespace control {
 class PidConfDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<PidConf> _instance;
 } _PidConf_default_instance_;
 }  // namespace control
-}  // namespace apollo
+}  // namespace autocar
 static void InitDefaultsPidConf_pid_5fconf_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::apollo::control::_PidConf_default_instance_;
-    new (ptr) ::apollo::control::PidConf();
+    void* ptr = &::autocar::control::_PidConf_default_instance_;
+    new (ptr) ::autocar::control::PidConf();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::apollo::control::PidConf::InitAsDefaultInstance();
+  ::autocar::control::PidConf::InitAsDefaultInstance();
 }
 
 ::google::protobuf::internal::SCCInfo<0> scc_info_PidConf_pid_5fconf_2eproto =
@@ -47,18 +47,18 @@ constexpr ::google::protobuf::EnumDescriptor const** file_level_enum_descriptors
 constexpr ::google::protobuf::ServiceDescriptor const** file_level_service_descriptors_pid_5fconf_2eproto = nullptr;
 
 const ::google::protobuf::uint32 TableStruct_pid_5fconf_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::apollo::control::PidConf, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::apollo::control::PidConf, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::autocar::control::PidConf, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::autocar::control::PidConf, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::apollo::control::PidConf, integrator_enable_),
-  PROTOBUF_FIELD_OFFSET(::apollo::control::PidConf, integrator_saturation_level_),
-  PROTOBUF_FIELD_OFFSET(::apollo::control::PidConf, kp_),
-  PROTOBUF_FIELD_OFFSET(::apollo::control::PidConf, ki_),
-  PROTOBUF_FIELD_OFFSET(::apollo::control::PidConf, kd_),
-  PROTOBUF_FIELD_OFFSET(::apollo::control::PidConf, kaw_),
-  PROTOBUF_FIELD_OFFSET(::apollo::control::PidConf, output_saturation_level_),
+  PROTOBUF_FIELD_OFFSET(::autocar::control::PidConf, integrator_enable_),
+  PROTOBUF_FIELD_OFFSET(::autocar::control::PidConf, integrator_saturation_level_),
+  PROTOBUF_FIELD_OFFSET(::autocar::control::PidConf, kp_),
+  PROTOBUF_FIELD_OFFSET(::autocar::control::PidConf, ki_),
+  PROTOBUF_FIELD_OFFSET(::autocar::control::PidConf, kd_),
+  PROTOBUF_FIELD_OFFSET(::autocar::control::PidConf, kaw_),
+  PROTOBUF_FIELD_OFFSET(::autocar::control::PidConf, output_saturation_level_),
   6,
   0,
   1,
@@ -68,11 +68,11 @@ const ::google::protobuf::uint32 TableStruct_pid_5fconf_2eproto::offsets[] PROTO
   5,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 12, sizeof(::apollo::control::PidConf)},
+  { 0, 12, sizeof(::autocar::control::PidConf)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::apollo::control::_PidConf_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::autocar::control::_PidConf_default_instance_),
 };
 
 ::google::protobuf::internal::AssignDescriptorsTable assign_descriptors_table_pid_5fconf_2eproto = {
@@ -83,13 +83,13 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
 
 ::google::protobuf::internal::DescriptorTable descriptor_table_pid_5fconf_2eproto = {
   false, InitDefaults_pid_5fconf_2eproto, 
-  "\n\016pid_conf.proto\022\016apollo.control\"\236\001\n\007Pid"
-  "Conf\022\031\n\021integrator_enable\030\001 \001(\010\022#\n\033integ"
-  "rator_saturation_level\030\002 \001(\001\022\n\n\002kp\030\003 \001(\001"
-  "\022\n\n\002ki\030\004 \001(\001\022\n\n\002kd\030\005 \001(\001\022\016\n\003kaw\030\006 \001(\001:\0010"
-  "\022\037\n\027output_saturation_level\030\007 \001(\001"
+  "\n\016pid_conf.proto\022\017autocar.control\"\236\001\n\007Pi"
+  "dConf\022\031\n\021integrator_enable\030\001 \001(\010\022#\n\033inte"
+  "grator_saturation_level\030\002 \001(\001\022\n\n\002kp\030\003 \001("
+  "\001\022\n\n\002ki\030\004 \001(\001\022\n\n\002kd\030\005 \001(\001\022\016\n\003kaw\030\006 \001(\001:\001"
+  "0\022\037\n\027output_saturation_level\030\007 \001(\001"
 ,
-  "pid_conf.proto", &assign_descriptors_table_pid_5fconf_2eproto, 193,
+  "pid_conf.proto", &assign_descriptors_table_pid_5fconf_2eproto, 194,
 };
 
 void AddDescriptors_pid_5fconf_2eproto() {
@@ -101,7 +101,7 @@ void AddDescriptors_pid_5fconf_2eproto() {
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_pid_5fconf_2eproto = []() { AddDescriptors_pid_5fconf_2eproto(); return true; }();
-namespace apollo {
+namespace autocar {
 namespace control {
 
 // ===================================================================
@@ -146,7 +146,7 @@ const int PidConf::kOutputSaturationLevelFieldNumber;
 PidConf::PidConf()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:apollo.control.PidConf)
+  // @@protoc_insertion_point(constructor:autocar.control.PidConf)
 }
 PidConf::PidConf(const PidConf& from)
   : ::google::protobuf::Message(),
@@ -156,7 +156,7 @@ PidConf::PidConf(const PidConf& from)
   ::memcpy(&integrator_saturation_level_, &from.integrator_saturation_level_,
     static_cast<size_t>(reinterpret_cast<char*>(&integrator_enable_) -
     reinterpret_cast<char*>(&integrator_saturation_level_)) + sizeof(integrator_enable_));
-  // @@protoc_insertion_point(copy_constructor:apollo.control.PidConf)
+  // @@protoc_insertion_point(copy_constructor:autocar.control.PidConf)
 }
 
 void PidConf::SharedCtor() {
@@ -166,7 +166,7 @@ void PidConf::SharedCtor() {
 }
 
 PidConf::~PidConf() {
-  // @@protoc_insertion_point(destructor:apollo.control.PidConf)
+  // @@protoc_insertion_point(destructor:autocar.control.PidConf)
   SharedDtor();
 }
 
@@ -183,7 +183,7 @@ const PidConf& PidConf::default_instance() {
 
 
 void PidConf::Clear() {
-// @@protoc_insertion_point(message_clear_start:apollo.control.PidConf)
+// @@protoc_insertion_point(message_clear_start:autocar.control.PidConf)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -303,7 +303,7 @@ bool PidConf::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!PROTOBUF_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:apollo.control.PidConf)
+  // @@protoc_insertion_point(parse_start:autocar.control.PidConf)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -412,10 +412,10 @@ bool PidConf::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:apollo.control.PidConf)
+  // @@protoc_insertion_point(parse_success:autocar.control.PidConf)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:apollo.control.PidConf)
+  // @@protoc_insertion_point(parse_failure:autocar.control.PidConf)
   return false;
 #undef DO_
 }
@@ -423,7 +423,7 @@ failure:
 
 void PidConf::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:apollo.control.PidConf)
+  // @@protoc_insertion_point(serialize_start:autocar.control.PidConf)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -467,13 +467,13 @@ void PidConf::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
   }
-  // @@protoc_insertion_point(serialize_end:apollo.control.PidConf)
+  // @@protoc_insertion_point(serialize_end:autocar.control.PidConf)
 }
 
 ::google::protobuf::uint8* PidConf::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:apollo.control.PidConf)
+  // @@protoc_insertion_point(serialize_to_array_start:autocar.control.PidConf)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -517,12 +517,12 @@ void PidConf::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:apollo.control.PidConf)
+  // @@protoc_insertion_point(serialize_to_array_end:autocar.control.PidConf)
   return target;
 }
 
 size_t PidConf::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:apollo.control.PidConf)
+// @@protoc_insertion_point(message_byte_size_start:autocar.control.PidConf)
   size_t total_size = 0;
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -578,22 +578,22 @@ size_t PidConf::ByteSizeLong() const {
 }
 
 void PidConf::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:apollo.control.PidConf)
+// @@protoc_insertion_point(generalized_merge_from_start:autocar.control.PidConf)
   GOOGLE_DCHECK_NE(&from, this);
   const PidConf* source =
       ::google::protobuf::DynamicCastToGenerated<PidConf>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:apollo.control.PidConf)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:autocar.control.PidConf)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:apollo.control.PidConf)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:autocar.control.PidConf)
     MergeFrom(*source);
   }
 }
 
 void PidConf::MergeFrom(const PidConf& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:apollo.control.PidConf)
+// @@protoc_insertion_point(class_specific_merge_from_start:autocar.control.PidConf)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -627,14 +627,14 @@ void PidConf::MergeFrom(const PidConf& from) {
 }
 
 void PidConf::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:apollo.control.PidConf)
+// @@protoc_insertion_point(generalized_copy_from_start:autocar.control.PidConf)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void PidConf::CopyFrom(const PidConf& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:apollo.control.PidConf)
+// @@protoc_insertion_point(class_specific_copy_from_start:autocar.control.PidConf)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -669,11 +669,11 @@ void PidConf::InternalSwap(PidConf* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace control
-}  // namespace apollo
+}  // namespace autocar
 namespace google {
 namespace protobuf {
-template<> PROTOBUF_NOINLINE ::apollo::control::PidConf* Arena::CreateMaybeMessage< ::apollo::control::PidConf >(Arena* arena) {
-  return Arena::CreateInternal< ::apollo::control::PidConf >(arena);
+template<> PROTOBUF_NOINLINE ::autocar::control::PidConf* Arena::CreateMaybeMessage< ::autocar::control::PidConf >(Arena* arena) {
+  return Arena::CreateInternal< ::autocar::control::PidConf >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

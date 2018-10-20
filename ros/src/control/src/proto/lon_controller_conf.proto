@@ -1,0 +1,9 @@
+syntax = "proto2";
+package autocar.control;
+
+import "pid_conf.proto";
+// controller param
+message LonControllerConf {
+  optional PidConf station_pid_conf = 1;
+  optional PidConf speed_pid_conf = 2;
+}

@@ -1,11 +1,24 @@
-#include "modules/control/controller/lon_controller.h"
-#include "modules/common/log.h"
+#include "control/lon_controller.h"
 
 
+LonController::LonController(){
 
-PIDController speed_pid_controller_;
-PIDController station_pid_controller_;
-using namespace std; 
+}
+
+bool LonController::Init(const lon_controller_conf *control_conf){
+      control_conf.
+
+}
+bool LonController::ComputeControlCommand(const msgs::localization *localization,
+                                          const msgs::chassis *chassis,
+                                          const msgs::trajectory *trajectory,
+                                          msgs::chassisCommand *cmd){
+
+}
+bool LonController::Reset(){
+
+}
+
 int main(int argc, char** argv){
 
       google::InitGoogleLogging(argv[0]); // 初始化

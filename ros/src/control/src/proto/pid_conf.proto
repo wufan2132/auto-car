@@ -1,6 +1,5 @@
 syntax = "proto2";
-
-package apollo.control;
+package autocar.control;
 
 message PidConf {
   optional bool integrator_enable = 1;

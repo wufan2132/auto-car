@@ -1,0 +1,17 @@
+
+lon_controller_conf {
+  station_pid_conf {
+    integrator_enable: false
+    integrator_saturation_level: 0.3
+    kp: 0.2
+    ki: 0.0
+    kd: 0.0
+  }
+ speed_pid_conf {
+    integrator_enable: false
+    integrator_saturation_level: 0.3
+    kp: 0.5
+    ki: 0.03
+    kd: 0.0
+  }
+}
