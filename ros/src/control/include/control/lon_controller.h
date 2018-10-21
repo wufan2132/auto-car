@@ -1,22 +1,21 @@
-#include "control/lon_controller_conf.pb.h"
 #include "control/pid_controller.h"
 #include "msgs/chassisCommand.h"
 #include "msgs/chassis.h"
 #include "msgs/localization.h"
 #include "msgs/trajectory.h"
 
+class LonControllerConf{
+    public:
+        LonControllerConf(){};
+        virtual ~LonControllerConf(){};
+
+        double ts;
+        PidConf station_pid_conf;
+        PidConf speed_pid_conf;
+};
+
 class LonController {
  public:
-  /**
-   * @brief constructor
-   */
-  LonController();
-
-  /**
-   * @brief destructor
-   */
-  virtual ~LonController();
-
   /**
    * @brief initialize Longitudinal Controller
    * @param control_conf control configurations
@@ -33,7 +32,7 @@ class LonController {
    * @param cmd control command
    * @return Status computation status
    */
-  bool ComputeControlCommand(
+  double ComputeControlCommand(
       const msgs::localization *localization,
       const msgs::chassis *chassis, const msgs::trajectory *trajectory,
       msgs::chassisCommand *cmd);
@@ -51,10 +50,7 @@ class LonController {
 
  protected:
 
-  const msgs::localization *localization_ = nullptr;
-  const msgs::chassis *chassis_ = nullptr;
-  const msgs::trajectory *trajectory_message_ = nullptr;
-
+  double ts_;
   PIDController station_pid_controller_;
   PIDController speed_pid_controller_;
 };

@@ -1,20 +1,22 @@
 #include "control/lon_controller.h"
 
-
-LonController::LonController(){
-
-}
-
 bool LonController::Init(const LonControllerConf *control_conf){
-      station_pid_controller_ = control_conf->station_pid_conf();
-      speed_pid_controller_ = control_conf->speed_pid_conf();
+      ts_ = control_conf->ts;
+      station_pid_controller_.Init(control_conf->station_pid_conf);
+      speed_pid_controller_.Init(control_conf->speed_pid_conf);
 }
-bool LonController::ComputeControlCommand(const msgs::localization *localization,
+
+double LonController::ComputeControlCommand(const msgs::localization *localization,
                                           const msgs::chassis *chassis,
                                           const msgs::trajectory *trajectory,
                                           msgs::chassisCommand *cmd){
 
+      double speed_err = trajectory->speed - chassis->speed;
+      double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
+
+      return speed_cmd_out;
 }
+
 bool LonController::Reset(){
       
 }

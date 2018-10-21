@@ -18,12 +18,9 @@
 
 #include <cmath>
 
-namespace apollo {
-namespace control {
-
 double PIDController::Control(const double error, const double dt) {
   if (dt <= 0) {
-    AWARN << "dt <= 0, will use the last output, dt: " << dt;
+    //gyl AWARN << "dt <= 0, will use the last output, dt: " << dt;
     return previous_output_;
   }
   double diff = 0;
@@ -70,24 +67,24 @@ void PIDController::Init(const PidConf &pid_conf) {
   previous_output_ = 0.0;
   integral_ = 0.0;
   first_hit_ = true;
-  integrator_enabled_ = pid_conf.integrator_enable();
+  integrator_enabled_ = pid_conf.integrator_enable;
   integrator_saturation_high_ =
-      std::fabs(pid_conf.integrator_saturation_level());
+      std::fabs(pid_conf.integrator_saturation_level);
   integrator_saturation_low_ =
-      -std::fabs(pid_conf.integrator_saturation_level());
+      -std::fabs(pid_conf.integrator_saturation_level);
   integrator_saturation_status_ = 0;
   integrator_hold_ = false;
-  output_saturation_high_ = std::fabs(pid_conf.output_saturation_level());
-  output_saturation_low_ = -std::fabs(pid_conf.output_saturation_level());
+  output_saturation_high_ = std::fabs(pid_conf.output_saturation_level);
+  output_saturation_low_ = -std::fabs(pid_conf.output_saturation_level);
   output_saturation_status_ = 0;
   SetPID(pid_conf);
 }
 
 void PIDController::SetPID(const PidConf &pid_conf) {
-  kp_ = pid_conf.kp();
-  ki_ = pid_conf.ki();
-  kd_ = pid_conf.kd();
-  kaw_ = pid_conf.kaw();
+  kp_ = pid_conf.kp;
+  ki_ = pid_conf.ki;
+  kd_ = pid_conf.kd;
+  kaw_ = pid_conf.kaw;
 }
 
 int PIDController::IntegratorSaturationStatus() const {
@@ -101,6 +98,3 @@ bool PIDController::IntegratorHold() const {
 void PIDController::SetIntegratorHold(bool hold) {
   integrator_hold_ = hold;
 }
-
-}  // namespace control
-}  // namespace apollo

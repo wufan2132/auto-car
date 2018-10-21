@@ -1,11 +1,24 @@
-#include "control/pid_conf.pb.h"
 
-/**
- * @namespace apollo::control
- * @brief apollo::control
- */
-namespace apollo {
-namespace control {
+class PidConf{
+  public:
+  PidConf():
+    integrator_enable(0),
+    integrator_saturation_level(0),
+    kp(0),
+    ki(0),
+    kd(0),
+    kaw(0),
+    output_saturation_level(0){};
+    
+  virtual ~PidConf(){};
+    bool integrator_enable;
+    double integrator_saturation_level;
+    double kp;
+    double ki;
+    double kd;
+    double kaw;
+    double output_saturation_level;
+};
 
 /**
  * @class PIDController
@@ -14,6 +27,25 @@ namespace control {
  */
 class PIDController {
  public:
+  PIDController(){
+    kp_ = 0.0;
+    ki_ = 0.0;
+    kd_ = 0.0;
+    kaw_ = 0.0;
+    previous_error_ = 0.0;
+    previous_output_ = 0.0;
+    integral_ = 0.0;
+    integrator_saturation_high_ = 0.0;
+    integrator_saturation_low_ = 0.0;
+    first_hit_ = false;
+    integrator_enabled_ = false;
+    integrator_hold_ = false;
+    integrator_saturation_status_ = 0;
+    // Only used for pid_BC_controller and pid_IC_controller
+    output_saturation_high_ = 0.0;
+    output_saturation_low_ =0.0;
+    output_saturation_status_ = 0;
+  }
   /**
    * @brief initialize pid controller
    * @param pid_conf configuration for pid controller
@@ -60,26 +92,21 @@ class PIDController {
   void SetIntegratorHold(bool hold);
 
  protected:
-  double kp_ = 0.0;
-  double ki_ = 0.0;
-  double kd_ = 0.0;
-  double kaw_ = 0.0;
-  double previous_error_ = 0.0;
-  double previous_output_ = 0.0;
-  double integral_ = 0.0;
-  double integrator_saturation_high_ = 0.0;
-  double integrator_saturation_low_ = 0.0;
-  bool first_hit_ = false;
-  bool integrator_enabled_ = false;
-  bool integrator_hold_ = false;
-  int integrator_saturation_status_ = 0;
+  double kp_;
+  double ki_;
+  double kd_;
+  double kaw_;
+  double previous_error_;
+  double previous_output_;
+  double integral_;
+  double integrator_saturation_high_;
+  double integrator_saturation_low_;
+  bool first_hit_;
+  bool integrator_enabled_;
+  bool integrator_hold_;
+  int integrator_saturation_status_;
   // Only used for pid_BC_controller and pid_IC_controller
-  double output_saturation_high_ = 0.0;
-  double output_saturation_low_ = 0.0;
-  int output_saturation_status_ = 0;
+  double output_saturation_high_;
+  double output_saturation_low_;
+  int output_saturation_status_;
 };
-
-}  // namespace control
-}  // namespace apollo
-
-#endif  // MODULES_CONTROL_COMMON_PID_CONTROLLER_H_

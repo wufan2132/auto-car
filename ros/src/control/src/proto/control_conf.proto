@@ -1,9 +1,0 @@
-syntax = "proto2";
-
-package autocar.control;
-
-import "lon_controller_conf.proto";
-
-message ControlConf {
-  optional autocar.control.LonControllerConf lon_controller_conf = 1;
-}
