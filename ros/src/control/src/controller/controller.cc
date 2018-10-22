@@ -1,6 +1,6 @@
 #include "control/controller.h"
 #include "yaml-cpp/yaml.h"
-#define LON_CONTROLLER_CONF_DIR "src/control/src/conf/control.yaml"
+#define LON_CONTROLLER_CONF_DIR "/home/gyl/my-code/auto-car/ros/src/control/src/conf/control.yaml"
 using namespace std;
 
 void Controller::Init(void){
@@ -39,7 +39,7 @@ void Controller::CheckInput(void){
 }
 
 void Controller::SendCmd(msgs::chassisCommand *cmd){
-    chassisCommand_publisher.publish(*cmd);
+    // chassisCommand_publisher.publish(*cmd);
 }
 
 void Controller::OnTimer(const ros::TimerEvent&){
