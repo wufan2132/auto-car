@@ -13,8 +13,12 @@
 #include <string.h>
 
 typedef struct Chassis_class_{
+  double x;
+  double y;
+  double yaw;
   double speed;
   double acc;
+  double steer;
 }Chassis_class;
 
 typedef struct ChassisCommand_class_{

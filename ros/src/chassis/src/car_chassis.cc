@@ -1,7 +1,7 @@
 #include "chassis/car_chassis.h"
 
 #define MYPORT 8887
-char* SERVERIP = "192.168.1.113";
+char* SERVERIP = "192.168.1.102";
 
 void CarChassis::Init(void){
     if ((chassis_socket_.sock = socket(PF_INET, SOCK_DGRAM, 0)) < 0)
@@ -37,9 +37,12 @@ void CarChassis::communicate(const msgs::chassisCommand &chassisCommand){
     }
     ROS_INFO("receive...");
     chassis_temp = *(Chassis_class*)chassis_socket_.recvbuf;
-    
+    chassis_msg.x = chassis_temp.x;
+    chassis_msg.y = chassis_temp.y;
+    chassis_msg.yaw = chassis_temp.yaw;
     chassis_msg.speed = chassis_temp.speed;
     chassis_msg.acc = chassis_temp.acc;
+    chassis_msg.steer = chassis_temp.steer;
     chassis_publisher.publish(chassis_msg);
     // memset(recvbuf, 0, sizeof(recvbuf));
 }
