@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.111"
+    ComputedModelVersion    "1.106"
     NumModelReferences	    0
     NumTestPointedSignals   0
     NumProvidedFunctions    0
@@ -39,7 +39,7 @@ Model {
       Type		      "Cell"
       Dimension		      2
       Cell		      "HDLSubsystem"
-      Cell		      "$bdroot"
+      Cell		      "car"
       PropName		      "mdlProps"
     }
   }
@@ -88,7 +88,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[1882.0, 876.0]
 	ZoomFactor		[1.25]
-	Offset			[35.569345238095252, -140.66686942343529]
+	Offset			[34.797916666666652, -158.26686942343542]
       }
       Object {
 	$PropName		"DockComponentsInfo"
@@ -122,9 +122,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Gyl"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Oct 23 14:36:31 2018"
-  RTWModifiedTimeStamp	  462206157
-  ModelVersionFormat	  "1.%<AutoIncrement:111>"
+  LastModifiedDate	  "Tue Oct 23 13:56:02 2018"
+  RTWModifiedTimeStamp	  462203847
+  ModelVersionFormat	  "1.%<AutoIncrement:106>"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
   LibraryLinkDisplay	  "none"
@@ -1666,7 +1666,7 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function [speed_cmd,steer_cmd] = fcn(x,y,yaw,vx,steer)\nspeed_cmd = x;\nsteer_cmd = 0;\n%[speed_c"
+      script		      "function [speed_cmd,steer_cmd] = fcn(x,y,yaw,vx,steer)\nspeed_cmd = x;\nsteer_cmd = 0;\n![speed_c"
       "md,steer_cmd] = comunicate(x,y,yaw,vx,steer);"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
