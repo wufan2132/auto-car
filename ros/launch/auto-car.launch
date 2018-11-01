@@ -3,8 +3,8 @@
 
   <node pkg="control" type="control_node" name="control_node" output="screen" >
   </node>
-  <!--node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" >
-  </node-->
+  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" >
+  </node>
 
   <arg name="model" default="$(find prius_description)/urdf/prius.urdf"/>
   <arg name="rvizconfig" default="$(find car_demo)/rviz/demo.rviz" />

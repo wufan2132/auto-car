@@ -1,8 +1,6 @@
 Header header
-
-float64 x
-float64 y
-float64 z
+geometry_msgs/Point position
+geometry_msgs/Vector3 angle
 float64 speed
 float64 accel
 float64 yaw

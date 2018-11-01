@@ -12,7 +12,7 @@ double LonController::ComputeControlCommand(const car_msgs::localization *locali
                                           car_msgs::control *control_cmd){
 
       double speed_err = trajectory->speed - chassis->speed;
-      double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
+      //double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
       double speed_cmd_out = 1;
       if(speed_cmd_out > 0.0){
             control_cmd->throttle = speed_cmd_out;

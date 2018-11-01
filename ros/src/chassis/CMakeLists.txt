@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   car_msgs
+  nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -106,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES chassis
-  CATKIN_DEPENDS roscpp rospy std_msgs car_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs car_msgs nav_msgs
 #  DEPENDS system_lib
 )
 

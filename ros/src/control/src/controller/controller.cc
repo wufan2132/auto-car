@@ -51,16 +51,16 @@ void Controller::OnTimer(const ros::TimerEvent&){
 }
 
 void Controller::localization_topic_callback(const car_msgs::localization &localization){
-    localization_.x = localization.x;
-    localization_.y = localization.y;
-    localization_.z = localization.z;
-    localization_.speed = localization.speed;
-    localization_.accel = localization.accel;
-    localization_.yaw = localization.yaw;
+    // localization_.x = localization.x;
+    // localization_.y = localization.y;
+    // localization_.z = localization.z;
+    // localization_.speed = localization.speed;
+    // localization_.accel = localization.accel;
+    // localization_.yaw = localization.yaw;
 }
 void Controller::chassis_topic_callback(const car_msgs::chassis &chassis){
-    chassis_.speed = chassis.speed;
-    chassis_.acc = chassis.acc;
+    // chassis_.speed = chassis.speed;
+    // chassis_.acc = chassis.acc;
 }
 
 void Controller::trajectory_topic_callback(const car_msgs::trajectory &trajectory){
