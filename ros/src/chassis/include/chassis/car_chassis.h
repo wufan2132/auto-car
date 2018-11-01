@@ -13,8 +13,12 @@
 #include <string.h>
 
 typedef struct Chassis_class_{
+  double x;
+  double y;
+  double yaw;
   double speed;
-  double acc;
+  //double acc;
+  double steer;
 }Chassis_class;
 
 typedef struct ChassisCommand_class_{
@@ -26,7 +30,8 @@ typedef struct ChassisCommand_class_{
 typedef struct Socket_class_{
   int sock;
   struct sockaddr_in servaddr;
-  char recvbuf[1024];
+  struct sockaddr_in localaddr;
+  char recvbuf[50];
 }Socket_class;
 
 class CarChassis{
