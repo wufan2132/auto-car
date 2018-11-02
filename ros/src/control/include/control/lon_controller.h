@@ -1,8 +1,8 @@
 #include "control/pid_controller.h"
-#include "msgs/chassisCommand.h"
-#include "msgs/chassis.h"
-#include "msgs/localization.h"
-#include "msgs/trajectory.h"
+#include "car_msgs/control.h"
+#include "car_msgs/chassis.h"
+#include "car_msgs/localization.h"
+#include "car_msgs/trajectory.h"
 
 class LonControllerConf{
     public:
@@ -33,9 +33,9 @@ class LonController {
    * @return Status computation status
    */
   double ComputeControlCommand(
-      const msgs::localization *localization,
-      const msgs::chassis *chassis, const msgs::trajectory *trajectory,
-      msgs::chassisCommand *cmd);
+      const car_msgs::localization *localization,
+      const car_msgs::chassis *chassis, const car_msgs::trajectory *trajectory,
+      car_msgs::control *cmd);
 
   /**
    * @brief reset longitudinal controller

@@ -5,7 +5,7 @@ from __future__ import print_function
 import roslib; roslib.load_manifest('teleop_twist_keyboard')
 import rospy
 
-from msgs.msg import chassisCommand
+from car_msgs.msg import control
 
 import sys, select, termios, tty
 
@@ -38,7 +38,7 @@ def getKey():
 if __name__=="__main__":
 	settings = termios.tcgetattr(sys.stdin)
 	
-	pub = rospy.Publisher('chassisCommand_topic', chassisCommand, queue_size = 1)
+	pub = rospy.Publisher('chassisCommand_topic', car_msgs, queue_size = 1)
 	rospy.init_node('teleop_twist_keyboard')
 	throttle = 0
 	throttle = 0
@@ -62,7 +62,7 @@ if __name__=="__main__":
 				if (key == '\x03'):
 					break
 
-			twist = chassisCommand()
+			twist = car_msgs()
 			twist.throttle = throttle
 			twist.brake = brake
 			twist.steering = steering
@@ -72,7 +72,7 @@ if __name__=="__main__":
 		print(e)
 
 	finally:
-		twist = chassisCommand()
+		twist = car_msgs()
 		twist.throttle = 0
 		twist.brake = 0
 		twist.steering = 0

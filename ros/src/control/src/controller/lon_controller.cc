@@ -6,14 +6,26 @@ bool LonController::Init(const LonControllerConf *control_conf){
       speed_pid_controller_.Init(control_conf->speed_pid_conf);
 }
 
-double LonController::ComputeControlCommand(const msgs::localization *localization,
-                                          const msgs::chassis *chassis,
-                                          const msgs::trajectory *trajectory,
-                                          msgs::chassisCommand *cmd){
+double LonController::ComputeControlCommand(const car_msgs::localization *localization,
+                                          const car_msgs::chassis *chassis,
+                                          const car_msgs::trajectory *trajectory,
+                                          car_msgs::control *control_cmd){
 
       double speed_err = trajectory->speed - chassis->speed;
-      double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
-
+      //double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
+      double speed_cmd_out = 1;
+      if(speed_cmd_out > 0.0){
+            control_cmd->throttle = speed_cmd_out;
+            control_cmd->brake = 0.0;
+      }else if(speed_cmd_out < 0.0){
+            control_cmd->throttle = 0.0;
+            control_cmd->brake = speed_cmd_out;
+      }
+      else{
+            control_cmd->throttle = 0.0;
+            control_cmd->brake = 0.0;
+      }
+      
       return speed_cmd_out;
 }
 

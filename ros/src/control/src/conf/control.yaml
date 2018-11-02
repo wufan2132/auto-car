@@ -7,7 +7,7 @@ lon_controller_conf:
   ki: 0.0
   kd: 0.0
   kaw: 0.0
-  output_saturation_level: 0.0
+  output_saturation_level: 1.0
  speed_pid_conf:
   integrator_enable: true
   integrator_saturation_level: 0.3
@@ -15,5 +15,5 @@ lon_controller_conf:
   ki: 0.03
   kd: 0.0
   kaw: 0.0
-  output_saturation_level: 0.0
+  output_saturation_level: 1.0
  

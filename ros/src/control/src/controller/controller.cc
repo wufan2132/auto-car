@@ -26,10 +26,10 @@ void Controller::Init(void){
     
     lon_controller_.Init(&lon_controller_conf);
 
-    chassisCommand_publisher = controller_NodeHandle.advertise<msgs::chassisCommand>("chassisCommand_topic", 1); 
+    chassisCommand_publisher = controller_NodeHandle.advertise<car_msgs::control>("prius", 1); 
 }
 
-void Controller::ProduceControlCommand(msgs::chassisCommand *cmd){
+void Controller::ProduceControlCommand(car_msgs::control *cmd){
 
     lon_controller_.ComputeControlCommand(&localization_,&chassis_,&trajectory_,cmd);
 }
@@ -38,31 +38,31 @@ void Controller::CheckInput(void){
 
 }
 
-void Controller::SendCmd(msgs::chassisCommand *cmd){
-    // chassisCommand_publisher.publish(*cmd);
+void Controller::SendCmd(car_msgs::control *control_cmd){
+    chassisCommand_publisher.publish(*control_cmd);
 }
 
 void Controller::OnTimer(const ros::TimerEvent&){
-    msgs::chassisCommand chassisCommand;
+    car_msgs::control control_cmd;
 
     CheckInput();
-    ProduceControlCommand(&chassisCommand);
-    SendCmd(&chassisCommand);
+    ProduceControlCommand(&control_cmd);
+    SendCmd(&control_cmd);
 }
 
-void Controller::localization_topic_callback(const msgs::localization &localization){
-    localization_.x = localization.x;
-    localization_.y = localization.y;
-    localization_.z = localization.z;
-    localization_.speed = localization.speed;
-    localization_.accel = localization.accel;
-    localization_.yaw = localization.yaw;
+void Controller::localization_topic_callback(const car_msgs::localization &localization){
+    // localization_.x = localization.x;
+    // localization_.y = localization.y;
+    // localization_.z = localization.z;
+    // localization_.speed = localization.speed;
+    // localization_.accel = localization.accel;
+    // localization_.yaw = localization.yaw;
 }
-void Controller::chassis_topic_callback(const msgs::chassis &chassis){
-    chassis_.speed = chassis.speed;
-    chassis_.acc = chassis.acc;
+void Controller::chassis_topic_callback(const car_msgs::chassis &chassis){
+    // chassis_.speed = chassis.speed;
+    // chassis_.acc = chassis.acc;
 }
 
-void Controller::trajectory_topic_callback(const msgs::trajectory &trajectory){
+void Controller::trajectory_topic_callback(const car_msgs::trajectory &trajectory){
 
 }

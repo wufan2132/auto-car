@@ -9,7 +9,7 @@ project(teleop_twist_keyboard)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
-  msgs
+  car_msgs
   rospy
   std_msgs
 )
@@ -106,7 +106,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES teleop_twist_keyboard
-  CATKIN_DEPENDS geometry_msgs msgs rospy std_msgs
+  CATKIN_DEPENDS geometry_msgs car_msgs rospy std_msgs
 #  DEPENDS system_lib
 )
 
