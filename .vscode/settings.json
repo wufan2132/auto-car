@@ -49,7 +49,10 @@
         "complex": "cpp",
         "list": "cpp",
         "unordered_set": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "core": "cpp",
+        "dense": "cpp",
+        "csignal": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

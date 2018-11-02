@@ -1,5 +1,3 @@
 Header header
-
-float64 speed
-float64 acc
-float64 steer
+geometry_msgs/Vector3 speed
+geometry_msgs/Vector3 acc
