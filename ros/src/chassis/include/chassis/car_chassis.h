@@ -2,7 +2,7 @@
 #define CHASSIS_H
 #include "ros/ros.h"
 #include "car_msgs/chassis.h"
-#include "car_msgs/control.h"
+#include "car_msgs/control_cmd.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -41,8 +41,8 @@ public:
         };
 
     void Init(void);
-    void communicate(const car_msgs::control &control);
-    void chassisCommand_topic_callback(const car_msgs::control &control);
+    void communicate(const car_msgs::control_cmd &control_cmd);
+    void chassisCommand_topic_callback(const car_msgs::control_cmd &control_cmd);
 
     ros::NodeHandle car_chassis_NodeHandle;
     ros::Publisher chassis_publisher;

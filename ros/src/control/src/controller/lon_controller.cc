@@ -8,12 +8,14 @@ bool LonController::Init(const LonControllerConf *control_conf){
 
 double LonController::ComputeControlCommand(const car_msgs::localization *localization,
                                           const car_msgs::chassis *chassis,
-                                          const car_msgs::trajectory *trajectory,
-                                          car_msgs::control *control_cmd){
-      double station_err = 100 - localization->position.x;
-      double speed_err = station_pid_controller_.Control(station_err,ts_);
+                                          const car_msgs::path_point *path_point,
+                                          car_msgs::control_cmd *control_cmd){
 
-      //double speed_err = 10 - chassis->speed.x;
+      double station_err = path_point->position.x  - localization->position.x;
+      double station_err_out = station_pid_controller_.Control(station_err,ts_);
+
+
+      double speed_err = path_point->speed - chassis->speed.x + station_err_out;
       double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
 
       //double speed_cmd_out = 0;
@@ -22,7 +24,7 @@ double LonController::ComputeControlCommand(const car_msgs::localization *locali
             control_cmd->brake = 0.0;
       }else if(speed_cmd_out < 0.0){
             control_cmd->throttle = 0.0;
-            control_cmd->brake = speed_cmd_out;
+            control_cmd->brake = -speed_cmd_out;
       }
       else{
             control_cmd->throttle = 0.0;
@@ -35,6 +37,8 @@ double LonController::ComputeControlCommand(const car_msgs::localization *locali
 bool LonController::Reset(){
       
 }
+
+
 
 
 
@@ -87,7 +91,7 @@ bool LonController::Reset(){
 
 // using apollo::common::ErrorCode;
 // using apollo::common::Status;
-// using apollo::common::TrajectoryPoint;
+// using apollo::common::path_pointPoint;
 // using apollo::common::VehicleStateProvider;
 // using apollo::common::time::Clock;
 
@@ -199,22 +203,22 @@ bool LonController::Reset(){
 // Status LonController::ComputeControlCommand(
 //     const localization::LocalizationEstimate *localization,
 //     const canbus::Chassis *chassis,
-//     const planning::ADCTrajectory *planning_published_trajectory,
+//     const planning::ADCpath_point *planning_published_path_point,
 //     control::ControlCommand *cmd) {
 //   localization_ = localization;
 //   chassis_ = chassis;
 
-//   trajectory_message_ = planning_published_trajectory;
+//   path_point_message_ = planning_published_path_point;
 //   if (!control_interpolation_) {
 //     AERROR << "Fail to initialize calibration table.";
 //     return Status(ErrorCode::CONTROL_COMPUTE_ERROR,
 //                   "Fail to initialize calibration table.");
 //   }
 
-//   if (trajectory_analyzer_ == nullptr ||
-//       trajectory_analyzer_->seq_num() !=
-//           trajectory_message_->header().sequence_num()) {
-//     trajectory_analyzer_.reset(new TrajectoryAnalyzer(trajectory_message_));
+//   if (path_point_analyzer_ == nullptr ||
+//       path_point_analyzer_->seq_num() !=
+//           path_point_message_->header().sequence_num()) {
+//     path_point_analyzer_.reset(new path_pointAnalyzer(path_point_message_));
 //   }
 //   const LonControllerConf &lon_controller_conf =
 //       control_conf_->lon_controller_conf();
@@ -233,7 +237,7 @@ bool LonController::Reset(){
 //     AERROR << error_msg;
 //     return Status(ErrorCode::CONTROL_COMPUTE_ERROR, error_msg);
 //   }
-//   ComputeLongitudinalErrors(trajectory_analyzer_.get(), preview_time, debug);
+//   ComputeLongitudinalErrors(path_point_analyzer_.get(), preview_time, debug);
 
 //   double station_error_limit = lon_controller_conf.station_error_limit();
 //   double station_error_limited = 0.0;
@@ -288,8 +292,8 @@ bool LonController::Reset(){
 //   debug->set_is_full_stop(false);
 //   GetPathRemain(debug);
 
-//   if ((trajectory_message_->trajectory_type() ==
-//    apollo::planning::ADCTrajectory::NORMAL) &&
+//   if ((path_point_message_->path_point_type() ==
+//    apollo::planning::ADCpath_point::NORMAL) &&
 //       ((std::fabs(debug->preview_acceleration_reference()) <=
 //            FLAGS_max_acceleration_when_stopped &&
 //        std::fabs(debug->preview_speed_reference()) <=
@@ -351,9 +355,9 @@ bool LonController::Reset(){
 
 //   if (std::fabs(VehicleStateProvider::instance()->linear_velocity()) <=
 //           vehicle_param_.max_abs_speed_when_stopped() ||
-//       chassis->gear_location() == trajectory_message_->gear() ||
+//       chassis->gear_location() == path_point_message_->gear() ||
 //       chassis->gear_location() == canbus::Chassis::GEAR_NEUTRAL) {
-//     cmd->set_gear_location(trajectory_message_->gear());
+//     cmd->set_gear_location(path_point_message_->gear());
 //   } else {
 //     cmd->set_gear_location(chassis->gear_location());
 //   }
@@ -370,23 +374,23 @@ bool LonController::Reset(){
 // std::string LonController::Name() const { return name_; }
 
 // void LonController::ComputeLongitudinalErrors(
-//     const TrajectoryAnalyzer *trajectory_analyzer, const double preview_time,
+//     const path_pointAnalyzer *path_point_analyzer, const double preview_time,
 //     SimpleLongitudinalDebug *debug) {
 //   // the decomposed vehicle motion onto Frenet frame
-//   // s: longitudinal accumulated distance along reference trajectory
-//   // s_dot: longitudinal velocity along reference trajectory
-//   // d: lateral distance w.r.t. reference trajectory
+//   // s: longitudinal accumulated distance along reference path_point
+//   // s_dot: longitudinal velocity along reference path_point
+//   // d: lateral distance w.r.t. reference path_point
 //   // d_dot: lateral distance change rate, i.e. dd/dt
 //   double s_matched = 0.0;
 //   double s_dot_matched = 0.0;
 //   double d_matched = 0.0;
 //   double d_dot_matched = 0.0;
 
-//   auto matched_point = trajectory_analyzer->QueryMatchedPathPoint(
+//   auto matched_point = path_point_analyzer->QueryMatchedpath_point(
 //       VehicleStateProvider::instance()->x(),
 //       VehicleStateProvider::instance()->y());
 
-//   trajectory_analyzer->ToTrajectoryFrame(
+//   path_point_analyzer->Topath_pointFrame(
 //       VehicleStateProvider::instance()->x(),
 //       VehicleStateProvider::instance()->y(),
 //       VehicleStateProvider::instance()->heading(),
@@ -396,11 +400,11 @@ bool LonController::Reset(){
 //   double current_control_time = Clock::NowInSeconds();
 //   double preview_control_time = current_control_time + preview_time;
 // //TODO:
-//   TrajectoryPoint reference_point =
-//       trajectory_analyzer->QueryNearestPointByAbsoluteTime(
+//   path_pointPoint reference_point =
+//       path_point_analyzer->QueryNearestPointByAbsoluteTime(
 //           current_control_time);
-//   TrajectoryPoint preview_point =
-//       trajectory_analyzer->QueryNearestPointByAbsoluteTime(
+//   path_pointPoint preview_point =
+//       path_point_analyzer->QueryNearestPointByAbsoluteTime(
 //           preview_control_time);
 
 //   ADEBUG << "matched point:" << matched_point.DebugString();
@@ -428,18 +432,18 @@ bool LonController::Reset(){
 
 // void LonController::GetPathRemain(SimpleLongitudinalDebug *debug) {
 //   int stop_index = 0;
-//   while (stop_index < trajectory_message_->trajectory_point_size()) {
-//     if (fabs(trajectory_message_->trajectory_point(stop_index).v()) < 1e-3 &&
-//         trajectory_message_->trajectory_point(stop_index).a() > -0.01 &&
-//         trajectory_message_->trajectory_point(stop_index).a() < 0.0) {
+//   while (stop_index < path_point_message_->path_point_point_size()) {
+//     if (fabs(path_point_message_->path_point_point(stop_index).v()) < 1e-3 &&
+//         path_point_message_->path_point_point(stop_index).a() > -0.01 &&
+//         path_point_message_->path_point_point(stop_index).a() < 0.0) {
 //       break;
 //     } else {
 //       ++stop_index;
 //     }
 //   }
-//   if (stop_index == trajectory_message_->trajectory_point_size()) {
+//   if (stop_index == path_point_message_->path_point_point_size()) {
 //     --stop_index;
-//     if (fabs(trajectory_message_->trajectory_point(stop_index).v()) < 0.1) {
+//     if (fabs(path_point_message_->path_point_point(stop_index).v()) < 0.1) {
 //       AINFO << "the last point is selected as parking point";
 //     } else {
 //       AINFO << "the last point found in path and speed > speed_deadzone";
@@ -447,7 +451,7 @@ bool LonController::Reset(){
 //     }
 //   }
 //   debug->set_path_remain(
-//       trajectory_message_->trajectory_point(stop_index).path_point().s() -
+//       path_point_message_->path_point_point(stop_index).path_point().s() -
 //       debug->current_station());
 // }
 

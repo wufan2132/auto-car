@@ -24,11 +24,11 @@
 //     chassis_publisher = car_chassis_NodeHandle.advertise<car_msgs::chassis>("chassis_topic", 1000);
 // }
 
-// void CarChassis::chassisCommand_topic_callback(const car_msgs::control &chassisCommand){
+// void CarChassis::chassisCommand_topic_callback(const car_msgs::control_cmd &chassisCommand){
 //     communicate(chassisCommand);
 // }
 
-// void CarChassis::communicate(const car_msgs::control &chassisCommand){
+// void CarChassis::communicate(const car_msgs::control_cmd &chassisCommand){
 //     ChassisCommand_class ChassisCommand_temp;
 //     Chassis_class chassis_temp;
 //     car_msgs::chassis chassis_msg;
