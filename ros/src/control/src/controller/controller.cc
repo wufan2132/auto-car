@@ -26,24 +26,28 @@ void Controller::Init(void){
     
     lon_controller_.Init(&lon_controller_conf);
 
-    chassisCommand_publisher = controller_NodeHandle.advertise<car_msgs::control>("prius", 1); 
+    chassisCommand_publisher = controller_NodeHandle.advertise<car_msgs::control_cmd>("prius", 1); 
 }
 
-void Controller::ProduceControlCommand(car_msgs::control *control_cmd){
+void Controller::ProduceControlCommand(car_msgs::control_cmd *control_cmd){
     control_cmd->header = chassis_.header;
-    lon_controller_.ComputeControlCommand(&localization_,&chassis_,&trajectory_,control_cmd);
+
+    path_point_.position.x = 100;
+    path_point_.speed = 0;
+
+    lon_controller_.ComputeControlCommand(&localization_,&chassis_,&path_point_,control_cmd);
 }
 
 void Controller::CheckInput(void){
 
 }
 
-void Controller::SendCmd(car_msgs::control *control_cmd){
+void Controller::SendCmd(car_msgs::control_cmd *control_cmd){
     chassisCommand_publisher.publish(*control_cmd);
 }
 
 void Controller::OnTimer(const ros::TimerEvent&){
-    car_msgs::control control_cmd;
+    car_msgs::control_cmd control_cmd;
 
     CheckInput();
     ProduceControlCommand(&control_cmd);
@@ -57,6 +61,6 @@ void Controller::chassis_topic_callback(const car_msgs::chassis &chassis){
     chassis_ = chassis;
 }
 
-void Controller::trajectory_topic_callback(const car_msgs::trajectory &trajectory){
+void Controller::path_topic_callback(const car_msgs::path_point &path_point){
 
 }

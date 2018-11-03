@@ -54,8 +54,9 @@ add_message_files(
     FILES
     chassis.msg
     localization.msg
-    trajectory.msg
-    control.msg
+    path_point.msg
+    path.msg
+    control_cmd.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -110,7 +111,7 @@ generate_messages(DEPENDENCIES
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES msgs
-   CATKIN_DEPENDS message_runtime std_msgs geometry_msgs
+   CATKIN_DEPENDS message_runtime std_msgs geometry_msgs 
 #  DEPENDS system_lib
 )
 

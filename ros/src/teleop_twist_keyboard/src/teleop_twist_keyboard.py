@@ -5,7 +5,7 @@ from __future__ import print_function
 import roslib; roslib.load_manifest('teleop_twist_keyboard')
 import rospy
 
-from car_msgs.msg import control
+from car_msgs.msg import control_cmd
 
 import sys, select, termios, tty
 
