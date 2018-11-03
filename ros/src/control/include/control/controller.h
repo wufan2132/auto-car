@@ -4,9 +4,9 @@
 class Controller{
 public:
     void Init(void);
-    void ProduceControlCommand(car_msgs::control *cmd);
+    void ProduceControlCommand(car_msgs::control *control_cmd);
     void CheckInput(void);
-    void SendCmd(car_msgs::control *cmd);
+    void SendCmd(car_msgs::control *control_cmd);
 
     void OnTimer(const ros::TimerEvent&);
     void chassis_topic_callback(const car_msgs::chassis &chassis);

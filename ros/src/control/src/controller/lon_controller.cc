@@ -10,10 +10,13 @@ double LonController::ComputeControlCommand(const car_msgs::localization *locali
                                           const car_msgs::chassis *chassis,
                                           const car_msgs::trajectory *trajectory,
                                           car_msgs::control *control_cmd){
+      double station_err = 100 - localization->position.x;
+      double speed_err = station_pid_controller_.Control(station_err,ts_);
 
-      double speed_err = trajectory->speed - chassis->speed;
-      //double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
-      double speed_cmd_out = 1;
+      //double speed_err = 10 - chassis->speed.x;
+      double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
+
+      //double speed_cmd_out = 0;
       if(speed_cmd_out > 0.0){
             control_cmd->throttle = speed_cmd_out;
             control_cmd->brake = 0.0;

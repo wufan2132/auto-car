@@ -13,8 +13,9 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   car_msgs
   nav_msgs
+  geometry_msgs
 )
-
+find_package(Eigen3 REQUIRED)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -107,7 +108,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES chassis
-  CATKIN_DEPENDS roscpp rospy std_msgs car_msgs nav_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs car_msgs nav_msgs geometry_msgs
 #  DEPENDS system_lib
 )
 
@@ -120,6 +121,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIR}
 )
 
 ## Declare a C++ library
@@ -145,7 +147,8 @@ add_executable(${PROJECT_NAME}_node src/main.cc src/car_chassis.cc)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-#add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${EIGEN_DEFINITIONS})
+#add_definitions(${EIGEN_DEFINITIONS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node
