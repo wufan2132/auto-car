@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/control/controller/lat_controller.h"
+#include "control/lat_controller.h"
 
 #include <algorithm>
 #include <cmath>
@@ -34,8 +34,6 @@
 #include "modules/common/util/string_util.h"
 #include "modules/control/common/control_gflags.h"
 
-namespace apollo {
-namespace control {
 
 using apollo::common::ErrorCode;
 using apollo::common::Point3D;
@@ -46,73 +44,33 @@ using apollo::common::util::StrCat;
 using Matrix = Eigen::MatrixXd;
 using apollo::common::time::Clock;
 
-namespace {
 
-std::string GetLogFileName() {
-  time_t raw_time;
-  char name_buffer[80];
-  std::time(&raw_time);
-  strftime(name_buffer, 80, "/tmp/steer_log_simple_optimal_%F_%H%M%S.csv",
-           localtime(&raw_time));
-  return std::string(name_buffer);
+LatController::LatController() : name_("LQR-based LatController") {
 }
 
-void WriteHeaders(std::ofstream &file_stream) {
-  file_stream << "current_lateral_error,"
-              << "current_ref_heading,"
-              << "current_heading,"
-              << "current_heading_error,"
-              << "heading_error_rate,"
-              << "lateral_error_rate,"
-              << "current_curvature,"
-              << "steer_angle,"
-              << "steer_angle_feedforward,"
-              << "steer_angle_lateral_contribution,"
-              << "steer_angle_lateral_rate_contribution,"
-              << "steer_angle_heading_contribution,"
-              << "steer_angle_heading_rate_contribution,"
-              << "steer_angle_feedback,"
-              << "steering_position,"
-              << "v" << std::endl;
-}
-}  // namespace
 
-LatController::LatController() : name_("LQR-based Lateral Controller") {
-  if (FLAGS_enable_csv_debug) {
-    steer_log_file_.open(GetLogFileName());
-    steer_log_file_ << std::fixed;
-    steer_log_file_ << std::setprecision(6);
-    WriteHeaders(steer_log_file_);
-  }
-  AINFO << "Using " << name_;
-}
-
-LatController::~LatController() { CloseLogFile(); }
-
-bool LatController::LoadControlConf(const ControlConf *control_conf) {
+bool LatController::LoadControlConf(const LatControllerConf *control_conf) {
   if (!control_conf) {
     AERROR << "[LatController] control_conf == nullptr";
     return false;
   }
-  vehicle_param_ =
-      common::VehicleConfigHelper::instance()->GetConfig().vehicle_param();
 
-  ts_ = control_conf->lat_controller_conf().ts();
+  ts_ = control_conf->ts;
   CHECK_GT(ts_, 0.0) << "[LatController] Invalid control update interval.";
-  cf_ = control_conf->lat_controller_conf().cf();
-  cr_ = control_conf->lat_controller_conf().cr();
-  preview_window_ = control_conf->lat_controller_conf().preview_window();
-  wheelbase_ = vehicle_param_.wheel_base();
-  steer_ratio_ = vehicle_param_.steer_ratio();
+  cf_ = control_conf->cf;
+  cr_ = control_conf->cr;
+  preview_window_ = control_conf->preview_window;
+  wheelbase_ = control_conf->wheel_base();
+  steer_ratio_ = control_conf->steer_ratio();
   steer_single_direction_max_degree_ =
-      vehicle_param_.max_steer_angle() / M_PI * 180;
-  max_lat_acc_ = control_conf->lat_controller_conf().max_lateral_acceleration();
-  min_turn_radius_ = vehicle_param_.min_turn_radius();
+      control_conf->max_steer_angle() / M_PI * 180;
+  max_lat_acc_ = control_conf->max_lateral_acceleration;
+  min_turn_radius_ = control_conf->min_turn_radius();
 
-  const double mass_fl = control_conf->lat_controller_conf().mass_fl();
-  const double mass_fr = control_conf->lat_controller_conf().mass_fr();
-  const double mass_rl = control_conf->lat_controller_conf().mass_rl();
-  const double mass_rr = control_conf->lat_controller_conf().mass_rr();
+  const double mass_fl = control_conf->mass_fl;
+  const double mass_fr = control_conf->mass_fr;
+  const double mass_rl = control_conf->mass_rl;
+  const double mass_rr = control_conf->mass_rr;
   const double mass_front = mass_fl + mass_fr;
   const double mass_rear = mass_rl + mass_rr;
   mass_ = mass_front + mass_rear;
@@ -123,65 +81,19 @@ bool LatController::LoadControlConf(const ControlConf *control_conf) {
   // moment of inertia
   iz_ = lf_ * lf_ * mass_front + lr_ * lr_ * mass_rear;
 
-  lqr_eps_ = control_conf->lat_controller_conf().eps();
-  lqr_max_iteration_ = control_conf->lat_controller_conf().max_iteration();
+  lqr_eps_ = control_conf->eps;
+  lqr_max_iteration_ = control_conf->max_iteration;
 
-  query_relative_time_ = control_conf->query_relative_time();
+  query_relative_time_ = control_conf->query_relative_time
 
-  minimum_speed_protection_ = control_conf->minimum_speed_protection();
+  minimum_speed_protection_ = control_conf->minimum_speed_protection;
 
   return true;
 }
 
-void LatController::ProcessLogs(const SimpleLateralDebug *debug,
-                                const canbus::Chassis *chassis) {
-  // StrCat supports 9 arguments at most.
-  const std::string log_str = StrCat(
-      StrCat(debug->lateral_error(), ",", debug->ref_heading(), ",",
-             VehicleStateProvider::instance()->heading(), ",",
-             debug->heading_error(), ","),
-      StrCat(debug->heading_error_rate(), ",", debug->lateral_error_rate(), ",",
-             debug->curvature(), ",", debug->steer_angle(), ","),
-      StrCat(debug->steer_angle_feedforward(), ",",
-             debug->steer_angle_lateral_contribution(), ",",
-             debug->steer_angle_lateral_rate_contribution(), ",",
-             debug->steer_angle_heading_contribution(), ","),
-      StrCat(debug->steer_angle_heading_rate_contribution(), ",",
-             debug->steer_angle_feedback(), ",", chassis->steering_percentage(),
-             ",", VehicleStateProvider::instance()->linear_velocity()));
-  if (FLAGS_enable_csv_debug) {
-    steer_log_file_ << log_str << std::endl;
-  }
-  ADEBUG << "Steer_Control_Detail: " << log_str;
-}
-
-void LatController::LogInitParameters() {
-  AINFO << name_ << " begin.";
-  AINFO << "[LatController parameters]"
-        << " mass_: " << mass_ << ","
-        << " iz_: " << iz_ << ","
-        << " lf_: " << lf_ << ","
-        << " lr_: " << lr_;
-}
-
-void LatController::InitializeFilters(const ControlConf *control_conf) {
-  // Low pass filter
-  std::vector<double> den(3, 0.0);
-  std::vector<double> num(3, 0.0);
-  common::LpfCoefficients(
-      ts_, control_conf->lat_controller_conf().cutoff_freq(), &den, &num);
-  digital_filter_.set_coefficients(den, num);
-  lateral_error_filter_ = common::MeanFilter(
-      control_conf->lat_controller_conf().mean_filter_window_size());
-  heading_error_filter_ = common::MeanFilter(
-      control_conf->lat_controller_conf().mean_filter_window_size());
-}
-
-Status LatController::Init(const ControlConf *control_conf) {
+void LatController::Init(const LatControllerConf *control_conf) {
   if (!LoadControlConf(control_conf)) {
-    AERROR << "failed to load control conf";
-    return Status(ErrorCode::CONTROL_COMPUTE_ERROR,
-                  "failed to load control_conf");
+    ROS_INFO("failed to load control conf");
   }
   // Matrix init operations.
   const int matrix_size = basic_state_size_ + preview_window_;
@@ -213,65 +125,24 @@ Status LatController::Init(const ControlConf *control_conf) {
   matrix_r_ = Matrix::Identity(1, 1);
   matrix_q_ = Matrix::Zero(matrix_size, matrix_size);
 
-  int q_param_size = control_conf->lat_controller_conf().matrix_q_size();
-  if (matrix_size != q_param_size) {
-    const auto error_msg =
-        StrCat("lateral controller error: matrix_q size: ", q_param_size,
-               " in parameter file not equal to matrix_size: ", matrix_size);
-    AERROR << error_msg;
-    return Status(ErrorCode::CONTROL_COMPUTE_ERROR, error_msg);
-  }
-  for (int i = 0; i < q_param_size; ++i) {
-    matrix_q_(i, i) = control_conf->lat_controller_conf().matrix_q(i);
-  }
+  matrix_q_(0, 0) = control_conf->.matrix_q1;
+  matrix_q_(1, 1) = control_conf->.matrix_q2;
+  matrix_q_(2, 2) = control_conf->.matrix_q3;
+  matrix_q_(3, 3) = control_conf->.matrix_q4;
 
   matrix_q_updated_ = matrix_q_;
-  InitializeFilters(control_conf);
-  auto &lat_controller_conf = control_conf->lat_controller_conf();
-  LoadLatGainScheduler(lat_controller_conf);
-  LogInitParameters();
-  return Status::OK();
+
 }
 
-void LatController::CloseLogFile() {
-  if (FLAGS_enable_csv_debug && steer_log_file_.is_open()) {
-    steer_log_file_.close();
-  }
-}
-
-void LatController::LoadLatGainScheduler(
-    const LatControllerConf &lat_controller_conf) {
-  const auto &lat_err_gain_scheduler =
-      lat_controller_conf.lat_err_gain_scheduler();
-  const auto &heading_err_gain_scheduler =
-      lat_controller_conf.heading_err_gain_scheduler();
-  AINFO << "Lateral control gain scheduler loaded";
-  Interpolation1D::DataType xy1, xy2;
-  for (const auto &scheduler : lat_err_gain_scheduler.scheduler()) {
-    xy1.push_back(std::make_pair(scheduler.speed(), scheduler.ratio()));
-  }
-  for (const auto &scheduler : heading_err_gain_scheduler.scheduler()) {
-    xy2.push_back(std::make_pair(scheduler.speed(), scheduler.ratio()));
-  }
-
-  lat_err_interpolation_.reset(new Interpolation1D);
-  CHECK(lat_err_interpolation_->Init(xy1))
-      << "Fail to load lateral error gain scheduler";
-
-  heading_err_interpolation_.reset(new Interpolation1D);
-  CHECK(heading_err_interpolation_->Init(xy2))
-      << "Fail to load heading error gain scheduler";
-}
-
-void LatController::Stop() { CloseLogFile(); }
+void LatController::Stop() { }
 
 std::string LatController::Name() const { return name_; }
 
 Status LatController::ComputeControlCommand(
-    const localization::LocalizationEstimate *localization,
-    const canbus::Chassis *chassis,
-    const planning::ADCTrajectory *planning_published_trajectory,
-    ControlCommand *cmd) {
+      const car_msgs::localization *localization,
+      const car_msgs::chassis *chassis,
+      const car_msgs::path_point *path_point,
+      car_msgs::control_cmd *cmd) {
   VehicleStateProvider::instance()->set_linear_velocity(chassis->speed_mps());
 
   auto target_tracking_trajectory = *planning_published_trajectory;
@@ -282,18 +153,10 @@ Status LatController::ComputeControlCommand(
         planning_published_trajectory->header().timestamp_sec() -
         current_trajectory_timestamp_;
 
-    auto curr_vehicle_x = localization->pose().position().x();
-    auto curr_vehicle_y = localization->pose().position().y();
+    auto curr_vehicle_x = localization->position.x;
+    auto curr_vehicle_y = localization->position.y;
 
-    double curr_vehicle_heading = 0.0;
-    const auto &orientation = localization->pose().orientation();
-    if (localization->pose().has_heading()) {
-      curr_vehicle_heading = localization->pose().heading();
-    } else {
-      curr_vehicle_heading =
-          common::math::QuaternionToHeading(orientation.qw(), orientation.qx(),
-                                            orientation.qy(), orientation.qz());
-    }
+    double curr_vehicle_heading = localization->angle.z;
 
     // new planning trajectory
     if (time_stamp_diff > 1.0e-6) {
@@ -301,8 +164,7 @@ Status LatController::ComputeControlCommand(
       init_vehicle_y_ = curr_vehicle_y;
       init_vehicle_heading_ = curr_vehicle_heading;
 
-      current_trajectory_timestamp_ =
-          planning_published_trajectory->header().timestamp_sec();
+      current_trajectory_timestamp_ = planning_published_trajectory->header().timestamp_sec();
     } else {
       auto x_diff_map = curr_vehicle_x - init_vehicle_x_;
       auto y_diff_map = curr_vehicle_y - init_vehicle_y_;
@@ -449,7 +311,7 @@ Status LatController::ComputeControlCommand(
   return Status::OK();
 }
 
-Status LatController::Reset() { return Status::OK(); }
+Status LatController::Reset() {}
 
 void LatController::UpdateState(SimpleLateralDebug *debug) {
   if (FLAGS_use_navigation_mode) {
@@ -590,6 +452,3 @@ void LatController::ComputeLateralErrors(
 
   debug->set_curvature(target_point.path_point().kappa());
 }
-
-}  // namespace control
-}  // namespace apollo

@@ -7,6 +7,7 @@ void Controller::Init(void){
     YAML::Node controller_conf = YAML::LoadFile(LON_CONTROLLER_CONF_DIR);
     LonControllerConf lon_controller_conf;
 
+//配置纵向控制参数
     lon_controller_conf.ts = controller_conf["lon_controller_conf"]["ts"].as<double>();
     lon_controller_conf.station_pid_conf.integrator_enable = controller_conf["lon_controller_conf"]["station_pid_conf"]["integrator_enable"].as<bool>();
     lon_controller_conf.station_pid_conf.integrator_saturation_level = controller_conf["lon_controller_conf"]["station_pid_conf"]["integrator_saturation_level"].as<double>();
@@ -25,7 +26,12 @@ void Controller::Init(void){
     lon_controller_conf.speed_pid_conf.output_saturation_level = controller_conf["lon_controller_conf"]["speed_pid_conf"]["output_saturation_level"].as<double>();
     
     lon_controller_.Init(&lon_controller_conf);
+//配置横向控制参数
 
+
+
+
+//发布控制节点
     chassisCommand_publisher = controller_NodeHandle.advertise<car_msgs::control_cmd>("prius", 1); 
 }
 
@@ -34,7 +40,7 @@ void Controller::ProduceControlCommand(car_msgs::control_cmd *control_cmd){
 
     path_point_.position.x = 100;
     path_point_.speed = 0;
-
+    path_point_.accel = 0;
     lon_controller_.ComputeControlCommand(&localization_,&chassis_,&path_point_,control_cmd);
 }
 
@@ -43,7 +49,7 @@ void Controller::CheckInput(void){
 }
 
 void Controller::SendCmd(car_msgs::control_cmd *control_cmd){
-    chassisCommand_publisher.publish(*control_cmd);
+    //chassisCommand_publisher.publish(*control_cmd);
 }
 
 void Controller::OnTimer(const ros::TimerEvent&){
@@ -64,3 +70,4 @@ void Controller::chassis_topic_callback(const car_msgs::chassis &chassis){
 void Controller::path_topic_callback(const car_msgs::path_point &path_point){
 
 }
+

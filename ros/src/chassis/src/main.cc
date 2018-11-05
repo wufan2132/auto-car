@@ -12,9 +12,9 @@ ros::Publisher localization_msg_Publisher;
 ros::Publisher chassis_msg_Publisher;
 
 void chassis_topic_callback(const nav_msgs::Odometry::ConstPtr &chassis_msg){
+
   car_msgs::localization car_localization;
   car_msgs::chassis car_chassis;
-
 
   double roll, pitch, yaw;
   tf::Quaternion quat;
@@ -27,7 +27,6 @@ void chassis_topic_callback(const nav_msgs::Odometry::ConstPtr &chassis_msg){
   car_localization.angle.x = roll;
   car_localization.angle.y = pitch;
   car_localization.angle.z = yaw;
-
 
   double speed_roll, speed_pitch, speed_yaw;
   double speed_roll_out, speed_pitch_out, speed_yaw_out;

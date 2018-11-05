@@ -1,12 +1,17 @@
 #include "control/lon_controller.h"
 
-bool LonController::Init(const LonControllerConf *control_conf){
+
+LonController::LonController(): name_("Pid-Pid LonController"){
+
+}
+
+void LonController::Init(const LonControllerConf *control_conf){
       ts_ = control_conf->ts;
       station_pid_controller_.Init(control_conf->station_pid_conf);
       speed_pid_controller_.Init(control_conf->speed_pid_conf);
 }
 
-double LonController::ComputeControlCommand(const car_msgs::localization *localization,
+void LonController::ComputeControlCommand(const car_msgs::localization *localization,
                                           const car_msgs::chassis *chassis,
                                           const car_msgs::path_point *path_point,
                                           car_msgs::control_cmd *control_cmd){
@@ -17,6 +22,7 @@ double LonController::ComputeControlCommand(const car_msgs::localization *locali
 
       double speed_err = path_point->speed - chassis->speed.x + station_err_out;
       double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
+      speed_cmd_out += path_point->accel;
 
       //double speed_cmd_out = 0;
       if(speed_cmd_out > 0.0){
@@ -30,8 +36,6 @@ double LonController::ComputeControlCommand(const car_msgs::localization *locali
             control_cmd->throttle = 0.0;
             control_cmd->brake = 0.0;
       }
-      
-      return speed_cmd_out;
 }
 
 bool LonController::Reset(){
