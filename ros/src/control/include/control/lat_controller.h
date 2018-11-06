@@ -1,26 +1,5 @@
-/******************************************************************************
- * Copyright 2017 The Apollo Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *****************************************************************************/
-
-/**
- * @file
- * @brief Defines the LatController class.
- */
-
-#ifndef MODULES_CONTROL_CONTROLLER_LAT_CONTROLLER_H_
-#define MODULES_CONTROL_CONTROLLER_LAT_CONTROLLER_H_
+#ifndef LAT_CONTROLLER_H_
+#define LAT_CONTROLLER_H_
 
 #include <fstream>
 #include <memory>
@@ -37,38 +16,75 @@
 #include "modules/control/common/trajectory_analyzer.h"
 #include "modules/control/controller/controller.h"
 
-/**
- * @namespace apollo::control
- * @brief apollo::control
- */
-namespace apollo {
-namespace control {
+class LatControllerConf{
+  public:
+    double query_relative_time;
+    double minimum_speed_protection;
 
-/**
- * @class LatController
- *
- * @brief LQR-Based lateral controller, to compute steering target.
- * For more details, please refer to "Vehicle dynamics and control."
- * Rajamani, Rajesh. Springer Science & Business Media, 2011.
- */
-class LatController : public Controller {
+    double ts;            // sample time (dt) 0.01 now, configurable
+    // preview window n, preview time = preview window * ts
+    int32 preview_window = 2;
+    double cf;
+    double cr;            // N/rad
+    int32 mass_fl;
+    int32 mass_fr;
+    int32 mass_rl;
+    int32 mass_rr;
+    double eps;          // converge threshold for lqr solver
+    double matrix_q1;     // matrix_q size = 4 + preview_window
+    double matrix_q2;     // matrix_q size = 4 + preview_window
+    double matrix_q3;     // matrix_q size = 4 + preview_window
+    double matrix_q4;     // matrix_q size = 4 + preview_window
+    int32 cutoff_freq;   // cutoff frequency
+    int32 mean_filter_window_size;  // window size of mean filter
+    // for a normal car, it should be in range[16, 18]
+    int32 max_iteration;  // maximum iteration for lqr solve
+    double max_lateral_acceleration;  // limit aggressive steering
+
+    //VehicleParam-------------------------------------------------------------------
+    double front_edge_to_center;
+    double back_edge_to_center;
+    double left_edge_to_center;
+    double right_edge_to_center;
+
+    double length;
+    double width;
+    double height;
+
+    double min_turn_radius;
+    double max_acceleration;
+    double max_deceleration;
+
+    // The following items are used to compute trajectory constraints in planning/control/canbus,
+    // vehicle max steer angle
+    double max_steer_angle;
+    // vehicle max steer rate; how fast can the steering wheel turn.
+    double max_steer_angle_rate;
+    // vehicle min steer rate;
+    double min_steer_angle_rate;
+    // ratio between the turn of steering wheel and the turn of wheels
+    double steer_ratio;
+    // the distance between the front and back wheels
+    double wheel_base;
+    // Tire effective rolling radius (vertical distance between the wheel center
+    // and the ground).
+    double wheel_rolling_radius;
+
+    // minimum differentiable vehicle speed, in m/s
+    float max_abs_speed_when_stopped;
+}
+
+class LatController {
  public:
-  /**
-   * @brief constructor
-   */
-  LatController();
 
-  /**
-   * @brief destructor
-   */
-  virtual ~LatController();
+  LatController();
 
   /**
    * @brief initialize Lateral Controller
    * @param control_conf control configurations
    * @return Status initialization status
    */
-  common::Status Init(const ControlConf *control_conf) override;
+  void Init(const LatControllerConf *control_conf) override;
 
   /**
    * @brief compute steering target based on current vehicle status
@@ -80,10 +96,10 @@ class LatController : public Controller {
    * @return Status computation status
    */
   common::Status ComputeControlCommand(
-      const localization::LocalizationEstimate *localization,
-      const canbus::Chassis *chassis, const planning::ADCTrajectory *trajectory,
-      ControlCommand *cmd) override;
-
+      const car_msgs::localization *localization,
+      const car_msgs::chassis *chassis,
+      const car_msgs::path_point *path_point,
+      car_msgs::control_cmd *cmd);
   /**
    * @brief reset Lateral Controller
    * @return Status reset status
@@ -114,14 +130,8 @@ class LatController : public Controller {
                             const double linear_v, const double angular_v,
                             const TrajectoryAnalyzer &trajectory_analyzer,
                             SimpleLateralDebug *debug);
-  bool LoadControlConf(const ControlConf *control_conf);
-  void InitializeFilters(const ControlConf *control_conf);
-  void LoadLatGainScheduler(const LatControllerConf &lat_controller_conf);
-  void LogInitParameters();
-  void ProcessLogs(const SimpleLateralDebug *debug,
-                   const canbus::Chassis *chassis);
-
-  void CloseLogFile();
+  bool LoadControlConf(const LatControllerConf *control_conf);
+ 
 
   // vehicle parameter
   common::VehicleParam vehicle_param_;
@@ -189,15 +199,15 @@ class LatController : public Controller {
   // parameters for lqr solver; threshold for computation
   double lqr_eps_ = 0.0;
 
-  common::DigitalFilter digital_filter_;
+//   common::DigitalFilter digital_filter_;
 
-  std::unique_ptr<Interpolation1D> lat_err_interpolation_;
+//   std::unique_ptr<Interpolation1D> lat_err_interpolation_;
 
-  std::unique_ptr<Interpolation1D> heading_err_interpolation_;
+//   std::unique_ptr<Interpolation1D> heading_err_interpolation_;
 
   // MeanFilter heading_rate_filter_;
-  common::MeanFilter lateral_error_filter_;
-  common::MeanFilter heading_error_filter_;
+//   common::MeanFilter lateral_error_filter_;
+//   common::MeanFilter heading_error_filter_;
 
   // for logging purpose
   std::ofstream steer_log_file_;
@@ -221,7 +231,4 @@ class LatController : public Controller {
   double min_turn_radius_ = 0.0;
 };
 
-}  // namespace control
-}  // namespace apollo
-
-#endif  // MODULES_CONTROL_CONTROLLER_LATERAL_CONTROLLER_H_
+#endif  // LAT_CONTROLLER_H_
