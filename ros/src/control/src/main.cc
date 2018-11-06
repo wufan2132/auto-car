@@ -12,7 +12,7 @@ int main(int argc, char **argv)
   ros::Timer cycle_timer = controller_NodeHandle.createTimer(ros::Duration(0.01),&Controller::OnTimer, &controller);
   ros::Subscriber localization_publisher = controller_NodeHandle.subscribe("localization_topic", 1, &Controller::localization_topic_callback, &controller);
   ros::Subscriber chassis_publisher = controller_NodeHandle.subscribe("chassis_topic", 1, &Controller::chassis_topic_callback, &controller);
-  ros::Subscriber trajectory_publisher = controller_NodeHandle.subscribe("trajectory_topic", 1, &Controller::trajectory_topic_callback, &controller);
+  ros::Subscriber path_publisher = controller_NodeHandle.subscribe("path_topic", 1, &Controller::path_topic_callback, &controller);
 
   ros::spin();
   return 0;

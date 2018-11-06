@@ -311,7 +311,7 @@ PriusHybridPlugin::PriusHybridPlugin()
 }
 
 
-void PriusHybridPlugin::OnPriusCommand(const car_msgs::control::ConstPtr &msg)
+void PriusHybridPlugin::OnPriusCommand(const car_msgs::control_cmd::ConstPtr &msg)
 {
   this->dataPtr->lastSteeringCmdTime = this->dataPtr->world->SimTime();
   this->dataPtr->lastPedalCmdTime = this->dataPtr->world->SimTime();
@@ -335,13 +335,13 @@ void PriusHybridPlugin::OnPriusCommand(const car_msgs::control::ConstPtr &msg)
 
   switch (msg->shift_gears)
   {
-    case car_msgs::control::NEUTRAL:
+    case car_msgs::control_cmd::NEUTRAL:
       this->dataPtr->directionState = PriusHybridPluginPrivate::NEUTRAL;
       break;
-    case car_msgs::control::FORWARD:
+    case car_msgs::control_cmd::FORWARD:
       this->dataPtr->directionState = PriusHybridPluginPrivate::FORWARD;
       break;
-    case car_msgs::control::REVERSE:
+    case car_msgs::control_cmd::REVERSE:
       this->dataPtr->directionState = PriusHybridPluginPrivate::REVERSE;
       break;
     default:

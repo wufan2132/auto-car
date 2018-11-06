@@ -26,7 +26,7 @@
 #include <gazebo/msgs/msgs.hh>
 #include <gazebo/common/Plugin.hh>
 
-#include <car_msgs/control.h>
+#include <car_msgs/control_cmd.h>
 
 namespace gazebo
 {
@@ -49,7 +49,7 @@ namespace gazebo
     public: void Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf);
 
     /// \brief ROS subscriber callback
-    private: void OnPriusCommand(const car_msgs::control::ConstPtr &msg);
+    private: void OnPriusCommand(const car_msgs::control_cmd::ConstPtr &msg);
 
     /// \brief Callback each time a key message is received.
     /// \param[in] _msg Keypress message.
