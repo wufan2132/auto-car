@@ -13,16 +13,17 @@ void LonController::Init(const LonControllerConf *control_conf){
 
 void LonController::ComputeControlCommand(const car_msgs::localization *localization,
                                           const car_msgs::chassis *chassis,
-                                          const car_msgs::path_point *path_point,
+                                          const car_msgs::trajectory *planning_published_trajectory,
                                           car_msgs::control_cmd *control_cmd){
+      car_msgs::trajectory_point trajectory_point = planning_published_trajectory->trajectory_path[0];
 
-      double station_err = path_point->position.x  - localization->position.x;
+      double station_err = trajectory_point.x  - localization->position.x;
       double station_err_out = station_pid_controller_.Control(station_err,ts_);
 
 
-      double speed_err = path_point->speed - chassis->speed.x + station_err_out;
+      double speed_err = trajectory_point.speed - chassis->speed.x + station_err_out;
       double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
-      speed_cmd_out += path_point->accel;
+      speed_cmd_out += trajectory_point.accel;
 
       //double speed_cmd_out = 0;
       if(speed_cmd_out > 0.0){
