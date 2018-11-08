@@ -27,6 +27,7 @@ void chassis_topic_callback(const nav_msgs::Odometry::ConstPtr &chassis_msg){
   car_localization.angle.x = roll;
   car_localization.angle.y = pitch;
   car_localization.angle.z = yaw;
+  car_localization.angular_velocity = chassis_msg->twist.twist.angular;
 
   double speed_roll, speed_pitch, speed_yaw;
   double speed_roll_out, speed_pitch_out, speed_yaw_out;

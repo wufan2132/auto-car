@@ -31,14 +31,14 @@
   <node pkg="car_demo" type="joystick_translator" name="joystick_translator"/>
 
   <!-- Run two joy nodes publishing to the same topic, just to cover two possible joystick locations -->
-  <node pkg="joy" type="joy_node" name="joy_node0">
+  <!--node pkg="joy" type="joy_node" name="joy_node0">
     <param name="dev" value="/dev/input/js0"/>
   </node>
   <node pkg="joy" type="joy_node" name="joy_node1">
     <param name="dev" value="/dev/input/js1"/>
-  </node>
+  </node>-->
 
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -x 3 -y -12 -z 0.5 -model prius"/>
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -x -200 -y -15 -z 0.5 -model prius"/>
 
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
 </launch>

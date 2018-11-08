@@ -16,7 +16,7 @@
 
 
 import rospy
-from car_msgs.msg import control
+from car_msgs.msg import control_cmd
 from sensor_msgs.msg import Joy
 
 
@@ -27,7 +27,7 @@ THROTTLE_AXIS = 4
 class Translator:
     def __init__(self):
         self.sub = rospy.Subscriber("joy", Joy, self.callback)
-        self.pub = rospy.Publisher('prius', control, queue_size=1)
+        self.pub = rospy.Publisher('prius', control_cmd, queue_size=1)
         self.last_published_time = rospy.get_rostime()
         self.last_published = None
         self.timer = rospy.Timer(rospy.Duration(1./20.), self.timer_callback)
@@ -38,7 +38,7 @@ class Translator:
 
     def callback(self, message):
         rospy.logdebug("joy_translater received axes %s",message.axes)
-        command = control()
+        command = control_cmd()
         command.header = message.header
         if message.axes[THROTTLE_AXIS] >= 0:
             command.throttle = message.axes[THROTTLE_AXIS]
@@ -48,13 +48,13 @@ class Translator:
             command.throttle = 0.0
 
         if message.buttons[3]:
-            command.shift_gears = control.FORWARD
+            command.shift_gears = control_cmd.FORWARD
         elif message.buttons[1]:
-            command.shift_gears = control.NEUTRAL
+            command.shift_gears = control_cmd.NEUTRAL
         elif message.buttons[0]:
-            command.shift_gears = control.REVERSE
+            command.shift_gears = control_cmd.REVERSE
         else:
-            command.shift_gears = control.NO_COMMAND
+            command.shift_gears = control_cmd.NO_COMMAND
 
         command.steer = message.axes[STEERING_AXIS]
         self.last_published = message
