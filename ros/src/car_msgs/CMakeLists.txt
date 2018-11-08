@@ -54,8 +54,8 @@ add_message_files(
     FILES
     chassis.msg
     localization.msg
-    path_point.msg
-    path.msg
+    trajectory_point.msg
+    trajectory.msg
     control_cmd.msg
 )
 
