@@ -1,12 +1,8 @@
 #ifndef LON_CONTROLLER_H_
 #define LON_CONTROLLER_H_
 #include "control/pid_controller.h"
-<<<<<<< HEAD
-=======
 #include "car_msgs/control_cmd.h"
->>>>>>> 4454cb39cf963602a0bcf1ce458724dfe5b25db3
 #include "car_msgs/chassis.h"
-#include "car_msgs/control.h"
 #include "car_msgs/localization.h"
 #include "car_msgs/path.h"
 #include "car_msgs/path_point.h"

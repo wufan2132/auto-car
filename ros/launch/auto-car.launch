@@ -5,11 +5,9 @@
   </node>
   <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" >
   </node>
-<<<<<<< HEAD
   <node pkg="planning" type="planning_node" name="planning_node" output="screen" >
-=======
+  </node>
   <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
->>>>>>> 1fd74d320bcdfdd13fb679bfffdc2e3a90a40a32
   </node>
 
   <arg name="model" default="$(find prius_description)/urdf/prius.urdf"/>
