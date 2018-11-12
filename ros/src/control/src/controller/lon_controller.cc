@@ -1,5 +1,6 @@
 #include "control/lon_controller.h"
-
+#include "ros/ros.h"
+namespace control {
 
 LonController::LonController(): name_("Pid-Pid LonController"){
 
@@ -10,21 +11,31 @@ void LonController::Init(const LonControllerConf *control_conf){
       station_pid_controller_.Init(control_conf->station_pid_conf);
       speed_pid_controller_.Init(control_conf->speed_pid_conf);
 }
+void LonController::ComputeControlCommand(const car_msgs::trajectory *planning_published_trajectory,
+                                          const VehicleState *vehicle_state,
+                                          car_msgs::control_cmd *control_cmd,
+                                          SimpleLongitudinalDebug *debug){
+      auto target_tracking_trajectory = *planning_published_trajectory;
 
-void LonController::ComputeControlCommand(const car_msgs::localization *localization,
-                                          const car_msgs::chassis *chassis,
-                                          const car_msgs::trajectory *planning_published_trajectory,
-                                          car_msgs::control_cmd *control_cmd){
-      car_msgs::trajectory_point trajectory_point = planning_published_trajectory->trajectory_path[0];
+      trajectory_analyzer_ = std::move(TrajectoryAnalyzer(&target_tracking_trajectory));
 
-      double station_err = trajectory_point.x  - localization->position.x;
+      ComputeLongitudinalErrors(
+                              vehicle_state->x, 
+                              vehicle_state->y, 
+                              vehicle_state->yaw,
+                              vehicle_state->linear_velocity, 
+                              trajectory_analyzer_,
+                              debug);
+
+      double station_err = debug->station_error;
       double station_err_out = station_pid_controller_.Control(station_err,ts_);
 
-
-      double speed_err = trajectory_point.speed - chassis->speed.x + station_err_out;
+      double speed_err = station_err_out + debug->speed_error;
       double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
-      speed_cmd_out += trajectory_point.accel;
-
+      speed_cmd_out += debug->preview_acceleration_reference;
+ROS_INFO("station_err %f:", station_err);
+ROS_INFO("speed_err %f:", speed_err);
+ROS_INFO("speed_cmd_out %f:", speed_cmd_out);
       //double speed_cmd_out = 0;
       if(speed_cmd_out > 0.0){
             control_cmd->throttle = speed_cmd_out;
@@ -39,10 +50,46 @@ void LonController::ComputeControlCommand(const car_msgs::localization *localiza
       }
 }
 
+
+void LonController::ComputeLongitudinalErrors(
+                                                const double x, 
+                                                const double y, 
+                                                const double yaw,
+                                                const double linear_velocity, 
+                                                const TrajectoryAnalyzer &trajectory_analyzer,
+                                                SimpleLongitudinalDebug *debug) {
+  // the decomposed vehicle motion onto Frenet frame
+  // s: longitudinal accumulated distance along reference path_point
+  // s_dot: longitudinal velocity along reference path_point
+  // d: lateral distance w.r.t. reference path_point
+  // d_dot: lateral distance change rate, i.e. dd/dt
+  double s_matched = 0.0;
+  double s_dot_matched = 0.0;
+  double d_matched = 0.0;
+  double d_dot_matched = 0.0;
+
+  auto matched_point = trajectory_analyzer.QueryMatchedPathPoint(x,y);
+
+  trajectory_analyzer.ToTrajectoryFrame(x,y,yaw,linear_velocity, matched_point,
+                                          &s_matched, &s_dot_matched, &d_matched, &d_dot_matched);
+
+  double current_control_time = ros::Time::now().toSec();
+//TODO:
+      car_msgs::trajectory_point reference_point =
+       trajectory_analyzer.QueryNearestPointByAbsoluteTime(current_control_time);
+
+  debug->station_error = reference_point.s - s_matched;
+  debug->speed_error = reference_point.speed - s_dot_matched;
+  debug->station_reference = reference_point.s;
+  debug->speed_reference = reference_point.speed;
+  debug->preview_acceleration_reference = reference_point.accel;
+  debug->current_station = s_matched;
+}
+
 bool LonController::Reset(){
       
 }
-
+}//namespace control
 
 
 
@@ -271,7 +318,7 @@ bool LonController::Reset(){
 //                           speed_controller_input_limit);
 
 //   double acceleration_cmd_closeloop = 0.0;
-//   if (VehicleStateProvider::instance()->linear_velocity() <=
+//   if (VehicleStateProvider::instance()->linear_velocityelocity() <=
 //       lon_controller_conf.switch_speed()) {
 //     speed_pid_controller_.SetPID(lon_controller_conf.low_speed_pid_conf());
 //     acceleration_cmd_closeloop =
@@ -358,7 +405,7 @@ bool LonController::Reset(){
 //   cmd->set_throttle(throttle_cmd);
 //   cmd->set_brake(brake_cmd);
 
-//   if (std::fabs(VehicleStateProvider::instance()->linear_velocity()) <=
+//   if (std::fabs(VehicleStateProvider::instance()->linear_velocityelocity()) <=
 //           vehicle_param_.max_abs_speed_when_stopped() ||
 //       chassis->gear_location() == path_point_message_->gear() ||
 //       chassis->gear_location() == canbus::Chassis::GEAR_NEUTRAL) {
@@ -378,54 +425,7 @@ bool LonController::Reset(){
 
 // std::string LonController::Name() const { return name_; }
 
-// void LonController::ComputeLongitudinalErrors(
-//     const path_pointAnalyzer *path_point_analyzer, const double preview_time,
-//     SimpleLongitudinalDebug *debug) {
-//   // the decomposed vehicle motion onto Frenet frame
-//   // s: longitudinal accumulated distance along reference path_point
-//   // s_dot: longitudinal velocity along reference path_point
-//   // d: lateral distance w.r.t. reference path_point
-//   // d_dot: lateral distance change rate, i.e. dd/dt
-//   double s_matched = 0.0;
-//   double s_dot_matched = 0.0;
-//   double d_matched = 0.0;
-//   double d_dot_matched = 0.0;
 
-//   auto matched_point = path_point_analyzer->QueryMatchedpath_point(
-//       VehicleStateProvider::instance()->x(),
-//       VehicleStateProvider::instance()->y());
-
-//   path_point_analyzer->Topath_pointFrame(
-//       VehicleStateProvider::instance()->x(),
-//       VehicleStateProvider::instance()->y(),
-//       VehicleStateProvider::instance()->heading(),
-//       VehicleStateProvider::instance()->linear_velocity(), matched_point,
-//       &s_matched, &s_dot_matched, &d_matched, &d_dot_matched);
-
-//   double current_control_time = Clock::NowInSeconds();
-//   double preview_control_time = current_control_time + preview_time;
-// //TODO:
-//   path_pointPoint reference_point =
-//       path_point_analyzer->QueryNearestPointByAbsoluteTime(
-//           current_control_time);
-//   path_pointPoint preview_point =
-//       path_point_analyzer->QueryNearestPointByAbsoluteTime(
-//           preview_control_time);
-
-//   ADEBUG << "matched point:" << matched_point.DebugString();
-//   ADEBUG << "reference point:" << reference_point.DebugString();
-//   ADEBUG << "preview point:" << preview_point.DebugString();
-//   debug->set_station_error(reference_point.path_point().s() - s_matched);
-//   debug->set_speed_error(reference_point.v() - s_dot_matched);
-
-//   debug->set_station_reference(reference_point.path_point().s());
-//   debug->set_speed_reference(reference_point.v());
-//   debug->set_preview_station_error(preview_point.path_point().s() - s_matched);
-//   debug->set_preview_speed_error(preview_point.v() - s_dot_matched);
-//   debug->set_preview_speed_reference(preview_point.v());
-//   debug->set_preview_acceleration_reference(preview_point.a());
-//   debug->set_current_station(s_matched);
-// }
 
 // void LonController::SetDigitalFilter(double ts, double cutoff_freq,
 //                                      common::DigitalFilter *digital_filter) {

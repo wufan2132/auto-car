@@ -126,23 +126,11 @@ void LatController::Stop() { }
 std::string LatController::Name() const { return name_; }
 
 void LatController::ComputeControlCommand(
-      const car_msgs::localization *localization,
-      const car_msgs::chassis *chassis,
       const car_msgs::trajectory *planning_published_trajectory,
+      const VehicleState *vehicle_state,
       car_msgs::control_cmd *cmd,
-      VehicleState *vehicle_state,
       SimpleLateralDebug *debug){
     //vehicle_state->timestamp = 
-    vehicle_state->x = localization->position.x;
-    vehicle_state->y = localization->position.y;
-    vehicle_state->z = localization->position.z;
-    vehicle_state->roll = localization->angle.x;
-    vehicle_state->pitch = localization->angle.y;
-    vehicle_state->yaw = localization->angle.z;
-    vehicle_state->heading = localization->angle.z;
-    vehicle_state->angular_velocity = localization->angular_velocity.z;
-    vehicle_state->linear_velocity = chassis->speed.x;
-
   auto target_tracking_trajectory = *planning_published_trajectory;
 
   trajectory_analyzer_ = std::move(TrajectoryAnalyzer(&target_tracking_trajectory));
@@ -162,10 +150,6 @@ void LatController::ComputeControlCommand(
                                   matrix_r_, lqr_eps_, lqr_max_iteration_,
                                   &matrix_k_);
 
-ROS_INFO("matrix_k_(0, 0) %f",matrix_k_(0, 0));
-ROS_INFO("matrix_k_(0, 1) %f",matrix_k_(0, 1));
-ROS_INFO("matrix_k_(0, 2) %f",matrix_k_(0, 2));
-ROS_INFO("matrix_k_(0, 3) %f",matrix_k_(0, 3));
   // feedback = - K * state
   // Convert vehicle steer angle from rad to degree and then to steer degree
   // then to 100% ratio
@@ -233,7 +217,7 @@ ROS_INFO("matrix_k_(0, 3) %f",matrix_k_(0, 3));
 
 void LatController::Reset() {}
 
-void LatController::UpdateState(VehicleState *vehicle_state,SimpleLateralDebug *debug) {
+void LatController::UpdateState(const VehicleState *vehicle_state,SimpleLateralDebug *debug) {
 //   if (FLAGS_use_navigation_mode) {
 //     ComputeLateralErrors(0.0, 0.0, vehicle_state->heading(),
 //                          vehicle_state->linear_velocity,
@@ -280,7 +264,7 @@ void LatController::UpdateState(VehicleState *vehicle_state,SimpleLateralDebug *
   }
 }
 
-void LatController::UpdateMatrix(VehicleState *vehicle_state) {
+void LatController::UpdateMatrix(const VehicleState *vehicle_state) {
   const double v = std::max(vehicle_state->linear_velocity,
                             minimum_speed_protection_);
   matrix_a_(1, 1) = matrix_a_coeff_(1, 1) / v;
@@ -305,7 +289,7 @@ void LatController::UpdateMatrixCompound() {
   }
 }
 
-double LatController::ComputeFeedForward(double ref_curvature,VehicleState *vehicle_state){
+double LatController::ComputeFeedForward(double ref_curvature,const VehicleState *vehicle_state){
   const double kv =
       lr_ * mass_ / 2 / cf_ / wheelbase_ - lf_ * mass_ / 2 / cr_ / wheelbase_;
 
@@ -331,7 +315,8 @@ void LatController::ComputeLateralErrors(
 
   car_msgs::trajectory_point target_point;
 
-  target_point = trajectory_analyzer.QueryNearestPointByPosition(x, y);
+    target_point = trajectory_analyzer.QueryNearestPointByAbsoluteTime(ros::Time::now().toSec());
+  //target_point = trajectory_analyzer.QueryNearestPointByPosition(x, y);
 
   const double dx = x - target_point.x;
   const double dy = y - target_point.y;

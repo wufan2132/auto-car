@@ -50,7 +50,7 @@ car_msgs::trajectory_point TrajectoryPointToPathPoint(const car_msgs::trajectory
 
 TrajectoryAnalyzer::TrajectoryAnalyzer(
     const car_msgs::trajectory *planning_published_trajectory) {
-  header_time_ = planning_published_trajectory->header.stamp.sec;
+  header_time_ = planning_published_trajectory->absolute_time;
   seq_num_ = planning_published_trajectory->header.seq;
 
   for (int i = 0; i < planning_published_trajectory->trajectory_path.size();
