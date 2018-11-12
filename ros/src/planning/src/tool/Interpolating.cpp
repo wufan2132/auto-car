@@ -1,5 +1,5 @@
 #include "planning/Interpolating.h"
-
+#include "ros/ros.h"
 
 Interpolating::Interpolating()
 {
@@ -149,6 +149,16 @@ void Interpolating::cal_yaw(const MatrixXf& xout, const MatrixXf& yout, VectorXf
 	yaw.resize(len);
 	for (int i = 0; i < len; i++){
 		yaw(i) = atan(yout(1, i) / xout(1, i));
+		if(xout(1, i)>=0&&yout(1, i)>=0)
+			yaw(i) = atan(yout(1, i) / xout(1, i));
+		else if(xout(1, i)>=0&&yout(1, i)<0)
+			yaw(i) = atan(yout(1, i) / xout(1, i));
+		else if(xout(1, i)<0&&yout(1, i)>=0)
+			yaw(i) = 3.1415926+atan(yout(1, i) / xout(1, i));
+		else if(xout(1, i)<0&&yout(1, i)<0)
+			yaw(i) = atan(yout(1, i) / xout(1, i))-3.1415926;
+
+		ROS_INFO("yaw:      %f",yaw(i));
 	}
 }
 

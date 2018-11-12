@@ -41,7 +41,7 @@ visualization_msgs::Marker path_marker_list;
 int flag = 0;
 void path_topic_callback(const car_msgs::trajectory &trajectory_path){
     if(flag == 0){
-        flag = 1;
+        flag = 0;
 
         for(int i = 0;i < trajectory_path.total_path_length;i++){
             path_marker_list.header.frame_id = "map";

@@ -71,7 +71,7 @@ void Car_Planning::OnTimer(const ros::TimerEvent&){
         point.kappa = csp.curvature(i);
         now_Trajectory.trajectory_path.push_back(point);
     }
-    cout<<"publish:"<<now_Trajectory.trajectory_path.size()<<endl;
+    //cout<<"publish:"<<now_Trajectory.trajectory_path.size()<<endl;
     //发布
     trajectory_publisher.publish(now_Trajectory);
 }
@@ -89,6 +89,6 @@ void Car_Planning::load_trajectory_from_replay(replay& replayer){
         origin_Trajectory.trajectory_path.push_back(point);
     }
     origin_Trajectory.total_path_length = origin_Trajectory.trajectory_path.size();
-    cout<<"get "<<origin_Trajectory.total_path_length<<" point."<<endl;
+    //cout<<"get "<<origin_Trajectory.total_path_length<<" point."<<endl;
     count++;
 }
