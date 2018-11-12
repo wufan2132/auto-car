@@ -63,7 +63,7 @@ class TrajectoryAnalyzer {
    * @brief get sequence number of the trajecotry
    * @return sequence number.
    */
-  unsigned int seq_num() { return seq_num_; }
+  unsigned int seq_num()const { return seq_num_; }
 
   /**
    * @brief query a point of trajectery that its absolute time is closest

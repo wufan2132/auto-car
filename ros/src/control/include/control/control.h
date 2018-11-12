@@ -27,8 +27,9 @@ public:
 private:
 
     VehicleState vehicle_state_;
-    SimpleLateralDebug debug_;
-     
+    SimpleLateralDebug lat_debug_;
+    SimpleLongitudinalDebug lon_debug_;
+
     car_msgs::localization localization_;
     car_msgs::chassis chassis_;
     car_msgs::trajectory trajectory_path_;

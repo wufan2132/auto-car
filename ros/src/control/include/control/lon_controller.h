@@ -1,5 +1,6 @@
 #ifndef LON_CONTROLLER_H_
 #define LON_CONTROLLER_H_
+#include "control/controller.h"
 #include "control/pid_controller.h"
 <<<<<<< HEAD
 =======
@@ -10,6 +11,8 @@
 #include "car_msgs/localization.h"
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
+#include "control/trajectory_analyzer.h"
+namespace control {
 
 class LonControllerConf{
     public:
@@ -36,11 +39,18 @@ class LonController {
          * @return Status computation status
          */
         void ComputeControlCommand(
-            const car_msgs::localization *localization,
-            const car_msgs::chassis *chassis,
-            const car_msgs::trajectory *planning_published_trajectory,
-            car_msgs::control_cmd *cmd);
-
+                                const car_msgs::trajectory *planning_published_trajectory,
+                                const VehicleState *vehicle_state,
+                                car_msgs::control_cmd *control_cmd,
+                                SimpleLongitudinalDebug *debug);
+                                
+        void ComputeLongitudinalErrors(
+                                        const double x, 
+                                        const double y, 
+                                        const double theta,
+                                        const double linear_velocity, 
+                                        const TrajectoryAnalyzer &trajectory_analyzer,
+                                        SimpleLongitudinalDebug *debug);
         /**
          * @brief reset longitudinal controller
          * @return Status reset status
@@ -55,8 +65,9 @@ class LonController {
     protected:
         const std::string name_;
         double ts_;
+        TrajectoryAnalyzer trajectory_analyzer_;
         PIDController station_pid_controller_;
         PIDController speed_pid_controller_;
 };
-
+}//namespace control
 #endif  // LON_CONTROLLER_H_

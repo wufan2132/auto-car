@@ -52,7 +52,10 @@
         "bitset": "cpp",
         "core": "cpp",
         "dense": "cpp",
-        "csignal": "cpp"
+        "csignal": "cpp",
+        "*.ipp": "cpp",
+        "algorithm": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.intelliSenseEngineFallback": "Disabled"
 }
