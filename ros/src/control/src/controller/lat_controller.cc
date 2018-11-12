@@ -315,8 +315,8 @@ void LatController::ComputeLateralErrors(
 
   car_msgs::trajectory_point target_point;
 
-    target_point = trajectory_analyzer.QueryNearestPointByAbsoluteTime(ros::Time::now().toSec());
-  //target_point = trajectory_analyzer.QueryNearestPointByPosition(x, y);
+    //target_point = trajectory_analyzer.QueryNearestPointByAbsoluteTime(ros::Time::now().toSec());
+  target_point = trajectory_analyzer.QueryNearestPointByPosition(x, y);
 
   const double dx = x - target_point.x;
   const double dy = y - target_point.y;

@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   car_msgs
   nav_msgs
   geometry_msgs
+  cmake_modules
 )
 
 ## System dependencies are found with CMake's conventions
@@ -41,7 +42,6 @@ find_package(catkin REQUIRED COMPONENTS
 ##     * add a exec_depend tag for "message_runtime"
 ## * In this file (CMakeLists.txt):
 ##   * add "message_generation" and every package in MSG_DEP_SET to
-find_package(Eigen3 REQUIRED)
 ##   * add "message_runtime" and every package in MSG_DEP_SET to
 ##     catkin_package(CATKIN_DEPENDS ...)
 ##   * uncomment the add_*_files sections below as needed
@@ -86,6 +86,7 @@ find_package(Eigen3 REQUIRED)
 ##   * add a build_depend and a exec_depend tag for "dynamic_reconfigure"
 ## * In this file (CMakeLists.txt):
 ##   * add "dynamic_reconfigure" to
+find_package(Eigen3 REQUIRED)
 ##     find_package(catkin REQUIRED COMPONENTS ...)
 ##   * uncomment the "generate_dynamic_reconfigure_options" section below
 ##     and list every .cfg file to be processed
@@ -130,6 +131,7 @@ include_directories(
 # )
 add_subdirectory(src/planning)
 add_subdirectory(src/replay)
+add_subdirectory(src/tool)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -156,6 +158,7 @@ target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    planner
    replay
+   tool
 )
 
 #############

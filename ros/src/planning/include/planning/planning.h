@@ -7,12 +7,15 @@
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
 #include "replay.h"
+#include "planning/Interpolating.h"
+#include <Eigen/Dense>
 #include "stdlib.h"
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
 #include <sstream>
+
 
 class Car_Planning{
     public:
