@@ -2,9 +2,17 @@
 #define PLANNING_H
 
 #include "ros/ros.h"
+#include "nav_msgs/Odometry.h" 
 #include "car_msgs/chassis.h"
-#include "car_msgs/path.h"
-#include "car_msgs/path_point.h"
+#include "car_msgs/trajectory.h"
+#include "car_msgs/trajectory_point.h"
+#include "replay.h"
+#include "stdlib.h"
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <sstream>
 
 class Car_Planning{
     public:
@@ -14,12 +22,29 @@ class Car_Planning{
 
         void RunOnce(void);
 
-        void Get_path(const car_msgs::path& path);
-    
+        void Get_path(const car_msgs::trajectory& trajectory_path);
 
+        void OnTimer(const ros::TimerEvent&);
+
+        void load_trajectory_from_replay(replay& replayer);
+
+
+        void localization_callback(const car_msgs::localization& localization);
+
+        void chassis_callback(const car_msgs::chassis& chassis);
+
+        car_msgs::trajectory_point generate_trajectory_point(const car_msgs::localization& localization,const car_msgs::chassis& chassis);
     
-    car_msgs::path origin_path;
-    car_msgs::path this_path;
+    car_msgs::localization car_localization;
+    car_msgs::chassis car_chassis;
+
+    car_msgs::trajectory origin_Trajectory;
+    car_msgs::trajectory now_Trajectory;
+
+    //
+    ros::Subscriber localization_subscriber;
+    ros::Subscriber chassis_subscriber;
+    ros::Publisher trajectory_publisher;
 
 };
 #endif

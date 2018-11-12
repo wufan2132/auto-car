@@ -1,6 +1,6 @@
 #include "control/control.h"
 #include "yaml-cpp/yaml.h"
-#define CONTROL_CONF_DIR "/home/gyl/my-code/auto-car/ros/src/control/src/conf/control.yaml"
+#define CONTROL_CONF_DIR "/home/wf/my-code/auto-car/ros/src/control/src/conf/control.yaml"
 
 namespace control {
 using namespace std;
@@ -97,7 +97,7 @@ void Control::CheckInput(void){
 
 void Control::SendCmd(car_msgs::control_cmd *control_cmd){
     control_cmd->header = localization_.header;
-    chassisCommand_publisher.publish(*control_cmd);
+    //chassisCommand_publisher.publish(*control_cmd);
 }
 
 void Control::OnTimer(const ros::TimerEvent&){

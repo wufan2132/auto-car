@@ -1,12 +1,13 @@
 #include "planning/planning.h"
 
-Car_Planning planning;
 
 
 
-void Get_path_callback(const car_msgs::path &path){
-    planning.Get_path(path);
-}
+
+// void Get_path_callback(const car_msgs::trajectory &path){
+
+// }
+
 
 
 int main(int argc, char **argv)
@@ -14,23 +15,28 @@ int main(int argc, char **argv)
     /* code for main function */
     ros::init(argc, argv, "planning");
     ros::NodeHandle car_planning_NodeHandle;
-    //订阅
-    ros::Subscriber path_subscriber= car_planning_NodeHandle.subscribe("chassis_topic", 1, Get_path_callback);
-    //发布
-    ros::Publisher path_publisher= car_planning_NodeHandle.advertise<car_msgs::path>("path_topic", 1000);
+    Car_Planning planning;
+
+    /*planning模块初始化*/
     planning.Init();
-    ros::Rate loop_rate(10);
-    while(ros::ok())
-    {   
-        planning.RunOnce();
-        car_msgs::path car_path;
-  
-        path_publisher.publish(car_path);
 
-        ros::spinOnce();
-        loop_rate.sleep();
+    
+    /*订阅*/
+    //ros::Subscriber chassis_subscriber= car_planning_NodeHandle.subscribe("localization_topic", 1, Get_path_callback);
+    planning.localization_subscriber = 
+        car_planning_NodeHandle.subscribe("localization_topic", 1, &Car_Planning::localization_callback,&planning);
+    planning.chassis_subscriber = 
+        car_planning_NodeHandle.subscribe("chassis_topic", 1, &Car_Planning::chassis_callback,&planning);
+    //发布
+    planning.trajectory_publisher = 
+        car_planning_NodeHandle.advertise<car_msgs::trajectory>("planning_topic", 1000);
+    
 
-    }
+    // 创建ros定时器
+    //ros::Timer cycle_timer = car_planning_NodeHandle.createTimer(ros::Duration(0.1),&Car_Planning::OnTimer, &planning);
+
+    ros::spin();
+
     return 0;
 }
 

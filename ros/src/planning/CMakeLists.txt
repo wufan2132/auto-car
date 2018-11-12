@@ -129,6 +129,7 @@ include_directories(
 #   src/${PROJECT_NAME}/planning.cpp
 # )
 add_subdirectory(src/planning)
+add_subdirectory(src/replay)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -154,6 +155,7 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    planner
+   replay
 )
 
 #############
