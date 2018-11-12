@@ -105,11 +105,9 @@ class LatController {
      * @return Status computation status
      */
     void ComputeControlCommand(
-          const car_msgs::localization *localization,
-          const car_msgs::chassis *chassis,
           const car_msgs::trajectory *planning_published_trajectory,
+          const VehicleState *vehicle_state,
           car_msgs::control_cmd *cmd,
-          VehicleState *vehicle_state,
           SimpleLateralDebug *debug);
       /**
        * @brief reset Lateral Controller
@@ -129,13 +127,13 @@ class LatController {
     std::string Name() const ;
 
   protected:
-    void UpdateState(VehicleState *vehicle_state,SimpleLateralDebug *debug);
+    void UpdateState(const VehicleState *vehicle_state,SimpleLateralDebug *debug);
 
-    void UpdateMatrix(VehicleState *vehicle_state);
+    void UpdateMatrix(const VehicleState *vehicle_state);
 
     void UpdateMatrixCompound();
 
-    double ComputeFeedForward(double ref_curvature,VehicleState *vehicle_state);
+    double ComputeFeedForward(double ref_curvature,const VehicleState *vehicle_state);
 
     void ComputeLateralErrors(const double x, 
                               const double y, 

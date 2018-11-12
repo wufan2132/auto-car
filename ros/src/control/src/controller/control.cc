@@ -74,19 +74,42 @@ void Control::Init(void){
     chassisCommand_publisher = control_NodeHandle.advertise<car_msgs::control_cmd>("prius", 1); 
 }
 
+
+
 void Control::ProduceControlCommand(car_msgs::control_cmd *control_cmd){
 
-    lon_controller_.ComputeControlCommand(&localization_,&chassis_,&trajectory_path_,control_cmd);
+    lon_controller_.ComputeControlCommand(&trajectory_path_,&vehicle_state_,control_cmd,&lon_debug_);
 
-    lat_controller_.ComputeControlCommand(&localization_,&chassis_,&trajectory_path_,control_cmd,&vehicle_state_,&debug_);
+    lat_controller_.ComputeControlCommand(&trajectory_path_,&vehicle_state_,control_cmd,&lat_debug_);
 }
 
 void Control::CheckInput(void){
+
+    vehicle_state_.x = localization_.position.x;
+    vehicle_state_.y = localization_.position.y;
+    vehicle_state_.z = localization_.position.z;
+    vehicle_state_.roll = localization_.angle.x;
+    vehicle_state_.pitch = localization_.angle.y;
+    vehicle_state_.yaw = localization_.angle.z;
+    vehicle_state_.heading = localization_.angle.z;
+    vehicle_state_.angular_velocity = localization_.angular_velocity.z;
+    vehicle_state_.linear_velocity = chassis_.speed.x;
+
+
     if(trajectory_path_.trajectory_path.size() == 0){
         car_msgs::trajectory_point trajectory_point;
+        trajectory_path_.absolute_time = ros::Time::now().toSec();
 
-        trajectory_point.x = 100;
-        trajectory_point.y = -10;
+        trajectory_point.relative_time = ros::Time::now().toSec()+5;
+        trajectory_point.x = 20;
+        trajectory_point.y = -12;
+        trajectory_point.speed = 1;
+        trajectory_point.accel = 0;
+        trajectory_path_.trajectory_path.push_back(trajectory_point);
+
+        trajectory_point.relative_time = ros::Time::now().toSec() + 20;
+        trajectory_point.x = 20;
+        trajectory_point.y = 50;
         trajectory_point.speed = 1;
         trajectory_point.accel = 0;
         trajectory_path_.trajectory_path.push_back(trajectory_point);
