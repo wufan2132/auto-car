@@ -1,5 +1,6 @@
 #include "planning/planning.h"
 
+#define CSV_DIR "/home/gyl/my-code/auto-car/ros/src/planning/src/trajectory_data/trajectory.csv"
 
 void Car_Planning::Init(void){
 }
@@ -19,7 +20,7 @@ void Car_Planning::localization_callback(const car_msgs::localization& localizat
 }
 
 void Car_Planning::chassis_callback(const car_msgs::chassis& chassis){
-    static replay replayer("trajectory.csv","write");
+    static replay replayer(CSV_DIR,"write");
     static int count = 0;
     count++;
     //cout<<"chassis callback"<<endl;
@@ -44,7 +45,7 @@ car_msgs::trajectory_point Car_Planning::generate_trajectory_point(const car_msg
 //
 void Car_Planning::OnTimer(const ros::TimerEvent&){
     //读取轨迹
-    static replay replayer("trajectory.csv","read");
+    static replay replayer(CSV_DIR,"read");
     load_trajectory_from_replay(replayer);
     //轨迹处理 
     Eigen::VectorXf xVec(int(origin_Trajectory.total_path_length));
