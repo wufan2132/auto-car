@@ -157,7 +157,7 @@ void LatController::ComputeControlCommand(
                                       M_PI * steer_ratio_ /
                                       steer_single_direction_max_degree_ * 100;
 
-  const double steer_angle_feedforward = 0;//ComputeFeedForward(debug->curvature,vehicle_state);
+  const double steer_angle_feedforward = ComputeFeedForward(debug->curvature,vehicle_state);
 
   // Clamp the steer angle to -100.0 to 100.0
   double steer_angle = common::math::Clamp(steer_angle_feedback + steer_angle_feedforward, -100.0, 100.0);
@@ -315,8 +315,8 @@ void LatController::ComputeLateralErrors(
 
   car_msgs::trajectory_point target_point;
 
-    target_point = trajectory_analyzer.QueryNearestPointByAbsoluteTime(ros::Time::now().toSec());
-  //target_point = trajectory_analyzer.QueryNearestPointByPosition(x, y);
+    //target_point = trajectory_analyzer.QueryNearestPointByAbsoluteTime(ros::Time::now().toSec());
+  target_point = trajectory_analyzer.QueryNearestPointByPosition(x, y);
 
   const double dx = x - target_point.x;
   const double dy = y - target_point.y;
@@ -341,6 +341,6 @@ void LatController::ComputeLateralErrors(
   debug->ref_heading = target_point.theta;
 
   debug->curvature = target_point.kappa;
-
+//ROS_INFO("error:%f      %f      %f      %f",debug->lateral_error,debug->heading_error,theta,target_point.theta);
 }
 }//namespace control
