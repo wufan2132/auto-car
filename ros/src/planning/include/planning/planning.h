@@ -6,7 +6,8 @@
 #include "car_msgs/chassis.h"
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
-#include "replay.h"
+#include "yaml-cpp/yaml.h"
+#include "planning/replay.h"
 #include "planning/Interpolating.h"
 #include <Eigen/Dense>
 #include "stdlib.h"
@@ -16,16 +17,18 @@
 #include <fstream>
 #include <sstream>
 
+using namespace std;
+class Car_Planning_Conf{
+    public:
+    string mode;
+    string trajectory_dir;
+};
 
 class Car_Planning{
     public:
-
-
-        void Init(void);
+        Car_Planning(string dir);
 
         void RunOnce(void);
-
-        void Get_path(const car_msgs::trajectory& trajectory_path);
 
         void OnTimer(const ros::TimerEvent&);
 
@@ -42,14 +45,21 @@ class Car_Planning{
     car_msgs::chassis car_chassis;
 
     car_msgs::trajectory origin_Trajectory;
+    car_msgs::trajectory refrence_Trajectory;
     car_msgs::trajectory now_Trajectory;
 
     //
     ros::Subscriber localization_subscriber;
     ros::Subscriber chassis_subscriber;
     ros::Publisher trajectory_publisher;
-
+    //
+    Car_Planning_Conf conf;
+    //模块
+    Interpolating* interpolating;
 };
+
+
+
 #endif
 /*path_point*/
 // Header header

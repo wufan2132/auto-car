@@ -1,0 +1,9 @@
+
+#工作模式 send / write
+mode: send
+trajectory_dir: /home/gyl/my-code/auto-car/ros/src/planning/src/trajectory_data/trajectory.csv
+#插值
+Interpolating_conf:
+  # 插值间隔（单位：m）
+  spacing: 0.5
+

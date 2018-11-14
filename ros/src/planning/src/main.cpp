@@ -1,32 +1,20 @@
 #include "planning/planning.h"
-#define send true
-#define write false
 
-
-
-// void Get_path_callback(const car_msgs::trajectory &path){
-
-// }
-
-
-#define mode send
+#define PLANNING_CONF_DIR "/home/gyl/my-code/auto-car/ros/src/planning/planning_conf.yaml"
 
 
 int main(int argc, char **argv)
 {
-
-
     /* code for main function */
     ros::init(argc, argv, "planning");
     ros::NodeHandle car_planning_NodeHandle;
-    Car_Planning planning;
-
+    
     /*planning模块初始化*/
-    planning.Init();
+    Car_Planning planning(PLANNING_CONF_DIR);
 
     
     /*订阅*/
-    if(!mode){
+    if(planning.conf.mode == "write"){
     planning.localization_subscriber = 
         car_planning_NodeHandle.subscribe("localization_topic", 1, &Car_Planning::localization_callback,&planning);
     planning.chassis_subscriber = 
@@ -39,7 +27,7 @@ int main(int argc, char **argv)
 
     // 创建ros定时器
     ros::Timer cycle_timer;
-    if(mode){
+    if(planning.conf.mode == "send"){
     cycle_timer = car_planning_NodeHandle.createTimer(ros::Duration(0.1),&Car_Planning::OnTimer, &planning);
     }
     ros::spin();
