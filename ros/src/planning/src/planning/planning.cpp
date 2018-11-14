@@ -1,6 +1,5 @@
 #include "planning/planning.h"
 
-
 Car_Planning::Car_Planning(YAML::Node planning_conf){
     conf.mode = planning_conf["mode"].as<string>();
     conf.trajectory_dir = planning_conf["trajectory_dir"].as<string>();
