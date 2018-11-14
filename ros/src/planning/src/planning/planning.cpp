@@ -1,5 +1,6 @@
 #include "planning/planning.h"
 
+#define CSV_DIR "/home/gyl/my-code/auto-car/ros/src/planning/src/trajectory_data/trajectory.csv"
 
 Car_Planning::Car_Planning(string dir){
     YAML::Node planning_conf = YAML::LoadFile(dir);
