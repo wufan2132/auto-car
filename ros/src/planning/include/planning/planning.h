@@ -1,5 +1,4 @@
-#ifndef PLANNING_H
-#define PLANNING_H
+#pragma once
 
 #include "ros/ros.h"
 #include "nav_msgs/Odometry.h" 
@@ -9,13 +8,13 @@
 #include "yaml-cpp/yaml.h"
 #include "planning/replay.h"
 #include "planning/Interpolating.h"
+#include "planning/path_optimizer.h"
 #include <Eigen/Dense>
 #include "stdlib.h"
 #include <iostream>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <sstream>
+
 
 using namespace std;
 class Car_Planning_Conf{
@@ -26,7 +25,7 @@ class Car_Planning_Conf{
 
 class Car_Planning{
     public:
-        Car_Planning(string dir);
+        Car_Planning(YAML::Node yaml_conf);
 
         void RunOnce(void);
 
@@ -55,12 +54,9 @@ class Car_Planning{
     //
     Car_Planning_Conf conf;
     //模块
-    Interpolating* interpolating;
+    path_optimizer* optimizer;
 };
 
-
-
-#endif
 /*path_point*/
 // Header header
 // geometry_msgs/Point position

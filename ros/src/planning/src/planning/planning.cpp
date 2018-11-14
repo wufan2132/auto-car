@@ -1,11 +1,10 @@
 #include "planning/planning.h"
 
 
-Car_Planning::Car_Planning(string dir){
-    YAML::Node planning_conf = YAML::LoadFile(dir);
+Car_Planning::Car_Planning(YAML::Node planning_conf){
     conf.mode = planning_conf["mode"].as<string>();
     conf.trajectory_dir = planning_conf["trajectory_dir"].as<string>();
-    interpolating = new Interpolating(planning_conf["Interpolating_conf"]);
+    optimizer = new path_optimizer(planning_conf["path_optimizer"]);
 }
 
 
@@ -62,7 +61,7 @@ void Car_Planning::OnTimer(const ros::TimerEvent&){
     static replay replayer(conf.trajectory_dir,"read");
     load_trajectory_from_replay(replayer);
     //轨迹处理 
-    interpolating->process(origin_Trajectory, now_Trajectory);
+    optimizer->process(origin_Trajectory, now_Trajectory);
     //cout<<"publish:"<<now_Trajectory.trajectory_path.size()<<endl;
     //发布
     trajectory_publisher.publish(now_Trajectory);

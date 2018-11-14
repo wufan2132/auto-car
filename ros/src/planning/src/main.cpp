@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     ros::NodeHandle car_planning_NodeHandle;
     
     /*planning模块初始化*/
-    Car_Planning planning(PLANNING_CONF_DIR);
+    Car_Planning planning(YAML::LoadFile(PLANNING_CONF_DIR));
 
     
     /*订阅*/

@@ -1,5 +1,4 @@
-#ifndef REPLAY_H
-#define REPLAY_H
+#pragma once
 
 #include "ros/ros.h"
 #include "car_msgs/chassis.h"
@@ -34,5 +33,4 @@ class replay{
         string save_path;
 };
 
-#endif
 

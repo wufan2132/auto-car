@@ -130,6 +130,7 @@ include_directories(
 #   src/${PROJECT_NAME}/planning.cpp
 # )
 add_subdirectory(src/planning)
+add_subdirectory(src/optimizer)
 add_subdirectory(src/replay)
 add_subdirectory(src/tool)
 ## Add cmake target dependencies of the library
@@ -157,6 +158,7 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    planning
+   optimizer
    replay
    tool
 )
