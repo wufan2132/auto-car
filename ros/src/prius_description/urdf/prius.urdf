@@ -488,6 +488,17 @@
   </gazebo>
 
   <gazebo>
+    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <bodyName>base_link</bodyName>
+      <topicName>imu</topicName>
+      <serviceName>imu_service</serviceName>
+      <gaussianNoise>0.0</gaussianNoise>
+      <updateRate>100.0</updateRate>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
     <plugin name="p3d" filename="libgazebo_ros_p3d.so">
       <!-- <robotNamespace>/prius</robotNamespace> -->
       <bodyName>base_link</bodyName>
