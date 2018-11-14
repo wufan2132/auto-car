@@ -1,14 +1,49 @@
 #include "planning/Interpolating.h"
 #include "ros/ros.h"
 
-Interpolating::Interpolating()
-{
+Interpolating::Interpolating(YAML::Node yaml_conf){
+	conf.Spline_space = yaml_conf["spacing"].as<double>();
 }
 
 
 Interpolating::~Interpolating()
 {
 }
+
+
+
+void Interpolating::process(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out){
+	Eigen::VectorXf xVec(int(trajectory_in.total_path_length));
+    Eigen::VectorXf yVec(int(trajectory_in.total_path_length));
+    for(int i=0;i<trajectory_in.trajectory_path.size();i++)
+    {
+        xVec(i) = trajectory_in.trajectory_path[i].x;
+        yVec(i) = trajectory_in.trajectory_path[i].y;
+    }
+    Spline_Out csp;
+    // cout<<"Spline2D"<<endl;
+    Interpolating::Spline2D(xVec, yVec, csp, conf.Spline_space);
+    trajectory_out.header = trajectory_in.header;
+    trajectory_out.total_path_length = csp.length;
+    trajectory_out.trajectory_path.clear();
+    for(int i=0;i<csp.length;i++)
+    {
+        car_msgs::trajectory_point point;
+        point.header.seq = i;
+        point.x = csp.x(i);
+        point.y = csp.y(i);
+        point.s = csp.s(i);
+        point.theta = csp.yaw(i);
+        point.kappa = csp.curvature(i);
+        trajectory_out.trajectory_path.push_back(point);
+    }
+}
+
+
+
+
+
+
 
 
 void Interpolating::Spline2D(const VectorXf& point_x, const VectorXf& point_y, Spline_Out& csp, float spacing){
@@ -158,7 +193,7 @@ void Interpolating::cal_yaw(const MatrixXf& xout, const MatrixXf& yout, VectorXf
 		else if(xout(1, i)<0&&yout(1, i)<0)
 			yaw(i) = atan(yout(1, i) / xout(1, i))-3.1415926;
 
-		ROS_INFO("yaw:      %f",yaw(i));
+		//ROS_INFO("yaw:      %f",yaw(i));
 	}
 }
 

@@ -1,18 +1,31 @@
 #pragma once
 #include <Eigen/Dense>
 #include <vector>
-#include<iostream>
+#include <iostream>
 #include <math.h>
+#include "car_msgs/trajectory.h"
+#include "car_msgs/trajectory_point.h"
+#include "yaml-cpp/yaml.h"
+
 using namespace std;
 using namespace Eigen;
 
 
 class Spline_Out;
+
+class Interpolating_conf{
+public:
+	double Spline_space;
+};
+
 class Interpolating
 {
 public:
-	Interpolating();
+	Interpolating(YAML::Node yaml_conf);
 	~Interpolating();
+	//
+
+	void process(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
 
 	//static function
 	/*************����������ֵ����***********/
@@ -20,6 +33,9 @@ public:
 	//csp ������ݶ���
 	//spacing ��ֵ����λm
 	static void Spline2D(const VectorXf& x, const VectorXf& y, Spline_Out& csp, float spacing = 0.5);
+
+	
+	Interpolating_conf conf;
 
 private:
 	static void cal_s(const VectorXf& x, const VectorXf& y, VectorXf& s);
