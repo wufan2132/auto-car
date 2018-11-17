@@ -7,14 +7,14 @@
 #include "car_msgs/chassis.h"
 #include <Eigen/Dense>
 #include "geometry_msgs/Quaternion.h" 
+#include "sensor_msgs/Imu.h"
 
 ros::Publisher localization_msg_Publisher;
 ros::Publisher chassis_msg_Publisher;
+car_msgs::localization car_localization;
+car_msgs::chassis car_chassis;
 
 void chassis_topic_callback(const nav_msgs::Odometry::ConstPtr &chassis_msg){
-
-  car_msgs::localization car_localization;
-  car_msgs::chassis car_chassis;
 
   double roll, pitch, yaw;
   tf::Quaternion quat;
@@ -57,12 +57,20 @@ void chassis_topic_callback(const nav_msgs::Odometry::ConstPtr &chassis_msg){
   localization_msg_Publisher.publish(car_localization);
   chassis_msg_Publisher.publish(car_chassis);
 }
+void imu_topic_callback(const sensor_msgs::Imu::ConstPtr & imu_msg){
+
+  car_chassis.acc.x = imu_msg->linear_acceleration.x;
+  car_chassis.acc.y = imu_msg->linear_acceleration.y;
+  car_chassis.acc.z = imu_msg->linear_acceleration.z;
+  
+}
 
 int main(int argc, char **argv){
   ros::init(argc, argv, "chassis");
   
   ros::NodeHandle car_chassis_NodeHandle;
   ros::Subscriber chassis_msg_subscriber = car_chassis_NodeHandle.subscribe("base_pose_ground_truth", 1, chassis_topic_callback);
+  ros::Subscriber imu_msg_subscriber = car_chassis_NodeHandle.subscribe("imu", 1, imu_topic_callback);
   localization_msg_Publisher = car_chassis_NodeHandle.advertise<car_msgs::localization>("localization_topic", 1000);
   chassis_msg_Publisher = car_chassis_NodeHandle.advertise<car_msgs::chassis>("chassis_topic", 1000);
   ros::spin();
