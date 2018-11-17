@@ -14,6 +14,8 @@ class path_optimizer{
 public:
     path_optimizer(YAML::Node yaml_conf);
 
+    Spline_Out* get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
+
     void process(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
 
     //模块

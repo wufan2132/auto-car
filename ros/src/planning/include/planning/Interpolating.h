@@ -25,10 +25,10 @@ public:
 	~Interpolating();
 	//
 
-	void process(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
+	Spline_Out* process(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
 
 	//static function
-	/*************����������ֵ����***********/
+	/*************三次样条插值***********/
 	//x,y ���������
 	//csp ������ݶ���
 	//spacing ��ֵ����λm

@@ -5,5 +5,9 @@
 
 
 
-发送topic： planning_topic
-接收topic： 
+发送topic: 
+refrenceline_topic：参考线
+trajectory_topic:当前轨迹规划
+接收topic:
+localization_topic
+chassis_topic

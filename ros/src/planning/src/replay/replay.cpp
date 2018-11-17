@@ -109,20 +109,27 @@ bool replay::readOnce(car_msgs::trajectory_point &point){
     return 1;
 }
 
-bool replay::saveOnce(car_msgs::trajectory_point point){
+bool replay::saveOnce(car_msgs::trajectory_point point, int period){
     if(mode!=2){
         cout<<"mode err!";
         return 0;
     }
-    outFile<<point.x<<",";
-    outFile<<point.y<<",";
-    outFile<<point.z<<",";
-    outFile<<point.theta<<",";
-    outFile<<point.kappa<<",";
-    outFile<<point.s<<",";
-    outFile<<point.speed<<",";
-    outFile<<point.accel<<",";
-    outFile<<point.relative_time<<",";
-    outFile<<std::endl;
+    static int count=0;
+    count++;
+    if(count>=period){
+        count=0;
+        cout<<"x:"<<point.x<<"  y:"<<point.y<<endl;
+        outFile<<point.x<<",";
+        outFile<<point.y<<",";
+        outFile<<point.z<<",";
+        outFile<<point.theta<<",";
+        outFile<<point.kappa<<",";
+        outFile<<point.s<<",";
+        outFile<<point.speed<<",";
+        outFile<<point.accel<<",";
+        outFile<<point.relative_time<<",";
+        outFile<<std::endl;
+    }
+    
     return 1;
 }

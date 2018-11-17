@@ -1,7 +1,9 @@
 
 #工作模式 send / write
 mode: send
-trajectory_dir: /home/wf/my-code/auto-car/ros/src/planning/src/trajectory_data/trajectory.csv
+# replay
+trajectory_dir: /home/wf/my-code/auto-car/ros/src/planning/trajectory_data/trajectory.csv
+sampling_period: 100
 #路径优化
 path_optimizer:
   Interpolating_conf:

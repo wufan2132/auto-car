@@ -341,6 +341,6 @@ void LatController::ComputeLateralErrors(
   debug->ref_heading = target_point.theta;
 
   debug->curvature = target_point.kappa;
-//ROS_INFO("error:%f      %f      %f      %f",debug->lateral_error,debug->heading_error,theta,target_point.theta);
+//total_path_length
 }
 }//namespace control

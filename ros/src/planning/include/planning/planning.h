@@ -7,6 +7,7 @@
 #include "car_msgs/trajectory_point.h"
 #include "yaml-cpp/yaml.h"
 #include "planning/replay.h"
+#include "planning/car_model.h"
 #include "planning/Interpolating.h"
 #include "planning/path_optimizer.h"
 #include <Eigen/Dense>
@@ -21,6 +22,7 @@ class Car_Planning_Conf{
     public:
     string mode;
     string trajectory_dir;
+    int sampling_period;
 };
 
 class Car_Planning{
@@ -31,7 +33,7 @@ class Car_Planning{
 
         void OnTimer(const ros::TimerEvent&);
 
-        void load_trajectory_from_replay(replay& replayer);
+        void load_trajectory_from_replay(replay& replayer, car_msgs::trajectory&);
 
 
         void localization_callback(const car_msgs::localization& localization);
@@ -39,19 +41,23 @@ class Car_Planning{
         void chassis_callback(const car_msgs::chassis& chassis);
 
         car_msgs::trajectory_point generate_trajectory_point(const car_msgs::localization& localization,const car_msgs::chassis& chassis);
-    
+    //接收状态缓存
     car_msgs::localization car_localization;
     car_msgs::chassis car_chassis;
-
+    //car 状态
+    car_msgs::trajectory_point car_status;
+    Car_State_SL car_status_sl;
+    //各种轨迹
     car_msgs::trajectory origin_Trajectory;
     car_msgs::trajectory refrence_Trajectory;
     car_msgs::trajectory now_Trajectory;
 
-    //
+    //ros通信模块
     ros::Subscriber localization_subscriber;
     ros::Subscriber chassis_subscriber;
     ros::Publisher trajectory_publisher;
-    //
+    ros::Publisher refrenceline_publisher;
+    //配置参数
     Car_Planning_Conf conf;
     //模块
     path_optimizer* optimizer;

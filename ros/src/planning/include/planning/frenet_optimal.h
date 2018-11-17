@@ -3,8 +3,8 @@
 #include <vector>
 #include<iostream>
 #include <math.h>
-#include "Interpolating.h"
-#include "Fitting.h"
+#include "planning/Interpolating.h"
+#include "planning/Fitting.h"
 
 class car_status;
 
@@ -17,18 +17,18 @@ public:
 
 };
 
-class car_status
-{
-public:
-	car_status();
-	~car_status();
-	float x_s;
-	float x_speed;
-	float x_acc;
-	float y_s;
-	float y_speed;
-	float y_acc;
+// class car_status
+// {
+// public:
+// 	car_status();
+// 	~car_status();
+// 	float x_s;
+// 	float x_speed;
+// 	float x_acc;
+// 	float y_s;
+// 	float y_speed;
+// 	float y_acc;
 	
-};
+// };
 
 
