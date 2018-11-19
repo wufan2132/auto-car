@@ -13,6 +13,8 @@ ros::Publisher localization_msg_Publisher;
 ros::Publisher chassis_msg_Publisher;
 car_msgs::localization car_localization;
 car_msgs::chassis car_chassis;
+//单位m
+#define POSITION_OFFSET 1
 
 void chassis_topic_callback(const nav_msgs::Odometry::ConstPtr &chassis_msg){
 
@@ -20,7 +22,7 @@ void chassis_topic_callback(const nav_msgs::Odometry::ConstPtr &chassis_msg){
   tf::Quaternion quat;
   //获取定位、航向信息
   car_localization.header = chassis_msg->header;
-  car_localization.position = chassis_msg->pose.pose.position;
+
   tf::quaternionMsgToTF(chassis_msg->pose.pose.orientation, quat);
   tf::Matrix3x3 RX = tf::Matrix3x3(quat);
   RX.getRPY(roll, pitch, yaw);
@@ -28,6 +30,10 @@ void chassis_topic_callback(const nav_msgs::Odometry::ConstPtr &chassis_msg){
   car_localization.angle.y = pitch;
   car_localization.angle.z = yaw;
   car_localization.angular_velocity = chassis_msg->twist.twist.angular;
+
+  car_localization.position = chassis_msg->pose.pose.position;
+  car_localization.position.x += POSITION_OFFSET*cos(yaw);
+  car_localization.position.y += POSITION_OFFSET*sin(yaw);
 
   double speed_roll, speed_pitch, speed_yaw;
   double speed_roll_out, speed_pitch_out, speed_yaw_out;
