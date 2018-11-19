@@ -17,7 +17,7 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
     //速度规划
     VectorXf QP4(5);
     QP4 = Fitting::quartic4_polynomial(status_sl.s, status_sl.sv, status_sl.sa, conf.aim_speed, 0 , conf.planning_t);
-    int len = conf.planning_t/conf.step_t;
+    int len = conf.planning_t/conf.step_t+1;
 	VectorXf T = VectorXf::LinSpaced(len, 0, conf.planning_t);
     MatrixXf S_out;
     Fitting::cal_point_quartic4(QP4,T,S_out);
@@ -30,20 +30,34 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
         trajectory_out.trajectory_path[i].speed = S_out(i,1);
         trajectory_out.trajectory_path[i].accel = S_out(i,2);
     }
+    //cout<<"status_sl.s:"<<status_sl.s<<"  s0:"<<trajectory_out.trajectory_path[0].s<<endl;
     //横向位置规划
     VectorXf QP5(6);
-    QP5 = Fitting::quintic5_polynomial(status_sl.h,status_sl.dh,status_sl.ddh,0,0,0,trajectory_out.trajectory_path.back().s);
+    QP5 = Fitting::quintic5_polynomial(status_sl.h,status_sl.dh,status_sl.ddh,0,0,0,trajectory_out.trajectory_path.back().s-status_sl.s);
+    VectorXf S;
+    S.resizeLike(S_out.col(0));
+    for(int i=0;i<S.rows();i++){
+        S(i) = S_out(i,0) - status_sl.s;
+    }
     MatrixXf L_out;
-    Fitting::cal_point_quintic5(QP5 ,S_out.col(0),L_out);
+    Fitting::cal_point_quintic5(QP5 ,S,L_out);
     for(int i=0;i<len;i++){
-        float refrenceline_x,refrenceline_y;
-        get_pos_in_refrenceline(refrenceline,trajectory_out.trajectory_path[i].s,status_sl.index,refrenceline_x,refrenceline_y);
-        trajectory_out.trajectory_path[i].x = refrenceline_x + L_out(i,0)*sin(status_sl.theta);
-        trajectory_out.trajectory_path[i].y = refrenceline_y - L_out(i,0)*cos(status_sl.theta);
+        float refrenceline_x,refrenceline_y,refrenceline_theta;
+        if(i==0)
+            get_pos_in_refrenceline(refrenceline,trajectory_out.trajectory_path[i].s,refrenceline_x,refrenceline_y,refrenceline_theta,status_sl.index);
+        else
+            get_pos_in_refrenceline(refrenceline,trajectory_out.trajectory_path[i].s,refrenceline_x,refrenceline_y,refrenceline_theta);
+        trajectory_out.trajectory_path[i].x = refrenceline_x - L_out(i,0)*sin(refrenceline_theta);
+        trajectory_out.trajectory_path[i].y = refrenceline_y + L_out(i,0)*cos(refrenceline_theta);
         trajectory_out.trajectory_path[i].z = 0;
         trajectory_out.trajectory_path[i].relative_time = T(i);
-        trajectory_out.trajectory_path[i].header.seq = i;
+        trajectory_out.trajectory_path[i].header.seq = i+1;
+        if(i==0)
+        //输出info
+            ROS_INFO("x:%f  y:%f  theta:%f  L:%f  rx:%f  ry:%f", trajectory_out.trajectory_path[i].x,trajectory_out.trajectory_path[i].y
+            ,refrenceline_theta, L_out(i,0), refrenceline_x, refrenceline_y);
     }
+   
     //计算其他
     float dx,dy;
     for(int i=0;i<len-1;i++){
@@ -70,30 +84,23 @@ void path_optimizer::process(const Car_State_SL& status_sl, const car_msgs::traj
     trajectory_out.header.seq = count;
 }
 
-
-void path_optimizer::get_pos_in_refrenceline(const car_msgs::trajectory& refrenceline, float s,int start_index, float& refrenceline_x, float& refrenceline_y){
+void path_optimizer::get_pos_in_refrenceline(const car_msgs::trajectory& refrenceline, float s,
+     float& refrenceline_x, float& refrenceline_y,float& refrenceline_theta, int start_index){
    	static int pos = start_index;
-	if (s == refrenceline.trajectory_path[start_index].s)
+    int len = refrenceline.trajectory_path.size();
+    if (s < 0) pos = start_index;
+	else if (start_index!=-1)
 	{
 		pos = start_index;
-        refrenceline_x = refrenceline.trajectory_path[start_index].x;
-        refrenceline_y = refrenceline.trajectory_path[start_index].y;
-		return;
-	}
-	int len = refrenceline.trajectory_path.size();
-	if (s < 0) return;
-	else if (s >= refrenceline.trajectory_path[len - 1].s){
-        refrenceline_x = refrenceline.trajectory_path.back().x;
-        refrenceline_y = refrenceline.trajectory_path.back().y;
-        return;
+	}else if (s >= refrenceline.trajectory_path[len - 1].s){
+        pos = len - 2;
+    }else{
+        while (s >= refrenceline.trajectory_path[pos].s) pos++;
     }
-	
-	while (s >= refrenceline.trajectory_path[pos].s)
-	{
-		pos++;
-	}
     float k = (s - refrenceline.trajectory_path[pos].s)/(refrenceline.trajectory_path[pos+1].s - refrenceline.trajectory_path[pos].s);
     refrenceline_x = refrenceline.trajectory_path[pos].x + k*(refrenceline.trajectory_path[pos+1].x - refrenceline.trajectory_path[pos].x);
     refrenceline_y = refrenceline.trajectory_path[pos].y + k*(refrenceline.trajectory_path[pos+1].y - refrenceline.trajectory_path[pos].y);
+    refrenceline_theta = (refrenceline.trajectory_path[pos].theta + refrenceline.trajectory_path[pos+1].theta)/2;
+    
 	return; 
 }
