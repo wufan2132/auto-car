@@ -1,6 +1,6 @@
 #include "control/control.h"
 #include "yaml-cpp/yaml.h"
-#define CONTROL_CONF_DIR "/home/wf/my-code/auto-car/ros/src/control/src/conf/control.yaml"
+#define CONTROL_CONF_DIR "/home/gyl/my-code/auto-car/ros/src/control/src/conf/control.yaml"
 
 namespace control {
 using namespace std;
@@ -9,7 +9,8 @@ void Control::Init(void){
     YAML::Node control_conf = YAML::LoadFile(CONTROL_CONF_DIR);
     LonControllerConf lon_controller_conf;
     LatControllerConf lat_controller_conf;
-
+//控制模式参数
+    control_mode_ = control_conf["control_mode"].as<int>();
 //配置纵向控制参数
     lon_controller_conf.ts                                           = control_conf["lon_controller_conf"]["ts"].as<double>();
     lon_controller_conf.station_pid_conf.integrator_enable           = control_conf["lon_controller_conf"]["station_pid_conf"]["integrator_enable"].as<bool>();
@@ -120,7 +121,8 @@ void Control::CheckInput(void){
 
 void Control::SendCmd(car_msgs::control_cmd *control_cmd){
     control_cmd->header = localization_.header;
-    chassisCommand_publisher.publish(*control_cmd);
+    if(control_mode_ == 0)
+        chassisCommand_publisher.publish(*control_cmd);
 }
 
 void Control::OnTimer(const ros::TimerEvent&){

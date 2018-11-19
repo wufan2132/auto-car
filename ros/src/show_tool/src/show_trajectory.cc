@@ -5,10 +5,18 @@
 #include <visualization_msgs/MarkerArray.h>
 #include <geometry_msgs/Point.h>
 
+//localization
 ros::Publisher localization_markerPub;
 visualization_msgs::Marker localization_marker_list;
 double time_old = 0;
 #define LONCALIZATION_PATH_LENGTH 300
+//refrenceline
+ros::Publisher refrenceline_markerPub;
+visualization_msgs::Marker refrenceline_marker_list;
+//trajectory
+ros::Publisher trajectory_markerPub;
+visualization_msgs::Marker trajectory_marker_list;
+
 void localization_topic_callback(const car_msgs::localization::ConstPtr &localization_msg){
     double time_now = ros::Time::now().toSec();
     if(time_now - time_old > 0.01){
@@ -34,38 +42,68 @@ void localization_topic_callback(const car_msgs::localization::ConstPtr &localiz
         localization_marker_list.points.push_back(localization_msg->position);
 
         localization_markerPub.publish(localization_marker_list);
+
+
+        if(refrenceline_marker_list.points.size() > 0){
+            refrenceline_marker_list.header.frame_id = "map";
+            refrenceline_marker_list.header.stamp = ros::Time::now();
+            refrenceline_marker_list.ns = "my_namespace";
+            refrenceline_marker_list.id = 3;
+            refrenceline_marker_list.type = visualization_msgs::Marker::SPHERE_LIST;
+            refrenceline_marker_list.action = visualization_msgs::Marker::ADD;
+
+            refrenceline_marker_list.scale.x = 0.2;
+            refrenceline_marker_list.scale.y = 0.2;
+            refrenceline_marker_list.scale.z = 0.2;
+            refrenceline_marker_list.color.a = 1.0; // Don't forget to set the alpha!
+            refrenceline_marker_list.color.r = 1.0;
+            refrenceline_marker_list.color.g = 0.0;
+            refrenceline_marker_list.color.b = 0.0;
+            refrenceline_markerPub.publish(refrenceline_marker_list);
+        }
     }
 }
 
-ros::Publisher path_markerPub;
-visualization_msgs::Marker path_marker_list;
-int flag = 0;
-void path_topic_callback(const car_msgs::trajectory &trajectory_path){
-    if(path_marker_list.points.size() < trajectory_path.total_path_length ){
-        for(int i = 0;i < trajectory_path.total_path_length;i++){
+
+void refrenceline_topic_callback(const car_msgs::trajectory &refrenceline_msg){
+    if(refrenceline_marker_list.points.size() < refrenceline_msg.total_path_length ){
+        for(int i = 0;i < refrenceline_msg.total_path_length;i++){
             geometry_msgs::Point point_temp;
-            point_temp.x = trajectory_path.trajectory_path[i].x;
-            point_temp.y = trajectory_path.trajectory_path[i].y;
-            point_temp.z = trajectory_path.trajectory_path[i].z;
-            path_marker_list.points.push_back(point_temp);
+            point_temp.x = refrenceline_msg.trajectory_path[i].x;
+            point_temp.y = refrenceline_msg.trajectory_path[i].y;
+            point_temp.z = refrenceline_msg.trajectory_path[i].z;
+            refrenceline_marker_list.points.push_back(point_temp);
         }
     }
+}
 
-    path_marker_list.header.frame_id = "map";
-    path_marker_list.header.stamp = ros::Time::now();
-    path_marker_list.ns = "my_namespace";
-    path_marker_list.id = 3;
-    path_marker_list.type = visualization_msgs::Marker::SPHERE_LIST;
-    path_marker_list.action = visualization_msgs::Marker::ADD;
+void trajectory_topic_callback(const car_msgs::trajectory &trajectory_msg){
 
-    path_marker_list.scale.x = 0.2;
-    path_marker_list.scale.y = 0.2;
-    path_marker_list.scale.z = 0.2;
-    path_marker_list.color.a = 1.0; // Don't forget to set the alpha!
-    path_marker_list.color.r = 1.0;
-    path_marker_list.color.g = 0.0;
-    path_marker_list.color.b = 0.0;
-    path_markerPub.publish(path_marker_list);
+    trajectory_marker_list.points.clear();
+    for(int i = 0;i < trajectory_msg.total_path_length;i++){
+        geometry_msgs::Point point_temp;
+        point_temp.x = trajectory_msg.trajectory_path[i].x;
+        point_temp.y = trajectory_msg.trajectory_path[i].y;
+        point_temp.z = trajectory_msg.trajectory_path[i].z;
+        trajectory_marker_list.points.push_back(point_temp);
+    }
+
+    trajectory_marker_list.header.frame_id = "map";
+    trajectory_marker_list.header.stamp = ros::Time::now();
+    trajectory_marker_list.ns = "my_namespace";
+    trajectory_marker_list.id = 4;
+    trajectory_marker_list.type = visualization_msgs::Marker::SPHERE_LIST;
+    trajectory_marker_list.action = visualization_msgs::Marker::ADD;
+
+    trajectory_marker_list.scale.x = 0.2;
+    trajectory_marker_list.scale.y = 0.2;
+    trajectory_marker_list.scale.z = 0.2;
+    trajectory_marker_list.color.a = 1.0; // Don't forget to set the alpha!
+    trajectory_marker_list.color.r = 0.0;
+    trajectory_marker_list.color.g = 0.0;
+    trajectory_marker_list.color.b = 1.0;
+    trajectory_markerPub.publish(trajectory_marker_list);
+    
 }
 
 int main(int argc, char **argv){
@@ -75,9 +113,12 @@ int main(int argc, char **argv){
     localization_markerPub = n.advertise<visualization_msgs::Marker>("localization_Marker", 1000);
     ros::Subscriber localization_publisher = n.subscribe("localization_topic", 1, localization_topic_callback);
 
+    refrenceline_markerPub = n.advertise<visualization_msgs::Marker>("refrenceline_Marker", 1000);
+    ros::Subscriber refrenceline_publisher = n.subscribe("refrenceline_topic", 1, refrenceline_topic_callback);
+    
+    trajectory_markerPub = n.advertise<visualization_msgs::Marker>("trajectory_Marker", 1000);
+    ros::Subscriber trajectory_publisher = n.subscribe("trajectory_topic", 1, trajectory_topic_callback);
 
-    path_markerPub = n.advertise<visualization_msgs::Marker>("path_Marker", 1000);
-    ros::Subscriber path_publisher = n.subscribe("planning_topic", 1, path_topic_callback);
     ros::spin();
     return 0;
 }
