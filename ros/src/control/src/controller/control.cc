@@ -1,6 +1,6 @@
 #include "control/control.h"
 #include "yaml-cpp/yaml.h"
-#define CONTROL_CONF_DIR "/home/gyl/my-code/auto-car/ros/src/control/src/conf/control.yaml"
+#define CONTROL_CONF_DIR "/home/wf/my-code/auto-car/ros/src/control/src/conf/control.yaml"
 
 namespace control {
 using namespace std;

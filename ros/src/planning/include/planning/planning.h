@@ -21,6 +21,7 @@ using namespace std;
 class Car_Planning_Conf{
     public:
     string mode;
+    float period;
     string trajectory_dir;
     int sampling_period;
 };

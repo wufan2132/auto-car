@@ -2,6 +2,7 @@
 
 Car_Planning::Car_Planning(YAML::Node planning_conf){
     conf.mode = planning_conf["mode"].as<string>();
+    conf.period = planning_conf["period"].as<float>();
     conf.trajectory_dir = planning_conf["trajectory_dir"].as<string>();
     conf.sampling_period = planning_conf["sampling_period"].as<int>();
     optimizer = new path_optimizer(planning_conf["path_optimizer_conf"]);
