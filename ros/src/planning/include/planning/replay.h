@@ -1,5 +1,4 @@
-#ifndef REPLAY_H
-#define REPLAY_H
+#pragma once
 
 #include "ros/ros.h"
 #include "car_msgs/chassis.h"
@@ -25,7 +24,7 @@ class replay{
 
         void reset();
         void close();
-        bool saveOnce(car_msgs::trajectory_point point);
+        bool saveOnce(car_msgs::trajectory_point point, int period=100);
         bool readOnce(car_msgs::trajectory_point &point);
 
         int mode;
@@ -34,5 +33,4 @@ class replay{
         string save_path;
 };
 
-#endif
 

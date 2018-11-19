@@ -1,6 +1,6 @@
 #include "planning/planning.h"
 
-#define PLANNING_CONF_DIR "/home/gyl/my-code/auto-car/ros/src/planning/planning_conf.yaml"
+#define PLANNING_CONF_DIR "/home/wf/my-code/auto-car/ros/src/planning/planning_conf.yaml"
 
 
 int main(int argc, char **argv)
@@ -10,19 +10,19 @@ int main(int argc, char **argv)
     ros::NodeHandle car_planning_NodeHandle;
     
     /*planning模块初始化*/
-    Car_Planning planning(PLANNING_CONF_DIR);
+    Car_Planning planning(YAML::LoadFile(PLANNING_CONF_DIR));
 
     
     /*订阅*/
-    if(planning.conf.mode == "write"){
     planning.localization_subscriber = 
         car_planning_NodeHandle.subscribe("localization_topic", 1, &Car_Planning::localization_callback,&planning);
     planning.chassis_subscriber = 
         car_planning_NodeHandle.subscribe("chassis_topic", 1, &Car_Planning::chassis_callback,&planning);
-    }
     //发布
+    planning.refrenceline_publisher = 
+        car_planning_NodeHandle.advertise<car_msgs::trajectory>("refrenceline_topic", 1000);
     planning.trajectory_publisher = 
-        car_planning_NodeHandle.advertise<car_msgs::trajectory>("planning_topic", 1000);
+        car_planning_NodeHandle.advertise<car_msgs::trajectory>("trajectory_topic", 1000);
     
 
     // 创建ros定时器

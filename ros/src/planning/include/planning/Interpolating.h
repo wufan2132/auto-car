@@ -25,17 +25,19 @@ public:
 	~Interpolating();
 	//
 
-	void process(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
+	Spline_Out* process(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
 
 	//static function
-	/*************����������ֵ����***********/
+	/*************三次样条插值***********/
 	//x,y ���������
 	//csp ������ݶ���
 	//spacing ��ֵ����λm
 	static void Spline2D(const VectorXf& x, const VectorXf& y, Spline_Out& csp, float spacing = 0.5);
-
 	
 	Interpolating_conf conf;
+	//tool
+	static float curvature(float dx, float ddx, float dy, float ddy);
+	static float yaw(float dx, float dy);
 
 private:
 	static void cal_s(const VectorXf& x, const VectorXf& y, VectorXf& s);

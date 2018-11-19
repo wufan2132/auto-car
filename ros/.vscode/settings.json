@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "*.txt": "shellscript",
+        "iostream": "cpp",
+        "chrono": "cpp",
+        "array": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "ostream": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "vector": "cpp"
+    }
+}
