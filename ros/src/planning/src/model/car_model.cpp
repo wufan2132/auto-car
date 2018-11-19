@@ -41,6 +41,7 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
     //cout<<"s:"<<status_sl.s<<endl;
     //求夹角
     //cout<<"cal_theta"<<endl;
+    status_sl.theta = reference_line.trajectory_path[status_sl.index].theta;
     float theta = point.theta - reference_line.trajectory_path[status_sl.index].theta;
     float tan_theta = tan(theta);
     float cos_theta = cos(theta);
@@ -55,7 +56,12 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
     //求dh/d2s
     status_sl.ddh = -reference_line.trajectory_path[status_sl.index].kappa * status_sl.dh* tan_theta;
     //debug
-    ROS_INFO("index:%d theta:%0.2f s:%.2f sv:%.2f sa:%.6f h:%.2f dh:%.2f ddh:%.6f",
-    status_sl.index,theta,status_sl.s,status_sl.sv,status_sl.sa,status_sl.h,status_sl.dh,status_sl.ddh);
+    //ROS_INFO("index:%d theta:%0.2f s:%.2f sv:%.2f sa:%.6f h:%.2f dh:%.2f ddh:%.6f",
+    //status_sl.index,theta,status_sl.s,status_sl.sv,status_sl.sa,status_sl.h,status_sl.dh,status_sl.ddh);
     return 0;
+}
+
+bool Coordinate_converter::SL_to_POS(const car_msgs::trajectory& reference_line,const Car_State_SL& status_sl, car_msgs::trajectory_point& point){
+    point.x = reference_line.trajectory_path[status_sl.index].x - status_sl.h*cos(status_sl.theta);
+    point.y = reference_line.trajectory_path[status_sl.index].y + status_sl.h*sin(status_sl.theta);
 }

@@ -32,8 +32,8 @@ VectorXf Fitting::quintic5_polynomial(float now_hs, float now_hs_d, float now_hs
 	VectorXf QP(6);
 	QP.head(3) << now_hs, now_hs_d, now_hs_dd / 2;
 	QP.tail(3) = A.colPivHouseholderQr().solve(B);
-	cout << "QP" << endl;
-	cout << QP << endl;
+	//cout << "QP" << endl;
+	//cout << QP << endl;
 	return QP;
 }
 
@@ -57,6 +57,6 @@ void Fitting::cal_point_quintic5(const VectorXf& QP, const VectorXf& t, MatrixXf
 			2 * QP(2) + 6 * QP(3) * t(i) + 12 * QP(4) * t(i)*t(i) + 20 * QP(5) * t(i)*t(i)*t(i),
 			6 * QP(3) + 24 * QP(4) * t(i) + 60 * QP(5) * t(i)*t(i);
 	}
-	cout << "Xt" << endl;
-	cout << Xt << endl;
+	//cout << "Xt" << endl;
+	//cout << Xt << endl;
 }

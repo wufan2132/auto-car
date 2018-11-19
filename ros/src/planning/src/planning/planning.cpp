@@ -4,7 +4,7 @@ Car_Planning::Car_Planning(YAML::Node planning_conf){
     conf.mode = planning_conf["mode"].as<string>();
     conf.trajectory_dir = planning_conf["trajectory_dir"].as<string>();
     conf.sampling_period = planning_conf["sampling_period"].as<int>();
-    optimizer = new path_optimizer(planning_conf["path_optimizer"]);
+    optimizer = new path_optimizer(planning_conf["path_optimizer_conf"]);
 }
 
 
@@ -68,11 +68,14 @@ void Car_Planning::OnTimer(const ros::TimerEvent&){
         load_trajectory_from_replay(replayer, origin_Trajectory);
         // 轨迹处理 
         optimizer->get_refrenceline(origin_Trajectory, refrence_Trajectory);
+        refrenceline_publisher.publish(refrence_Trajectory);
     }
-    
+    //坐标系转换
     Coordinate_converter::POS_to_SL(refrence_Trajectory,car_status,car_status_sl);
-
+    //
+    optimizer->process(car_status_sl,refrence_Trajectory,now_Trajectory);
+    //cout << "now_Trajectory:"<<now_Trajectory.total_path_length<<endl;
     //cout<<"publish:"<<now_Trajectory.trajectory_path.size()<<endl;
     //发布
-    trajectory_publisher.publish(refrence_Trajectory);
+    trajectory_publisher.publish(now_Trajectory);
 }

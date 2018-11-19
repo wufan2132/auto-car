@@ -183,7 +183,6 @@ void Interpolating::cal_yaw(const MatrixXf& xout, const MatrixXf& yout, VectorXf
 	int len = xout.cols();
 	yaw.resize(len);
 	for (int i = 0; i < len; i++){
-		yaw(i) = atan(yout(1, i) / xout(1, i));
 		if(xout(1, i)>=0&&yout(1, i)>=0)
 			yaw(i) = atan(yout(1, i) / xout(1, i));
 		else if(xout(1, i)>=0&&yout(1, i)<0)
@@ -195,12 +194,27 @@ void Interpolating::cal_yaw(const MatrixXf& xout, const MatrixXf& yout, VectorXf
 	}
 }
 
+float Interpolating::yaw(float dx, float dy){
+	if(dx>=0&&dy>=0)
+		return atan(dy/dx);
+	else if(dx>=0&&dy<0)
+		return atan(dy/dx);
+	else if(dx<0&&dy>=0)
+		return 3.1415926+atan(dy/dx);
+	else if(dx<0&&dy<0)
+		return atan(dy/dx)-3.1415926;
+}
+
 void Interpolating::cal_curvature(const MatrixXf& xout, const MatrixXf& yout, VectorXf& curvature){
 	int len = xout.cols();
 	curvature.resize(len);
 	for (int i = 0; i < len; i++){
 		curvature(i) = (yout(2, i)*xout(1, i) - yout(1, i)*xout(2, i)) / (xout(1, i)*xout(1, i) + yout(1, i)*yout(1, i));
 	}
+}
+
+float Interpolating::curvature(float dx, float ddx, float dy, float ddy){
+	return (ddy*dx-ddx*dy)/(dx*dx+dy*dy);
 }
 
 int Interpolating::search_index(float st, VectorXf& s){

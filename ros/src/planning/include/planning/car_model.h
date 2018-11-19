@@ -28,6 +28,8 @@ public:
     float h;
     float dh;
     float ddh;
+    //
+    float theta;
     //当前最近的坐标点
     int index;
 };
@@ -35,6 +37,7 @@ public:
 /*转换器*/
 class Coordinate_converter{
 public:
-    static void SL_to_POS();
+    //这个只计算x,y
+    static bool SL_to_POS(const car_msgs::trajectory& reference_line,const Car_State_SL& status_sl, car_msgs::trajectory_point& point);
     static bool POS_to_SL(const car_msgs::trajectory& reference_line,const car_msgs::trajectory_point& point, Car_State_SL& status_sl);
 };

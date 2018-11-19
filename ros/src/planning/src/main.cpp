@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     planning.refrenceline_publisher = 
         car_planning_NodeHandle.advertise<car_msgs::trajectory>("refrenceline_topic", 1000);
     planning.trajectory_publisher = 
-        car_planning_NodeHandle.advertise<car_msgs::trajectory>("planning_topic", 1000);
+        car_planning_NodeHandle.advertise<car_msgs::trajectory>("trajectory_topic", 1000);
     
 
     // 创建ros定时器

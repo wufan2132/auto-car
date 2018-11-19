@@ -4,8 +4,15 @@ mode: send
 # replay
 trajectory_dir: /home/wf/my-code/auto-car/ros/src/planning/trajectory_data/trajectory.csv
 sampling_period: 100
-#路径优化
-path_optimizer:
+#############路径优化
+path_optimizer_conf:
+  # 目标速度 m/s
+  aim_speed: 3
+  # 规划间隔
+  step_t: 0.1
+  # 最远规划时间
+  planning_t: 1
+  ##############插值器
   Interpolating_conf:
     # 插值间隔（单位：m）
     spacing: 0.5
