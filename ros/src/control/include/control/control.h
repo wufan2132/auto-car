@@ -25,7 +25,7 @@ public:
 
     
 private:
-
+    int control_mode_;
     VehicleState vehicle_state_;
     SimpleLateralDebug lat_debug_;
     SimpleLongitudinalDebug lon_debug_;
