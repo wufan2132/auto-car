@@ -57,6 +57,11 @@ add_message_files(
     trajectory_point.msg
     trajectory.msg
     control_cmd.msg
+    vehicle_state.msg
+    lon_debug.msg
+    lat_debug.msg
+    mpc_debug.msg
+    debug.msg
 )
 
 ## Generate services in the 'srv' folder

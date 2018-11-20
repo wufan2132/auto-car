@@ -105,10 +105,10 @@ class LatController {
      * @return Status computation status
      */
     void ComputeControlCommand(
-          const car_msgs::trajectory *planning_published_trajectory,
-          const VehicleState *vehicle_state,
-          car_msgs::control_cmd *cmd,
-          SimpleLateralDebug *debug);
+          const car_msgs::trajectory &planning_published_trajectory,
+          const car_msgs::vehicle_state &vehicle_state,
+          car_msgs::control_cmd &cmd,
+          car_msgs::lat_debug &debug);
       /**
        * @brief reset Lateral Controller
        * @return Status reset status
@@ -127,13 +127,13 @@ class LatController {
     std::string Name() const ;
 
   protected:
-    void UpdateState(const VehicleState *vehicle_state,SimpleLateralDebug *debug);
+    void UpdateState(const car_msgs::vehicle_state &vehicle_state,car_msgs::lat_debug &debug);
 
-    void UpdateMatrix(const VehicleState *vehicle_state);
+    void UpdateMatrix(const car_msgs::vehicle_state &vehicle_state);
 
     void UpdateMatrixCompound();
 
-    double ComputeFeedForward(double ref_curvature,const VehicleState *vehicle_state);
+    double ComputeFeedForward(double ref_curvature,const car_msgs::vehicle_state &vehicle_state);
 
     void ComputeLateralErrors(const double x, 
                               const double y, 
@@ -141,7 +141,7 @@ class LatController {
                               const double linear_v, 
                               const double angular_v,
                               const TrajectoryAnalyzer &trajectory_analyzer,
-                              SimpleLateralDebug *debug);
+                              car_msgs::lat_debug &debug);
     bool LoadControlConf(const LatControllerConf *control_conf);
   
 
