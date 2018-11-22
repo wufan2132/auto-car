@@ -2,18 +2,19 @@
 #define _CONTROL_H_ 
 
 #include "ros/ros.h"
-#include "control/controller.h"
 #include "control/lon_controller.h"
 #include "control/lat_controller.h"
+#include "car_msgs/debug.h"
 
 namespace control {
 
 class Control{
 public:
     void Init(void);
-    void ProduceControlCommand(car_msgs::control_cmd *control_cmd);
+    void ProduceControlCommand(car_msgs::control_cmd &control_cmd);
     void CheckInput(void);
-    void SendCmd(car_msgs::control_cmd *control_cmd);
+    void SendCmd(car_msgs::control_cmd &control_cmd);
+    void Debug(void);
 
     void OnTimer(const ros::TimerEvent&);
     void chassis_topic_callback(const car_msgs::chassis &chassis);
@@ -22,13 +23,15 @@ public:
 
     ros::NodeHandle control_NodeHandle;
     ros::Publisher chassisCommand_publisher;
+    ros::Publisher debug_publisher;
 
     
 private:
     int control_mode_;
-    VehicleState vehicle_state_;
-    SimpleLateralDebug lat_debug_;
-    SimpleLongitudinalDebug lon_debug_;
+    int debug_mode_;
+
+    car_msgs::vehicle_state vehicle_state_;
+    car_msgs::debug debug_;
 
     car_msgs::localization localization_;
     car_msgs::chassis chassis_;

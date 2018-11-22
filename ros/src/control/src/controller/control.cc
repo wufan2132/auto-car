@@ -1,6 +1,6 @@
 #include "control/control.h"
 #include "yaml-cpp/yaml.h"
-#define CONTROL_CONF_DIR "/home/wf/my-code/auto-car/ros/src/control/src/conf/control.yaml"
+#define CONTROL_CONF_DIR "/home/gyl/my-code/auto-car/ros/src/control/src/conf/control.yaml"
 
 namespace control {
 using namespace std;
@@ -9,8 +9,9 @@ void Control::Init(void){
     YAML::Node control_conf = YAML::LoadFile(CONTROL_CONF_DIR);
     LonControllerConf lon_controller_conf;
     LatControllerConf lat_controller_conf;
-//控制模式参数
+//模式参数
     control_mode_ = control_conf["control_mode"].as<int>();
+    debug_mode_ = control_conf["debug_mode"].as<int>();
 //配置纵向控制参数
     lon_controller_conf.ts                                           = control_conf["lon_controller_conf"]["ts"].as<double>();
     lon_controller_conf.station_pid_conf.integrator_enable           = control_conf["lon_controller_conf"]["station_pid_conf"]["integrator_enable"].as<bool>();
@@ -73,15 +74,14 @@ void Control::Init(void){
     lat_controller_.Init(&lat_controller_conf);
 //发布控制节点
     chassisCommand_publisher = control_NodeHandle.advertise<car_msgs::control_cmd>("prius", 1);
+    debug_publisher = control_NodeHandle.advertise<car_msgs::debug>("debug", 1);
 }
 
+void Control::ProduceControlCommand(car_msgs::control_cmd &control_cmd){
 
+    lon_controller_.ComputeControlCommand(trajectory_path_,vehicle_state_,control_cmd,debug_.lon_debug_msg);
 
-void Control::ProduceControlCommand(car_msgs::control_cmd *control_cmd){
-
-    lon_controller_.ComputeControlCommand(&trajectory_path_,&vehicle_state_,control_cmd,&lon_debug_);
-
-    lat_controller_.ComputeControlCommand(&trajectory_path_,&vehicle_state_,control_cmd,&lat_debug_);
+    lat_controller_.ComputeControlCommand(trajectory_path_,vehicle_state_,control_cmd,debug_.lat_debug_msg);
 }
 
 void Control::CheckInput(void){
@@ -95,7 +95,6 @@ void Control::CheckInput(void){
     vehicle_state_.heading          = localization_.angle.z;
     vehicle_state_.angular_velocity = localization_.angular_velocity.z;
     vehicle_state_.linear_velocity  = chassis_.speed.x;
-
 
     if(trajectory_path_.trajectory_path.size() == 0){
         car_msgs:: trajectory_point trajectory_point;
@@ -119,18 +118,28 @@ void Control::CheckInput(void){
     }
 }
 
-void Control::SendCmd(car_msgs::control_cmd *control_cmd){
-    control_cmd->header = localization_.header;
-    if(control_mode_ == 0)
-        chassisCommand_publisher.publish(*control_cmd);
+void Control::SendCmd(car_msgs::control_cmd &control_cmd){
+    if(control_mode_ == 0){
+        control_cmd.header = localization_.header;
+        chassisCommand_publisher.publish(control_cmd);
+    }
+}
+
+void Control::Debug(void){
+    if(debug_mode_ == 1){
+        debug_.header = localization_.header;
+        debug_publisher.publish(debug_);
+    }
 }
 
 void Control::OnTimer(const ros::TimerEvent&){
     car_msgs:: control_cmd control_cmd;
 
     CheckInput();
-    ProduceControlCommand(&control_cmd);
-    SendCmd(&control_cmd);
+    ProduceControlCommand(control_cmd);
+    SendCmd(control_cmd);
+    Debug();
+
 }
 
 void Control::localization_topic_callback(const car_msgs::localization &localization){
