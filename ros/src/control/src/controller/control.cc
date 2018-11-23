@@ -128,7 +128,8 @@ void Control::SendCmd(car_msgs::control_cmd &control_cmd){
 void Control::Debug(void){
     static double time_now = 0,time_old = 0;
     time_now = ros::Time::now().toSec();
-    debug_.ts = (time_now - time_old)* 1000;
+    debug_.ts = (time_now - trajectory_path_.absolute_time)* 1000;
+    ROS_INFO("time_now:%f   trajectory_path_.absolute_time:%f",time_now,trajectory_path_.absolute_time);
     time_old = time_now;
 
     if(debug_mode_ == 1){
@@ -140,9 +141,9 @@ void Control::Debug(void){
 void Control::OnTimer(const ros::TimerEvent&){
     car_msgs:: control_cmd control_cmd;
 
-//    CheckInput();
-//    ProduceControlCommand(control_cmd);
-//    SendCmd(control_cmd);
+   CheckInput();
+   ProduceControlCommand(control_cmd);
+   SendCmd(control_cmd);
     Debug();
 }
 
