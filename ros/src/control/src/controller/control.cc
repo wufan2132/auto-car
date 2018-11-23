@@ -126,6 +126,11 @@ void Control::SendCmd(car_msgs::control_cmd &control_cmd){
 }
 
 void Control::Debug(void){
+    static double time_now = 0,time_old = 0;
+    time_now = ros::Time::now().toSec();
+    debug_.ts = (time_now - time_old)* 1000;
+    time_old = time_now;
+
     if(debug_mode_ == 1){
         debug_.header = localization_.header;
         debug_publisher.publish(debug_);
@@ -135,11 +140,10 @@ void Control::Debug(void){
 void Control::OnTimer(const ros::TimerEvent&){
     car_msgs:: control_cmd control_cmd;
 
-    CheckInput();
-    ProduceControlCommand(control_cmd);
-    SendCmd(control_cmd);
+//    CheckInput();
+//    ProduceControlCommand(control_cmd);
+//    SendCmd(control_cmd);
     Debug();
-
 }
 
 void Control::localization_topic_callback(const car_msgs::localization &localization){
