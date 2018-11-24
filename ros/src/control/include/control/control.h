@@ -12,7 +12,7 @@ class Control{
 public:
     void Init(void);
     void ProduceControlCommand(car_msgs::control_cmd &control_cmd);
-    void CheckInput(void);
+    bool CheckInput(void);
     void SendCmd(car_msgs::control_cmd &control_cmd);
     void Debug(void);
 

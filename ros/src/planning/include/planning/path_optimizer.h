@@ -32,6 +32,6 @@ public:
     //模块
     Interpolating* interpolating;
 private:
-    void get_pos_in_refrenceline(const car_msgs::trajectory& refrenceline, float s,
+    int get_pos_in_refrenceline(const car_msgs::trajectory& refrenceline, float s,
         float& refrenceline_x, float& refrenceline_y,float& refrenceline_theta,int index=-1);
 };
