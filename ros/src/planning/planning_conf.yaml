@@ -4,7 +4,7 @@ mode: send
 #工作周期
 period: 2
 # replay
-trajectory_dir: /home/gyl/my-code/auto-car/ros/src/planning/trajectory_data/trajectory.csv
+trajectory_dir: ../my-code/auto-car/ros/src/planning/trajectory_data/trajectory.csv
 sampling_period: 100
 #############路径优化
 path_optimizer_conf:

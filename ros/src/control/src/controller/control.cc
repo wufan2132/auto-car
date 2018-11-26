@@ -1,6 +1,6 @@
 #include "control/control.h"
 #include "yaml-cpp/yaml.h"
-#define CONTROL_CONF_DIR "/home/gyl/my-code/auto-car/ros/src/control/src/conf/control.yaml"
+#define CONTROL_CONF_DIR "../my-code/auto-car/ros/src/control/src/conf/control.yaml"
 
 namespace control {
 using namespace std;
@@ -84,7 +84,7 @@ void Control::ProduceControlCommand(car_msgs::control_cmd &control_cmd){
     lat_controller_.ComputeControlCommand(trajectory_path_,vehicle_state_,control_cmd,debug_.lat_debug_msg);
 }
 
-void Control::CheckInput(void){
+bool Control::CheckInput(void){
 
     vehicle_state_.x                = localization_.position.x;
     vehicle_state_.y                = localization_.position.y;
@@ -97,24 +97,9 @@ void Control::CheckInput(void){
     vehicle_state_.linear_velocity  = chassis_.speed.x;
 
     if(trajectory_path_.trajectory_path.size() == 0){
-        car_msgs:: trajectory_point trajectory_point;
-        trajectory_path_.absolute_time = ros::Time::now().toSec();
-
-        trajectory_point.relative_time = ros::Time::now().toSec()+5;
-        trajectory_point.x             = 20;
-        trajectory_point.y             = -12;
-        trajectory_point.speed         = 1;
-        trajectory_point.accel         = 0;
-        trajectory_path_.trajectory_path.push_back(trajectory_point);
-
-        trajectory_point.relative_time = ros::Time::now().toSec() + 20;
-        trajectory_point.x             = 20;
-        trajectory_point.y             = 50;
-        trajectory_point.speed         = 1;
-        trajectory_point.accel         = 0;
-        trajectory_path_.trajectory_path.push_back(trajectory_point);
-        ROS_INFO("trajectory_path is null");
-        return;
+        return false;
+    }else{
+        return true;
     }
 }
 
@@ -129,7 +114,7 @@ void Control::Debug(void){
     static double time_now = 0,time_old = 0;
     time_now = ros::Time::now().toSec();
     debug_.ts = (time_now - trajectory_path_.absolute_time)* 1000;
-    ROS_INFO("time_now:%f   trajectory_path_.absolute_time:%f",time_now,trajectory_path_.absolute_time);
+    //ROS_INFO("time_now:%f   trajectory_path_.absolute_time:%f",time_now,trajectory_path_.absolute_time);
     time_old = time_now;
 
     if(debug_mode_ == 1){
@@ -141,9 +126,12 @@ void Control::Debug(void){
 void Control::OnTimer(const ros::TimerEvent&){
     car_msgs:: control_cmd control_cmd;
 
-   CheckInput();
-   ProduceControlCommand(control_cmd);
-   SendCmd(control_cmd);
+    if(!CheckInput()){
+        ROS_INFO("trajectory is null!");
+        return;
+    }
+    ProduceControlCommand(control_cmd);
+    SendCmd(control_cmd);
     Debug();
 }
 
