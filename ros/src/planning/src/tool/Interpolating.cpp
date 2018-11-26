@@ -37,6 +37,7 @@ Spline_Out* Interpolating::process(const car_msgs::trajectory& trajectory_in, ca
         point.kappa = csp->curvature(i);
         trajectory_out.trajectory_path.push_back(point);
     }
+	return csp;
 }
 
 
@@ -179,6 +180,7 @@ void Interpolating::cal_position(const VectorXf& step, const MatrixXf& sx, const
 	//cout << yout << endl;
 }
 
+
 void Interpolating::cal_yaw(const MatrixXf& xout, const MatrixXf& yout, VectorXf& yaw){
 	int len = xout.cols();
 	yaw.resize(len);
@@ -218,7 +220,6 @@ float Interpolating::curvature(float dx, float ddx, float dy, float ddy){
 }
 
 int Interpolating::search_index(float st, VectorXf& s){
-	
 	static int pos = 0;
 	if (st == 0)
 	{

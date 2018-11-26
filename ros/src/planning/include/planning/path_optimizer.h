@@ -23,15 +23,12 @@ public:
     path_optimizer(YAML::Node yaml_conf);
 
     Spline_Out* get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
-    void get_sampling_line(const Car_State_SL& status_sl, const car_msgs::trajectory& refrenceline, car_msgs::trajectory& trajectory_out);
+    void get_sampling_line(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
 
-    void process(const Car_State_SL& status_sl, const car_msgs::trajectory& refrenceline, car_msgs::trajectory& trajectory_outt);
+    void process(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
 
     //配置参数
     path_optimizer_Conf conf;
     //模块
     Interpolating* interpolating;
-private:
-    int get_pos_in_refrenceline(const car_msgs::trajectory& refrenceline, float s,
-        float& refrenceline_x, float& refrenceline_y,float& refrenceline_theta,int index=-1);
 };

@@ -43,7 +43,7 @@ private:
 	static void cal_s(const VectorXf& x, const VectorXf& y, VectorXf& s);
 	static void spline(const VectorXf& x, const VectorXf& y, MatrixXf& sp);
 
-	static void cal_position(const VectorXf& step, const MatrixXf& sx, const MatrixXf&sy,
+	static void cal_position(const VectorXf& step, const MatrixXf& sx, const MatrixXf& sy,
 		MatrixXf& xout, MatrixXf& yout);
 	static void cal_yaw(const MatrixXf& xout, const MatrixXf& yout, VectorXf& yaw);
 	static void cal_curvature(const MatrixXf& xout, const MatrixXf& yout, VectorXf& curvature);
