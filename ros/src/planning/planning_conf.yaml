@@ -2,9 +2,9 @@
 #工作模式 send / write
 mode: send
 #工作周期
-period: 1
+period: 10
 # replay
-trajectory_dir: /home/wf/my-code/auto-car/ros/src/planning/trajectory_data/trajectory.csv
+trajectory_dir: ../my-code/auto-car/ros/src/planning/trajectory_data/trajectory.csv
 sampling_period: 100
 #############路径优化
 path_optimizer_conf:
@@ -13,7 +13,7 @@ path_optimizer_conf:
   # 规划间隔
   step_t: 0.1
   # 最远规划时间
-  planning_t: 2
+  planning_t: 20
   ##############插值器
   Interpolating_conf:
     # 插值间隔（单位：m）

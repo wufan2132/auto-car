@@ -138,7 +138,7 @@ int main(int argc, char **argv){
     refrenceline_markerPub = n.advertise<visualization_msgs::Marker>("refrenceline_Marker", 1000);
     ros::Subscriber refrenceline_publisher = n.subscribe("refrenceline_topic", 1, refrenceline_topic_callback);
     
-    trajectory_markerPub = n.advertise<visualization_msgs::Marker>("trajectory_Marker", 1000);
+    trajectory_markerPub = n.advertise<visualization_msgs::Marker>("trajectory_Marker", 5000);
     ros::Subscriber trajectory_publisher = n.subscribe("trajectory_topic", 1, trajectory_topic_callback);
 
     ros::spin();
