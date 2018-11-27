@@ -61,7 +61,50 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
     return 0;
 }
 
-bool Coordinate_converter::SL_to_POS(const car_msgs::trajectory& reference_line,const Car_State_SL& status_sl, car_msgs::trajectory_point& point){
-    point.x = reference_line.trajectory_path[status_sl.index].x - status_sl.h*cos(status_sl.theta);
-    point.y = reference_line.trajectory_path[status_sl.index].y + status_sl.h*sin(status_sl.theta);
+void Coordinate_converter::SL_to_POS(const float s, const float l,
+     const MatrixXf& sx, const MatrixXf& sy, car_msgs::trajectory_point& point, const int start_index){
+	int idx;
+	float dx, dy;
+	VectorXf sx_X = sx.row(0);
+    //计算 rx,ry,rdx,rdy
+    float rx,ry,rdx,rdy;
+
+    idx = search_index(s, sx_X, start_index);
+    // cout<<"idx"<<idx<<endl;
+
+    //rx
+    dx = s - sx(0, idx);
+    rx = sx(2, idx) + sx(3, idx) * dx + sx(4, idx) * dx * dx + sx(5, idx) * dx * dx * dx;
+    rdx = sx(3, idx) + 2 * sx(4, idx) * dx + 3 * sx(5, idx)*dx*dx;
+    //ry
+    dy = s - sy(0, idx);
+    ry = sy(2, idx) + sy(3, idx) * dy + sy(4, idx) * dy * dy + sy(5, idx) * dy * dy * dy;
+    rdy = sy(3, idx) + 2 * sy(4, idx) * dy + 3 * sy(5, idx)*dy*dy;
+    //计算rtheta
+    float rtheta = Interpolating::yaw(rdx,rdy);
+    //计算x y
+    point.x = rx - l*sin(rtheta);
+    point.y = ry + l*cos(rtheta);
+    point.z = 0;
+
+    //cout<<"index:"<<start_index<<"  rx:"<<rx<<"  ry:"<<ry<<"  dx:"<<dx<<" dy:"<<dy<<" s:"<<s  <<endl;
+}
+
+int Coordinate_converter::search_index(float st, VectorXf& s, int index){
+    static int start_pos=0;
+   	static int pos = start_pos;
+    int len = s.rows();
+    if (index==0)
+		pos = start_pos;
+
+    if (st < 0) pos = start_pos;
+	else if (st >= s[len - 1]){
+        pos = len - 1;
+    }else{
+        while (st >= s[pos+1]) pos++;
+    }
+
+    if(index==0) 
+        start_pos = pos;
+    return pos;
 }
