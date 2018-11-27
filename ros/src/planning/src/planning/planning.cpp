@@ -68,13 +68,13 @@ void Car_Planning::OnTimer(const ros::TimerEvent&){
         static replay replayer(conf.trajectory_dir,"read");
         load_trajectory_from_replay(replayer, origin_Trajectory);
         // 轨迹处理 
-        optimizer->get_refrenceline(origin_Trajectory, refrence_Trajectory);
+        refrenceline_Sp = optimizer->get_refrenceline(origin_Trajectory, refrence_Trajectory);
         refrenceline_publisher.publish(refrence_Trajectory);
     }
     //坐标系转换
     Coordinate_converter::POS_to_SL(refrence_Trajectory,car_status,car_status_sl);
     //
-    optimizer->process(car_status_sl,refrence_Trajectory,now_Trajectory);
+    optimizer->process(car_status_sl,refrenceline_Sp,now_Trajectory);
     //cout << "now_Trajectory:"<<now_Trajectory.total_path_length<<endl;
     //cout<<"publish:"<<now_Trajectory.trajectory_path.size()<<endl;
     //发布

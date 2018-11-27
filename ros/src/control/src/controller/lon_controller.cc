@@ -33,7 +33,7 @@ void LonController::ComputeControlCommand(const car_msgs::trajectory &planning_p
       //double speed_err = 5 - vehicle_state.linear_velocity;
       
       debug.speed_out = speed_pid_controller_.Control(speed_err,ts_);
-      double speed_cmd_out = debug.speed_out + debug.preview_acceleration_reference;
+      double speed_cmd_out = debug.speed_out;// + debug.preview_acceleration_reference;
 
       //double speed_cmd_out = 0;
       if(speed_cmd_out > 0.0){
