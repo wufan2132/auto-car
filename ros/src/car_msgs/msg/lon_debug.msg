@@ -4,11 +4,15 @@ float64 station_reference
 float64 station_error
 float64 station_error_limited
 float64 preview_station_error
+float64 station_out
+
 float64 speed_reference
 float64 speed_error
 float64 speed_controller_input_limited
 float64 preview_speed_reference
 float64 preview_speed_error
+float64 speed_out
+
 float64 preview_acceleration_reference
 float64 acceleration_cmd_closeloop
 float64 acceleration_cmd
@@ -21,3 +25,4 @@ bool is_full_stop
 float64 slope_offset_compensation
 float64 current_station
 float64 path_remain
+

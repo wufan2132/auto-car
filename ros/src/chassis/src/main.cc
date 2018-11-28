@@ -65,7 +65,7 @@ void chassis_topic_callback(const nav_msgs::Odometry::ConstPtr &chassis_msg){
 }
 void imu_topic_callback(const sensor_msgs::Imu::ConstPtr & imu_msg){
 
-  car_chassis.acc.x = imu_msg->linear_acceleration.x;
+  car_chassis.acc.x = -imu_msg->linear_acceleration.x;
   car_chassis.acc.y = imu_msg->linear_acceleration.y;
   car_chassis.acc.z = imu_msg->linear_acceleration.z;
   

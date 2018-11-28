@@ -97,23 +97,6 @@ bool Control::CheckInput(void){
     vehicle_state_.linear_velocity  = chassis_.speed.x;
 
     if(trajectory_path_.trajectory_path.size() == 0){
-        // car_msgs:: trajectory_point trajectory_point;
-        // trajectory_path_.absolute_time = ros::Time::now().toSec();
-
-        // trajectory_point.relative_time = ros::Time::now().toSec()+5;
-        // trajectory_point.x             = 20;
-        // trajectory_point.y             = -12;
-        // trajectory_point.speed         = 1;
-        // trajectory_point.accel         = 0;
-        // trajectory_path_.trajectory_path.push_back(trajectory_point);
-
-        // trajectory_point.relative_time = ros::Time::now().toSec() + 20;
-        // trajectory_point.x             = 20;
-        // trajectory_point.y             = 50;
-        // trajectory_point.speed         = 1;
-        // trajectory_point.accel         = 0;
-        // trajectory_path_.trajectory_path.push_back(trajectory_point);
-        // ROS_INFO("trajectory_path is null");
         return false;
     }else{
         return true;
@@ -128,6 +111,12 @@ void Control::SendCmd(car_msgs::control_cmd &control_cmd){
 }
 
 void Control::Debug(void){
+    static double time_now = 0,time_old = 0;
+    time_now = ros::Time::now().toSec();
+    debug_.ts = (time_now - trajectory_path_.absolute_time)* 1000;
+    //ROS_INFO("time_now:%f   trajectory_path_.absolute_time:%f",time_now,trajectory_path_.absolute_time);
+    time_old = time_now;
+
     if(debug_mode_ == 1){
         debug_.header = localization_.header;
         debug_publisher.publish(debug_);
@@ -144,7 +133,6 @@ void Control::OnTimer(const ros::TimerEvent&){
     ProduceControlCommand(control_cmd);
     SendCmd(control_cmd);
     Debug();
-
 }
 
 void Control::localization_topic_callback(const car_msgs::localization &localization){
