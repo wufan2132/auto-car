@@ -2,7 +2,7 @@
 #工作模式 send / write
 mode: send
 #工作周期
-period: 5
+period: 1
 # replay
 trajectory_dir: ../my-code/auto-car/ros/src/planning/trajectory_data/trajectory.csv
 sampling_period: 100
