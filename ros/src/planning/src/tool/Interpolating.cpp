@@ -13,6 +13,10 @@ Interpolating::~Interpolating()
 
 
 Spline_Out* Interpolating::process(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out){
+	if(trajectory_in.total_path_length<5){
+		cout<<"Interpolating error: trajectory_in is null!"<<endl;
+		return 0;
+	}
 	Eigen::VectorXf xVec(int(trajectory_in.total_path_length));
     Eigen::VectorXf yVec(int(trajectory_in.total_path_length));
     for(int i=0;i<trajectory_in.trajectory_path.size();i++)

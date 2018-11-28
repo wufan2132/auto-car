@@ -97,10 +97,14 @@ int Coordinate_converter::search_index(float st, VectorXf& s, int index){
     if (index==0)
 		pos = start_pos;
 
-    if (st < 0) pos = start_pos;
+    if (st <=0) pos = 0;
 	else if (st >= s[len - 1]){
         pos = len - 1;
-    }else{
+    }
+    else if(st < s[pos]){
+        while(st > s[pos]) pos--;
+    }
+    else{
         while (st >= s[pos+1]) pos++;
     }
 

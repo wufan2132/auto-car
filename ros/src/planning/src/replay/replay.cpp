@@ -1,9 +1,15 @@
 #include "planning/replay.h"
 
+
 replay::replay(string path,string io){
      if(io=="read"){
         mode =1;
         save_path = path;
+        if(DEBUG){
+            string str = "auto-car/ros/";
+            int index = save_path.find(str);
+            save_path = save_path.substr(index+str.size());
+        }
         inFile.open(save_path.c_str(), ios::in); // 打开模式可省略
         char cwd[50];
         getcwd(cwd,sizeof(cwd));
@@ -11,6 +17,11 @@ replay::replay(string path,string io){
     }else if(io=="write"){
         mode = 2;
         save_path = path;
+        if(DEBUG){
+            string str = "auto-car/ros/";
+            int index = save_path.find(str);
+            save_path = save_path.substr(index+str.size());
+        }
         outFile.open(save_path.c_str(), ios::out); // 打开模式可省略
         char cwd[50];
         getcwd(cwd,sizeof(cwd));

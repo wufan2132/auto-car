@@ -1,16 +1,30 @@
+#include "planning/common.h"
 #include "planning/planning.h"
 
-#define PLANNING_CONF_DIR "/home/wf/my-code/auto-car/ros/src/planning/planning_conf.yaml"
-
+#define PLANNING_CONF_DIR "../my-code/auto-car/ros/src/planning/planning_conf.yaml"
+bool DEBUG=0;
 
 int main(int argc, char **argv)
 {
+    //判断是否为debug模式
+    char cwd[50];
+    getcwd(cwd,sizeof(cwd));
+    string runpath = cwd;
+    if(runpath.find(".ros")==std::string::npos)
+        DEBUG = 1;
+
     /* code for main function */
     ros::init(argc, argv, "planning");
     ros::NodeHandle car_planning_NodeHandle;
     
     /*planning模块初始化*/
-    Car_Planning planning(YAML::LoadFile(PLANNING_CONF_DIR));
+    string path = PLANNING_CONF_DIR;
+    if(DEBUG){
+        string str = "auto-car/ros/";
+        int index = path.find(str);
+        path = path.substr(index+str.size());
+    }
+    Car_Planning planning(YAML::LoadFile(path));
 
     
     /*订阅*/

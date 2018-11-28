@@ -211,3 +211,12 @@ target_link_libraries(${PROJECT_NAME}_node
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+
+# add_library(common
+#   include/planning/common.h
+# )
+# add_dependencies(common ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# target_link_libraries(common
+#   ${catkin_LIBRARIES}
+# )

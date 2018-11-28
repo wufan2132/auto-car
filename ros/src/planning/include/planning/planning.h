@@ -10,14 +10,16 @@
 #include "planning/car_model.h"
 #include "planning/Interpolating.h"
 #include "planning/path_optimizer.h"
+#include "planning/common.h"
 #include <Eigen/Dense>
 #include "stdlib.h"
 #include <iostream>
 #include <string>
 #include <vector>
 
-
 using namespace std;
+
+
 class Car_Planning_Conf{
     public:
     string mode;
