@@ -5,7 +5,7 @@
 bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,const car_msgs::trajectory_point& point,Car_State_SL& status_sl){
     if(!point.header.seq>0){
         //debug
-        ROS_INFO("trajectory_point is not received!");
+        ROS_INFO("error: Coordinate_converter::POS_to_SL: trajectory_point is not received!");
         return 0;
     }
     //cout<<"status_sl.index:"<<status_sl.index<<endl;
@@ -97,10 +97,14 @@ int Coordinate_converter::search_index(float st, VectorXf& s, int index){
     if (index==0)
 		pos = start_pos;
 
-    if (st < 0) pos = start_pos;
+    if (st <=0) pos = 0;
 	else if (st >= s[len - 1]){
         pos = len - 1;
-    }else{
+    }
+    else if(st < s[pos]){
+        while(st > s[pos]) pos--;
+    }
+    else{
         while (st >= s[pos+1]) pos++;
     }
 

@@ -5,6 +5,7 @@
 #include "car_msgs/trajectory.h"
 #include "car_msgs/localization.h"
 #include "car_msgs/trajectory_point.h"
+#include "planning/common.h"
 #include "stdlib.h"
 #include <unistd.h>
 #include <iostream>
