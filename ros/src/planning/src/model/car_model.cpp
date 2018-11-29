@@ -5,7 +5,7 @@
 bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,const car_msgs::trajectory_point& point,Car_State_SL& status_sl){
     if(!point.header.seq>0){
         //debug
-        ROS_INFO("trajectory_point is not received!");
+        ROS_INFO("error: Coordinate_converter::POS_to_SL: trajectory_point is not received!");
         return 0;
     }
     //cout<<"status_sl.index:"<<status_sl.index<<endl;

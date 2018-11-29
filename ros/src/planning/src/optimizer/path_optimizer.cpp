@@ -15,56 +15,63 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
 }
 
  void path_optimizer::get_sampling_line(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
-     if(trajectory_now.total_path_length<5){
+     static bool first_run_flag = 1;
+     if(trajectory_now.total_path_length<5||conf.keep_t==0){
         //设置起点为车的当前坐标
         Car_State_SL start_sl = status_sl;
         //设置终点，终点只给定目标速度，其余参数为0
         Car_State_SL end_sl;
         end_sl.sv = conf.aim_speed;
         path_planning(start_sl, end_sl,conf.planning_t, refrenceline_Sp, trajectory_now);
-        return;
      }
-    int start_index=0;
-    while(start_index<trajectory_now.total_path_length-1&&status_sl.s-trajectory_now.trajectory_path[start_index].s>0) start_index++;
-    float T0 = trajectory_now.trajectory_path[start_index].relative_time;
-    VectorXf T(1);
-    //预测一秒后的，本来这里要加上1，但由于后面相对时间是从0开始算的，已经加了1，
-    T<<T0;
-    MatrixXf S_out;
-    Fitting::cal_point_quartic4(QP4,T,S_out);
-    VectorXf S(1);
-    S(0) = S_out(0,0) - car_last_sl.s;
-    MatrixXf L_out;
-    Fitting::cal_point_quintic5(QP5 ,S,L_out);
-    int end_index = start_index;
-    while(end_index<trajectory_now.total_path_length-1&&S_out(0,0)-trajectory_now.trajectory_path[end_index].s>0) end_index++;
-    int len1 = end_index - start_index;
-    for(int i=0;i<len1;i++){
-        trajectory_now.trajectory_path[i] = trajectory_now.trajectory_path[i+start_index];
-        trajectory_now.trajectory_path[i].relative_time -=T0;
-        trajectory_now.trajectory_path[i].header.seq = i+1;
-    }
-    //设置起点为end_index当前坐标
-    Car_State_SL start_sl;
-    start_sl.s = S_out(0,0);
-    start_sl.sv = S_out(0,1);
-    start_sl.sa = S_out(0,2);
-    start_sl.h = L_out(0,0);
-    start_sl.dh = L_out(0,1);
-    start_sl.ddh = L_out(0,2);
-    //设置终点，终点只给定目标速度，其余参数为0
-    Car_State_SL end_sl;
-    end_sl.sv = conf.aim_speed;
-    cout<<"QP4"<<endl;
-    cout<<QP4<<endl;
-    cout<<"S_out"<<endl;
-    cout<<S_out<<endl;
-    cout<<"car_S:"<<status_sl.s<<"  1s_car_S:"<<S_out(0,0)<<endl;
-    cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<endl;
-    path_planning(start_sl, end_sl,conf.planning_t, refrenceline_Sp, trajectory_now, len1);
-    for(int i=len1;i<trajectory_now.total_path_length;i++)
-        trajectory_now.trajectory_path[i].relative_time +=conf.keep_t;
-
+     else{
+        int start_index=0;
+        while(start_index<trajectory_now.total_path_length-1&&status_sl.s-trajectory_now.trajectory_path[start_index].s>0) start_index++;
+        float T0 = trajectory_now.trajectory_path[start_index].relative_time;
+        VectorXf T(1);
+        
+        //第一次运行时间是没有偏差的
+        if(first_run_flag){
+            T<<(T0 + conf.keep_t);
+            first_run_flag = 0;
+        }else
+            //预测一秒后的，本来这里要加上1，但由于后面相对时间是从0开始算的，已经加了1，
+            T<<T0;
+        MatrixXf S_out;
+        Fitting::cal_point_quartic4(QP4,T,S_out);
+        VectorXf S(1);
+        S(0) = S_out(0,0) - car_last_sl.s;
+        MatrixXf L_out;
+        Fitting::cal_point_quintic5(QP5 ,S,L_out);
+        int end_index = start_index;
+        while(end_index<trajectory_now.total_path_length-1&&S_out(0,0)-trajectory_now.trajectory_path[end_index].s>0) end_index++;
+        int len1 = end_index - start_index;
+        for(int i=0;i<len1;i++){
+            trajectory_now.trajectory_path[i] = trajectory_now.trajectory_path[i+start_index];
+            trajectory_now.trajectory_path[i].relative_time -=T0;
+            trajectory_now.trajectory_path[i].header.seq = i+1;
+        }
+        //设置起点为end_index当前坐标
+        Car_State_SL start_sl;
+        start_sl.s = S_out(0,0);
+        start_sl.sv = S_out(0,1);
+        start_sl.sa = S_out(0,2);
+        start_sl.h = L_out(0,0);
+        start_sl.dh = L_out(0,1);
+        start_sl.ddh = L_out(0,2);
+        //设置终点，终点只给定目标速度，其余参数为0
+        Car_State_SL end_sl;
+        end_sl.sv = conf.aim_speed;
+        cout<<"QP4"<<endl;
+        cout<<QP4<<endl;
+        cout<<"S_out"<<endl;
+        cout<<S_out<<endl;
+        cout<<"car_S:"<<status_sl.s<<"  1s_car_S:"<<S_out(0,0)<<endl;
+        cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<endl;
+        path_planning(start_sl, end_sl, conf.planning_t-conf.keep_t, refrenceline_Sp, trajectory_now, len1);
+        for(int i=len1;i<trajectory_now.total_path_length;i++)
+            trajectory_now.trajectory_path[i].relative_time +=conf.keep_t;
+     }
     /************debug 1***********/
     // for(int i=0;i<len;i++)
     // cout<<
@@ -74,7 +81,6 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
     // trajectory_now.trajectory_path[start_index+i].theta<<","<<
     // trajectory_now.trajectory_path[start_index+i].kappa<<endl;
     /************debug 2***********/
-    cout<<"start_index"<<start_index<<endl;
     for(int i=0;i<trajectory_now.total_path_length;i++)
     cout<<
     trajectory_now.trajectory_path[i].header.seq<<"."<<
@@ -108,7 +114,7 @@ void path_optimizer::path_planning(const Car_State_SL& start_sl,const Car_State_
     Fitting::cal_point_quartic4(QP4,T,S_out);
     //转换
     if(len<5)
-        cout << "sample error!"<<endl;
+        cout << "error: path_optimizer::path_planning: sample error!"<<endl;
     trajectory_now.trajectory_path.resize(start_index + len);
     for(int i=0;i<len;i++){
         trajectory_now.trajectory_path[start_index+i].s = S_out(i,0);

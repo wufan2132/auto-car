@@ -15,7 +15,7 @@ path_optimizer_conf:
   # 最远规划时间
   planning_t: 10
   # 规划保留时间
-  keep_t: 1
+  keep_t: 2
   ##############插值器
   Interpolating_conf:
     # 插值间隔（单位：m）
