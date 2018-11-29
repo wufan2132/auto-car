@@ -6,6 +6,7 @@ path_optimizer::path_optimizer(YAML::Node optimizer_conf){
     conf.planning_t = optimizer_conf["planning_t"].as<float>();
     conf.aim_speed  = optimizer_conf["aim_speed"].as<float>();
     conf.keep_t  = optimizer_conf["keep_t"].as<float>();
+    conf.speed_correction = optimizer_conf["speed_correction"].as<float>();
     interpolating = new Interpolating(optimizer_conf["Interpolating_conf"]);
 }
 
@@ -14,14 +15,22 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
     return interpolating->process(trajectory_in, trajectory_now);
 }
 
- void path_optimizer::get_sampling_line(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
-     static bool first_run_flag = 1;
+ void path_optimizer::get_current_line(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
+    static bool first_run_flag = 1;
+    /***************速度修正-测试版*******************/
+    //设置终点，终点只给定目标速度，其余参数为0
+    Car_State_SL end_sl;
+    float kappa_ave = 0;
+    for(int i=0;i<trajectory_now.trajectory_path.size();i++)
+        kappa_ave += abs(trajectory_now.trajectory_path[i].kappa);
+    kappa_ave = conf.speed_correction * conf.aim_speed * kappa_ave/trajectory_now.total_path_length;
+    //最多降到一半
+    end_sl.sv = max(conf.aim_speed/2, conf.aim_speed - kappa_ave);
+    cout<<"aim_speed: "<< end_sl.sv <<endl;
+    /*********************************************/
      if(trajectory_now.total_path_length<5||conf.keep_t==0){
         //设置起点为车的当前坐标
-        Car_State_SL start_sl = status_sl;
-        //设置终点，终点只给定目标速度，其余参数为0
-        Car_State_SL end_sl;
-        end_sl.sv = conf.aim_speed;
+        Car_State_SL start_sl = status_sl;    
         path_planning(start_sl, end_sl,conf.planning_t, refrenceline_Sp, trajectory_now);
      }
      else{
@@ -59,9 +68,7 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
         start_sl.h = L_out(0,0);
         start_sl.dh = L_out(0,1);
         start_sl.ddh = L_out(0,2);
-        //设置终点，终点只给定目标速度，其余参数为0
-        Car_State_SL end_sl;
-        end_sl.sv = conf.aim_speed;
+
         cout<<"QP4"<<endl;
         cout<<QP4<<endl;
         cout<<"S_out"<<endl;
@@ -97,7 +104,7 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
 void path_optimizer::process(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
     static int count = 0;
     count++;
-    get_sampling_line(status_sl, refrenceline_Sp, trajectory_now);
+    get_current_line(status_sl, refrenceline_Sp, trajectory_now);
     //添加header
     trajectory_now.header.seq = count;
     //保存车体参数

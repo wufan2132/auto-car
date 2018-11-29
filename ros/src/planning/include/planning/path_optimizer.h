@@ -17,6 +17,7 @@ public:
     float planning_t;
     float keep_t;
     float aim_speed;
+    float speed_correction;
 };
 
 class path_optimizer{
@@ -24,7 +25,7 @@ public:
     path_optimizer(YAML::Node yaml_conf);
 
     Spline_Out* get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
-    void get_sampling_line(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
+    void get_current_line(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
 
     void process(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
 private:
