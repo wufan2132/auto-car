@@ -16,8 +16,10 @@ public:
     float step_t;
     float planning_t;
     float keep_t;
-    float aim_speed;
-    float speed_correction;
+    double aim_speed;
+    double speed_correction;
+    double speed_min_limit;
+    double speed_max_limit;
 };
 
 class path_optimizer{

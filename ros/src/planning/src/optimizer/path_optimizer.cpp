@@ -4,9 +4,10 @@
 path_optimizer::path_optimizer(YAML::Node optimizer_conf){
     conf.step_t     = optimizer_conf["step_t"].as<float>();
     conf.planning_t = optimizer_conf["planning_t"].as<float>();
-    conf.aim_speed  = optimizer_conf["aim_speed"].as<float>();
+    conf.aim_speed  = optimizer_conf["aim_speed"].as<double>();
     conf.keep_t  = optimizer_conf["keep_t"].as<float>();
-    conf.speed_correction = optimizer_conf["speed_correction"].as<float>();
+    conf.speed_correction = optimizer_conf["speed_correction"].as<double>();
+    conf.speed_min_limit = optimizer_conf["speed_min_limit"].as<double>();
     interpolating = new Interpolating(optimizer_conf["Interpolating_conf"]);
 }
 
@@ -20,12 +21,12 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
     /***************速度修正-测试版*******************/
     //设置终点，终点只给定目标速度，其余参数为0
     Car_State_SL end_sl;
-    float kappa_ave = 0;
+    double max_kappa = 0;
     for(int i=0;i<trajectory_now.trajectory_path.size();i++)
-        kappa_ave += abs(trajectory_now.trajectory_path[i].kappa);
-    kappa_ave = conf.speed_correction * conf.aim_speed * kappa_ave/trajectory_now.total_path_length;
-    //最多降到一半
-    end_sl.sv = max(conf.aim_speed/2, conf.aim_speed - kappa_ave);
+        max_kappa = max(max_kappa, abs(trajectory_now.trajectory_path[i].kappa));
+    max_kappa = conf.speed_correction * conf.aim_speed * max_kappa;
+    //最多降到0.3
+    end_sl.sv = max(conf.aim_speed*conf.speed_min_limit, conf.aim_speed - max_kappa);
     cout<<"aim_speed: "<< end_sl.sv <<endl;
     /*********************************************/
      if(trajectory_now.total_path_length<5||conf.keep_t==0){
