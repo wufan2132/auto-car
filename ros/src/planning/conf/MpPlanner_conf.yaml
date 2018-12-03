@@ -3,7 +3,7 @@
 ########################
 
 # 重新规划的临界距离 m
-available_l: 2
+available_l: 0.2
 # 目标速度 m/s
 aim_speed: 1
 # 规划间隔:s
