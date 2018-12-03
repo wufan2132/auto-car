@@ -3,7 +3,9 @@
 inline double DegtoRad(double deg){
     return deg*0.0174532925;
 }
-
+inline double Dangle(double ang1, double ang2){
+    return min(abs(ang1-ang2), 2*PI - abs(ang1-ang2));
+}
 // -需要关注的障碍物满足下列条件：
 // *与车体的XY坐标系下的距离小于一定值
 // *与车体前进方向的夹角小于一定值
@@ -14,7 +16,7 @@ bool ObstacleMethod::isconcern(const car_msgs::base_obstacle& b_obst,
     double dy = b_obst.ya[0] - car_status.y;
     double theta = Interpolating::yaw(dx, dy);
     double distance_xy = sqrt(dx*dx+dy*dy);
-    double dtheta = theta - car_status.theta;
+    double dtheta = Dangle(theta, car_status.theta);
     // cout<< "obstacle "<<b_obst.header.seq<<":"<<endl;
     // cout<<"distance_xy:" <<distance_xy<<endl;
     // cout<<"obstacle.theta:" <<theta<<endl;
