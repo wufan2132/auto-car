@@ -24,9 +24,8 @@
 
 #include <qpOASES.hpp>
 
-#include "modules/common/math/qp_solver/qp_solver.h"
+#include "math/qp_solver/qp_solver.h"
 
-namespace apollo {
 namespace common {
 namespace math {
 
@@ -110,6 +109,5 @@ class ActiveSetQpSolver : public QpSolver {
 
 }  // namespace math
 }  // namespace common
-}  // namespace apollo
 
 #endif  // MODULES_COMMON_MATH_QP_SOLVER_ACTIVE_SET_QP_SOLVER_H_

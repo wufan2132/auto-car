@@ -131,9 +131,8 @@ void LatController::ComputeControlCommand(
       car_msgs::control_cmd &cmd,
       car_msgs::lat_debug &debug){
     //vehicle_state.timestamp = 
-  auto target_tracking_trajectory = planning_published_trajectory;
 
-  trajectory_analyzer_ = std::move(TrajectoryAnalyzer(&target_tracking_trajectory));
+  trajectory_analyzer_ = std::move(TrajectoryAnalyzer(&planning_published_trajectory));
 
   // Update state = [Lateral Error, Lateral Error Rate, Heading Error, Heading
   // Error Rate, preview lateral error1 , preview lateral error2, ...]
