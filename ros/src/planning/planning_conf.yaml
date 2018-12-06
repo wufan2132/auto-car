@@ -3,11 +3,15 @@
 mode: send
 #工作周期:s
 period: 1
-# replay
+#等待时间: s (-1 表示不等待直接运行planning模块)
+wait_time: 10
+#########replay
 trajectory_dir: ../my-code/auto-car/ros/src/planning/trajectory_data/trajectory.csv
 sampling_period: 100
 #############路径优化
 path_optimizer_conf:
+  # 重新规划的临界距离 m
+  available_l: 2
   # 目标速度 m/s
   aim_speed: 10
   # 规划间隔:s

@@ -9,13 +9,15 @@
 #include "planning/Interpolating.h"
 #include "planning/Fitting.h"
 #include "planning/car_model.h"
+#include "planning/trajectory_stitcher.h"
 #include "yaml-cpp/yaml.h"
 
 class path_optimizer_Conf{
 public:
-    float step_t;
-    float planning_t;
-    float keep_t;
+    double step_t;
+    double planning_t;
+    double keep_t;
+    double available_l;
     double aim_speed;
     double speed_correction;
     double speed_min_limit;
@@ -27,9 +29,11 @@ public:
     path_optimizer(YAML::Node yaml_conf);
 
     Spline_Out* get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
-    void get_current_line(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
+    void get_current_line(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
+                             const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
 
-    void process(const Car_State_SL& status_sl, const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
+    void process(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
+             const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
 private:
     /******path_planning******/
     //指定两个SL坐标系中的点进行planning_t时间的规划
