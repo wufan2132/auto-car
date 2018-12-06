@@ -34,13 +34,13 @@ int main(int argc, char **argv)
         car_planning_NodeHandle.subscribe("localization_topic", 1, &Car_Planning::localization_callback,&planning);
     planning.chassis_subscriber = 
         car_planning_NodeHandle.subscribe("chassis_topic", 1, &Car_Planning::chassis_callback,&planning);
-    //发布
+    /*发布*/
     planning.refrenceline_publisher = 
         car_planning_NodeHandle.advertise<car_msgs::trajectory>("refrenceline_topic", 1000);
     planning.trajectory_publisher = 
         car_planning_NodeHandle.advertise<car_msgs::trajectory>("trajectory_topic", 1000);
-    
-
+    //planning_init
+    planning.Init();
     // 创建ros定时器
     ros::Timer cycle_timer;
     if(planning.conf.mode == "send"){

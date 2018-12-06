@@ -1,11 +1,7 @@
 #pragma once
 
-#include "ros/ros.h"
-#include "nav_msgs/Odometry.h" 
-#include "car_msgs/chassis.h"
-#include "car_msgs/trajectory.h"
-#include "car_msgs/trajectory_point.h"
-#include "yaml-cpp/yaml.h"
+
+#include "planning/common.h"
 #include "planning/replay.h"
 #include "planning/car_model.h"
 #include "planning/Interpolating.h"
@@ -21,9 +17,10 @@ using namespace std;
 
 
 class Car_Planning_Conf{
-    public:
+public:
     string mode;
-    float period;
+    double period;
+    double wait_time;
     string trajectory_dir;
     int sampling_period;
 };
@@ -31,6 +28,8 @@ class Car_Planning_Conf{
 class Car_Planning{
     public:
         Car_Planning(YAML::Node yaml_conf);
+
+        void Init();
 
         void RunOnce(void);
 
@@ -44,6 +43,8 @@ class Car_Planning{
         void chassis_callback(const car_msgs::chassis& chassis);
 
         car_msgs::trajectory_point generate_trajectory_point(const car_msgs::localization& localization,const car_msgs::chassis& chassis);
+    //标志位
+    bool STATE;
     //接收状态缓存
     car_msgs::localization car_localization;
     car_msgs::chassis car_chassis;

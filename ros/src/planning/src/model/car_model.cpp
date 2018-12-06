@@ -2,10 +2,10 @@
 
 #define nums 270 //每次向后查找多少个点 假设采样间隔splice = 0.1m,车速100km/h (27m/s),1s 会经过270个点
 
-bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,const car_msgs::trajectory_point& point,Car_State_SL& status_sl){
+bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,car_msgs::trajectory_point& point,Car_State_SL& status_sl){
     if(!point.header.seq>0){
         //debug
-        ROS_INFO("error: Coordinate_converter::POS_to_SL: trajectory_point is not received!");
+        ROS_WARN("Coordinate_converter::POS_to_SL: trajectory_point is not received!");
         return 0;
     }
     //cout<<"status_sl.index:"<<status_sl.index<<endl;
@@ -38,6 +38,7 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
     (reference_line.trajectory_path[status_sl.index+1].s - reference_line.trajectory_path[status_sl.index].s)*
     (x_ - reference_line.trajectory_path[status_sl.index].x)/
     (reference_line.trajectory_path[status_sl.index+1].x - reference_line.trajectory_path[status_sl.index].x);
+    point.s = status_sl.s;
     //cout<<"s:"<<status_sl.s<<endl;
     //求夹角
     //cout<<"cal_theta"<<endl;
