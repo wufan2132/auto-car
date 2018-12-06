@@ -12,16 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *****************************************************************************/
-#include "modules/common/math/mpc_solver.h"
+#include "math/mpc_solver.h"
 
 #include <algorithm>
 #include <memory>
 
-#include "modules/common/log.h"
-#include "modules/common/math/qp_solver/active_set_qp_solver.h"
-#include "modules/common/math/qp_solver/qp_solver.h"
+// #include "modules/common/log.h"
+#include "math/qp_solver/active_set_qp_solver.h"
+#include "math/qp_solver/qp_solver.h"
 
-namespace apollo {
 namespace common {
 namespace math {
 
@@ -39,7 +38,7 @@ bool SolveLinearMPC(const Matrix &matrix_a, const Matrix &matrix_b,
   if (matrix_a.rows() != matrix_a.cols() ||
       matrix_b.rows() != matrix_a.rows() ||
       matrix_lower.rows() != matrix_upper.rows()) {
-    AERROR << "One or more matrices have incompatible dimensions. Aborting.";
+    // AERROR << "One or more matrices have incompatible dimensions. Aborting.";
     return false;
   }
 
@@ -158,7 +157,7 @@ bool SolveLinearMPC(const Matrix &matrix_a, const Matrix &matrix_b,
       matrix_equality_boundary));
   auto result = qp_solver->Solve();
   if (!result) {
-    AERROR << "Linear MPC solver failed";
+    // AERROR << "Linear MPC solver failed";
     return false;
   }
   matrix_v = qp_solver->params();
@@ -167,9 +166,9 @@ bool SolveLinearMPC(const Matrix &matrix_a, const Matrix &matrix_b,
     (*control)[i] =
         matrix_v.block(i * (*control)[0].rows(), 0, (*control)[0].rows(), 1);
   }
+  
   return true;
 }
 
 }  // namespace math
 }  // namespace common
-}  // namespace apollo

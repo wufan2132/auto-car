@@ -51,6 +51,31 @@ lat_controller_conf:
       speed: 4.0
       ratio: 1.0
 
+mpc_controller_conf:
+  ts: 0.01
+  cf: 155494.663
+  cr: 155494.663
+  mass_fl: 340
+  mass_fr: 340
+  mass_rl: 340
+  mass_rr: 340
+  eps: 0.01
+  matrix_q1: 0.9
+  matrix_q2: 0.0
+  matrix_q3: 15
+  matrix_q4: 0.0
+  matrix_q5: 50.0
+  matrix_q6: 10.0
+  matrix_r1: 3.25
+  matrix_r2: 1.0
+  cutoff_freq: 10
+  mean_filter_window_size: 10
+  max_iteration: 150
+  max_lateral_acceleration: 5.0
+  standstill_acceleration: -0.2
+  brake_deadzone: 0
+  throttle_deadzone: 0
+
 vehicle_param:
   front_edge_to_center: 3.89
   back_edge_to_center: 1.043
