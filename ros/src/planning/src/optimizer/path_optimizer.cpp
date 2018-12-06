@@ -19,7 +19,7 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
 
  void path_optimizer::get_current_line(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
                                          const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
-    static bool first_run_flag = 1;
+    static bool replanning_flag = 0;
     /***************速度修正-测试版*******************/
     //设置终点，终点只给定目标速度，其余参数为0
     Car_State_SL end_sl;
@@ -37,6 +37,8 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
     //3.车体偏离预设轨迹较远
      if(conf.keep_t==0||trajectory_now.total_path_length<5||
             TrajectoryStitcher::replanningTrajectory(car_status, trajectory_now, conf.available_l)){
+        //重置标志位
+        replanning_flag = 1;
         //设置起点为车的当前坐标
         Car_State_SL start_sl = status_sl;    
         path_planning(start_sl, end_sl,conf.planning_t, refrenceline_Sp, trajectory_now);
@@ -48,9 +50,9 @@ Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& traject
         VectorXf T(1);
         
         //第一次运行时间是没有偏差的
-        if(first_run_flag){
+        if(replanning_flag){
             T<<(T0 + conf.keep_t);
-            first_run_flag = 0;
+            replanning_flag = 0;
         }else
             //预测一秒后的，本来这里要加上1，但由于后面相对时间是从0开始算的，已经加了1，
             T<<T0;
