@@ -10,12 +10,12 @@ add_subdirectory(../../../common/math math.out)
 # 生成链接库
 add_library(control 
             control.cc 
-            # lon_controller.cc 
-            # lat_controller.cc 
-            mpc_controller.cc
+            lon_controller.cc 
+            lat_controller.cc 
+            # mpc_controller.cc
             )
 
 target_link_libraries(control common_lib)
-# target_link_libraries(control math)
-target_link_libraries(control mpc_math)
+target_link_libraries(control math)
+# target_link_libraries(control mpc_math)
 target_link_libraries(control ${YAML_CPP_LIBRARIES})
