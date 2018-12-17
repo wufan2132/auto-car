@@ -1,0 +1,10 @@
+.\browse\arm_common_tables.o: ..\User\DSP\CommonTables\arm_common_tables.c
+.\browse\arm_common_tables.o: ..\User\DSP\Include\arm_math.h
+.\browse\arm_common_tables.o: ..\User\DSP\Include\core_cm4.h
+.\browse\arm_common_tables.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\browse\arm_common_tables.o: ..\CIMIS\core_cmInstr.h
+.\browse\arm_common_tables.o: ..\CIMIS\core_cmFunc.h
+.\browse\arm_common_tables.o: ..\CIMIS\core_cmSimd.h
+.\browse\arm_common_tables.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\browse\arm_common_tables.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\browse\arm_common_tables.o: ..\User\DSP\Include\arm_common_tables.h
