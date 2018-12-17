@@ -2,8 +2,15 @@ cmake_minimum_required(VERSION 2.8.3)
 project(chassis)
 
 
+option(ENABLE_SIMULATE "Set to switch to simulate" ON)
 #//1:using gazebo simulate ,0:NVIDIA run
-ADD_DEFINITIONS("-DSIMULATE=1") 
+if(ENABLE_SIMULATE)
+  ADD_DEFINITIONS("-DSIMULATE=1") 
+  message(STATUS "ENABLE_SIMULATE ON")
+else()
+  ADD_DEFINITIONS("-DSIMULATE=0") 
+  message(STATUS "ENABLE_SIMULATE OFF")
+endif()
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
