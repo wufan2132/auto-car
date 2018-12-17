@@ -10,9 +10,6 @@
 #include "sensor_msgs/Imu.h"
 
 
-
-#define SIMULATE 1  //0:use nvidia run , 1:use gazebo simulate
-
 ros::Publisher localization_msg_Publisher;
 ros::Publisher chassis_msg_Publisher;
 car_msgs::localization car_localization;

@@ -1,6 +1,17 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(control)
 
+option(ENABLE_MPC "Set to switch to build MPC_OR_LQR" OFF)
+message("ENABLE_MPC is ${ENABLE_MPC}")
+#0:MPC ,1:LQR
+if(ENABLE_MPC)
+  ADD_DEFINITIONS("-DMPC_OR_LQR=0") 
+  message(STATUS "ENABLE_MPC ON")
+else()
+  ADD_DEFINITIONS("-DMPC_OR_LQR=1") 
+  message(STATUS "ENABLE_MPC OFF")
+endif()
+
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
