@@ -1,0 +1,10 @@
+.\browse\arm_cos_f32.o: ..\User\DSP\FastMathFunctions\arm_cos_f32.c
+.\browse\arm_cos_f32.o: ..\User\DSP\Include\arm_math.h
+.\browse\arm_cos_f32.o: ..\User\DSP\Include\core_cm4.h
+.\browse\arm_cos_f32.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\browse\arm_cos_f32.o: ..\CIMIS\core_cmInstr.h
+.\browse\arm_cos_f32.o: ..\CIMIS\core_cmFunc.h
+.\browse\arm_cos_f32.o: ..\CIMIS\core_cmSimd.h
+.\browse\arm_cos_f32.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\browse\arm_cos_f32.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\browse\arm_cos_f32.o: ..\User\DSP\Include\arm_common_tables.h
