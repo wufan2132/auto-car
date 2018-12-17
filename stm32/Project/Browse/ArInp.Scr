@@ -1,0 +1,13 @@
+--create .\Browse\Pro.lib
+.\browse\startup_stm32f40xx.o
+.\browse\system_stm32f4xx.o
+.\browse\misc.o
+.\browse\stm32f4xx_gpio.o
+.\browse\stm32f4xx_tim.o
+.\browse\stm32f4xx_usart.o
+.\browse\stm32f4xx_rcc.o
+.\browse\main.o
+.\browse\stm32f4xx_it.o
+.\browse\target.o
+.\browse\time.o
+.\browse\led.o
