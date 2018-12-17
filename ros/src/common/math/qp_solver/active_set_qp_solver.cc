@@ -17,16 +17,15 @@
 /**
  * @file: active_set_qp_solver.cc
  **/
-#include "modules/common/math/qp_solver/active_set_qp_solver.h"
+#include "math/qp_solver/active_set_qp_solver.h"
 
 #include <algorithm>
 #include <climits>
 #include <vector>
 
-#include "modules/common/log.h"
-#include "modules/common/math/qp_solver/qp_solver_gflags.h"
+// #include "modules/common/log.h"
+#include "math/qp_solver/qp_solver_gflags.h"
 
-namespace apollo {
 namespace common {
 namespace math {
 
@@ -65,9 +64,9 @@ bool ActiveSetQpSolver::Solve() {
     qp_problem.setPrintLevel(qpOASES::PL_NONE);
   }
   if (kernel_matrix_.rows() != kernel_matrix_.cols()) {
-    AERROR << "kernel_matrix_.rows() [" << kernel_matrix_.rows()
-           << "] and kernel_matrix_.cols() [" << kernel_matrix_.cols()
-           << "] should be identical.";
+    // AERROR << "kernel_matrix_.rows() [" << kernel_matrix_.rows()
+    //        << "] and kernel_matrix_.cols() [" << kernel_matrix_.cols()
+    //        << "] should be identical.";
     return false;
   }
   // definition of qpOASESproblem
@@ -85,7 +84,7 @@ bool ActiveSetQpSolver::Solve() {
       h_matrix[index++] = kernel_matrix_(r, c);
     }
   }
-  DCHECK_EQ(index, kernel_matrix_.rows() * kernel_matrix_.cols());
+  // DCHECK_EQ(index, kernel_matrix_.rows() * kernel_matrix_.cols());
 
   // search space lower bound and upper bound
   double lower_bound[num_param_];  // NOLINT
@@ -113,7 +112,7 @@ bool ActiveSetQpSolver::Solve() {
     }
   }
 
-  DCHECK_EQ(index, affine_equality_matrix_.rows() * num_param_);
+  // DCHECK_EQ(index, affine_equality_matrix_.rows() * num_param_);
 
   for (int r = 0; r < affine_inequality_matrix_.rows(); ++r) {
     constraint_lower_bound[r + affine_equality_boundary_.rows()] =
@@ -126,8 +125,8 @@ bool ActiveSetQpSolver::Solve() {
       affine_constraint_matrix[index++] = affine_inequality_matrix_(r, c);
     }
   }
-  DCHECK_EQ(index, affine_equality_matrix_.rows() * num_param_ +
-                       affine_inequality_boundary_.rows() * num_param_);
+  // DCHECK_EQ(index, affine_equality_matrix_.rows() * num_param_ +
+                      //  affine_inequality_boundary_.rows() * num_param_);
 
   // initialize problem
   int max_iter = std::max(max_iteration_, num_constraint_);
@@ -137,9 +136,9 @@ bool ActiveSetQpSolver::Solve() {
                              constraint_upper_bound, max_iter);
   if (ret != qpOASES::SUCCESSFUL_RETURN) {
     if (ret == qpOASES::RET_MAX_NWSR_REACHED) {
-      AERROR << "qpOASES solver failed due to reached max iteration";
+      // AERROR << "qpOASES solver failed due to reached max iteration";
     } else {
-      AERROR << "qpOASES solver failed due to infeasibility or other internal "
+      // AERROR << "qpOASES solver failed due to infeasibility or other internal "
                 "reasons";
     }
     std::stringstream ss;
@@ -154,7 +153,7 @@ bool ActiveSetQpSolver::Solve() {
     ss << "affine_equality_boundary:\n"
        << affine_equality_boundary_ << std::endl;
 
-    ADEBUG << ss.str();
+    // ADEBUG << ss.str();
 
     return false;
   }
@@ -227,4 +226,3 @@ bool ActiveSetQpSolver::sanity_check() {
 
 }  // namespace math
 }  // namespace common
-}  // namespace apollo

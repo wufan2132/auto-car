@@ -30,5 +30,11 @@ float64 acceleration_cmd
 float64 acceleration_lookup
 float64 speed_lookup
 float64 calibration_value
-float64 matrix_q_updated     # matrix_q_updated_ size 6 repeated
-float64 matrix_r_updated     # matrix_r_updated_ size 2  repeated
+float64 matrix_q_updated1     # matrix_q_updated_ size 6 repeated
+float64 matrix_q_updated2     # matrix_q_updated_ size 6 repeated
+float64 matrix_q_updated3     # matrix_q_updated_ size 6 repeated
+float64 matrix_q_updated4     # matrix_q_updated_ size 6 repeated
+float64 matrix_q_updated5     # matrix_q_updated_ size 6 repeated
+float64 matrix_q_updated6     # matrix_q_updated_ size 6 repeated
+float64 matrix_r_updated1     # matrix_r_updated_ size 2  repeated
+float64 matrix_r_updated2     # matrix_r_updated_ size 2  repeated

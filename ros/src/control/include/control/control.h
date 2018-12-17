@@ -1,9 +1,13 @@
 #ifndef _CONTROL_H_
 #define _CONTROL_H_ 
-
+#define MPC
 #include "ros/ros.h"
-#include "control/lon_controller.h"
-#include "control/lat_controller.h"
+#ifndef MPC
+    #include "control/lon_controller.h"
+    #include "control/lat_controller.h"
+#else
+    #include "control/mpc_controller.h"
+#endif
 #include "car_msgs/debug.h"
 
 namespace control {
@@ -37,8 +41,12 @@ private:
     car_msgs::chassis chassis_;
     car_msgs::trajectory trajectory_path_;
 
+#ifndef MPC
     LonController lon_controller_;
     LatController lat_controller_;
+#else
+    MPCController mpc_controller_;
+#endif
 };
 }
 #endif  //_CONTROLLER_H_
