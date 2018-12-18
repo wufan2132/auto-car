@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g  -shared -Wl,-soname,libcar_model.so -o /home/wf/my-code/auto-car/ros/devel/lib/libcar_model.so CMakeFiles/car_model.dir/car_model.cpp.o 

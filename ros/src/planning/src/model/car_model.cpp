@@ -28,8 +28,8 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
     float B = reference_line.trajectory_path[status_sl.index+1].x - reference_line.trajectory_path[status_sl.index].x;
     float C = reference_line.trajectory_path[status_sl.index+1].y*(reference_line.trajectory_path[status_sl.index].x - reference_line.trajectory_path[status_sl.index+1].x) -
             reference_line.trajectory_path[status_sl.index+1].x*(reference_line.trajectory_path[status_sl.index].y - reference_line.trajectory_path[status_sl.index+1].y);
-    status_sl.h = (A*point.x+B*point.y+C)/sqrt(A*A+B*B);
-    //cout<<"h:"<<status_sl.h<<endl;
+    status_sl.l = (A*point.x+B*point.y+C)/sqrt(A*A+B*B);
+    //cout<<"h:"<<status_sl.l<<endl;
     //求垂足
     float x_ = (B*B*point.x-A*B*point.y-A*C)/(A*A+B*B);
     float y_ = (-A*B*point.x+A*A*point.y-B*C)/(A*A+B*B);
@@ -47,30 +47,30 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
     float tan_theta = tan(theta);
     float cos_theta = cos(theta);
     float sin_theta = sin(theta);
-    float one_minus_kappa_r_d = 1 - reference_line.trajectory_path[status_sl.index].kappa * status_sl.h;
+    float one_minus_kappa_r_d = 1 - reference_line.trajectory_path[status_sl.index].kappa * status_sl.l;
     //求sv
     status_sl.sv = point.speed*cos_theta/one_minus_kappa_r_d;
     //求sa
     status_sl.sa = point.accel * cos_theta / one_minus_kappa_r_d;
     //求dh/ds 
-    status_sl.dh = one_minus_kappa_r_d*tan_theta;
+    status_sl.dl = one_minus_kappa_r_d*tan_theta;
     //求dh/d2s
-    status_sl.ddh = -reference_line.trajectory_path[status_sl.index].kappa * status_sl.dh* tan_theta;
+    status_sl.ddl = -reference_line.trajectory_path[status_sl.index].kappa * status_sl.dl* tan_theta;
     //debug
     //ROS_INFO("index:%d theta:%0.2f s:%.2f sv:%.2f sa:%.6f h:%.2f dh:%.2f ddh:%.6f",
-    //status_sl.index,theta,status_sl.s,status_sl.sv,status_sl.sa,status_sl.h,status_sl.dh,status_sl.ddh);
+    //status_sl.index,theta,status_sl.s,status_sl.sv,status_sl.sa,status_sl.l,status_sl.dl,status_sl.ddl);
     return 0;
 }
 
-void Coordinate_converter::SL_to_POS(const float s, const float l,
+void Coordinate_converter::SL_to_POS(const double s, const double l,
      const MatrixXf& sx, const MatrixXf& sy, car_msgs::trajectory_point& point, const int start_index){
 	int idx;
-	float dx, dy;
+	double dx, dy;
 	VectorXf sx_X = sx.row(0);
     //计算 rx,ry,rdx,rdy
-    float rx,ry,rdx,rdy;
+    double rx,ry,rdx,rdy;
 
-    idx = search_index(s, sx_X, start_index);
+    idx = search_index(s, sx_X);
     // cout<<"idx"<<idx<<endl;
 
     //rx
@@ -82,7 +82,7 @@ void Coordinate_converter::SL_to_POS(const float s, const float l,
     ry = sy(2, idx) + sy(3, idx) * dy + sy(4, idx) * dy * dy + sy(5, idx) * dy * dy * dy;
     rdy = sy(3, idx) + 2 * sy(4, idx) * dy + 3 * sy(5, idx)*dy*dy;
     //计算rtheta
-    float rtheta = Interpolating::yaw(rdx,rdy);
+    double rtheta = Interpolating::yaw(rdx,rdy);
     //计算x y
     point.x = rx - l*sin(rtheta);
     point.y = ry + l*cos(rtheta);
@@ -91,25 +91,61 @@ void Coordinate_converter::SL_to_POS(const float s, const float l,
     //cout<<"index:"<<start_index<<"  rx:"<<rx<<"  ry:"<<ry<<"  dx:"<<dx<<" dy:"<<dy<<" s:"<<s  <<endl;
 }
 
-int Coordinate_converter::search_index(float st, VectorXf& s, int index){
-    static int start_pos=0;
-   	static int pos = start_pos;
+//思路：二分查找与顺序查找并行
+int Coordinate_converter::search_index(double st, VectorXf& s){
+    //远离参数
+    static const int S_LIMIT = 30;
+    //
+    static int pos = 0;
     int len = s.rows();
-    if (index==0)
-		pos = start_pos;
-
-    if (st <=0) pos = 0;
-	else if (st >= s[len - 1]){
+    // cout<<"st:"<<st<<endl;
+    // cout<<"s:"<<endl;
+    // cout<<s<<endl;
+    //输入判断
+    if (st <=s(0)) pos = 0;
+	else if (st >= s(len - 1)){
         pos = len - 1;
     }
-    else if(st < s[pos]){
-        while(st > s[pos]) pos--;
+    else if(st >= s(pos) && st - s(pos) < S_LIMIT){//如果与目标位置间距较小
+        while (st >= s(pos+1)) pos++;
+        //cout<<"Coordinate_converter::search_index: 顺序查找: "<<pos<<endl;
     }
-    else{
-        while (st >= s[pos+1]) pos++;
+    else {//二分查找
+        int start = 0;
+        int end = len;
+        while(end - start > 1){
+            pos = (start + end)/2;
+            if(st >= s(pos)){
+                start = pos;
+            }else{
+                end = pos;
+            }
+        }
+        pos = start;
+        //cout<<"Coordinate_converter::search_index: 二分查找: "<<pos<<endl;
     }
-
-    if(index==0) 
-        start_pos = pos;
     return pos;
+
+
+
+    // static int start_pos=0;
+   	// static int pos = start_pos;
+    // int len = s.rows();
+    // if (index==0)
+	// 	pos = start_pos;
+
+    // if (st <=0) pos = 0;
+	// else if (st >= s[len - 1]){
+    //     pos = len - 1;
+    // }
+    // else if(st < s(pos)){
+    //     while(st > s(pos)) pos--;
+    // }
+    // else{
+    //     while (st >= s[pos+1]) pos++;
+    // }
+
+    // if(index==0) 
+    //     start_pos = pos;
+    // return pos;
 }

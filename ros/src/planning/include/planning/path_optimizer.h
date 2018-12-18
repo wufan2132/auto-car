@@ -10,6 +10,8 @@
 #include "planning/Fitting.h"
 #include "planning/car_model.h"
 #include "planning/trajectory_stitcher.h"
+#include "planning/trajectory_generation.h"
+#include "planning/sampler.h"
 #include "yaml-cpp/yaml.h"
 
 class path_optimizer_Conf{
@@ -29,6 +31,10 @@ public:
     path_optimizer(YAML::Node yaml_conf);
 
     Spline_Out* get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
+
+    Car_State_SL get_start_point(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
+                                                        car_msgs::trajectory& trajectory_now);
+
     void get_current_line(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
                              const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_out);
 
@@ -45,6 +51,7 @@ private:
     path_optimizer_Conf conf;
     /**********模块************/
     Interpolating* interpolating;
+    SamplerPoint* sampler;
     /*********车体参数************/
     VectorXf QP4; //速度规划
     VectorXf QP5; //位置规划

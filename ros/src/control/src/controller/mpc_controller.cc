@@ -264,11 +264,11 @@ void MPCController::ComputeControlCommand(
           matrix_ad_, matrix_bd_, matrix_cd_, matrix_q_updated_,
           matrix_r_updated_, lower_bound, upper_bound, matrix_state_, reference,
           mpc_eps_, mpc_max_iteration_, &control) != true) {
-    ROS_INFO("MPC solver failed");
+    //ROS_INFO("MPC solver failed");
     steer_angle_feedback = 0.0;
     acc_feedback = 0.0;
   } else {
-    ROS_INFO("MPC problem solved! ");
+    //ROS_INFO("MPC problem solved! ");
     steer_angle_feedback = Wheel2SteerPct(control[0](0, 0));
     acc_feedback = control[0](1, 0);
   }

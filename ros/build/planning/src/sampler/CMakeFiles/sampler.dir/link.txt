@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g  -shared -Wl,-soname,libsampler.so -o /home/wf/my-code/auto-car/ros/devel/lib/libsampler.so CMakeFiles/sampler.dir/sampler.cpp.o 
