@@ -77,7 +77,6 @@ if __name__=="__main__":
 		twist.brake = 0
 		twist.steer = 0
 		pub.publish(twist)
-
 		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
 

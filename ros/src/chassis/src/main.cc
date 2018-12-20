@@ -77,7 +77,7 @@ void imu_topic_callback(const sensor_msgs::Imu::ConstPtr & imu_msg){
 #include "usart.h"
 using namespace std;
 using namespace boost::asio;
-Usart car_chassis_usart("/dev/ttyUSB0");
+Usart car_chassis_usart("/dev/ttyTHS2");
 
 void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg){
   // car_chassis_usart.send_to_serial(control_cmd_msg.throttle,
