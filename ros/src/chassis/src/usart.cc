@@ -116,15 +116,18 @@ void Usart::reveive_from_serial(double &speed,
             case 0xA1:
                 speed = *(float*)(&Rx_buf[Start + 4]);
                 ang_x = *(float*)(&Rx_buf[Start + 8]);
-                ang_y = *(float*)(&Rx_buf[Start + 12]);
-                ang_z = *(float*)(&Rx_buf[Start + 16]);
+    //            ang_y = *(float*)(&Rx_buf[Start + 12]);
+      //          ang_z = *(float*)(&Rx_buf[Start + 16]);
                 acc_x = *(float*)(&Rx_buf[Start + 20]);
                 acc_y = *(float*)(&Rx_buf[Start + 24]);
                 acc_z = *(float*)(&Rx_buf[Start + 28]);
                 ang_v_x = *(float*)(&Rx_buf[Start + 32]);
                 ang_v_y = *(float*)(&Rx_buf[Start + 36]);
                 ang_v_z = *(float*)(&Rx_buf[Start + 40]);
-            break;
+            	ang_y += 1;
+		ang_z = ang_x - ang_y;
+	    cout<<"get---------------------";
+		break;
             default:
             break;
             }
