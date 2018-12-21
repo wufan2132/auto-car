@@ -25,7 +25,7 @@ class Usart
  public:
      void send_to_serial(const uint16_t &throttle,    //throttle
                          const uint16_t &brake,    //brake
-                         const uint16_t &steer);   //steer
+                         const int16_t &steer);   //steer
 
     void reveive_from_serial(double &speed,
                                 double &ang_x,

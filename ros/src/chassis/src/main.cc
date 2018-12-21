@@ -80,15 +80,16 @@ using namespace boost::asio;
 Usart car_chassis_usart("/dev/ttyTHS2");
 
 void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg){
-  // car_chassis_usart.send_to_serial(control_cmd_msg.throttle,
-  //                                   control_cmd_msg.brake,
-  //                                   control_cmd_msg.steer);
-  car_chassis_usart.send_to_serial(1,2,3);
+	static uint16_t cnt = 0;  
+// car_chassis_usart.send_to_serial((uint16_t)control_cmd_msg.throttle,
+//                                   (uint16_t) control_cmd_msg.brake,
+//                                     (int16_t)control_cmd_msg.steer);
+  car_chassis_usart.send_to_serial(1,2,cnt++);
 }
 
 
 void chassis_publish_callback(const ros::TimerEvent&){
-  car_chassis_usart.reveive_from_serial(car_chassis.speed.x,
+/*  car_chassis_usart.reveive_from_serial(car_chassis.speed.x,
                                         car_localization.angle.x,
                                         car_localization.angle.y,
                                         car_localization.angle.z,
@@ -98,7 +99,7 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_localization.angular_velocity.x,
                                         car_localization.angular_velocity.y,
                                         car_localization.angular_velocity.z);
-
+*/
   localization_msg_Publisher.publish(car_localization);
   chassis_msg_Publisher.publish(car_chassis);
 }

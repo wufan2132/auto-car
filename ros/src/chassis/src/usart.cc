@@ -37,9 +37,9 @@ bool Usart::init_port(const anytype port, const unsigned int char_size)
 
 void Usart::send_to_serial(const uint16_t &throttle,
                             const uint16_t &brake,
-                            const uint16_t &steer){
-    
-    uint16_t Temp2 = 0;
+                            const int16_t &steer){
+    uint16_t Temp1 = 0;
+    int16_t Temp2 = 0;
 	uint8_t Cnt = 1;
 	
 	Send_BUF[Cnt++] = 0XAA;
@@ -47,13 +47,13 @@ void Usart::send_to_serial(const uint16_t &throttle,
 	Send_BUF[Cnt++] = 0XA1;
 	Send_BUF[Cnt++] = 0;
 	
-	Temp2 = throttle;
-	Send_BUF[Cnt++] = BYTE1(Temp2);
-	Send_BUF[Cnt++] = BYTE0(Temp2);
+	Temp1 = throttle;
+	Send_BUF[Cnt++] = BYTE1(Temp1);
+	Send_BUF[Cnt++] = BYTE0(Temp1);
 	
-	Temp2 = brake;
-	Send_BUF[Cnt++] = BYTE1(Temp2);
-	Send_BUF[Cnt++] = BYTE0(Temp2);
+	Temp1 = brake;
+	Send_BUF[Cnt++] = BYTE1(Temp1);
+	Send_BUF[Cnt++] = BYTE0(Temp1);
 
     Temp2 = steer;
 	Send_BUF[Cnt++] = BYTE1(Temp2);
@@ -64,11 +64,11 @@ void Usart::send_to_serial(const uint16_t &throttle,
 	uint8_t Sum = 0;
 	for(uint8_t i = 1;i < Cnt; i++)
 		Sum += Send_BUF[i];
-	
 	Send_BUF[Cnt++] = Sum;
 	Send_BUF[0] = Cnt - 1;   
 
     write(*pSerialPort, buffer(Send_BUF,Cnt));
+cout << "---------------------------send:"<< steer <<"\n";
 }
 
 void Usart::reveive_from_serial(double &speed,
@@ -116,17 +116,14 @@ void Usart::reveive_from_serial(double &speed,
             case 0xA1:
                 speed = *(float*)(&Rx_buf[Start + 4]);
                 ang_x = *(float*)(&Rx_buf[Start + 8]);
-    //            ang_y = *(float*)(&Rx_buf[Start + 12]);
-      //          ang_z = *(float*)(&Rx_buf[Start + 16]);
+                ang_y = *(float*)(&Rx_buf[Start + 12]);
+                ang_z = *(float*)(&Rx_buf[Start + 16]);
                 acc_x = *(float*)(&Rx_buf[Start + 20]);
                 acc_y = *(float*)(&Rx_buf[Start + 24]);
                 acc_z = *(float*)(&Rx_buf[Start + 28]);
                 ang_v_x = *(float*)(&Rx_buf[Start + 32]);
                 ang_v_y = *(float*)(&Rx_buf[Start + 36]);
                 ang_v_z = *(float*)(&Rx_buf[Start + 40]);
-            	ang_y += 1;
-		ang_z = ang_x - ang_y;
-	    cout<<"get---------------------";
 		break;
             default:
             break;
