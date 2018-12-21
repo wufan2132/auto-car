@@ -27,11 +27,12 @@ extern struct CarControl_
 {
 	struct Car_Control_Para_* Para;
 
-	void (*PWMcheck)();
-	
+	void (*PWM_output)();
+	void (*stop)();
 	int throttlt;
 	int brake;
 	int steer;
+	int test;
 }CarControl;
 
 #endif

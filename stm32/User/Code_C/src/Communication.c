@@ -30,6 +30,10 @@ void Send_Senser_TX2(void)
 	vs32 Temp2 = 0;
 	float Temp3;
 	u8 Cnt = 1;
+	//
+//	static int test = 0;
+//	test ++;
+	
 	
 	Communicate_BUF[Cnt++] = 0XAA;
 	Communicate_BUF[Cnt++] = 0XAA;
@@ -60,7 +64,7 @@ void Send_Senser_TX2(void)
 	Communicate_BUF[Cnt++] = BYTE2(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE3(Temp3);
 	
-	Temp3 = MPU6050.Data->ACC_ADC.x;
+	Temp3 = speed_measure.distant;//MPU6050.Data->ACC_ADC.x;
 	Communicate_BUF[Cnt++] = BYTE0(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE1(Temp3);
 	Communicate_BUF[Cnt++] = BYTE2(Temp3);	
@@ -454,31 +458,15 @@ void Send_Reply_TX2(u16 Sum,u8 Head)
 void Data_Analysis_TX2(void)
 {
 	#define TX2_BUF_SIZE 32
-	u8 Rx_buf[TX2_BUF_SIZE];
-	
-	u8 i = 0;
-	u8 Start = 0;
+	static u8 Rx_buf[TX2_BUF_SIZE];
+	static int64_t rece_count  = 0;
 	u8 Length = 0;
-	u8 Sum = 0;
 	u8 Funtion = 0;
-
-	if(usart_TX2.receive(Rx_buf,TX2_BUF_SIZE) == True) 
-	{
-		for(i = 0;i < TX2_BUF_SIZE; i++)
-		{
-			if(i == 31) return;
-			if(Rx_buf[i] == 0XAA & Rx_buf[i+1] == 0XAF)
-				break;
-		}
-		Length = Rx_buf[i + 3] + 4;
-		Start = i;
-		Funtion = Rx_buf[i + 2];
-		
-		for(i = 0;i < Length;i++)
-			Sum += Rx_buf[Start + i];
-		
-		if(Sum == Rx_buf[Start + Length])
-		{ 
+	u8 Sum = 0;
+	if(usart_TX2.readframe(Rx_buf, &Length, &Funtion) == True) 
+	{	
+		rece_count ++;
+		Sum = Rx_buf[Length];
 		 switch (Funtion) 																      //帧功能分析
 			{
 				case 0X01:
@@ -490,28 +478,93 @@ void Data_Analysis_TX2(void)
 					Send_Reply_TX2(Sum,0X10);				
 					break;
 				case 0X30:
-					if((int)(Rx_buf[Start + 4] << 8 | Rx_buf[Start + 5])>0)
+					if((int16_t)(Rx_buf[0] << 8 | Rx_buf[1])>0)
 						CarControl.Para->IsLock = True;
 					else
 						CarControl.Para->IsLock = False;
 				case 0X31:
-					if((int)(Rx_buf[Start + 4] << 8 | Rx_buf[Start + 5])>0)
+					if((int16_t)(Rx_buf[0] << 8 | Rx_buf[1])>0)
 						CarControl.Para->Mode = Auto;
-					else if((int)(Rx_buf[Start + 4] << 8 | Rx_buf[Start + 5])==0)
+					else if((int16_t)(Rx_buf[0] << 8 | Rx_buf[1])==0)
 						CarControl.Para->Mode = Manual;
 					else
 						CarControl.Para->Mode = Other;
-				case 0XA1:
-						CarControl.throttlt = (int)(Rx_buf[Start + 4] << 8 | Rx_buf[Start + 5]);
-						CarControl.brake = (int)(Rx_buf[Start + 6] << 8 | Rx_buf[Start + 7]);
-						CarControl.steer = (int)(Rx_buf[Start + 8] << 8 | Rx_buf[Start + 9]);
+				case 0XA1:				
+						CarControl.throttlt = (int16_t)(Rx_buf[0] << 8 | Rx_buf[1]);
+						CarControl.brake = (int16_t)(Rx_buf[2] << 8 | Rx_buf[3]);
+						CarControl.steer = (int16_t)(Rx_buf[4] << 8 | Rx_buf[5]);
+						CarControl.test = (int16_t)(Rx_buf[6] << 8 | Rx_buf[7]) - rece_count;
 					break;
 				default:
 					break;
-			}
 		}
 	}
 }
+
+
+//void Data_Analysis_TX2(void)
+//{
+//	#define TX2_BUF_SIZE 32
+//	static u8 Rx_buf[TX2_BUF_SIZE];
+//	
+//	u8 i = 0;
+//	u8 Start = 0;
+//	u8 Length = 0;
+//	
+//	
+//	u8 Sum = 0;
+//	u8 Funtion = 0;
+
+//	if(usart_TX2.receive(Rx_buf,TX2_BUF_SIZE) == True) 
+//	{
+//		for(i = 0;i < TX2_BUF_SIZE; i++)
+//		{
+//			if(i == 31) return;
+//			if(Rx_buf[i] == 0XAA & Rx_buf[i+1] == 0XAF)
+//				break;
+//		}
+//		Length = Rx_buf[i + 3] + 4;
+//		Start = i;
+//		Funtion = Rx_buf[i + 2];
+//		
+//		for(i = 0;i < Length;i++)
+//			Sum += Rx_buf[Start + i];
+//		
+//		if(Sum == Rx_buf[Start + Length])
+//		{ 
+//		 switch (Funtion) 																      //帧功能分析
+//			{
+//				case 0X01:
+//					MPU6050.IsCalibrating = 1;
+//					break;
+//				case 0X02:
+//					break;
+//				case 0X10:                                           //PID1 2用于描述外环参数
+//					Send_Reply_TX2(Sum,0X10);				
+//					break;
+//				case 0X30:
+//					if((int16_t)(Rx_buf[Start + 4] << 8 | Rx_buf[Start + 5])>0)
+//						CarControl.Para->IsLock = True;
+//					else
+//						CarControl.Para->IsLock = False;
+//				case 0X31:
+//					if((int16_t)(Rx_buf[Start + 4] << 8 | Rx_buf[Start + 5])>0)
+//						CarControl.Para->Mode = Auto;
+//					else if((int16_t)(Rx_buf[Start + 4] << 8 | Rx_buf[Start + 5])==0)
+//						CarControl.Para->Mode = Manual;
+//					else
+//						CarControl.Para->Mode = Other;
+//				case 0XA1:				
+//						CarControl.throttlt = (int16_t)(Rx_buf[Start + 4] << 8 | Rx_buf[Start + 5]);
+//						CarControl.brake = (int16_t)(Rx_buf[Start + 6] << 8 | Rx_buf[Start + 7]);
+//						CarControl.steer = (int16_t)(Rx_buf[Start + 8] << 8 | Rx_buf[Start + 9]);
+//					break;
+//				default:
+//					break;
+//			}
+//		}
+//	}
+//}
 
 void Send_Data_TX2(void)
 {
