@@ -180,7 +180,7 @@ void Control::OnTimer(const ros::TimerEvent&){
     car_msgs:: control_cmd control_cmd;
 
     if(!CheckInput()){
-        ROS_INFO("trajectory is null!");
+        ROS_WARN("trajectory is null!");
         return;
     }
     ProduceControlCommand(control_cmd);

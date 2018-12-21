@@ -21,11 +21,11 @@ CTRL-C to quit
 """
 
 moveBindings = {
-		'w':(100,0,0),
+		'w':(0.5,0,0),
 		'a':(0,0,300),
 		'd':(0,0,-300),
-		's':(0,100,0),
-		'q':(0,100,0),
+		's':(0,1.5,0),
+		'q':(0,2,0),
 		}
 
 def getKey():
@@ -51,7 +51,7 @@ if __name__=="__main__":
 		while(1):
 			key = getKey()
 			if key in moveBindings.keys():
-				throttle = moveBindings[key][0]
+				throttle += moveBindings[key][0]
 				brake = moveBindings[key][1]
 				steer = moveBindings[key][2]
 

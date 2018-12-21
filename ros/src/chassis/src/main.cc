@@ -78,18 +78,20 @@ void imu_topic_callback(const sensor_msgs::Imu::ConstPtr & imu_msg){
 using namespace std;
 using namespace boost::asio;
 Usart car_chassis_usart("/dev/ttyTHS2");
-
+//to m/s2
+#define ACC_RATE 23.2199546
+#define DEC_RATE 238.095238
 void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg){
-	static uint16_t cnt = 0;  
-// car_chassis_usart.send_to_serial((uint16_t)control_cmd_msg.throttle,
-//                                   (uint16_t) control_cmd_msg.brake,
-//                                     (int16_t)control_cmd_msg.steer);
-  car_chassis_usart.send_to_serial(1,2,cnt++);
+ 
+ car_chassis_usart.send_to_serial((uint16_t)(control_cmd_msg.throttle * ACC_RATE),
+                                   (uint16_t)(control_cmd_msg.brake * DEC_RATE),
+                                     (int16_t)control_cmd_msg.steer);
+//  car_chassis_usart.send_to_serial(1,2,cnt++);
 }
 
 
 void chassis_publish_callback(const ros::TimerEvent&){
-/*  car_chassis_usart.reveive_from_serial(car_chassis.speed.x,
+  car_chassis_usart.reveive_from_serial(car_chassis.speed.x,
                                         car_localization.angle.x,
                                         car_localization.angle.y,
                                         car_localization.angle.z,
@@ -99,7 +101,8 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_localization.angular_velocity.x,
                                         car_localization.angular_velocity.y,
                                         car_localization.angular_velocity.z);
-*/
+  car_localization.header.stamp = ros::Time::now();
+  car_chassis.header.stamp = car_localization.header.stamp; 
   localization_msg_Publisher.publish(car_localization);
   chassis_msg_Publisher.publish(car_chassis);
 }

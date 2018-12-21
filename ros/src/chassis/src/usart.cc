@@ -34,7 +34,7 @@ bool Usart::init_port(const anytype port, const unsigned int char_size)
 
     return true;
 }
-
+int16_t cnt_test=0;
 void Usart::send_to_serial(const uint16_t &throttle,
                             const uint16_t &brake,
                             const int16_t &steer){
@@ -58,6 +58,10 @@ void Usart::send_to_serial(const uint16_t &throttle,
     Temp2 = steer;
 	Send_BUF[Cnt++] = BYTE1(Temp2);
 	Send_BUF[Cnt++] = BYTE0(Temp2);
+
+    Temp2 = cnt_test++;
+        Send_BUF[Cnt++] = BYTE1(Temp2);
+        Send_BUF[Cnt++] = BYTE0(Temp2);
 	
 	Send_BUF[4] = Cnt - 5;
 	
@@ -68,7 +72,6 @@ void Usart::send_to_serial(const uint16_t &throttle,
 	Send_BUF[0] = Cnt - 1;   
 
     write(*pSerialPort, buffer(Send_BUF,Cnt));
-cout << "---------------------------send:"<< steer <<"\n";
 }
 
 void Usart::reveive_from_serial(double &speed,
