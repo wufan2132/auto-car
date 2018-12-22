@@ -52,7 +52,7 @@ Car_State_SL path_optimizer::get_start_point(const car_msgs::trajectory_point ca
         S(0) = S_out(0,0) - car_last_sl.s;
         MatrixXf L_out;
         Fitting::cal_point_quintic5(QP5 ,S,L_out);
-        int end_index = start_index;
+        int end_index = start_index+5;
         while(end_index<trajectory_now.total_path_length-1&&S_out(0,0)-trajectory_now.trajectory_path[end_index].s>0) end_index++;
         int len1 = end_index - start_index;
         for(int i=0;i<len1;i++){
@@ -62,6 +62,8 @@ Car_State_SL path_optimizer::get_start_point(const car_msgs::trajectory_point ca
         }
         //设置起点为end_index当前坐标
         Car_State_SL start_sl;
+        // start_sl.index = status_sl.index;
+        // Coordinate_converter::POS_to_SL(refrence_Trajectory,trajectory_now.trajectory_path[end_index],start_sl);
         start_sl.s = S_out(0,0);
         start_sl.sv = S_out(0,1);
         start_sl.sa = S_out(0,2);
@@ -69,12 +71,12 @@ Car_State_SL path_optimizer::get_start_point(const car_msgs::trajectory_point ca
         start_sl.dl = L_out(0,1);
         start_sl.ddl = L_out(0,2);
         start_sl.index = len1;
-        // cout<<"QP4"<<endl;
-        // cout<<QP4<<endl;
-        // cout<<"S_out"<<endl;
-        // cout<<S_out<<endl;
-        // cout<<"car_S:"<<status_sl.s<<"  1s_car_S:"<<S_out(0,0)<<endl;
-        // cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<endl;
+        cout<<"QP4"<<endl;
+        cout<<QP4<<endl;
+        cout<<"S_out"<<endl;
+        cout<<S_out<<endl;
+        cout<<"car_S:"<<status_sl.s<<"  1s_car_S:"<<S_out(0,0)<<endl;
+        cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<endl;
         return start_sl;
      }
 }
@@ -99,9 +101,9 @@ Car_State_SL path_optimizer::get_start_point(const car_msgs::trajectory_point ca
 
 
 
-    sampler->reset(start_sl);
+    // sampler->reset(start_sl);
 
-    sampler->getpointsSL();
+    // sampler->getpointsSL();
 
 
     //

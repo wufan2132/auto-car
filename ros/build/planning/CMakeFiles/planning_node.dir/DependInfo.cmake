@@ -33,6 +33,7 @@ set(CMAKE_TARGET_LINKED_INFO_FILES
   "/home/wf/my-code/auto-car/ros/build/planning/src/model/CMakeFiles/car_model.dir/DependInfo.cmake"
   "/home/wf/my-code/auto-car/ros/build/planning/src/trajectory/CMakeFiles/trajectory.dir/DependInfo.cmake"
   "/home/wf/my-code/auto-car/ros/build/planning/src/sampler/CMakeFiles/sampler.dir/DependInfo.cmake"
+  "/home/wf/my-code/auto-car/ros/build/planning/src/apollo_tool/CMakeFiles/apollo_tool.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

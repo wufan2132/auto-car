@@ -56,28 +56,6 @@ CMAKE_BINARY_DIR = /home/wf/my-code/auto-car/ros/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
@@ -89,15 +67,16 @@ test/fast: test
 
 .PHONY : test/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
 
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
+# Special rule for the target install/local
+install/local/fast: install/local
 
-.PHONY : list_install_components/fast
+.PHONY : install/local/fast
 
 # Special rule for the target install
 install: preinstall
@@ -122,16 +101,59 @@ install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
 
-# Special rule for the target install/local
-install/local/fast: install/local
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
 
-.PHONY : install/local/fast
+.PHONY : list_install_components/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	cd /home/wf/my-code/auto-car/ros/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/wf/my-code/auto-car/ros/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/wf/my-code/auto-car/ros/build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+
+.PHONY : package/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -166,21 +188,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-control/src/controller/math.out/CMakeFiles/mpc_math.dir/rule:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 control/src/controller/math.out/CMakeFiles/mpc_math.dir/rule
-.PHONY : control/src/controller/math.out/CMakeFiles/mpc_math.dir/rule
-
-# Convenience name for target.
-mpc_math: control/src/controller/math.out/CMakeFiles/mpc_math.dir/rule
-
-.PHONY : mpc_math
-
-# fast build rule for target.
-mpc_math/fast:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/build
-.PHONY : mpc_math/fast
-
-# Convenience name for target.
 control/src/controller/math.out/CMakeFiles/math.dir/rule:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 control/src/controller/math.out/CMakeFiles/math.dir/rule
 .PHONY : control/src/controller/math.out/CMakeFiles/math.dir/rule
@@ -195,14 +202,29 @@ math/fast:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/build
 .PHONY : math/fast
 
+# Convenience name for target.
+control/src/controller/math.out/CMakeFiles/mpc_math.dir/rule:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 control/src/controller/math.out/CMakeFiles/mpc_math.dir/rule
+.PHONY : control/src/controller/math.out/CMakeFiles/mpc_math.dir/rule
+
+# Convenience name for target.
+mpc_math: control/src/controller/math.out/CMakeFiles/mpc_math.dir/rule
+
+.PHONY : mpc_math
+
+# fast build rule for target.
+mpc_math/fast:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/build
+.PHONY : mpc_math/fast
+
 linear_interpolation.o: linear_interpolation.cc.o
 
 .PHONY : linear_interpolation.o
 
 # target to build an object file
 linear_interpolation.cc.o:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/linear_interpolation.cc.o
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/linear_interpolation.cc.o
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/linear_interpolation.cc.o
 .PHONY : linear_interpolation.cc.o
 
 linear_interpolation.i: linear_interpolation.cc.i
@@ -211,8 +233,8 @@ linear_interpolation.i: linear_interpolation.cc.i
 
 # target to preprocess a source file
 linear_interpolation.cc.i:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/linear_interpolation.cc.i
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/linear_interpolation.cc.i
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/linear_interpolation.cc.i
 .PHONY : linear_interpolation.cc.i
 
 linear_interpolation.s: linear_interpolation.cc.s
@@ -221,8 +243,8 @@ linear_interpolation.s: linear_interpolation.cc.s
 
 # target to generate assembly for a file
 linear_interpolation.cc.s:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/linear_interpolation.cc.s
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/linear_interpolation.cc.s
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/linear_interpolation.cc.s
 .PHONY : linear_interpolation.cc.s
 
 linear_quadratic_regulator.o: linear_quadratic_regulator.cc.o
@@ -258,8 +280,8 @@ math_utils.o: math_utils.cc.o
 
 # target to build an object file
 math_utils.cc.o:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/math_utils.cc.o
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/math_utils.cc.o
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/math_utils.cc.o
 .PHONY : math_utils.cc.o
 
 math_utils.i: math_utils.cc.i
@@ -268,8 +290,8 @@ math_utils.i: math_utils.cc.i
 
 # target to preprocess a source file
 math_utils.cc.i:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/math_utils.cc.i
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/math_utils.cc.i
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/math_utils.cc.i
 .PHONY : math_utils.cc.i
 
 math_utils.s: math_utils.cc.s
@@ -278,8 +300,8 @@ math_utils.s: math_utils.cc.s
 
 # target to generate assembly for a file
 math_utils.cc.s:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/math_utils.cc.s
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/math_utils.cc.s
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/math_utils.cc.s
 .PHONY : math_utils.cc.s
 
 mpc_solver.o: mpc_solver.cc.o
@@ -315,8 +337,8 @@ search.o: search.cc.o
 
 # target to build an object file
 search.cc.o:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/search.cc.o
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/search.cc.o
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/search.cc.o
 .PHONY : search.cc.o
 
 search.i: search.cc.i
@@ -325,8 +347,8 @@ search.i: search.cc.i
 
 # target to preprocess a source file
 search.cc.i:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/search.cc.i
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/search.cc.i
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/search.cc.i
 .PHONY : search.cc.i
 
 search.s: search.cc.s
@@ -335,8 +357,8 @@ search.s: search.cc.s
 
 # target to generate assembly for a file
 search.cc.s:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/search.cc.s
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/search.cc.s
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/search.cc.s
 .PHONY : search.cc.s
 
 # Help Target
@@ -345,15 +367,17 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
-	@echo "... edit_cache"
 	@echo "... test"
-	@echo "... mpc_math"
-	@echo "... list_install_components"
-	@echo "... install"
-	@echo "... math"
-	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... math"
+	@echo "... install"
+	@echo "... install/strip"
+	@echo "... list_install_components"
+	@echo "... mpc_math"
+	@echo "... rebuild_cache"
+	@echo "... package_source"
+	@echo "... edit_cache"
+	@echo "... package"
 	@echo "... linear_interpolation.o"
 	@echo "... linear_interpolation.i"
 	@echo "... linear_interpolation.s"

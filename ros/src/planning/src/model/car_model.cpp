@@ -9,7 +9,7 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
         return 0;
     }
     //cout<<"status_sl.index:"<<status_sl.index<<endl;
-    int end_index = min(status_sl.index+270,int(reference_line.total_path_length)-2);
+    int end_index = min(status_sl.index+nums,int(reference_line.total_path_length)-2);
     //cout<<"end_index:"<<end_index<<endl;
     for(int i=status_sl.index;i<end_index;i++){
         float distance0 = (point.x - reference_line.trajectory_path[i].x)*(point.x - reference_line.trajectory_path[i].x) +

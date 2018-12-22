@@ -116,6 +116,7 @@ planning_node_EXTERNAL_OBJECTS =
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /home/wf/my-code/auto-car/ros/devel/lib/libcar_model.so
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.so
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /home/wf/my-code/auto-car/ros/devel/lib/libsampler.so
+/home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /home/wf/my-code/auto-car/ros/devel/lib/libapollo_tool.so
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /usr/lib/x86_64-linux-gnu/libyaml-cpp.so
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: planning/CMakeFiles/planning_node.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node"

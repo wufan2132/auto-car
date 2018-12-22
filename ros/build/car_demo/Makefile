@@ -56,6 +56,17 @@ CMAKE_BINARY_DIR = /home/wf/my-code/auto-car/ros/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # Special rule for the target list_install_components
 list_install_components:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
@@ -78,17 +89,6 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
@@ -99,6 +99,28 @@ test:
 test/fast: test
 
 .PHONY : test/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	cd /home/wf/my-code/auto-car/ros/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/wf/my-code/auto-car/ros/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
+
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/wf/my-code/auto-car/ros/build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+
+.PHONY : package/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -900,9 +922,9 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... edit_cache"
 	@echo "... list_install_components"
 	@echo "... install"
-	@echo "... edit_cache"
 	@echo "... actionlib_generate_messages_py"
 	@echo "... sensor_msgs_generate_messages_nodejs"
 	@echo "... gazebo_msgs_generate_messages_eus"
@@ -914,11 +936,13 @@ help:
 	@echo "... actionlib_generate_messages_nodejs"
 	@echo "... tf_generate_messages_py"
 	@echo "... test"
+	@echo "... package_source"
 	@echo "... trajectory_msgs_generate_messages_cpp"
 	@echo "... std_srvs_generate_messages_lisp"
 	@echo "... tf2_msgs_generate_messages_lisp"
 	@echo "... tf_generate_messages_cpp"
 	@echo "... std_srvs_generate_messages_eus"
+	@echo "... package"
 	@echo "... gazebo_msgs_generate_messages_cpp"
 	@echo "... gazebo_msgs_generate_messages_nodejs"
 	@echo "... std_srvs_generate_messages_py"

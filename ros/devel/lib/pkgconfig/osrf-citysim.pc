@@ -1,0 +1,8 @@
+prefix=/home/wf/my-code/auto-car/ros/devel
+
+Name: osrf-citysim
+Description: Description of osrf-citysim
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/wf/my-code/auto-car/ros/devel/lib 
+Requires: 

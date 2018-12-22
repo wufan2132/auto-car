@@ -135,6 +135,7 @@ add_subdirectory(src/tool)
 add_subdirectory(src/model)
 add_subdirectory(src/trajectory)
 add_subdirectory(src/sampler)
+add_subdirectory(src/apollo_tool)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -166,6 +167,7 @@ target_link_libraries(${PROJECT_NAME}_node
    car_model
    trajectory
    sampler
+   apollo_tool
 )
 
 #############

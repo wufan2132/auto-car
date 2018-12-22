@@ -56,15 +56,38 @@ CMAKE_BINARY_DIR = /home/wf/my-code/auto-car/ros/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
 
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
+# Special rule for the target test
+test/fast: test
 
-.PHONY : list_install_components/fast
+.PHONY : test/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: install/local
+
+.PHONY : install/local/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # Special rule for the target install
 install: preinstall
@@ -78,39 +101,6 @@ install/fast: preinstall/fast
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
@@ -122,16 +112,48 @@ install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
 
-# Special rule for the target install/local
-install/local/fast: install/local
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
 
-.PHONY : install/local/fast
+.PHONY : list_install_components/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	cd /home/wf/my-code/auto-car/ros/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/wf/my-code/auto-car/ros/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
+
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/wf/my-code/auto-car/ros/build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+
+.PHONY : package/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -166,21 +188,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-gtest/CMakeFiles/gmock.dir/rule:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gmock.dir/rule
-.PHONY : gtest/CMakeFiles/gmock.dir/rule
-
-# Convenience name for target.
-gmock: gtest/CMakeFiles/gmock.dir/rule
-
-.PHONY : gmock
-
-# fast build rule for target.
-gmock/fast:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/build
-.PHONY : gmock/fast
-
-# Convenience name for target.
 gtest/CMakeFiles/gmock_main.dir/rule:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gmock_main.dir/rule
 .PHONY : gtest/CMakeFiles/gmock_main.dir/rule
@@ -195,14 +202,29 @@ gmock_main/fast:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/build
 .PHONY : gmock_main/fast
 
+# Convenience name for target.
+gtest/CMakeFiles/gmock.dir/rule:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 gtest/CMakeFiles/gmock.dir/rule
+.PHONY : gtest/CMakeFiles/gmock.dir/rule
+
+# Convenience name for target.
+gmock: gtest/CMakeFiles/gmock.dir/rule
+
+.PHONY : gmock
+
+# fast build rule for target.
+gmock/fast:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/build
+.PHONY : gmock/fast
+
 src/gmock-all.o: src/gmock-all.cc.o
 
 .PHONY : src/gmock-all.o
 
 # target to build an object file
 src/gmock-all.cc.o:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/src/gmock-all.cc.o
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/src/gmock-all.cc.o
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/src/gmock-all.cc.o
 .PHONY : src/gmock-all.cc.o
 
 src/gmock-all.i: src/gmock-all.cc.i
@@ -211,8 +233,8 @@ src/gmock-all.i: src/gmock-all.cc.i
 
 # target to preprocess a source file
 src/gmock-all.cc.i:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/src/gmock-all.cc.i
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/src/gmock-all.cc.i
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/src/gmock-all.cc.i
 .PHONY : src/gmock-all.cc.i
 
 src/gmock-all.s: src/gmock-all.cc.s
@@ -221,8 +243,8 @@ src/gmock-all.s: src/gmock-all.cc.s
 
 # target to generate assembly for a file
 src/gmock-all.cc.s:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/src/gmock-all.cc.s
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/src/gmock-all.cc.s
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/src/gmock-all.cc.s
 .PHONY : src/gmock-all.cc.s
 
 src/gmock_main.o: src/gmock_main.cc.o
@@ -258,8 +280,8 @@ usr/src/gtest/src/gtest-all.o: usr/src/gtest/src/gtest-all.cc.o
 
 # target to build an object file
 usr/src/gtest/src/gtest-all.cc.o:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/usr/src/gtest/src/gtest-all.cc.o
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/usr/src/gtest/src/gtest-all.cc.o
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/usr/src/gtest/src/gtest-all.cc.o
 .PHONY : usr/src/gtest/src/gtest-all.cc.o
 
 usr/src/gtest/src/gtest-all.i: usr/src/gtest/src/gtest-all.cc.i
@@ -268,8 +290,8 @@ usr/src/gtest/src/gtest-all.i: usr/src/gtest/src/gtest-all.cc.i
 
 # target to preprocess a source file
 usr/src/gtest/src/gtest-all.cc.i:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/usr/src/gtest/src/gtest-all.cc.i
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/usr/src/gtest/src/gtest-all.cc.i
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/usr/src/gtest/src/gtest-all.cc.i
 .PHONY : usr/src/gtest/src/gtest-all.cc.i
 
 usr/src/gtest/src/gtest-all.s: usr/src/gtest/src/gtest-all.cc.s
@@ -278,8 +300,8 @@ usr/src/gtest/src/gtest-all.s: usr/src/gtest/src/gtest-all.cc.s
 
 # target to generate assembly for a file
 usr/src/gtest/src/gtest-all.cc.s:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/usr/src/gtest/src/gtest-all.cc.s
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/usr/src/gtest/src/gtest-all.cc.s
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/usr/src/gtest/src/gtest-all.cc.s
 .PHONY : usr/src/gtest/src/gtest-all.cc.s
 
 # Help Target
@@ -288,15 +310,17 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... list_install_components"
-	@echo "... install"
-	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... edit_cache"
-	@echo "... gmock"
-	@echo "... gmock_main"
-	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/strip"
+	@echo "... list_install_components"
+	@echo "... gmock_main"
+	@echo "... rebuild_cache"
+	@echo "... package_source"
+	@echo "... gmock"
+	@echo "... package"
 	@echo "... src/gmock-all.o"
 	@echo "... src/gmock-all.i"
 	@echo "... src/gmock-all.s"

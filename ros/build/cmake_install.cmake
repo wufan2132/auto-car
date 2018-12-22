@@ -117,6 +117,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/wf/my-code/auto-car/ros/build/gtest/cmake_install.cmake")
+  include("/home/wf/my-code/auto-car/ros/build/citysim/cmake_install.cmake")
   include("/home/wf/my-code/auto-car/ros/build/car_msgs/cmake_install.cmake")
   include("/home/wf/my-code/auto-car/ros/build/chassis/cmake_install.cmake")
   include("/home/wf/my-code/auto-car/ros/build/debuggerpy/cmake_install.cmake")

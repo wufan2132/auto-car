@@ -56,28 +56,6 @@ CMAKE_BINARY_DIR = /home/wf/my-code/auto-car/ros/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -88,6 +66,39 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	cd /home/wf/my-code/auto-car/ros/build && /usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+
+.PHONY : package/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	cd /home/wf/my-code/auto-car/ros/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/wf/my-code/auto-car/ros/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
 
 # Special rule for the target install/local
 install/local: preinstall
@@ -111,16 +122,27 @@ install/strip/fast: install/strip
 
 .PHONY : install/strip/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
 
-# Special rule for the target test
-test/fast: test
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
-.PHONY : test/fast
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -194,21 +216,6 @@ geometry_msgs_generate_messages_nodejs: car_msgs/CMakeFiles/geometry_msgs_genera
 geometry_msgs_generate_messages_nodejs/fast:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f car_msgs/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make car_msgs/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
 .PHONY : geometry_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-.PHONY : car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_lisp: car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : std_msgs_generate_messages_lisp
-
-# fast build rule for target.
-std_msgs_generate_messages_lisp/fast:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
-.PHONY : std_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 car_msgs/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule:
@@ -361,19 +368,19 @@ rosgraph_msgs_generate_messages_py/fast:
 .PHONY : rosgraph_msgs_generate_messages_py/fast
 
 # Convenience name for target.
-car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-.PHONY : car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
+.PHONY : car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-roscpp_generate_messages_eus: car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+geometry_msgs_generate_messages_cpp: car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
 
-.PHONY : roscpp_generate_messages_eus
+.PHONY : geometry_msgs_generate_messages_cpp
 
 # fast build rule for target.
-roscpp_generate_messages_eus/fast:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/build.make car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/build
-.PHONY : roscpp_generate_messages_eus/fast
+geometry_msgs_generate_messages_cpp/fast:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
+.PHONY : geometry_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 car_msgs/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
@@ -766,19 +773,34 @@ car_msgs_generate_messages_py/fast:
 .PHONY : car_msgs_generate_messages_py/fast
 
 # Convenience name for target.
-car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-.PHONY : car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
+car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+.PHONY : car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
-geometry_msgs_generate_messages_cpp: car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
+std_msgs_generate_messages_lisp: car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 
-.PHONY : geometry_msgs_generate_messages_cpp
+.PHONY : std_msgs_generate_messages_lisp
 
 # fast build rule for target.
-geometry_msgs_generate_messages_cpp/fast:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
-.PHONY : geometry_msgs_generate_messages_cpp/fast
+std_msgs_generate_messages_lisp/fast:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+.PHONY : std_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f CMakeFiles/Makefile2 car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+.PHONY : car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_eus: car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+.PHONY : roscpp_generate_messages_eus
+
+# fast build rule for target.
+roscpp_generate_messages_eus/fast:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/build.make car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/build
+.PHONY : roscpp_generate_messages_eus/fast
 
 # Help Target
 help:
@@ -786,13 +808,13 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... edit_cache"
 	@echo "... car_msgs_generate_messages"
 	@echo "... geometry_msgs_generate_messages_nodejs"
-	@echo "... install"
-	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_eus"
 	@echo "... roscpp_generate_messages_lisp"
+	@echo "... package"
 	@echo "... _car_msgs_generate_messages_check_deps_vehicle_state"
 	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... std_msgs_generate_messages_nodejs"
@@ -800,8 +822,9 @@ help:
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
-	@echo "... list_install_components"
-	@echo "... roscpp_generate_messages_eus"
+	@echo "... test"
+	@echo "... package_source"
+	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_cpp"
@@ -818,7 +841,6 @@ help:
 	@echo "... _car_msgs_generate_messages_check_deps_chassis"
 	@echo "... _car_msgs_generate_messages_check_deps_localization"
 	@echo "... _car_msgs_generate_messages_check_deps_trajectory"
-	@echo "... edit_cache"
 	@echo "... _car_msgs_generate_messages_check_deps_mpc_debug"
 	@echo "... _car_msgs_generate_messages_check_deps_lat_debug"
 	@echo "... _car_msgs_generate_messages_check_deps_control_cmd"
@@ -831,8 +853,10 @@ help:
 	@echo "... car_msgs_genlisp"
 	@echo "... car_msgs_generate_messages_py"
 	@echo "... install/strip"
-	@echo "... geometry_msgs_generate_messages_cpp"
-	@echo "... test"
+	@echo "... std_msgs_generate_messages_lisp"
+	@echo "... install"
+	@echo "... roscpp_generate_messages_eus"
+	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 .PHONY : help
 

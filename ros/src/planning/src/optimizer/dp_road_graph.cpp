@@ -6,7 +6,7 @@ DpRoadGraph::DpRoadGraph(YAML::Node yaml_conf){
 
 
 void DpRoadGraph::reset(Car_State_SL init_SLpoint, int total_level){
-    trajectorycost->reset();
+    trajectorycost->reset(total_level);
 }
 
 void DpRoadGraph::process(const vector<vector<Car_State_SL> >& path_waypoints){
@@ -47,7 +47,7 @@ void DpRoadGraph::UpdateNode(const list<RoadGraphNode> &prev_nodes,
                                             cur_node->s - pre_node.s);
         //曲线评估
         //IsValidCurve(QP5);
-        double cost = trajectorycost->evaluate();
+        double cost = trajectorycost->evaluate(QP5, pre_node.s, cur_node->s, level);
         cur_node->UpdateCost(&pre_node, QP5, cost);
     }
     //尝试连接初始点
@@ -59,7 +59,7 @@ void DpRoadGraph::UpdateNode(const list<RoadGraphNode> &prev_nodes,
                                             cur_node->s - front->s);
         //曲线评估
         //IsValidCurve(QP5);
-        double cost = trajectorycost->evaluate();
+        double cost = trajectorycost->evaluate(QP5, front->s, cur_node->s, level);
         cur_node->UpdateCost(front, QP5, cost);
     }
 }

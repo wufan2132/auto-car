@@ -56,17 +56,16 @@ CMAKE_BINARY_DIR = /home/wf/my-code/auto-car/ros/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
 
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -79,6 +78,28 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
+# Special rule for the target package
+package: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
+	/usr/bin/cpack --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+
+.PHONY : package/fast
+
+# Special rule for the target package_source
+package_source:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/wf/my-code/auto-car/ros/build/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+
+.PHONY : package_source/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -89,27 +110,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: install/strip
-
-.PHONY : install/strip/fast
 
 # Special rule for the target install/local
 install/local: preinstall
@@ -122,16 +122,38 @@ install/local/fast: install/local
 
 .PHONY : install/local/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
 
-# Special rule for the target test
-test/fast: test
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
-.PHONY : test/fast
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: install/strip
+
+.PHONY : install/strip/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -231,19 +253,6 @@ doxygen/fast:
 .PHONY : doxygen/fast
 
 #=============================================================================
-# Target rules for targets named gmock
-
-# Build rule for target.
-gmock: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 gmock
-.PHONY : gmock
-
-# fast build rule for target.
-gmock/fast:
-	$(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/build
-.PHONY : gmock/fast
-
-#=============================================================================
 # Target rules for targets named gmock_main
 
 # Build rule for target.
@@ -255,6 +264,19 @@ gmock_main: cmake_check_build_system
 gmock_main/fast:
 	$(MAKE) -f gtest/CMakeFiles/gmock_main.dir/build.make gtest/CMakeFiles/gmock_main.dir/build
 .PHONY : gmock_main/fast
+
+#=============================================================================
+# Target rules for targets named gmock
+
+# Build rule for target.
+gmock: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 gmock
+.PHONY : gmock
+
+# fast build rule for target.
+gmock/fast:
+	$(MAKE) -f gtest/CMakeFiles/gmock.dir/build.make gtest/CMakeFiles/gmock.dir/build
+.PHONY : gmock/fast
 
 #=============================================================================
 # Target rules for targets named gtest
@@ -283,6 +305,84 @@ gtest_main/fast:
 .PHONY : gtest_main/fast
 
 #=============================================================================
+# Target rules for targets named BloomVisualPlugin
+
+# Build rule for target.
+BloomVisualPlugin: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 BloomVisualPlugin
+.PHONY : BloomVisualPlugin
+
+# fast build rule for target.
+BloomVisualPlugin/fast:
+	$(MAKE) -f citysim/plugins/CMakeFiles/BloomVisualPlugin.dir/build.make citysim/plugins/CMakeFiles/BloomVisualPlugin.dir/build
+.PHONY : BloomVisualPlugin/fast
+
+#=============================================================================
+# Target rules for targets named TrafficLightsGUIPlugin
+
+# Build rule for target.
+TrafficLightsGUIPlugin: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TrafficLightsGUIPlugin
+.PHONY : TrafficLightsGUIPlugin
+
+# fast build rule for target.
+TrafficLightsGUIPlugin/fast:
+	$(MAKE) -f citysim/plugins/CMakeFiles/TrafficLightsGUIPlugin.dir/build.make citysim/plugins/CMakeFiles/TrafficLightsGUIPlugin.dir/build
+.PHONY : TrafficLightsGUIPlugin/fast
+
+#=============================================================================
+# Target rules for targets named LensFlareVisualPlugin
+
+# Build rule for target.
+LensFlareVisualPlugin: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 LensFlareVisualPlugin
+.PHONY : LensFlareVisualPlugin
+
+# fast build rule for target.
+LensFlareVisualPlugin/fast:
+	$(MAKE) -f citysim/plugins/CMakeFiles/LensFlareVisualPlugin.dir/build.make citysim/plugins/CMakeFiles/LensFlareVisualPlugin.dir/build
+.PHONY : LensFlareVisualPlugin/fast
+
+#=============================================================================
+# Target rules for targets named BloomVisualPlugin_automoc
+
+# Build rule for target.
+BloomVisualPlugin_automoc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 BloomVisualPlugin_automoc
+.PHONY : BloomVisualPlugin_automoc
+
+# fast build rule for target.
+BloomVisualPlugin_automoc/fast:
+	$(MAKE) -f citysim/plugins/CMakeFiles/BloomVisualPlugin_automoc.dir/build.make citysim/plugins/CMakeFiles/BloomVisualPlugin_automoc.dir/build
+.PHONY : BloomVisualPlugin_automoc/fast
+
+#=============================================================================
+# Target rules for targets named TrafficLightsGUIPlugin_automoc
+
+# Build rule for target.
+TrafficLightsGUIPlugin_automoc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TrafficLightsGUIPlugin_automoc
+.PHONY : TrafficLightsGUIPlugin_automoc
+
+# fast build rule for target.
+TrafficLightsGUIPlugin_automoc/fast:
+	$(MAKE) -f citysim/plugins/CMakeFiles/TrafficLightsGUIPlugin_automoc.dir/build.make citysim/plugins/CMakeFiles/TrafficLightsGUIPlugin_automoc.dir/build
+.PHONY : TrafficLightsGUIPlugin_automoc/fast
+
+#=============================================================================
+# Target rules for targets named LensFlareVisualPlugin_automoc
+
+# Build rule for target.
+LensFlareVisualPlugin_automoc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 LensFlareVisualPlugin_automoc
+.PHONY : LensFlareVisualPlugin_automoc
+
+# fast build rule for target.
+LensFlareVisualPlugin_automoc/fast:
+	$(MAKE) -f citysim/plugins/CMakeFiles/LensFlareVisualPlugin_automoc.dir/build.make citysim/plugins/CMakeFiles/LensFlareVisualPlugin_automoc.dir/build
+.PHONY : LensFlareVisualPlugin_automoc/fast
+
+#=============================================================================
 # Target rules for targets named car_msgs_generate_messages
 
 # Build rule for target.
@@ -307,19 +407,6 @@ geometry_msgs_generate_messages_nodejs: cmake_check_build_system
 geometry_msgs_generate_messages_nodejs/fast:
 	$(MAKE) -f car_msgs/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make car_msgs/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
 .PHONY : geometry_msgs_generate_messages_nodejs/fast
-
-#=============================================================================
-# Target rules for targets named std_msgs_generate_messages_lisp
-
-# Build rule for target.
-std_msgs_generate_messages_lisp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 std_msgs_generate_messages_lisp
-.PHONY : std_msgs_generate_messages_lisp
-
-# fast build rule for target.
-std_msgs_generate_messages_lisp/fast:
-	$(MAKE) -f car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
-.PHONY : std_msgs_generate_messages_lisp/fast
 
 #=============================================================================
 # Target rules for targets named geometry_msgs_generate_messages_lisp
@@ -452,17 +539,17 @@ rosgraph_msgs_generate_messages_py/fast:
 .PHONY : rosgraph_msgs_generate_messages_py/fast
 
 #=============================================================================
-# Target rules for targets named roscpp_generate_messages_eus
+# Target rules for targets named geometry_msgs_generate_messages_cpp
 
 # Build rule for target.
-roscpp_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 roscpp_generate_messages_eus
-.PHONY : roscpp_generate_messages_eus
+geometry_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 geometry_msgs_generate_messages_cpp
+.PHONY : geometry_msgs_generate_messages_cpp
 
 # fast build rule for target.
-roscpp_generate_messages_eus/fast:
-	$(MAKE) -f car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/build.make car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/build
-.PHONY : roscpp_generate_messages_eus/fast
+geometry_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
+.PHONY : geometry_msgs_generate_messages_cpp/fast
 
 #=============================================================================
 # Target rules for targets named std_msgs_generate_messages_cpp
@@ -803,17 +890,30 @@ car_msgs_generate_messages_py/fast:
 .PHONY : car_msgs_generate_messages_py/fast
 
 #=============================================================================
-# Target rules for targets named geometry_msgs_generate_messages_cpp
+# Target rules for targets named std_msgs_generate_messages_lisp
 
 # Build rule for target.
-geometry_msgs_generate_messages_cpp: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 geometry_msgs_generate_messages_cpp
-.PHONY : geometry_msgs_generate_messages_cpp
+std_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 std_msgs_generate_messages_lisp
+.PHONY : std_msgs_generate_messages_lisp
 
 # fast build rule for target.
-geometry_msgs_generate_messages_cpp/fast:
-	$(MAKE) -f car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make car_msgs/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
-.PHONY : geometry_msgs_generate_messages_cpp/fast
+std_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make car_msgs/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+.PHONY : std_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named roscpp_generate_messages_eus
+
+# Build rule for target.
+roscpp_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 roscpp_generate_messages_eus
+.PHONY : roscpp_generate_messages_eus
+
+# fast build rule for target.
+roscpp_generate_messages_eus/fast:
+	$(MAKE) -f car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/build.make car_msgs/CMakeFiles/roscpp_generate_messages_eus.dir/build
+.PHONY : roscpp_generate_messages_eus/fast
 
 #=============================================================================
 # Target rules for targets named chassis_node
@@ -1204,6 +1304,19 @@ sampler: cmake_check_build_system
 sampler/fast:
 	$(MAKE) -f planning/src/sampler/CMakeFiles/sampler.dir/build.make planning/src/sampler/CMakeFiles/sampler.dir/build
 .PHONY : sampler/fast
+
+#=============================================================================
+# Target rules for targets named apollo_tool
+
+# Build rule for target.
+apollo_tool: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 apollo_tool
+.PHONY : apollo_tool
+
+# fast build rule for target.
+apollo_tool/fast:
+	$(MAKE) -f planning/src/apollo_tool/CMakeFiles/apollo_tool.dir/build.make planning/src/apollo_tool/CMakeFiles/apollo_tool.dir/build
+.PHONY : apollo_tool/fast
 
 #=============================================================================
 # Target rules for targets named visualization_msgs_generate_messages_eus
@@ -1908,19 +2021,6 @@ control/fast:
 .PHONY : control/fast
 
 #=============================================================================
-# Target rules for targets named mpc_math
-
-# Build rule for target.
-mpc_math: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 mpc_math
-.PHONY : mpc_math
-
-# fast build rule for target.
-mpc_math/fast:
-	$(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/build
-.PHONY : mpc_math/fast
-
-#=============================================================================
 # Target rules for targets named math
 
 # Build rule for target.
@@ -1932,6 +2032,19 @@ math: cmake_check_build_system
 math/fast:
 	$(MAKE) -f control/src/controller/math.out/CMakeFiles/math.dir/build.make control/src/controller/math.out/CMakeFiles/math.dir/build
 .PHONY : math/fast
+
+#=============================================================================
+# Target rules for targets named mpc_math
+
+# Build rule for target.
+mpc_math: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 mpc_math
+.PHONY : mpc_math
+
+# fast build rule for target.
+mpc_math/fast:
+	$(MAKE) -f control/src/controller/math.out/CMakeFiles/mpc_math.dir/build.make control/src/controller/math.out/CMakeFiles/mpc_math.dir/build
+.PHONY : mpc_math/fast
 
 #=============================================================================
 # Target rules for targets named qp_solver
@@ -1952,25 +2065,32 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install"
+	@echo "... test"
+	@echo "... edit_cache"
 	@echo "... clean_test_results"
+	@echo "... package"
 	@echo "... run_tests"
 	@echo "... download_extra_data"
 	@echo "... tests"
-	@echo "... edit_cache"
+	@echo "... package_source"
 	@echo "... doxygen"
 	@echo "... rebuild_cache"
-	@echo "... list_install_components"
-	@echo "... install/strip"
 	@echo "... install/local"
-	@echo "... test"
-	@echo "... gmock"
+	@echo "... install"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... gmock_main"
+	@echo "... gmock"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... BloomVisualPlugin"
+	@echo "... TrafficLightsGUIPlugin"
+	@echo "... LensFlareVisualPlugin"
+	@echo "... BloomVisualPlugin_automoc"
+	@echo "... TrafficLightsGUIPlugin_automoc"
+	@echo "... LensFlareVisualPlugin_automoc"
 	@echo "... car_msgs_generate_messages"
 	@echo "... geometry_msgs_generate_messages_nodejs"
-	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_lisp"
 	@echo "... std_msgs_generate_messages_eus"
 	@echo "... roscpp_generate_messages_lisp"
@@ -1981,7 +2101,7 @@ help:
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
-	@echo "... roscpp_generate_messages_eus"
+	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_cpp"
@@ -2008,7 +2128,8 @@ help:
 	@echo "... car_msgs_generate_messages_lisp"
 	@echo "... car_msgs_genlisp"
 	@echo "... car_msgs_generate_messages_py"
-	@echo "... geometry_msgs_generate_messages_cpp"
+	@echo "... std_msgs_generate_messages_lisp"
+	@echo "... roscpp_generate_messages_eus"
 	@echo "... chassis_node"
 	@echo "... nav_msgs_generate_messages_lisp"
 	@echo "... nav_msgs_generate_messages_eus"
@@ -2039,6 +2160,7 @@ help:
 	@echo "... car_model"
 	@echo "... trajectory"
 	@echo "... sampler"
+	@echo "... apollo_tool"
 	@echo "... visualization_msgs_generate_messages_eus"
 	@echo "... visualization_msgs_generate_messages_lisp"
 	@echo "... visualization_msgs_generate_messages_cpp"
@@ -2093,8 +2215,8 @@ help:
 	@echo "... control_node"
 	@echo "... common_lib"
 	@echo "... control"
-	@echo "... mpc_math"
 	@echo "... math"
+	@echo "... mpc_math"
 	@echo "... qp_solver"
 .PHONY : help
 
