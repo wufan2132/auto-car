@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/chassis_node.dir/src/main.cc.o"
-  "CMakeFiles/chassis_node.dir/src/car_chassis.cc.o"
+  "CMakeFiles/chassis_node.dir/src/usart.cc.o"
   "/home/wf/my-code/auto-car/ros/devel/lib/chassis/chassis_node.pdb"
   "/home/wf/my-code/auto-car/ros/devel/lib/chassis/chassis_node"
 )

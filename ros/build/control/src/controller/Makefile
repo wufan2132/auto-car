@@ -229,32 +229,59 @@ control.cc.s:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/control.cc.s
 .PHONY : control.cc.s
 
-mpc_controller.o: mpc_controller.cc.o
+lat_controller.o: lat_controller.cc.o
 
-.PHONY : mpc_controller.o
+.PHONY : lat_controller.o
 
 # target to build an object file
-mpc_controller.cc.o:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o
-.PHONY : mpc_controller.cc.o
+lat_controller.cc.o:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o
+.PHONY : lat_controller.cc.o
 
-mpc_controller.i: mpc_controller.cc.i
+lat_controller.i: lat_controller.cc.i
 
-.PHONY : mpc_controller.i
+.PHONY : lat_controller.i
 
 # target to preprocess a source file
-mpc_controller.cc.i:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.i
-.PHONY : mpc_controller.cc.i
+lat_controller.cc.i:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/lat_controller.cc.i
+.PHONY : lat_controller.cc.i
 
-mpc_controller.s: mpc_controller.cc.s
+lat_controller.s: lat_controller.cc.s
 
-.PHONY : mpc_controller.s
+.PHONY : lat_controller.s
 
 # target to generate assembly for a file
-mpc_controller.cc.s:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.s
-.PHONY : mpc_controller.cc.s
+lat_controller.cc.s:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/lat_controller.cc.s
+.PHONY : lat_controller.cc.s
+
+lon_controller.o: lon_controller.cc.o
+
+.PHONY : lon_controller.o
+
+# target to build an object file
+lon_controller.cc.o:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o
+.PHONY : lon_controller.cc.o
+
+lon_controller.i: lon_controller.cc.i
+
+.PHONY : lon_controller.i
+
+# target to preprocess a source file
+lon_controller.cc.i:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/lon_controller.cc.i
+.PHONY : lon_controller.cc.i
+
+lon_controller.s: lon_controller.cc.s
+
+.PHONY : lon_controller.s
+
+# target to generate assembly for a file
+lon_controller.cc.s:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/lon_controller.cc.s
+.PHONY : lon_controller.cc.s
 
 # Help Target
 help:
@@ -275,9 +302,12 @@ help:
 	@echo "... control.o"
 	@echo "... control.i"
 	@echo "... control.s"
-	@echo "... mpc_controller.o"
-	@echo "... mpc_controller.i"
-	@echo "... mpc_controller.s"
+	@echo "... lat_controller.o"
+	@echo "... lat_controller.i"
+	@echo "... lat_controller.s"
+	@echo "... lon_controller.o"
+	@echo "... lon_controller.i"
+	@echo "... lon_controller.s"
 .PHONY : help
 
 

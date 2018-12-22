@@ -81,47 +81,72 @@ control/src/controller/CMakeFiles/control.dir/control.cc.o.provides: control/src
 control/src/controller/CMakeFiles/control.dir/control.cc.o.provides.build: control/src/controller/CMakeFiles/control.dir/control.cc.o
 
 
-control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o: control/src/controller/CMakeFiles/control.dir/flags.make
-control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o: /home/wf/my-code/auto-car/ros/src/control/src/controller/mpc_controller.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o"
-	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/control.dir/mpc_controller.cc.o -c /home/wf/my-code/auto-car/ros/src/control/src/controller/mpc_controller.cc
+control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o: control/src/controller/CMakeFiles/control.dir/flags.make
+control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o: /home/wf/my-code/auto-car/ros/src/control/src/controller/lon_controller.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o"
+	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/control.dir/lon_controller.cc.o -c /home/wf/my-code/auto-car/ros/src/control/src/controller/lon_controller.cc
 
-control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/control.dir/mpc_controller.cc.i"
-	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wf/my-code/auto-car/ros/src/control/src/controller/mpc_controller.cc > CMakeFiles/control.dir/mpc_controller.cc.i
+control/src/controller/CMakeFiles/control.dir/lon_controller.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/control.dir/lon_controller.cc.i"
+	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wf/my-code/auto-car/ros/src/control/src/controller/lon_controller.cc > CMakeFiles/control.dir/lon_controller.cc.i
 
-control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/control.dir/mpc_controller.cc.s"
-	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wf/my-code/auto-car/ros/src/control/src/controller/mpc_controller.cc -o CMakeFiles/control.dir/mpc_controller.cc.s
+control/src/controller/CMakeFiles/control.dir/lon_controller.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/control.dir/lon_controller.cc.s"
+	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wf/my-code/auto-car/ros/src/control/src/controller/lon_controller.cc -o CMakeFiles/control.dir/lon_controller.cc.s
 
-control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o.requires:
+control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o.requires:
 
-.PHONY : control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o.requires
+.PHONY : control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o.requires
 
-control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o.provides: control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o.requires
-	$(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o.provides.build
-.PHONY : control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o.provides
+control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o.provides: control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o.requires
+	$(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o.provides.build
+.PHONY : control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o.provides
 
-control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o.provides.build: control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o
+control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o.provides.build: control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o
+
+
+control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o: control/src/controller/CMakeFiles/control.dir/flags.make
+control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o: /home/wf/my-code/auto-car/ros/src/control/src/controller/lat_controller.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o"
+	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/control.dir/lat_controller.cc.o -c /home/wf/my-code/auto-car/ros/src/control/src/controller/lat_controller.cc
+
+control/src/controller/CMakeFiles/control.dir/lat_controller.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/control.dir/lat_controller.cc.i"
+	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wf/my-code/auto-car/ros/src/control/src/controller/lat_controller.cc > CMakeFiles/control.dir/lat_controller.cc.i
+
+control/src/controller/CMakeFiles/control.dir/lat_controller.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/control.dir/lat_controller.cc.s"
+	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wf/my-code/auto-car/ros/src/control/src/controller/lat_controller.cc -o CMakeFiles/control.dir/lat_controller.cc.s
+
+control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o.requires:
+
+.PHONY : control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o.requires
+
+control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o.provides: control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o.requires
+	$(MAKE) -f control/src/controller/CMakeFiles/control.dir/build.make control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o.provides.build
+.PHONY : control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o.provides
+
+control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o.provides.build: control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o
 
 
 # Object files for target control
 control_OBJECTS = \
 "CMakeFiles/control.dir/control.cc.o" \
-"CMakeFiles/control.dir/mpc_controller.cc.o"
+"CMakeFiles/control.dir/lon_controller.cc.o" \
+"CMakeFiles/control.dir/lat_controller.cc.o"
 
 # External object files for target control
 control_EXTERNAL_OBJECTS =
 
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/control.cc.o
-/home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o
+/home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o
+/home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/build.make
+/home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /home/wf/my-code/auto-car/ros/devel/lib/libmath.so
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /home/wf/my-code/auto-car/ros/devel/lib/libcommon_lib.so
-/home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /home/wf/my-code/auto-car/ros/devel/lib/libmpc_math.so
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /usr/lib/x86_64-linux-gnu/libyaml-cpp.so
-/home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /home/wf/my-code/auto-car/ros/devel/lib/libqp_solver.so
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX shared library /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so"
 	cd /home/wf/my-code/auto-car/ros/build/control/src/controller && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/control.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -130,7 +155,8 @@ control/src/controller/CMakeFiles/control.dir/build: /home/wf/my-code/auto-car/r
 .PHONY : control/src/controller/CMakeFiles/control.dir/build
 
 control/src/controller/CMakeFiles/control.dir/requires: control/src/controller/CMakeFiles/control.dir/control.cc.o.requires
-control/src/controller/CMakeFiles/control.dir/requires: control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o.requires
+control/src/controller/CMakeFiles/control.dir/requires: control/src/controller/CMakeFiles/control.dir/lon_controller.cc.o.requires
+control/src/controller/CMakeFiles/control.dir/requires: control/src/controller/CMakeFiles/control.dir/lat_controller.cc.o.requires
 
 .PHONY : control/src/controller/CMakeFiles/control.dir/requires
 

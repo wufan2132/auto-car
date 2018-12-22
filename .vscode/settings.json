@@ -56,7 +56,10 @@
         "csignal": "cpp",
         "*.ipp": "cpp",
         "algorithm": "cpp",
-        "lu": "cpp"
+        "lu": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "future": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "C_Cpp.intelliSenseEngineFallback": "Disabled"

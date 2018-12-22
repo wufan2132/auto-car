@@ -306,6 +306,10 @@ car_msgs/trajectory_point.h
 vector
 -
 
+/home/wf/my-code/auto-car/ros/src/control/src/controller/../../../common/math/linear_quadratic_regulator.h
+Eigen/Core
+/home/wf/my-code/auto-car/ros/src/control/src/controller/../../../common/math/Eigen/Core
+
 /home/wf/my-code/auto-car/ros/src/control/src/controller/../../../common/math/math_utils.h
 limits
 -
@@ -313,12 +317,6 @@ utility
 -
 vec2d.h
 /home/wf/my-code/auto-car/ros/src/control/src/controller/../../../common/math/vec2d.h
-
-/home/wf/my-code/auto-car/ros/src/control/src/controller/../../../common/math/mpc_solver.h
-vector
--
-Eigen/Core
-/home/wf/my-code/auto-car/ros/src/control/src/controller/../../../common/math/Eigen/Core
 
 /home/wf/my-code/auto-car/ros/src/control/src/controller/../../../common/math/vec2d.h
 cmath
@@ -332,13 +330,15 @@ control/control.h
 yaml-cpp/yaml.h
 /home/wf/my-code/auto-car/ros/src/control/src/controller/yaml-cpp/yaml.h
 
-/home/wf/my-code/auto-car/ros/src/control/src/controller/mpc_controller.cc
+/home/wf/my-code/auto-car/ros/src/control/src/controller/lat_controller.cc
 ros/ros.h
 /home/wf/my-code/auto-car/ros/src/control/src/controller/ros/ros.h
 ros/console.h
 -
-control/mpc_controller.h
-/home/wf/my-code/auto-car/ros/src/control/src/controller/control/mpc_controller.h
+control/lat_controller.h
+/home/wf/my-code/auto-car/ros/src/control/src/controller/control/lat_controller.h
+math/linear_quadratic_regulator.h
+/home/wf/my-code/auto-car/ros/src/control/src/controller/math/linear_quadratic_regulator.h
 math/math_utils.h
 /home/wf/my-code/auto-car/ros/src/control/src/controller/math/math_utils.h
 algorithm
@@ -355,8 +355,12 @@ vector
 -
 Eigen/LU
 /home/wf/my-code/auto-car/ros/src/control/src/controller/Eigen/LU
-math/mpc_solver.h
-/home/wf/my-code/auto-car/ros/src/control/src/controller/math/mpc_solver.h
+
+/home/wf/my-code/auto-car/ros/src/control/src/controller/lon_controller.cc
+control/lon_controller.h
+/home/wf/my-code/auto-car/ros/src/control/src/controller/control/lon_controller.h
+ros/ros.h
+/home/wf/my-code/auto-car/ros/src/control/src/controller/ros/ros.h
 
 /opt/ros/kinetic/include/geometry_msgs/Point.h
 string

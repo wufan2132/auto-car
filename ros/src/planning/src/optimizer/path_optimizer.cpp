@@ -71,12 +71,12 @@ Car_State_SL path_optimizer::get_start_point(const car_msgs::trajectory_point ca
         start_sl.dl = L_out(0,1);
         start_sl.ddl = L_out(0,2);
         start_sl.index = len1;
-        cout<<"QP4"<<endl;
-        cout<<QP4<<endl;
-        cout<<"S_out"<<endl;
-        cout<<S_out<<endl;
-        cout<<"car_S:"<<status_sl.s<<"  1s_car_S:"<<S_out(0,0)<<endl;
-        cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<endl;
+        // cout<<"QP4"<<endl;
+        // cout<<QP4<<endl;
+        // cout<<"S_out"<<endl;
+        // cout<<S_out<<endl;
+        // cout<<"car_S:"<<status_sl.s<<"  1s_car_S:"<<S_out(0,0)<<endl;
+        // cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<endl;
         return start_sl;
      }
 }
