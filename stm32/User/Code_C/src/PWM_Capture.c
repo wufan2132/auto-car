@@ -193,9 +193,7 @@ void TIM4_IRQHandler(void)
 		{
 			CH1_Rising = TIM_GetCapture1(TIM4); 
 			TIM4->CCER |=  TIM_CCER_CC1P;               //下降沿触发
-			
-			//连接状态监测2
-			Connect_Status_Cnt = 0;
+		
 		}
 		else	
 		{
@@ -234,6 +232,9 @@ void TIM4_IRQHandler(void)
 		{
 			CH3_Rising = TIM_GetCapture3(TIM4); 
 			TIM4->CCER |=  TIM_CCER_CC3P;               //下降沿触发
+			
+ 			//连接状态监测2
+			Connect_Status_Cnt = 0;
 		}
 		else	
 		{

@@ -449,14 +449,14 @@
               <FilePath>..\User\Code_C\src\Math_User.c</FilePath>
             </File>
             <File>
-              <FileName>SD_APP.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Code_C\src\SD_APP.c</FilePath>
-            </File>
-            <File>
               <FileName>CarControl.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Code_C\src\CarControl.c</FilePath>
+            </File>
+            <File>
+              <FileName>SD_APP.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Code_C\src\SD_APP.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -504,6 +504,11 @@
               <FilePath>..\User\Code_C\src\HMC5883.c</FilePath>
             </File>
             <File>
+              <FileName>Motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Code_C\src\Motor.c</FilePath>
+            </File>
+            <File>
               <FileName>MS5611.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Code_C\src\MS5611.c</FilePath>
@@ -517,11 +522,6 @@
               <FileName>Led.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\Code_C\src\Led.c</FilePath>
-            </File>
-            <File>
-              <FileName>Motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\Code_C\src\Motor.c</FilePath>
             </File>
             <File>
               <FileName>PWM_Capture.c</FileName>
