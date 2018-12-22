@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/wf/my-code/auto-car/ros/src/chassis/src/car_chassis.cc" "/home/wf/my-code/auto-car/ros/build/chassis/CMakeFiles/chassis_node.dir/src/car_chassis.cc.o"
   "/home/wf/my-code/auto-car/ros/src/chassis/src/main.cc" "/home/wf/my-code/auto-car/ros/build/chassis/CMakeFiles/chassis_node.dir/src/main.cc.o"
+  "/home/wf/my-code/auto-car/ros/src/chassis/src/usart.cc" "/home/wf/my-code/auto-car/ros/build/chassis/CMakeFiles/chassis_node.dir/src/usart.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -14,6 +14,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
   "ROSCONSOLE_BACKEND_LOG4CXX"
   "ROS_BUILD_SHARED_LIBS=1"
   "ROS_PACKAGE_NAME=\"chassis\""
+  "SIMULATE=1"
   )
 
 # The include file search paths:

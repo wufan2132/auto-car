@@ -352,33 +352,6 @@ actionlib_msgs_generate_messages_py/fast:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f chassis/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build.make chassis/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
 .PHONY : actionlib_msgs_generate_messages_py/fast
 
-src/car_chassis.o: src/car_chassis.cc.o
-
-.PHONY : src/car_chassis.o
-
-# target to build an object file
-src/car_chassis.cc.o:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f chassis/CMakeFiles/chassis_node.dir/build.make chassis/CMakeFiles/chassis_node.dir/src/car_chassis.cc.o
-.PHONY : src/car_chassis.cc.o
-
-src/car_chassis.i: src/car_chassis.cc.i
-
-.PHONY : src/car_chassis.i
-
-# target to preprocess a source file
-src/car_chassis.cc.i:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f chassis/CMakeFiles/chassis_node.dir/build.make chassis/CMakeFiles/chassis_node.dir/src/car_chassis.cc.i
-.PHONY : src/car_chassis.cc.i
-
-src/car_chassis.s: src/car_chassis.cc.s
-
-.PHONY : src/car_chassis.s
-
-# target to generate assembly for a file
-src/car_chassis.cc.s:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f chassis/CMakeFiles/chassis_node.dir/build.make chassis/CMakeFiles/chassis_node.dir/src/car_chassis.cc.s
-.PHONY : src/car_chassis.cc.s
-
 src/main.o: src/main.cc.o
 
 .PHONY : src/main.o
@@ -406,6 +379,33 @@ src/main.cc.s:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f chassis/CMakeFiles/chassis_node.dir/build.make chassis/CMakeFiles/chassis_node.dir/src/main.cc.s
 .PHONY : src/main.cc.s
 
+src/usart.o: src/usart.cc.o
+
+.PHONY : src/usart.o
+
+# target to build an object file
+src/usart.cc.o:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f chassis/CMakeFiles/chassis_node.dir/build.make chassis/CMakeFiles/chassis_node.dir/src/usart.cc.o
+.PHONY : src/usart.cc.o
+
+src/usart.i: src/usart.cc.i
+
+.PHONY : src/usart.i
+
+# target to preprocess a source file
+src/usart.cc.i:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f chassis/CMakeFiles/chassis_node.dir/build.make chassis/CMakeFiles/chassis_node.dir/src/usart.cc.i
+.PHONY : src/usart.cc.i
+
+src/usart.s: src/usart.cc.s
+
+.PHONY : src/usart.s
+
+# target to generate assembly for a file
+src/usart.cc.s:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f chassis/CMakeFiles/chassis_node.dir/build.make chassis/CMakeFiles/chassis_node.dir/src/usart.cc.s
+.PHONY : src/usart.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -432,12 +432,12 @@ help:
 	@echo "... actionlib_msgs_generate_messages_lisp"
 	@echo "... nav_msgs_generate_messages_nodejs"
 	@echo "... actionlib_msgs_generate_messages_py"
-	@echo "... src/car_chassis.o"
-	@echo "... src/car_chassis.i"
-	@echo "... src/car_chassis.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/usart.o"
+	@echo "... src/usart.i"
+	@echo "... src/usart.s"
 .PHONY : help
 
 

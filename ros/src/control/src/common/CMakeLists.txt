@@ -11,6 +11,9 @@ include_directories(
 )
 
 # 生成链接库
-add_library(common_lib pid_controller.cc trajectory_analyzer.cc)
+if(ENABLE_MPC)
+  add_library(common_lib trajectory_analyzer.cc)
+else()
+  add_library(common_lib pid_controller.cc trajectory_analyzer.cc)
+endif()
 
-# add_dependencies(common_lib car_msgs_gencpp)

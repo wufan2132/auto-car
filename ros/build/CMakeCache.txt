@@ -346,6 +346,12 @@ EMPY_EXECUTABLE:FILEPATH=/usr/bin/empy
 //Empy script
 EMPY_SCRIPT:STRING=/usr/bin/empy
 
+//Set to switch to build MPC_OR_LQR
+ENABLE_MPC:BOOL=OFF
+
+//Set to switch to simulate
+ENABLE_SIMULATE:BOOL=ON
+
 //The directory containing a CMake configuration file for Eigen3.
 Eigen3_DIR:PATH=/usr/lib/cmake/eigen3
 
@@ -758,7 +764,7 @@ common_lib_LIB_DEPENDS:STATIC=
 control_BINARY_DIR:STATIC=/home/wf/my-code/auto-car/ros/build/control
 
 //Dependencies for the target
-control_LIB_DEPENDS:STATIC=general;common_lib;general;mpc_math;general;/usr/lib/x86_64-linux-gnu/libyaml-cpp.so;
+control_LIB_DEPENDS:STATIC=general;math;general;common_lib;general;/usr/lib/x86_64-linux-gnu/libyaml-cpp.so;
 
 //Value Computed by CMake
 control_SOURCE_DIR:STATIC=/home/wf/my-code/auto-car/ros/src/control
@@ -864,7 +870,7 @@ ignition-msgs0_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/ignition-msgs0
 ignition-transport3_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/ignition-transport3
 
 //Path to a library.
-lib:FILEPATH=/opt/ros/kinetic/lib/libxmlrpcpp.so
+lib:FILEPATH=/opt/ros/kinetic/lib/librostime.so
 
 //Dependencies for target
 math_LIB_DEPENDS:STATIC=
@@ -1215,7 +1221,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=32
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=31
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

@@ -94,8 +94,6 @@ stdio.h
 string.h
 -
 
-/home/wf/my-code/auto-car/ros/src/chassis/src/car_chassis.cc
-
 /home/wf/my-code/auto-car/ros/src/chassis/src/main.cc
 ros/ros.h
 /home/wf/my-code/auto-car/ros/src/chassis/src/ros/ros.h
@@ -117,6 +115,20 @@ geometry_msgs/Quaternion.h
 /home/wf/my-code/auto-car/ros/src/chassis/src/geometry_msgs/Quaternion.h
 sensor_msgs/Imu.h
 /home/wf/my-code/auto-car/ros/src/chassis/src/sensor_msgs/Imu.h
+usart.h
+/home/wf/my-code/auto-car/ros/src/chassis/src/usart.h
+
+/home/wf/my-code/auto-car/ros/src/chassis/src/usart.cc
+usart.h
+/home/wf/my-code/auto-car/ros/src/chassis/src/usart.h
+
+/home/wf/my-code/auto-car/ros/src/chassis/src/usart.h
+iostream
+-
+boost/asio.hpp
+-
+boost/bind.hpp
+-
 
 /opt/ros/kinetic/include/geometry_msgs/Point.h
 string

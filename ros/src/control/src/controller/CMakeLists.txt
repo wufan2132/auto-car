@@ -8,14 +8,22 @@ include_directories(
 )
 add_subdirectory(../../../common/math math.out)
 # 生成链接库
-add_library(control 
-            control.cc 
-            # lon_controller.cc 
-            # lat_controller.cc 
-            mpc_controller.cc
-            )
+if(ENABLE_MPC)
+  add_library(control 
+              control.cc 
+              mpc_controller.cc
+              )
+  target_link_libraries(control mpc_math)
+  message(STATUS "Use mpc_math")
+else()
+  add_library(control 
+              control.cc 
+              lon_controller.cc 
+              lat_controller.cc 
+              )    
+  target_link_libraries(control math)
+  message(STATUS "Use math")
+endif()
 
 target_link_libraries(control common_lib)
-# target_link_libraries(control math)
-target_link_libraries(control mpc_math)
 target_link_libraries(control ${YAML_CPP_LIBRARIES})
