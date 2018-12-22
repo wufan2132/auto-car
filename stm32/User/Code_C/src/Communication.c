@@ -30,15 +30,21 @@ void Send_Senser_TX2(void)
 	vs32 Temp2 = 0;
 	float Temp3;
 	u8 Cnt = 1;
-	//
-//	static int test = 0;
-//	test ++;
+	//标志位压缩发送
+	u8 flag = 0;
+	
+	flag = (flag<<1 | (CarControl.Para->Mode));
+	flag = (flag<<1 | (CarControl.Para->IsLock));
+	flag = (flag<<1 | (CarControl.Para->IsLost));
+	flag = (flag<<1 | (CarControl.Para->IsError));
 	
 	
 	Communicate_BUF[Cnt++] = 0XAA;
 	Communicate_BUF[Cnt++] = 0XAA;
 	Communicate_BUF[Cnt++] = 0XA1;
 	Communicate_BUF[Cnt++] = 0;
+	
+	//Communicate_BUF[Cnt++] = flag;
 	
 	Temp3 = speed_measure.Value;	
 	Communicate_BUF[Cnt++] = BYTE0(Temp3);	
@@ -64,7 +70,7 @@ void Send_Senser_TX2(void)
 	Communicate_BUF[Cnt++] = BYTE2(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE3(Temp3);
 	
-	Temp3 = speed_measure.distant;//MPU6050.Data->ACC_ADC.x;
+	Temp3 = MPU6050.Data->ACC_ADC.x;
 	Communicate_BUF[Cnt++] = BYTE0(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE1(Temp3);
 	Communicate_BUF[Cnt++] = BYTE2(Temp3);	

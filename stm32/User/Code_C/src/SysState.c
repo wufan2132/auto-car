@@ -92,14 +92,14 @@ void Controller_State(u16 Time)
 	if(CarControl.Para->IsLock == True)
 	{
 		LockCnt = 0;
-		if((PWM_In.Data->CH2 > PWM_IN_MAX - 150) && (PWM_In.Data->CH1 > PWM_RC_MAX - 150) && (CarControl.Para->IsLost == False))
+		if((PWM_In.Data->CH2 > PWM_IN_MAX - 300)&& (CarControl.Para->IsLost == False))
 		{
 			UnlockCnt += Time;
 			if(UnlockCnt > 2000)	CarControl.Para->IsLock = False;
 		}
 		else	UnlockCnt = 0;	
 	} 
-	else if(CarControl.Para->IsLost == True||CarControl.Para->Mode != last_mode)
+	else if(CarControl.Para->Mode==Manual&&(CarControl.Para->IsLost == True||CarControl.Para->Mode != last_mode))
 		CarControl.Para->IsLock = True;
 
 //	

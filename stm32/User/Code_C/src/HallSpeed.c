@@ -154,7 +154,7 @@ void speed_measure_get(u16 Time)
 	else if(count < SPEED_MAX)
 		speed = -count;//·´×ª
 	TIM_SetCounter(TIM8,0); 
-	speed_measure.Value = speed * SPEED_K;
+	speed_measure.Value = speed * SPEED_K *1000.0 /(float)Time;
 	speed_measure.distant += speed_measure.Value;
 }
 

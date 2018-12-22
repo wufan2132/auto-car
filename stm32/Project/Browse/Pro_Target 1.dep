@@ -66,7 +66,7 @@ I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
 I (..\User\Code_C++\inc\PID.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 I (..\User\Code_C\inc\Scheduler.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\SysState.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\Buzzer.h)(0x5AA39F7D)
@@ -143,7 +143,7 @@ I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
 I (..\User\Code_C++\inc\PID.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 I (..\User\Code_C\inc\SysState.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\Buzzer.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\SD_APP.h)(0x5AA39F7D)
@@ -151,7 +151,7 @@ I (..\User\SDCard\ff.h)(0x5AA39F7D)
 I (..\User\SDCard\integer.h)(0x5AA39F7D)
 I (..\User\SDCard\ffconf.h)(0x5AA39F7D)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
-F (..\User\Code_C\src\Communication.c)(0x5C1CAC68)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\communication.o --omf_browse .\browse\communication.crf --depend .\browse\communication.d)
+F (..\User\Code_C\src\Communication.c)(0x5C1CE44A)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\communication.o --omf_browse .\browse\communication.crf --depend .\browse\communication.d)
 I (..\User\Code_C\inc\Communication.h)(0x5C160EDA)
 I (..\CIMIS\stm32f4xx.h)(0x5AA39F7D)
 I (..\CIMIS\core_cm4.h)(0x5AA39F7D)
@@ -215,7 +215,7 @@ I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
 I (..\User\Code_C++\inc\PID.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5475F300)
 F (..\User\Code_C\src\FlyControl.c)(0x5AA39F7D)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\flycontrol.o --omf_browse .\browse\flycontrol.crf --depend .\browse\flycontrol.d)
 I (..\User\Code_C\inc\FlyControl.h)(0x5AA39F7D)
@@ -282,7 +282,7 @@ I (..\User\Code_C\inc\Ultra.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 F (..\User\Code_C\src\Attitude.c)(0x5AA39F7D)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\attitude.o --omf_browse .\browse\attitude.crf --depend .\browse\attitude.d)
 I (..\User\Code_C\inc\Attitude.h)(0x5AA39F7D)
 I (..\CIMIS\stm32f4xx.h)(0x5AA39F7D)
@@ -347,7 +347,7 @@ I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
 I (..\User\Code_C++\inc\PID.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 F (..\User\Code_C\src\Position.c)(0x5AA39F7D)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\position.o --omf_browse .\browse\position.crf --depend .\browse\position.d)
 I (..\User\Code_C\inc\Position.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\MS5611.h)(0x5AA39F7D)
@@ -412,8 +412,8 @@ I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
 I (..\User\Code_C++\inc\PID.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
-F (..\User\Code_C\src\SysState.c)(0x5C1CA191)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\sysstate.o --omf_browse .\browse\sysstate.crf --depend .\browse\sysstate.d)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
+F (..\User\Code_C\src\SysState.c)(0x5C1CE9A3)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\sysstate.o --omf_browse .\browse\sysstate.crf --depend .\browse\sysstate.d)
 I (..\User\Code_C\inc\SysState.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\Board.h)(0x5C150D14)
 I (..\User\Code_C\inc\LED.h)(0x5AA39F7D)
@@ -481,7 +481,7 @@ I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
 I (..\User\Code_C++\inc\PID.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 I (..\User\Code_C\inc\Scheduler.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\Buzzer.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\SD_APP.h)(0x5AA39F7D)
@@ -595,7 +595,7 @@ I (..\User\Code_C\inc\Position.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\Ultra.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 F (..\User\Code_C\src\SD_APP.c)(0x5AA39F7D)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\sd_app.o --omf_browse .\browse\sd_app.crf --depend .\browse\sd_app.d)
 I (..\User\Code_C\inc\SD_APP.h)(0x5AA39F7D)
 I (..\User\SDCard\ff.h)(0x5AA39F7D)
@@ -850,8 +850,8 @@ I (..\User\Code_C\inc\Ultra.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
 I (..\User\Code_C++\inc\PID.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
-F (..\User\Code_C\src\MPU6050.c)(0x5AA39F7D)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\mpu6050.o --omf_browse .\browse\mpu6050.crf --depend .\browse\mpu6050.d)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
+F (..\User\Code_C\src\MPU6050.c)(0x5C1CD3F2)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\mpu6050.o --omf_browse .\browse\mpu6050.crf --depend .\browse\mpu6050.d)
 I (..\User\Code_C\inc\MPU6050.h)(0x5AA39F7D)
 I (..\CIMIS\stm32f4xx.h)(0x5AA39F7D)
 I (..\CIMIS\core_cm4.h)(0x5AA39F7D)
@@ -915,7 +915,7 @@ I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
 I (..\User\Code_C++\inc\PID.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 F (..\User\Code_C\src\HMC5883.c)(0x5AA39F7D)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\hmc5883.o --omf_browse .\browse\hmc5883.crf --depend .\browse\hmc5883.d)
 I (..\User\Code_C\inc\HMC5883.h)(0x5AA39F7D)
 I (..\CIMIS\stm32f4xx.h)(0x5AA39F7D)
@@ -1067,7 +1067,7 @@ I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\User\Code_C++\inc\GPS_Parse.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\CarControl.h)(0x5C1CA275)
 I (..\User\Code_C++\inc\PID.h)(0x5AA39F7D)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 F (..\User\Code_C\src\Time.c)(0x5AA39F7D)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\time.o --omf_browse .\browse\time.crf --depend .\browse\time.d)
 I (..\User\Code_C\inc\Time.h)(0x5AA39F7D)
 I (..\CIMIS\stm32f4xx.h)(0x5AA39F7D)
@@ -1141,7 +1141,7 @@ I (..\Libraries\inc\stm32f4xx_dac.h)(0x5AA39F7D)
 I (..\Libraries\inc\stm32f4xx_dcmi.h)(0x5AA39F7D)
 I (..\Libraries\inc\stm32f4xx_fsmc.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\Time.h)(0x5AA39F7D)
-F (..\User\Code_C\src\PWM_Capture.c)(0x5C15F25E)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\pwm_capture.o --omf_browse .\browse\pwm_capture.crf --depend .\browse\pwm_capture.d)
+F (..\User\Code_C\src\PWM_Capture.c)(0x5C1CE8A8)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\pwm_capture.o --omf_browse .\browse\pwm_capture.crf --depend .\browse\pwm_capture.d)
 I (..\User\Code_C\inc\PWM_Capture.h)(0x5C1399AF)
 I (..\CIMIS\stm32f4xx.h)(0x5AA39F7D)
 I (..\CIMIS\core_cm4.h)(0x5AA39F7D)
@@ -1492,8 +1492,8 @@ I (..\User\Code_C\inc\Common.h)(0x5AA39F7D)
 I (..\User\Code_C\inc\Time.h)(0x5AA39F7D)
 I (..\User\Code_C++\inc\I2C_Soft.h)(0x5AA39F7D)
 I (..\User\Code_C++\inc\Filter.h)(0x5AA39F7D)
-F (..\User\Code_C\src\HallSpeed.c)(0x5C1CAEE5)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\hallspeed.o --omf_browse .\browse\hallspeed.crf --depend .\browse\hallspeed.d)
-I (..\User\Code_C\inc\HallSpeed.h)(0x5C1C9FAF)
+F (..\User\Code_C\src\HallSpeed.c)(0x5C1CC658)(--c99 -c --cpu Cortex-M4.fp -g -O0 --apcs=interwork --split_sections -I..\Libraries\inc -I..\Libraries\src -I..\CIMIS -I..\Startup -I..\User -I..\User\Code_C\inc -I..\User\Code_C\src -I..\User\Code_C++\inc -I..\User\Code_C++\src -I..\User\DSP\Include -I..\User\DSP\FastMathFunctions -I..\User\SDCard --cpp-I C:\Users\14755\Desktop\auto_Car\auto-car\stm32\Project\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="514" -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx -D__FPU_PRESENT="1" -D__FPU_USED="1" -DARM_MATH_CM4-o .\browse\hallspeed.o --omf_browse .\browse\hallspeed.crf --depend .\browse\hallspeed.d)
+I (..\User\Code_C\inc\HallSpeed.h)(0x5C1CC3DD)
 I (..\CIMIS\stm32f4xx.h)(0x5AA39F7D)
 I (..\CIMIS\core_cm4.h)(0x5AA39F7D)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5475F300)

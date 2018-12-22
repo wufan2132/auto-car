@@ -13,7 +13,7 @@ extern struct speed_measure_{
 	void (*init)(void);
 	void (*speed_get)(u16 Time);
 	float Value;
-	uint64_t distant;
+	float distant;
 }speed_measure;
  
 
