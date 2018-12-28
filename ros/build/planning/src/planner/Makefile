@@ -202,32 +202,32 @@ planner/fast:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/build
 .PHONY : planner/fast
 
-OG_planner.o: OG_planner.cpp.o
+og_planner.o: og_planner.cpp.o
 
-.PHONY : OG_planner.o
+.PHONY : og_planner.o
 
 # target to build an object file
-OG_planner.cpp.o:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o
-.PHONY : OG_planner.cpp.o
+og_planner.cpp.o:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o
+.PHONY : og_planner.cpp.o
 
-OG_planner.i: OG_planner.cpp.i
+og_planner.i: og_planner.cpp.i
 
-.PHONY : OG_planner.i
+.PHONY : og_planner.i
 
 # target to preprocess a source file
-OG_planner.cpp.i:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.i
-.PHONY : OG_planner.cpp.i
+og_planner.cpp.i:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.i
+.PHONY : og_planner.cpp.i
 
-OG_planner.s: OG_planner.cpp.s
+og_planner.s: og_planner.cpp.s
 
-.PHONY : OG_planner.s
+.PHONY : og_planner.s
 
 # target to generate assembly for a file
-OG_planner.cpp.s:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.s
-.PHONY : OG_planner.cpp.s
+og_planner.cpp.s:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.s
+.PHONY : og_planner.cpp.s
 
 planner.o: planner.cpp.o
 
@@ -299,9 +299,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... planner"
 	@echo "... install"
-	@echo "... OG_planner.o"
-	@echo "... OG_planner.i"
-	@echo "... OG_planner.s"
+	@echo "... og_planner.o"
+	@echo "... og_planner.i"
+	@echo "... og_planner.s"
 	@echo "... planner.o"
 	@echo "... planner.i"
 	@echo "... planner.s"

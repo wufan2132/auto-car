@@ -81,28 +81,28 @@ planning/src/planner/CMakeFiles/planner.dir/planner.cpp.o.provides: planning/src
 planning/src/planner/CMakeFiles/planner.dir/planner.cpp.o.provides.build: planning/src/planner/CMakeFiles/planner.dir/planner.cpp.o
 
 
-planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o: planning/src/planner/CMakeFiles/planner.dir/flags.make
-planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/src/planner/OG_planner.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o"
-	cd /home/wf/my-code/auto-car/ros/build/planning/src/planner && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/planner.dir/OG_planner.cpp.o -c /home/wf/my-code/auto-car/ros/src/planning/src/planner/OG_planner.cpp
+planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o: planning/src/planner/CMakeFiles/planner.dir/flags.make
+planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/src/planner/og_planner.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/planner && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/planner.dir/og_planner.cpp.o -c /home/wf/my-code/auto-car/ros/src/planning/src/planner/og_planner.cpp
 
-planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planner.dir/OG_planner.cpp.i"
-	cd /home/wf/my-code/auto-car/ros/build/planning/src/planner && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wf/my-code/auto-car/ros/src/planning/src/planner/OG_planner.cpp > CMakeFiles/planner.dir/OG_planner.cpp.i
+planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/planner.dir/og_planner.cpp.i"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/planner && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wf/my-code/auto-car/ros/src/planning/src/planner/og_planner.cpp > CMakeFiles/planner.dir/og_planner.cpp.i
 
-planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planner.dir/OG_planner.cpp.s"
-	cd /home/wf/my-code/auto-car/ros/build/planning/src/planner && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wf/my-code/auto-car/ros/src/planning/src/planner/OG_planner.cpp -o CMakeFiles/planner.dir/OG_planner.cpp.s
+planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/planner.dir/og_planner.cpp.s"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/planner && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wf/my-code/auto-car/ros/src/planning/src/planner/og_planner.cpp -o CMakeFiles/planner.dir/og_planner.cpp.s
 
-planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o.requires:
+planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o.requires:
 
-.PHONY : planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o.requires
+.PHONY : planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o.requires
 
-planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o.provides: planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o.requires
-	$(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o.provides.build
-.PHONY : planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o.provides
+planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o.provides: planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o.requires
+	$(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o.provides.build
+.PHONY : planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o.provides
 
-planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o.provides.build: planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o
+planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o.provides.build: planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o
 
 
 planning/src/planner/CMakeFiles/planner.dir/sp_planner.cpp.o: planning/src/planner/CMakeFiles/planner.dir/flags.make
@@ -132,14 +132,14 @@ planning/src/planner/CMakeFiles/planner.dir/sp_planner.cpp.o.provides.build: pla
 # Object files for target planner
 planner_OBJECTS = \
 "CMakeFiles/planner.dir/planner.cpp.o" \
-"CMakeFiles/planner.dir/OG_planner.cpp.o" \
+"CMakeFiles/planner.dir/og_planner.cpp.o" \
 "CMakeFiles/planner.dir/sp_planner.cpp.o"
 
 # External object files for target planner
 planner_EXTERNAL_OBJECTS =
 
 /home/wf/my-code/auto-car/ros/devel/lib/libplanner.so: planning/src/planner/CMakeFiles/planner.dir/planner.cpp.o
-/home/wf/my-code/auto-car/ros/devel/lib/libplanner.so: planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o
+/home/wf/my-code/auto-car/ros/devel/lib/libplanner.so: planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o
 /home/wf/my-code/auto-car/ros/devel/lib/libplanner.so: planning/src/planner/CMakeFiles/planner.dir/sp_planner.cpp.o
 /home/wf/my-code/auto-car/ros/devel/lib/libplanner.so: planning/src/planner/CMakeFiles/planner.dir/build.make
 /home/wf/my-code/auto-car/ros/devel/lib/libplanner.so: planning/src/planner/CMakeFiles/planner.dir/link.txt
@@ -152,7 +152,7 @@ planning/src/planner/CMakeFiles/planner.dir/build: /home/wf/my-code/auto-car/ros
 .PHONY : planning/src/planner/CMakeFiles/planner.dir/build
 
 planning/src/planner/CMakeFiles/planner.dir/requires: planning/src/planner/CMakeFiles/planner.dir/planner.cpp.o.requires
-planning/src/planner/CMakeFiles/planner.dir/requires: planning/src/planner/CMakeFiles/planner.dir/OG_planner.cpp.o.requires
+planning/src/planner/CMakeFiles/planner.dir/requires: planning/src/planner/CMakeFiles/planner.dir/og_planner.cpp.o.requires
 planning/src/planner/CMakeFiles/planner.dir/requires: planning/src/planner/CMakeFiles/planner.dir/sp_planner.cpp.o.requires
 
 .PHONY : planning/src/planner/CMakeFiles/planner.dir/requires

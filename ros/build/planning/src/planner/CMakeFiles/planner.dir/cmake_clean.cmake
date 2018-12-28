@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/planner.dir/planner.cpp.o"
-  "CMakeFiles/planner.dir/OG_planner.cpp.o"
+  "CMakeFiles/planner.dir/og_planner.cpp.o"
   "CMakeFiles/planner.dir/sp_planner.cpp.o"
   "/home/wf/my-code/auto-car/ros/devel/lib/libplanner.pdb"
   "/home/wf/my-code/auto-car/ros/devel/lib/libplanner.so"

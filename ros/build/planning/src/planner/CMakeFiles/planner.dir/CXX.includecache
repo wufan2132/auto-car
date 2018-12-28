@@ -158,7 +158,7 @@ planning/Fitting.h
 planning/dp_st_cost.h
 /home/wf/my-code/auto-car/ros/src/planning/include/planning/planning/dp_st_cost.h
 
-/home/wf/my-code/auto-car/ros/src/planning/include/planning/planner/OG_planner.h
+/home/wf/my-code/auto-car/ros/src/planning/include/planning/planner/og_planner.h
 planning/planner/planner.h
 /home/wf/my-code/auto-car/ros/src/planning/include/planning/planner/planning/planner/planner.h
 
@@ -224,9 +224,9 @@ planning/car_model.h
 planning/common.h
 /home/wf/my-code/auto-car/ros/src/planning/include/planning/planning/common.h
 
-/home/wf/my-code/auto-car/ros/src/planning/src/planner/OG_planner.cpp
-planning/planner/OG_planner.h
-/home/wf/my-code/auto-car/ros/src/planning/src/planner/planning/planner/OG_planner.h
+/home/wf/my-code/auto-car/ros/src/planning/src/planner/og_planner.cpp
+planning/planner/og_planner.h
+/home/wf/my-code/auto-car/ros/src/planning/src/planner/planning/planner/og_planner.h
 
 /home/wf/my-code/auto-car/ros/src/planning/src/planner/planner.cpp
 planning/planner/planner.h

@@ -13,7 +13,7 @@ planning/src/planning/CMakeFiles/planning.dir/planning.cpp.o: /home/wf/my-code/a
 planning/src/planning/CMakeFiles/planning.dir/planning.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/include/planning/dp_st_cost.h
 planning/src/planning/CMakeFiles/planning.dir/planning.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/include/planning/dp_st_graph.h
 planning/src/planning/CMakeFiles/planning.dir/planning.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/include/planning/path_optimizer.h
-planning/src/planning/CMakeFiles/planning.dir/planning.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/include/planning/planner/OG_planner.h
+planning/src/planning/CMakeFiles/planning.dir/planning.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/include/planning/planner/og_planner.h
 planning/src/planning/CMakeFiles/planning.dir/planning.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/include/planning/planner/planner.h
 planning/src/planning/CMakeFiles/planning.dir/planning.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/include/planning/planner/sp_planner.h
 planning/src/planning/CMakeFiles/planning.dir/planning.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/include/planning/planning.h

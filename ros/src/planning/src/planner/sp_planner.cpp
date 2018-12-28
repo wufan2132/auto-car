@@ -87,18 +87,17 @@ Car_State_SL SpPlanner::get_start_point(const car_msgs::trajectory_point car_sta
     RoadGraphNode min_road_Node;
     dpgraph->reset(start_sl, 1);//只采一行
     dpgraph->process(SamplerPointsL, &min_road_Node);
-    QP5 = min_road_Node.minQP5;
+    QPsl = min_road_Node.minQP5;
     planning_l = min_road_Node.l;
     //T采样
     vector<Car_State_SL> SamplerPointsT;
     sampler->getpointsT(planning_l, planning_s, SamplerPointsT);
     StGraphNode min_st_Node;
     stgraph->reset(start_sl,1);
-    stgraph->process(SamplerPointsS, &min_st_Node);
-    QP4 = min_st_Node.minQP4;
-
-
-
+    stgraph->process(SamplerPointsT, &min_st_Node);
+    QPts = min_st_Node.minQP4;
+    //生成路径
+    path_generate(QPsl, QPts, refrenceline_Sp, start_sl, trajectory_now);
     for(int i=start_sl.index;i<trajectory_now.total_path_length;i++)
         trajectory_now.trajectory_path[i].relative_time +=conf.keep_t;
     /************debug 1***********/
@@ -133,3 +132,24 @@ void SpPlanner::process(const car_msgs::trajectory_point car_status,const Car_St
     car_last_sl = status_sl;
 }
 
+void SpPlanner::path_generate(const VectorXf& qpsl,const VectorXf& qpts,
+                                const Spline_Out* refrenceline_Sp,
+                                const Car_State_SL& start_sl,
+                                car_msgs::trajectory& trajectory_now){
+    double planning_t = 5;
+    int len = planning_t/conf.step_t+1;
+    if(len<5)
+        cout << "error: Planner::path_planning: sample error!"<<endl;
+	VectorXf T = VectorXf::LinSpaced(len, 0, planning_t);
+    MatrixXf S_out;
+    Fitting::cal_point_quartic4(qpts,T,S_out);
+    VectorXf S;
+    S.resizeLike(S_out.col(0));
+    MatrixXf L_out;
+    Fitting::cal_point_quintic5(qpsl ,S,L_out);
+    for(int i=0;i<S.rows();i++){
+        S(i) = S_out(i,0) + start_sl.s;
+    }
+    //生成轨迹
+    TrajectoryGeneration::getTrajectory_from_SLT(S_out,L_out,T,refrenceline_Sp, trajectory_now, start_sl.index);
+ }

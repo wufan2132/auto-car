@@ -1,4 +1,4 @@
-#include "planning/planner/OG_planner.h"
+#include "planning/planner/og_planner.h"
 
 OgPlanner::OgPlanner(YAML::Node yaml_conf)
 :Planner(yaml_conf){
@@ -10,7 +10,9 @@ OgPlanner::OgPlanner(YAML::Node yaml_conf)
     conf.speed_min_limit = yaml_conf["speed_min_limit"].as<double>();
 }
 
-Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,car_msgs::trajectory& trajectory_now){
+Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
+                                                const car_msgs::trajectory& reference_line,
+                                                car_msgs::trajectory& trajectory_now){
     static bool replanning_flag = 0;
     /*********************************************/
     //重新从车的当前位置开始规划的条件
@@ -24,11 +26,13 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         //设置起点为车的当前坐标
         Car_State_SL start_sl = status_sl;
         start_sl.index = 0;
+        cout << "replanning!"<<endl;
+        start_sl.t = 0;
         return start_sl;
      }
      else{
         int start_index=0;
-        while(start_index<trajectory_now.total_path_length-1&&status_sl.s-trajectory_now.trajectory_path[start_index].s>0) start_index++;
+        while(start_index<trajectory_now.total_path_length-1&&status_sl.s-trajectory_now.trajectory_path[start_index+1].s>0) start_index++;
         float T0 = trajectory_now.trajectory_path[start_index].relative_time;
         VectorXf T(1);
         
@@ -45,7 +49,7 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         S(0) = S_out(0,0) - car_last_sl.s;
         MatrixXf L_out;
         Fitting::cal_point_quintic5(QP5 ,S,L_out);
-        int end_index = start_index+5;
+        int end_index = start_index+8;
         while(end_index<trajectory_now.total_path_length-1&&S_out(0,0)-trajectory_now.trajectory_path[end_index].s>0) end_index++;
         int len1 = end_index - start_index;
         for(int i=0;i<len1;i++){
@@ -56,7 +60,7 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         //设置起点为end_index当前坐标
         Car_State_SL start_sl;
         // start_sl.index = status_sl.index;
-        // Coordinate_converter::POS_to_SL(refrence_Trajectory,trajectory_now.trajectory_path[end_index],start_sl);
+        // Coordinate_converter::POS_to_SL(reference_line,trajectory_now.trajectory_path[end_index],start_sl);
         start_sl.s = S_out(0,0);
         start_sl.sv = S_out(0,1);
         start_sl.sa = S_out(0,2);
@@ -64,18 +68,35 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         start_sl.dl = L_out(0,1);
         start_sl.ddl = L_out(0,2);
         start_sl.index = len1;
-        // cout<<"QP4"<<endl;
-        // cout<<QP4<<endl;
+        start_sl.t = conf.keep_t;
+        ////////////////////////////////////////////////
+        int end_index2 = start_index+8;
+        Car_State_SL start_sl2;
+        start_sl2.index = status_sl.index;
+        Coordinate_converter::POS_to_SL(reference_line,trajectory_now.trajectory_path[end_index2],start_sl2);
+        start_sl2.index = 8;
+        start_sl2.t = conf.keep_t;
+        // start_sl2.dl = L_out(0,1);
+        // start_sl2.ddl = L_out(0,2);
+        cout << "s1:" <<start_sl.s<<"  s2:"<<start_sl2.s<<endl;
+        cout << "l1:" <<start_sl.l<<"  l2:"<<start_sl2.l<<endl;
+        cout << "sv1:" <<start_sl.sv<<"  sv2:"<<start_sl2.sv<<endl;
+        cout << "sa1:" <<start_sl.sa<<"  sa2:"<<start_sl2.sa<<endl;
+        cout << "dl1:" <<start_sl.dl<<"  dl2:"<<start_sl2.dl<<endl;
+        cout << "ddl1:" <<start_sl.ddl<<"  ddl2:"<<start_sl2.ddl<<endl;
+
         // cout<<"S_out"<<endl;
         // cout<<S_out<<endl;
-        // cout<<"car_S:"<<status_sl.s<<"  1s_car_S:"<<S_out(0,0)<<endl;
-        // cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<endl;
-        return start_sl;
+        cout<<"car_S:"<<status_sl.s<<endl;
+        cout<<"start_S:"<<start_sl.s<<endl;
+        cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<"  len1:"<< start_sl.index << endl;
+        return start_sl2;
      }
 }
 
 void OgPlanner::get_current_line(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
-                                         const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
+                                         const Spline_Out* refrenceline_Sp, const car_msgs::trajectory& reference_line,
+                                         car_msgs::trajectory& trajectory_now){
     static bool replanning_flag = 0;
     /***************速度修正-测试版*******************/
     //设置终点，终点只给定目标速度，其余参数为0
@@ -88,7 +109,7 @@ void OgPlanner::get_current_line(const car_msgs::trajectory_point car_status,con
     end_sl.sv = max(conf.aim_speed*conf.speed_min_limit, conf.aim_speed - max_kappa);
     //cout<<"aim_speed: "<< end_sl.sv <<endl;
     /*********************************************/
-    Car_State_SL start_sl = get_start_point(car_status,status_sl,trajectory_now);
+    Car_State_SL start_sl = get_start_point(car_status,status_sl, reference_line,trajectory_now );
 
     // sampler->reset(start_sl);
 
@@ -96,9 +117,9 @@ void OgPlanner::get_current_line(const car_msgs::trajectory_point car_status,con
 
 
     //
-    path_planning(start_sl, end_sl, conf.planning_t-conf.keep_t, refrenceline_Sp, trajectory_now);
+    path_planning(start_sl, end_sl, conf.planning_t-start_sl.t, refrenceline_Sp, trajectory_now);
     for(int i=start_sl.index;i<trajectory_now.total_path_length;i++)
-        trajectory_now.trajectory_path[i].relative_time +=conf.keep_t;
+        trajectory_now.trajectory_path[i].relative_time +=start_sl.t;
     /************debug 1***********/
     // for(int i=0;i<len;i++)
     // cout<<
@@ -108,24 +129,25 @@ void OgPlanner::get_current_line(const car_msgs::trajectory_point car_status,con
     // trajectory_now.trajectory_path[start_index+i].theta<<","<<
     // trajectory_now.trajectory_path[start_index+i].kappa<<endl;
     /************debug 2***********/
-    // for(int i=0;i<trajectory_now.total_path_length;i++)
-    // cout<<
-    // trajectory_now.trajectory_path[i].header.seq<<"."<<
-    // " s:"<<trajectory_now.trajectory_path[i].s<<
-    // " t:"<<trajectory_now.trajectory_path[i].relative_time<<
-    // " x:"<<trajectory_now.trajectory_path[i].x<<
-    // " y:"<<trajectory_now.trajectory_path[i].y<<","<<
-    // " theta:"<<trajectory_now.trajectory_path[i].theta<<","<<
-    // " kappa:"<<trajectory_now.trajectory_path[i].kappa<<endl;
-    // return;
+    for(int i=0;i<trajectory_now.total_path_length;i++)
+    cout<<
+    trajectory_now.trajectory_path[i].header.seq<<"."<<
+    " s:"<<trajectory_now.trajectory_path[i].s<<
+    " t:"<<trajectory_now.trajectory_path[i].relative_time<<
+    " x:"<<trajectory_now.trajectory_path[i].x<<
+    " y:"<<trajectory_now.trajectory_path[i].y<<","<<
+    " theta:"<<trajectory_now.trajectory_path[i].theta<<","<<
+    " kappa:"<<trajectory_now.trajectory_path[i].kappa<<endl;
+    return;
 
  }
 
 void OgPlanner::process(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
-                                 const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
+                                 const Spline_Out* refrenceline_Sp, const car_msgs::trajectory& reference_line,
+                                 car_msgs::trajectory& trajectory_now){
     static int count = 0;
     count++;
-    get_current_line(car_status, status_sl, refrenceline_Sp, trajectory_now);
+    get_current_line(car_status, status_sl, refrenceline_Sp,reference_line,  trajectory_now);
     //添加header
     trajectory_now.header.seq = count;
     //保存车体参数
