@@ -117,6 +117,8 @@ car_msgs/trajectory_point.h
 /home/wf/my-code/auto-car/ros/src/planning/include/planning/car_msgs/trajectory_point.h
 yaml-cpp/yaml.h
 /home/wf/my-code/auto-car/ros/src/planning/include/planning/yaml-cpp/yaml.h
+string
+-
 
 /home/wf/my-code/auto-car/ros/src/planning/include/planning/trajectory_generation.h
 planning/common.h

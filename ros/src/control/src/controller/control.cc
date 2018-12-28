@@ -177,12 +177,17 @@ void Control::Debug(void){
 }
 
 void Control::OnTimer(const ros::TimerEvent&){
+    static bool isdataNone = 0;
     car_msgs:: control_cmd control_cmd;
 
     if(!CheckInput()){
-        ROS_WARN("Control::OnTimer: trajectory is null!");
+        if(isdataNone == 0){
+            ROS_WARN("Control::OnTimer: trajectory is null!");
+            isdataNone = 1;
+        }
         return;
     }
+    isdataNone = 0;
     ProduceControlCommand(control_cmd);
     SendCmd(control_cmd);
     Debug();

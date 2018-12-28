@@ -153,12 +153,62 @@ planning/src/optimizer/CMakeFiles/optimizer.dir/trajectory_cost.cpp.o.provides: 
 planning/src/optimizer/CMakeFiles/optimizer.dir/trajectory_cost.cpp.o.provides.build: planning/src/optimizer/CMakeFiles/optimizer.dir/trajectory_cost.cpp.o
 
 
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o: planning/src/optimizer/CMakeFiles/optimizer.dir/flags.make
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/src/optimizer/dp_st_graph.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/optimizer && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/optimizer.dir/dp_st_graph.cpp.o -c /home/wf/my-code/auto-car/ros/src/planning/src/optimizer/dp_st_graph.cpp
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/optimizer.dir/dp_st_graph.cpp.i"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/optimizer && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wf/my-code/auto-car/ros/src/planning/src/optimizer/dp_st_graph.cpp > CMakeFiles/optimizer.dir/dp_st_graph.cpp.i
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/optimizer.dir/dp_st_graph.cpp.s"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/optimizer && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wf/my-code/auto-car/ros/src/planning/src/optimizer/dp_st_graph.cpp -o CMakeFiles/optimizer.dir/dp_st_graph.cpp.s
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o.requires:
+
+.PHONY : planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o.requires
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o.provides: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o.requires
+	$(MAKE) -f planning/src/optimizer/CMakeFiles/optimizer.dir/build.make planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o.provides.build
+.PHONY : planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o.provides
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o.provides.build: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o
+
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o: planning/src/optimizer/CMakeFiles/optimizer.dir/flags.make
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/src/optimizer/dp_st_cost.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/optimizer && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/optimizer.dir/dp_st_cost.cpp.o -c /home/wf/my-code/auto-car/ros/src/planning/src/optimizer/dp_st_cost.cpp
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/optimizer.dir/dp_st_cost.cpp.i"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/optimizer && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wf/my-code/auto-car/ros/src/planning/src/optimizer/dp_st_cost.cpp > CMakeFiles/optimizer.dir/dp_st_cost.cpp.i
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/optimizer.dir/dp_st_cost.cpp.s"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/optimizer && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wf/my-code/auto-car/ros/src/planning/src/optimizer/dp_st_cost.cpp -o CMakeFiles/optimizer.dir/dp_st_cost.cpp.s
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o.requires:
+
+.PHONY : planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o.requires
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o.provides: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o.requires
+	$(MAKE) -f planning/src/optimizer/CMakeFiles/optimizer.dir/build.make planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o.provides.build
+.PHONY : planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o.provides
+
+planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o.provides.build: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o
+
+
 # Object files for target optimizer
 optimizer_OBJECTS = \
 "CMakeFiles/optimizer.dir/path_optimizer.cpp.o" \
 "CMakeFiles/optimizer.dir/frenet_optimal.cpp.o" \
 "CMakeFiles/optimizer.dir/dp_road_graph.cpp.o" \
-"CMakeFiles/optimizer.dir/trajectory_cost.cpp.o"
+"CMakeFiles/optimizer.dir/trajectory_cost.cpp.o" \
+"CMakeFiles/optimizer.dir/dp_st_graph.cpp.o" \
+"CMakeFiles/optimizer.dir/dp_st_cost.cpp.o"
 
 # External object files for target optimizer
 optimizer_EXTERNAL_OBJECTS =
@@ -167,9 +217,11 @@ optimizer_EXTERNAL_OBJECTS =
 /home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so: planning/src/optimizer/CMakeFiles/optimizer.dir/frenet_optimal.cpp.o
 /home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_road_graph.cpp.o
 /home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so: planning/src/optimizer/CMakeFiles/optimizer.dir/trajectory_cost.cpp.o
+/home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o
+/home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o
 /home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so: planning/src/optimizer/CMakeFiles/optimizer.dir/build.make
 /home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so: planning/src/optimizer/CMakeFiles/optimizer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX shared library /home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX shared library /home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so"
 	cd /home/wf/my-code/auto-car/ros/build/planning/src/optimizer && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/optimizer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -181,6 +233,8 @@ planning/src/optimizer/CMakeFiles/optimizer.dir/requires: planning/src/optimizer
 planning/src/optimizer/CMakeFiles/optimizer.dir/requires: planning/src/optimizer/CMakeFiles/optimizer.dir/frenet_optimal.cpp.o.requires
 planning/src/optimizer/CMakeFiles/optimizer.dir/requires: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_road_graph.cpp.o.requires
 planning/src/optimizer/CMakeFiles/optimizer.dir/requires: planning/src/optimizer/CMakeFiles/optimizer.dir/trajectory_cost.cpp.o.requires
+planning/src/optimizer/CMakeFiles/optimizer.dir/requires: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o.requires
+planning/src/optimizer/CMakeFiles/optimizer.dir/requires: planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o.requires
 
 .PHONY : planning/src/optimizer/CMakeFiles/optimizer.dir/requires
 

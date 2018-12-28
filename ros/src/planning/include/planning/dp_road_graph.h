@@ -12,40 +12,38 @@ class RoadGraphNode
 {
 public:
     RoadGraphNode()
-    :Car_State_SL(),
-    pre(NULL),next(NULL),min_pre(NULL),
-    minCost(0){};
+    :Car_State_SL(){};
 
     RoadGraphNode(double s_, double l_)
-    :Car_State_SL(s_, l_),
-    pre(NULL),next(NULL),min_pre(NULL),
-    minCost(0){};
+    :Car_State_SL(s_, l_){};
 
     RoadGraphNode(Car_State_SL sl_p)
-    :Car_State_SL(sl_p),
-    pre(NULL),next(NULL),min_pre(NULL),
-    minCost(0){};
+    :Car_State_SL(sl_p){};
 
     void UpdateCost(const RoadGraphNode *pre_node,
                     VectorXf& QP5,
                     double cost){
-        if(cost<minCost){
+        if(cost<minCost||min_pre == NULL){
             minCost = cost;
             min_pre = pre_node;
             minQP5 = QP5;
         }
                     }
-    const RoadGraphNode* pre;
-    const RoadGraphNode* next;
-    const RoadGraphNode* min_pre;
+    const RoadGraphNode* pre = NULL;
+    const RoadGraphNode* next = NULL;
+    const RoadGraphNode* min_pre = NULL;
     VectorXf minQP5;
-    double minCost;
+    double minCost = INT_MAX;
 };
 
 class DpRoadGraph{
+public:
     DpRoadGraph(YAML::Node yaml_conf);
     void reset(Car_State_SL init_SLpoint, int total_level); //
-    void process(const vector<vector<Car_State_SL> >& path_waypoints);
+    void process(const vector<Car_State_SL>& path_waypoints,
+                    RoadGraphNode* min_cost_Node);
+    void process(const vector<vector<Car_State_SL> >& path_waypoints,
+                    vector<RoadGraphNode> *min_cost_path);
     void UpdateNode(const list<RoadGraphNode> &prev_nodes,
                         const int level, const int total_level,
                         RoadGraphNode *front,

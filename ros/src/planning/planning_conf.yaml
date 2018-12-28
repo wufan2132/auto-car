@@ -8,8 +8,8 @@ wait_time: 10
 #########replay
 trajectory_dir: ../my-code/auto-car/ros/src/planning/trajectory_data/trajectory.csv
 sampling_period: 100
-#############路径优化
-path_optimizer_conf:
+######路径优化
+planner_conf:
   # 重新规划的临界距离 m
   available_l: 2
   # 目标速度 m/s

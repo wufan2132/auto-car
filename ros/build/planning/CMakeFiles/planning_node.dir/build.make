@@ -110,6 +110,7 @@ planning_node_EXTERNAL_OBJECTS =
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /usr/lib/x86_64-linux-gnu/libpthread.so
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /home/wf/my-code/auto-car/ros/devel/lib/libplanning.so
+/home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /home/wf/my-code/auto-car/ros/devel/lib/libplanner.so
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /home/wf/my-code/auto-car/ros/devel/lib/liboptimizer.so
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /home/wf/my-code/auto-car/ros/devel/lib/libreplay.so
 /home/wf/my-code/auto-car/ros/devel/lib/planning/planning_node: /home/wf/my-code/auto-car/ros/devel/lib/libtool.so

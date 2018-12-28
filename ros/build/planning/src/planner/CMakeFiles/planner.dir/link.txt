@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g  -shared -Wl,-soname,libplanner.so -o /home/wf/my-code/auto-car/ros/devel/lib/libplanner.so CMakeFiles/planner.dir/planner.cpp.o CMakeFiles/planner.dir/OG_planner.cpp.o CMakeFiles/planner.dir/sp_planner.cpp.o 

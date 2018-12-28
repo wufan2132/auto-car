@@ -1319,6 +1319,19 @@ apollo_tool/fast:
 .PHONY : apollo_tool/fast
 
 #=============================================================================
+# Target rules for targets named planner
+
+# Build rule for target.
+planner: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 planner
+.PHONY : planner
+
+# fast build rule for target.
+planner/fast:
+	$(MAKE) -f planning/src/planner/CMakeFiles/planner.dir/build.make planning/src/planner/CMakeFiles/planner.dir/build
+.PHONY : planner/fast
+
+#=============================================================================
 # Target rules for targets named visualization_msgs_generate_messages_eus
 
 # Build rule for target.
@@ -2161,6 +2174,7 @@ help:
 	@echo "... trajectory"
 	@echo "... sampler"
 	@echo "... apollo_tool"
+	@echo "... planner"
 	@echo "... visualization_msgs_generate_messages_eus"
 	@echo "... visualization_msgs_generate_messages_lisp"
 	@echo "... visualization_msgs_generate_messages_cpp"

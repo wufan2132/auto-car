@@ -26,14 +26,29 @@ double TrajectoryCost::evaluate(const VectorXf& QP5,
 double TrajectoryCost::smoothcost(const VectorXf& QP5,
                                   const double start_s,
                                   const double end_s){
-    // ((400*QP5(5)^2)/7)*(end_s^7 - end_s^7)+ 
-    // (80*QP5(4)*QP5(5))*s^6 + 
-    // ((144*QP5(4)^2)/5 + 48*QP5(3)*QP5(5))*s^5 + 
-    // (20*QP5(2)*QP5(5) + 36*QP5(3)*QP5(4))*s^4 + 
-    // (12*QP5(3)^2 + 16*QP5(2)*QP5(4))*s^3 + 
-    // (12*QP5(2)*QP5(3))*s^2 + 
-    // (4*QP5(2)^2)*s
+    double s = end_s - start_s;
+    double a0 = QP5(0);
+    double a1 = QP5(1);
+    double a2 = QP5(2);
+    double a3 = QP5(3);
+    double a4 = QP5(4);
+    double a5 = QP5(5);
+    //二阶导数的平方
+    double ddl2_cost = 
+    s*(a0*a0 + s*(a0*a1 + s*(s*((a0*a3)/2 + (a1*a2)/2 
+    + s*((2*a0*a4)/5 + (2*a1*a3)/5 + a2*a2/5 
+    + s*((a0*a5)/3 + (a1*a4)/3 + (a2*a3)/3 
+    + s*((2*a1*a5)/7 + (2*a2*a4)/7 + a3*a3/7 
+    + s*((a2*a5)/4 + (a3*a4)/4 + s*((2*a3*a5)/9 
+    + a4*a4/9 + s*((s*a5*a5)/11 + (a4*a5)/5))))))) 
+    + (2*a0*a2)/3 + a1*a1/3)));
+    //三阶导数的平方
+    double dddl2_cost = 
+    s*(s*(144*a3*a4 + s*(240*a3*a5 + 192*a4*a4 
+    + s*(720*s*a5*a5 + 720*a4*a5))) + 36*a3*a3);
 
+    //
+    return ddl2_cost + dddl2_cost;
 }
 
 /*****************曲线长度******************/

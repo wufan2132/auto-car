@@ -6,6 +6,8 @@
 #include "planning/car_model.h"
 #include "planning/Interpolating.h"
 #include "planning/path_optimizer.h"
+#include "planning/planner/OG_planner.h"
+#include "planning/planner/sp_planner.h"
 #include "planning/common.h"
 #include <Eigen/Dense>
 #include "stdlib.h"
@@ -66,7 +68,7 @@ class Car_Planning{
     //配置参数
     Car_Planning_Conf conf;
     //模块
-    path_optimizer* optimizer;
+    Planner* planner;
 };
 
 /*path_point*/

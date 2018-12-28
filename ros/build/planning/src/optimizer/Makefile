@@ -229,6 +229,60 @@ dp_road_graph.cpp.s:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/optimizer/CMakeFiles/optimizer.dir/build.make planning/src/optimizer/CMakeFiles/optimizer.dir/dp_road_graph.cpp.s
 .PHONY : dp_road_graph.cpp.s
 
+dp_st_cost.o: dp_st_cost.cpp.o
+
+.PHONY : dp_st_cost.o
+
+# target to build an object file
+dp_st_cost.cpp.o:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/optimizer/CMakeFiles/optimizer.dir/build.make planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.o
+.PHONY : dp_st_cost.cpp.o
+
+dp_st_cost.i: dp_st_cost.cpp.i
+
+.PHONY : dp_st_cost.i
+
+# target to preprocess a source file
+dp_st_cost.cpp.i:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/optimizer/CMakeFiles/optimizer.dir/build.make planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.i
+.PHONY : dp_st_cost.cpp.i
+
+dp_st_cost.s: dp_st_cost.cpp.s
+
+.PHONY : dp_st_cost.s
+
+# target to generate assembly for a file
+dp_st_cost.cpp.s:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/optimizer/CMakeFiles/optimizer.dir/build.make planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_cost.cpp.s
+.PHONY : dp_st_cost.cpp.s
+
+dp_st_graph.o: dp_st_graph.cpp.o
+
+.PHONY : dp_st_graph.o
+
+# target to build an object file
+dp_st_graph.cpp.o:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/optimizer/CMakeFiles/optimizer.dir/build.make planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.o
+.PHONY : dp_st_graph.cpp.o
+
+dp_st_graph.i: dp_st_graph.cpp.i
+
+.PHONY : dp_st_graph.i
+
+# target to preprocess a source file
+dp_st_graph.cpp.i:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/optimizer/CMakeFiles/optimizer.dir/build.make planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.i
+.PHONY : dp_st_graph.cpp.i
+
+dp_st_graph.s: dp_st_graph.cpp.s
+
+.PHONY : dp_st_graph.s
+
+# target to generate assembly for a file
+dp_st_graph.cpp.s:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/optimizer/CMakeFiles/optimizer.dir/build.make planning/src/optimizer/CMakeFiles/optimizer.dir/dp_st_graph.cpp.s
+.PHONY : dp_st_graph.cpp.s
+
 frenet_optimal.o: frenet_optimal.cpp.o
 
 .PHONY : frenet_optimal.o
@@ -329,6 +383,12 @@ help:
 	@echo "... dp_road_graph.o"
 	@echo "... dp_road_graph.i"
 	@echo "... dp_road_graph.s"
+	@echo "... dp_st_cost.o"
+	@echo "... dp_st_cost.i"
+	@echo "... dp_st_cost.s"
+	@echo "... dp_st_graph.o"
+	@echo "... dp_st_graph.i"
+	@echo "... dp_st_graph.s"
 	@echo "... frenet_optimal.o"
 	@echo "... frenet_optimal.i"
 	@echo "... frenet_optimal.s"

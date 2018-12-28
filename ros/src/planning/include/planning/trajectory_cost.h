@@ -1,3 +1,4 @@
+#pragma once
 #include "planning/common.h"
 #include "planning/car_model.h"
 

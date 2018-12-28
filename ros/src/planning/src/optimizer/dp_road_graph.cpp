@@ -9,7 +9,20 @@ void DpRoadGraph::reset(Car_State_SL init_SLpoint, int total_level){
     trajectorycost->reset(total_level);
 }
 
-void DpRoadGraph::process(const vector<vector<Car_State_SL> >& path_waypoints){
+
+void DpRoadGraph::process(const vector<Car_State_SL>& path_waypoints,
+                RoadGraphNode* min_cost_Node){
+    vector<vector<Car_State_SL> > path_waypoints2d;
+    vector<RoadGraphNode> min_cost_path;
+    path_waypoints2d.emplace_back(path_waypoints);
+    process(path_waypoints2d, &min_cost_path);
+    *min_cost_Node = min_cost_path.back();
+}
+
+
+
+void DpRoadGraph::process(const vector<vector<Car_State_SL> >& path_waypoints,
+                            vector<RoadGraphNode> *min_cost_path){
 //生成图节点
 graph_nodes.emplace_back();
 graph_nodes.back().emplace_back(init_SLpoint);//插入初始点
@@ -27,10 +40,20 @@ size_t total_level = path_waypoints.size();
             //更新当前点的信息
             UpdateNode(prev_dp_nodes, level, total_level, &front, &cur_node);
     }
+}
 //寻找最好路径
+RoadGraphNode fake_head;
+for(auto &cur_dp_node : graph_nodes.back())
+    fake_head.UpdateCost(&cur_dp_node, cur_dp_node.minQP5,cur_dp_node.minCost);
+const auto *min_cost_node = &fake_head;
+  while (min_cost_node->min_pre) {
+    min_cost_node = min_cost_node->min_pre;
+    min_cost_path->push_back(*min_cost_node);
+  }
+min_cost_path->push_back(init_SLpoint);
+reverse(min_cost_path->begin(), min_cost_path->end());
+}
 
-}
-}
 void DpRoadGraph::UpdateNode(const list<RoadGraphNode> &prev_nodes,
                             const int level, const int total_level,
                             RoadGraphNode *front,

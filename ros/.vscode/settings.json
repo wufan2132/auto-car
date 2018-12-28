@@ -12,7 +12,8 @@
         "deque": "cpp",
         "list": "cpp",
         "vector": "cpp",
-        "dense": "cpp"
+        "dense": "cpp",
+        "*.ipp": "cpp"
     },
     "python.pythonPath": "/usr/bin/python"
 }
