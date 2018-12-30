@@ -128,6 +128,7 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/planning.cpp
 # )
+
 add_subdirectory(src/planning)
 add_subdirectory(src/optimizer)
 add_subdirectory(src/replay)
@@ -137,6 +138,8 @@ add_subdirectory(src/trajectory)
 add_subdirectory(src/sampler)
 add_subdirectory(src/apollo_tool)
 add_subdirectory(src/planner)
+add_subdirectory(src/map)
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -170,6 +173,7 @@ target_link_libraries(${PROJECT_NAME}_node
    trajectory
    sampler
    apollo_tool
+   map
 )
 
 #############

@@ -26,7 +26,7 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         //设置起点为车的当前坐标
         Car_State_SL start_sl = status_sl;
         start_sl.index = 0;
-        cout << "replanning!"<<endl;
+        ROS_INFO("OgPlanner::get_start_point: replanning!");
         start_sl.t = 0;
         return start_sl;
      }
@@ -70,27 +70,27 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         start_sl.index = len1;
         start_sl.t = conf.keep_t;
         ////////////////////////////////////////////////
-        int end_index2 = start_index+8;
-        Car_State_SL start_sl2;
-        start_sl2.index = status_sl.index;
-        Coordinate_converter::POS_to_SL(reference_line,trajectory_now.trajectory_path[end_index2],start_sl2);
-        start_sl2.index = 8;
-        start_sl2.t = conf.keep_t;
+        // int end_index2 = start_index+8;
+        // Car_State_SL start_sl2;
+        // start_sl2.index = status_sl.index;
+        // Coordinate_converter::POS_to_SL(reference_line,trajectory_now.trajectory_path[end_index2],start_sl2);
+        // start_sl2.index = 8;
+        // start_sl2.t = conf.keep_t;
         // start_sl2.dl = L_out(0,1);
         // start_sl2.ddl = L_out(0,2);
-        cout << "s1:" <<start_sl.s<<"  s2:"<<start_sl2.s<<endl;
-        cout << "l1:" <<start_sl.l<<"  l2:"<<start_sl2.l<<endl;
-        cout << "sv1:" <<start_sl.sv<<"  sv2:"<<start_sl2.sv<<endl;
-        cout << "sa1:" <<start_sl.sa<<"  sa2:"<<start_sl2.sa<<endl;
-        cout << "dl1:" <<start_sl.dl<<"  dl2:"<<start_sl2.dl<<endl;
-        cout << "ddl1:" <<start_sl.ddl<<"  ddl2:"<<start_sl2.ddl<<endl;
+        // cout << "s1:" <<start_sl.s<<"  s2:"<<start_sl2.s<<endl;
+        // cout << "l1:" <<start_sl.l<<"  l2:"<<start_sl2.l<<endl;
+        // cout << "sv1:" <<start_sl.sv<<"  sv2:"<<start_sl2.sv<<endl;
+        // cout << "sa1:" <<start_sl.sa<<"  sa2:"<<start_sl2.sa<<endl;
+        // cout << "dl1:" <<start_sl.dl<<"  dl2:"<<start_sl2.dl<<endl;
+        // cout << "ddl1:" <<start_sl.ddl<<"  ddl2:"<<start_sl2.ddl<<endl;
 
-        // cout<<"S_out"<<endl;
-        // cout<<S_out<<endl;
-        cout<<"car_S:"<<status_sl.s<<endl;
-        cout<<"start_S:"<<start_sl.s<<endl;
-        cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<"  len1:"<< start_sl.index << endl;
-        return start_sl2;
+        // // cout<<"S_out"<<endl;
+        // // cout<<S_out<<endl;
+        // cout<<"car_S:"<<status_sl.s<<endl;
+        // cout<<"start_S:"<<start_sl.s<<endl;
+        // cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<"  len1:"<< start_sl.index << endl;
+        return start_sl;
      }
 }
 

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="control" type="control_node" name="control_node" output="screen" >
+  </node>
+  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" >
+  </node>
+  <node pkg="planning" type="planning_node" name="planning_node" output="screen" >
+  </node>
+  <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
+  </node>
+</launch>
+ 

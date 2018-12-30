@@ -39,7 +39,7 @@ public:
 class DpRoadGraph{
 public:
     DpRoadGraph(YAML::Node yaml_conf);
-    void reset(Car_State_SL init_SLpoint, int total_level); //
+    void reset(Car_State_SL init_SLpoint,Car_State_SL car_status, int total_level); //
     void process(const vector<Car_State_SL>& path_waypoints,
                     RoadGraphNode* min_cost_Node);
     void process(const vector<vector<Car_State_SL> >& path_waypoints,

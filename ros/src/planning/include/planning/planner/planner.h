@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <math.h>
+#include "planning/refrenceline.h"
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
 #include "planning/Interpolating.h"
@@ -32,9 +33,9 @@ public:
 
     Spline_Out* get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
 
-    void process(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
-             const Spline_Out* refrenceline_Sp,
-             car_msgs::trajectory& trajectory_out);
+    virtual void process(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
+             const Spline_Out* refrenceline_Sp,const car_msgs::trajectory& reference_line,
+             car_msgs::trajectory& trajectory_out){};
 protected:
     
      /**********模块************/

@@ -58,6 +58,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/wf/my-code/auto-car/ros/build/planning/src/sampler/cmake_install.cmake")
   include("/home/wf/my-code/auto-car/ros/build/planning/src/apollo_tool/cmake_install.cmake")
   include("/home/wf/my-code/auto-car/ros/build/planning/src/planner/cmake_install.cmake")
+  include("/home/wf/my-code/auto-car/ros/build/planning/src/map/cmake_install.cmake")
 
 endif()
 

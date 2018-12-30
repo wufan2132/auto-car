@@ -35,12 +35,12 @@ void SamplerPoint::getpointsL(double s, double t, vector<Car_State_SL>& points){
         points[i].t = t;
         curL += Lwidth;
     }
-        //debug
-    cout<<"sampler points:"<<endl;
-    cout<<"s:"<<init_SLpoint.s<<" l:"<<init_SLpoint.l<<endl;
-        for(int row = 0;row<Lnum;row++)
-            cout<<"("<<points[row].s<<","<<points[row].l<<") ";
-        cout<<endl;
+    //     //debug
+    // cout<<"sampler points:"<<endl;
+    // cout<<"s:"<<init_SLpoint.s<<" l:"<<init_SLpoint.l<<endl;
+    //     for(int row = 0;row<Lnum;row++)
+    //         cout<<"("<<points[row].s<<","<<points[row].l<<") ";
+    //     cout<<endl;
 }
 
 void SamplerPoint::getpointsS(double l, double t, vector<Car_State_SL>& points){
@@ -101,13 +101,13 @@ void SamplerPoint::getpointsSL(){
         }
     }
     
-    //debug
-    cout<<"sampler points:"<<endl;
-    cout<<"s:"<<init_SLpoint.s<<" l:"<<init_SLpoint.l<<endl;
-        for(int row = 0;row<Snum;row++){
-        for(int col=0;col<Lnum;col++){
-            cout<<"("<<points[row][col].s<<","<<points[row][col].l<<") ";
-        }
-        cout<<endl;
-    }
+    // //debug
+    // cout<<"sampler points:"<<endl;
+    // cout<<"s:"<<init_SLpoint.s<<" l:"<<init_SLpoint.l<<endl;
+    //     for(int row = 0;row<Snum;row++){
+    //     for(int col=0;col<Lnum;col++){
+    //         cout<<"("<<points[row][col].s<<","<<points[row][col].l<<") ";
+    //     }
+    //     cout<<endl;
+    // }
 }

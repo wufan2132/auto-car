@@ -5,7 +5,9 @@ DpStGraph::DpStGraph(YAML::Node yaml_conf){
 }
 
 
-void DpStGraph::reset(Car_State_SL init_SLpoint, int total_level){
+void DpStGraph::reset(Car_State_SL init_sl, Car_State_SL car_status,int total_level){
+    init_SLpoint = init_sl;
+    status_sl = car_status;
     stcost->reset(total_level);
 }
 

@@ -4,13 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/wf/my-code/auto-car/ros/src/control/src/common/pid_controller.cc" "/home/wf/my-code/auto-car/ros/build/control/src/common/CMakeFiles/common_lib.dir/pid_controller.cc.o"
   "/home/wf/my-code/auto-car/ros/src/control/src/common/trajectory_analyzer.cc" "/home/wf/my-code/auto-car/ros/build/control/src/common/CMakeFiles/common_lib.dir/trajectory_analyzer.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
+  "MPC_OR_LQR=0"
   "ROSCONSOLE_BACKEND_LOG4CXX"
   "ROS_BUILD_SHARED_LIBS=1"
   "ROS_PACKAGE_NAME=\"control\""

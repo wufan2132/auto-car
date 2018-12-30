@@ -1,6 +1,7 @@
 #include "planning/planning.h"
 //
-
+// const string PLANNER_CONF_DIR = 
+//     "../my-code/auto-car/ros/src/planning/conf/sp_planner_conf.yaml";
 const string PLANNER_CONF_DIR = 
     "../my-code/auto-car/ros/src/planning/conf/og_planner_conf.yaml";
 
@@ -14,9 +15,11 @@ Car_Planning::Car_Planning(YAML::Node planning_conf)
     conf.wait_time = planning_conf["wait_time"].as<double>();
     conf.trajectory_dir = planning_conf["trajectory_dir"].as<string>();
     conf.sampling_period = planning_conf["sampling_period"].as<int>();
-    //planner = new SpPlanner(planning_conf["path_optimizer_conf"]);
 
+    //rprovider = new Refrenceline_provider(planning_conf["refrenceline_provider_conf"]);
+   
     string path = Common::convert_to_debugpath(PLANNER_CONF_DIR);
+    //planner = new SpPlanner(YAML::LoadFile(path));
     planner = new OgPlanner(YAML::LoadFile(path));
 }
 
@@ -90,7 +93,7 @@ void Car_Planning::Init(){
         ROS_ERROR("Car_Planning::Init: Can not receive car message!");
         ros::shutdown();
     }
-        
+    //rprovider->process();
     /*发送参考线*/
     // 读取轨迹
     static replay replayer(conf.trajectory_dir,"read");

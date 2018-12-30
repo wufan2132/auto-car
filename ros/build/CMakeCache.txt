@@ -346,6 +346,12 @@ EMPY_EXECUTABLE:FILEPATH=/usr/bin/empy
 //Empy script
 EMPY_SCRIPT:STRING=/usr/bin/empy
 
+//Set to switch to build MPC_OR_LQR
+ENABLE_MPC:BOOL=ON
+
+//Set to switch to simulate
+ENABLE_SIMULATE:BOOL=ON
+
 //The directory containing a CMake configuration file for Eigen3.
 Eigen3_DIR:PATH=/usr/lib/cmake/eigen3
 
@@ -748,9 +754,6 @@ citysim_BINARY_DIR:STATIC=/home/wf/my-code/auto-car/ros/build/citysim
 //Value Computed by CMake
 citysim_SOURCE_DIR:STATIC=/home/wf/my-code/auto-car/ros/src/citysim
 
-//Dependencies for the target
-common_LIB_DEPENDS:STATIC=general;/opt/ros/kinetic/lib/libroscpp.so;general;/usr/lib/x86_64-linux-gnu/libboost_filesystem.so;general;/usr/lib/x86_64-linux-gnu/libboost_signals.so;general;/opt/ros/kinetic/lib/librosconsole.so;general;/opt/ros/kinetic/lib/librosconsole_log4cxx.so;general;/opt/ros/kinetic/lib/librosconsole_backend_interface.so;general;/usr/lib/x86_64-linux-gnu/liblog4cxx.so;general;/usr/lib/x86_64-linux-gnu/libboost_regex.so;general;/opt/ros/kinetic/lib/libxmlrpcpp.so;general;/opt/ros/kinetic/lib/libroscpp_serialization.so;general;/opt/ros/kinetic/lib/librostime.so;general;/opt/ros/kinetic/lib/libcpp_common.so;general;/usr/lib/x86_64-linux-gnu/libboost_system.so;general;/usr/lib/x86_64-linux-gnu/libboost_thread.so;general;/usr/lib/x86_64-linux-gnu/libboost_chrono.so;general;/usr/lib/x86_64-linux-gnu/libboost_date_time.so;general;/usr/lib/x86_64-linux-gnu/libboost_atomic.so;general;/usr/lib/x86_64-linux-gnu/libpthread.so;general;/usr/lib/x86_64-linux-gnu/libconsole_bridge.so;
-
 //Dependencies for target
 common_lib_LIB_DEPENDS:STATIC=
 
@@ -758,7 +761,7 @@ common_lib_LIB_DEPENDS:STATIC=
 control_BINARY_DIR:STATIC=/home/wf/my-code/auto-car/ros/build/control
 
 //Dependencies for the target
-control_LIB_DEPENDS:STATIC=general;common_lib;general;mpc_math;general;/usr/lib/x86_64-linux-gnu/libyaml-cpp.so;
+control_LIB_DEPENDS:STATIC=general;mpc_math;general;common_lib;general;/usr/lib/x86_64-linux-gnu/libyaml-cpp.so;
 
 //Value Computed by CMake
 control_SOURCE_DIR:STATIC=/home/wf/my-code/auto-car/ros/src/control
@@ -867,6 +870,9 @@ ignition-transport3_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/ignition-transport3
 lib:FILEPATH=/opt/ros/kinetic/lib/libxmlrpcpp.so
 
 //Dependencies for target
+map_LIB_DEPENDS:STATIC=
+
+//Dependencies for target
 math_LIB_DEPENDS:STATIC=
 
 //The directory containing a CMake configuration file for message_filters.
@@ -889,12 +895,6 @@ onelib:FILEPATH=/usr/lib/x86_64-linux-gnu/libignition-transport3.so
 
 //Dependencies for target
 optimizer_LIB_DEPENDS:STATIC=
-
-//Value Computed by CMake
-osrf-citysim_BINARY_DIR:STATIC=/home/wf/my-code/auto-car/ros/build/osrf-citysim
-
-//Value Computed by CMake
-osrf-citysim_SOURCE_DIR:STATIC=/home/wf/my-code/auto-car/ros/src/osrf-citysim
 
 //Dependencies for target
 planner_LIB_DEPENDS:STATIC=
@@ -1218,7 +1218,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=33
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=34
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

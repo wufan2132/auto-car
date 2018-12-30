@@ -10,6 +10,7 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
+  "MPC_OR_LQR=0"
   "ROSCONSOLE_BACKEND_LOG4CXX"
   "ROS_BUILD_SHARED_LIBS=1"
   "ROS_PACKAGE_NAME=\"control\""
@@ -26,9 +27,9 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
   "/home/wf/my-code/auto-car/ros/build/control/src/controller/CMakeFiles/control.dir/DependInfo.cmake"
-  "/home/wf/my-code/auto-car/ros/build/control/src/common/CMakeFiles/common_lib.dir/DependInfo.cmake"
   "/home/wf/my-code/auto-car/ros/build/control/src/controller/math.out/CMakeFiles/mpc_math.dir/DependInfo.cmake"
   "/home/wf/my-code/auto-car/ros/build/control/src/controller/math.out/qp_solver/CMakeFiles/qp_solver.dir/DependInfo.cmake"
+  "/home/wf/my-code/auto-car/ros/build/control/src/common/CMakeFiles/common_lib.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

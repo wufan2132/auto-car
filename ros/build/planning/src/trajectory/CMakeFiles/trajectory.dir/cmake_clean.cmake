@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/trajectory.dir/refrenceline.cpp.o"
   "CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o"
   "CMakeFiles/trajectory.dir/trajectory_generation.cpp.o"
   "/home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.pdb"

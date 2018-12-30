@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/wf/my-code/auto-car/ros/src/planning/src/trajectory/refrenceline.cpp" "/home/wf/my-code/auto-car/ros/build/planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o"
   "/home/wf/my-code/auto-car/ros/src/planning/src/trajectory/trajectory_generation.cpp" "/home/wf/my-code/auto-car/ros/build/planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_generation.cpp.o"
   "/home/wf/my-code/auto-car/ros/src/planning/src/trajectory/trajectory_stitcher.cpp" "/home/wf/my-code/auto-car/ros/build/planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o"
   )

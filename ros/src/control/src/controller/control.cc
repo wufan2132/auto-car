@@ -12,7 +12,7 @@ void Control::Init(void){
 //模式参数
     control_mode_ = control_conf["control_mode"].as<int>();
     debug_mode_ = control_conf["debug_mode"].as<int>();
-#ifndef MPC
+#if MPC_OR_LQR
     LonControllerConf lon_controller_conf;
     LatControllerConf lat_controller_conf;
 //配置纵向控制参数
@@ -128,7 +128,7 @@ void Control::Init(void){
 }
 
 void Control::ProduceControlCommand(car_msgs::control_cmd &control_cmd){
-#ifndef MPC
+#if MPC_OR_LQR
     lon_controller_.ComputeControlCommand(trajectory_path_,vehicle_state_,control_cmd,debug_.lon_debug_msg);
 
     lat_controller_.ComputeControlCommand(trajectory_path_,vehicle_state_,control_cmd,debug_.lat_debug_msg);

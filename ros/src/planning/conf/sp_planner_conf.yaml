@@ -29,7 +29,7 @@ SamplerPoint_conf:
   # 纵向采样个数 
   Snum: 6
   # 时间采样个数 (奇数)
-  Tnum: 5
+  Tnum: 3
 ##############插值器
 Interpolating_conf:
   # 插值间隔（单位：m）

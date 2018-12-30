@@ -202,6 +202,33 @@ trajectory/fast:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/trajectory/CMakeFiles/trajectory.dir/build.make planning/src/trajectory/CMakeFiles/trajectory.dir/build
 .PHONY : trajectory/fast
 
+refrenceline.o: refrenceline.cpp.o
+
+.PHONY : refrenceline.o
+
+# target to build an object file
+refrenceline.cpp.o:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/trajectory/CMakeFiles/trajectory.dir/build.make planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o
+.PHONY : refrenceline.cpp.o
+
+refrenceline.i: refrenceline.cpp.i
+
+.PHONY : refrenceline.i
+
+# target to preprocess a source file
+refrenceline.cpp.i:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/trajectory/CMakeFiles/trajectory.dir/build.make planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.i
+.PHONY : refrenceline.cpp.i
+
+refrenceline.s: refrenceline.cpp.s
+
+.PHONY : refrenceline.s
+
+# target to generate assembly for a file
+refrenceline.cpp.s:
+	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f planning/src/trajectory/CMakeFiles/trajectory.dir/build.make planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.s
+.PHONY : refrenceline.cpp.s
+
 trajectory_generation.o: trajectory_generation.cpp.o
 
 .PHONY : trajectory_generation.o
@@ -272,6 +299,9 @@ help:
 	@echo "... install/local"
 	@echo "... list_install_components"
 	@echo "... install"
+	@echo "... refrenceline.o"
+	@echo "... refrenceline.i"
+	@echo "... refrenceline.s"
 	@echo "... trajectory_generation.o"
 	@echo "... trajectory_generation.i"
 	@echo "... trajectory_generation.s"

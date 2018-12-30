@@ -202,33 +202,6 @@ common_lib/fast:
 	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/common/CMakeFiles/common_lib.dir/build.make control/src/common/CMakeFiles/common_lib.dir/build
 .PHONY : common_lib/fast
 
-pid_controller.o: pid_controller.cc.o
-
-.PHONY : pid_controller.o
-
-# target to build an object file
-pid_controller.cc.o:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/common/CMakeFiles/common_lib.dir/build.make control/src/common/CMakeFiles/common_lib.dir/pid_controller.cc.o
-.PHONY : pid_controller.cc.o
-
-pid_controller.i: pid_controller.cc.i
-
-.PHONY : pid_controller.i
-
-# target to preprocess a source file
-pid_controller.cc.i:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/common/CMakeFiles/common_lib.dir/build.make control/src/common/CMakeFiles/common_lib.dir/pid_controller.cc.i
-.PHONY : pid_controller.cc.i
-
-pid_controller.s: pid_controller.cc.s
-
-.PHONY : pid_controller.s
-
-# target to generate assembly for a file
-pid_controller.cc.s:
-	cd /home/wf/my-code/auto-car/ros/build && $(MAKE) -f control/src/common/CMakeFiles/common_lib.dir/build.make control/src/common/CMakeFiles/common_lib.dir/pid_controller.cc.s
-.PHONY : pid_controller.cc.s
-
 trajectory_analyzer.o: trajectory_analyzer.cc.o
 
 .PHONY : trajectory_analyzer.o
@@ -272,9 +245,6 @@ help:
 	@echo "... install/local"
 	@echo "... list_install_components"
 	@echo "... install"
-	@echo "... pid_controller.o"
-	@echo "... pid_controller.i"
-	@echo "... pid_controller.s"
 	@echo "... trajectory_analyzer.o"
 	@echo "... trajectory_analyzer.i"
 	@echo "... trajectory_analyzer.s"

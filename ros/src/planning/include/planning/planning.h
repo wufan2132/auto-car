@@ -6,6 +6,7 @@
 #include "planning/car_model.h"
 #include "planning/Interpolating.h"
 #include "planning/path_optimizer.h"
+#include "planning/refrenceline.h"
 #include "planning/planner/og_planner.h"
 #include "planning/planner/sp_planner.h"
 #include "planning/common.h"
@@ -68,7 +69,8 @@ class Car_Planning{
     //配置参数
     Car_Planning_Conf conf;
     //模块
-    OgPlanner* planner;
+    Planner* planner;
+    Refrenceline_provider* rprovider;
 };
 
 /*path_point*/

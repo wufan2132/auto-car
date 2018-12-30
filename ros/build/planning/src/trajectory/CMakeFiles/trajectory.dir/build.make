@@ -57,9 +57,33 @@ include planning/src/trajectory/CMakeFiles/trajectory.dir/progress.make
 # Include the compile flags for this target's objects.
 include planning/src/trajectory/CMakeFiles/trajectory.dir/flags.make
 
+planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o: planning/src/trajectory/CMakeFiles/trajectory.dir/flags.make
+planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/src/trajectory/refrenceline.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/trajectory && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/trajectory.dir/refrenceline.cpp.o -c /home/wf/my-code/auto-car/ros/src/planning/src/trajectory/refrenceline.cpp
+
+planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/trajectory.dir/refrenceline.cpp.i"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/trajectory && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/wf/my-code/auto-car/ros/src/planning/src/trajectory/refrenceline.cpp > CMakeFiles/trajectory.dir/refrenceline.cpp.i
+
+planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/trajectory.dir/refrenceline.cpp.s"
+	cd /home/wf/my-code/auto-car/ros/build/planning/src/trajectory && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/wf/my-code/auto-car/ros/src/planning/src/trajectory/refrenceline.cpp -o CMakeFiles/trajectory.dir/refrenceline.cpp.s
+
+planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o.requires:
+
+.PHONY : planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o.requires
+
+planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o.provides: planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o.requires
+	$(MAKE) -f planning/src/trajectory/CMakeFiles/trajectory.dir/build.make planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o.provides.build
+.PHONY : planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o.provides
+
+planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o.provides.build: planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o
+
+
 planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o: planning/src/trajectory/CMakeFiles/trajectory.dir/flags.make
 planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/src/trajectory/trajectory_stitcher.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o"
 	cd /home/wf/my-code/auto-car/ros/build/planning/src/trajectory && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o -c /home/wf/my-code/auto-car/ros/src/planning/src/trajectory/trajectory_stitcher.cpp
 
 planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.i: cmake_force
@@ -83,7 +107,7 @@ planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o.prov
 
 planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_generation.cpp.o: planning/src/trajectory/CMakeFiles/trajectory.dir/flags.make
 planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_generation.cpp.o: /home/wf/my-code/auto-car/ros/src/planning/src/trajectory/trajectory_generation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_generation.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_generation.cpp.o"
 	cd /home/wf/my-code/auto-car/ros/build/planning/src/trajectory && /usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/trajectory.dir/trajectory_generation.cpp.o -c /home/wf/my-code/auto-car/ros/src/planning/src/trajectory/trajectory_generation.cpp
 
 planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_generation.cpp.i: cmake_force
@@ -107,17 +131,19 @@ planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_generation.cpp.o.pr
 
 # Object files for target trajectory
 trajectory_OBJECTS = \
+"CMakeFiles/trajectory.dir/refrenceline.cpp.o" \
 "CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o" \
 "CMakeFiles/trajectory.dir/trajectory_generation.cpp.o"
 
 # External object files for target trajectory
 trajectory_EXTERNAL_OBJECTS =
 
+/home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.so: planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o
 /home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.so: planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o
 /home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.so: planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_generation.cpp.o
 /home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.so: planning/src/trajectory/CMakeFiles/trajectory.dir/build.make
 /home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.so: planning/src/trajectory/CMakeFiles/trajectory.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library /home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/wf/my-code/auto-car/ros/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX shared library /home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.so"
 	cd /home/wf/my-code/auto-car/ros/build/planning/src/trajectory && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/trajectory.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -125,6 +151,7 @@ planning/src/trajectory/CMakeFiles/trajectory.dir/build: /home/wf/my-code/auto-c
 
 .PHONY : planning/src/trajectory/CMakeFiles/trajectory.dir/build
 
+planning/src/trajectory/CMakeFiles/trajectory.dir/requires: planning/src/trajectory/CMakeFiles/trajectory.dir/refrenceline.cpp.o.requires
 planning/src/trajectory/CMakeFiles/trajectory.dir/requires: planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o.requires
 planning/src/trajectory/CMakeFiles/trajectory.dir/requires: planning/src/trajectory/CMakeFiles/trajectory.dir/trajectory_generation.cpp.o.requires
 

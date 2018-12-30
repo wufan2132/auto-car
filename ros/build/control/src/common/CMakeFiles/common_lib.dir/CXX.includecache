@@ -90,8 +90,6 @@ ros/message_operations.h
 std_msgs/Header.h
 -
 
-/home/wf/my-code/auto-car/ros/src/control/include/control/pid_controller.h
-
 /home/wf/my-code/auto-car/ros/src/control/include/control/trajectory_analyzer.h
 car_msgs/chassis.h
 /home/wf/my-code/auto-car/ros/src/control/include/control/car_msgs/chassis.h
@@ -124,12 +122,6 @@ functional
 cmath
 -
 string
--
-
-/home/wf/my-code/auto-car/ros/src/control/src/common/pid_controller.cc
-control/pid_controller.h
-/home/wf/my-code/auto-car/ros/src/control/src/common/control/pid_controller.h
-cmath
 -
 
 /home/wf/my-code/auto-car/ros/src/control/src/common/trajectory_analyzer.cc

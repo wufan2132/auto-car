@@ -116,8 +116,8 @@ control_EXTERNAL_OBJECTS =
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/control.cc.o
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/mpc_controller.cc.o
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/build.make
-/home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /home/wf/my-code/auto-car/ros/devel/lib/libcommon_lib.so
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /home/wf/my-code/auto-car/ros/devel/lib/libmpc_math.so
+/home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /home/wf/my-code/auto-car/ros/devel/lib/libcommon_lib.so
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /usr/lib/x86_64-linux-gnu/libyaml-cpp.so
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: /home/wf/my-code/auto-car/ros/devel/lib/libqp_solver.so
 /home/wf/my-code/auto-car/ros/devel/lib/libcontrol.so: control/src/controller/CMakeFiles/control.dir/link.txt

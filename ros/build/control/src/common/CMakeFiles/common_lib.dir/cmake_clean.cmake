@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/common_lib.dir/pid_controller.cc.o"
   "CMakeFiles/common_lib.dir/trajectory_analyzer.cc.o"
   "/home/wf/my-code/auto-car/ros/devel/lib/libcommon_lib.pdb"
   "/home/wf/my-code/auto-car/ros/devel/lib/libcommon_lib.so"
