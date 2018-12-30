@@ -1,0 +1,8 @@
+prefix=/home/wf/my-code/auto-car/ros/install
+
+Name: car_demo
+Description: Description of car_demo
+Version: 0.0.1
+Cflags: 
+Libs: -L/home/wf/my-code/auto-car/ros/install/lib 
+Requires: gazebo_ros car_msgs

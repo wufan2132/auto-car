@@ -10,10 +10,12 @@ Queue_ USART1_QueueRecv;
 void usart1_init(u32 bound);
 BOOL usart1_send(u8 *data, u16 num);
 BOOL usart1_receive(u8 *data, u16 num);
+BOOL usart1_readframe(u8 *data, u8 *len, u8 *function);
 struct usart_ usart1= {  
 	usart1_init,                                                                                                                                         
 	usart1_send,
 	usart1_receive,
+	usart1_readframe,
 };
 
 
@@ -122,6 +124,56 @@ BOOL usart1_receive(u8 *data, u16 num)
 		}
 	}
 	return True;	
+}
+/**************************************************************
+	串口1读取数据
+**************************************************************/
+BOOL usart1_readframe(u8 *data, u8 *len, u8 *function)
+{
+	//先保存现场
+	u16 Queue_head = USART1_QueueRecv.Head;
+	u8 data_head[2];
+	u8 i = 0;
+	u8 Sum = 0;
+	//查找
+	while(1){
+		//每次读取一个数
+		if(False == Queue_OPS.Dequeue(&data_head[1],&USART1_QueueRecv)){
+				USART1_QueueRecv.Head = Queue_head;//恢复现场
+				return False;
+		}
+		//
+		if(data_head[0]==0xAA&&data_head[1]==0xAF){
+			//再读2个字节
+			if(False == Queue_OPS.Dequeue(function,&USART1_QueueRecv)||
+					False == Queue_OPS.Dequeue(len,&USART1_QueueRecv)){
+				USART1_QueueRecv.Head = Queue_head;//恢复现场
+				return False;
+			}
+			Sum += 0xAA;
+			Sum += 0xAF;
+			Sum += *function;
+			Sum += *len;
+			//把数据拷贝走
+			for(i = 0;i < *len;i++){
+				if(False == Queue_OPS.Dequeue(&data[i],&USART1_QueueRecv)){
+					USART1_QueueRecv.Head = Queue_head;//恢复现场
+					return False;
+				}
+				Sum +=data[i];
+			}
+			//校验位
+			if(False == Queue_OPS.Dequeue(&data[*len],&USART1_QueueRecv)){
+					USART1_QueueRecv.Head = Queue_head;//恢复现场
+					return False;
+				}
+			if(data[*len]==Sum)
+				return True;
+			else
+				return False;
+		}
+		data_head[0] = data_head[1];
+	}
 }
 
 	

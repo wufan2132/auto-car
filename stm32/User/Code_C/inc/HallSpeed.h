@@ -5,14 +5,15 @@
 #include "Math_User.h"
 
 #define MEASURE_FREQUENT 1000.0f
-#define MEASURE_RANGE 1000
-#define SPEED_MAX 50
+#define MEASURE_RANGE 10000
+#define SPEED_MAX 5000
 
 
 extern struct speed_measure_{
 	void (*init)(void);
 	void (*speed_get)(u16 Time);
 	float Value;
+	float distant;
 }speed_measure;
  
 

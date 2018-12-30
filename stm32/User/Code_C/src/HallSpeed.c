@@ -6,7 +6,8 @@ void speed_measure_get(u16 Time);
 struct speed_measure_ speed_measure ={
 	speed_measure_init,
 	speed_measure_get,
-	0
+	0,
+	0,
 };
 
 void  speed_measure_init(void)
@@ -121,8 +122,10 @@ void  speed_measure_init(void)
 //描    述：采集三个编码器速度，数据存放在speed_value中
 //入口参数 Time: 定时器时间
 //出口参数：无
+#define SPEED_K 0.00003419154101275344
 void speed_measure_get(u16 Time)
 {
+	int32_t count = 0;
 	int32_t speed = 0;
 //	/***************TIM1******************/
 //		speed =  TIM_GetCounter(TIM1);
@@ -143,15 +146,16 @@ void speed_measure_get(u16 Time)
 //		speed_value.speed2 = -(speed - MEASURE_RANGE -1 );//反转
 //	TIM_SetCounter(TIM2,0); 
 		/***************TIM3******************/
-	speed =  TIM_GetCounter(TIM8);
-	if(speed ==0)
-		speed_measure.Value = speed;
-	else if((TIM3->CR1 & 1<<4) == 0 && speed < SPEED_MAX)
-		speed_measure.Value = -speed;//正转
-	else if(speed - MEASURE_RANGE -1 > -SPEED_MAX)
-		speed_measure.Value = -(speed - MEASURE_RANGE -1 );//反转
+	count =  TIM_GetCounter(TIM8);
+	if(count ==0)
+		speed = count;
+	else if((TIM3->CR1 & 1<<4) == 0 && (MEASURE_RANGE - count +1 < SPEED_MAX))
+		speed = MEASURE_RANGE - count +1;//正转
+	else if(count < SPEED_MAX)
+		speed = -count;//反转
 	TIM_SetCounter(TIM8,0); 
-	
+	speed_measure.Value = speed * SPEED_K *1000.0 /(float)Time;
+	speed_measure.distant += speed_measure.Value;
 }
 
 

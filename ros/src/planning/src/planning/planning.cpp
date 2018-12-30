@@ -1,4 +1,11 @@
 #include "planning/planning.h"
+//
+// const string PLANNER_CONF_DIR = 
+//     "../my-code/auto-car/ros/src/planning/conf/sp_planner_conf.yaml";
+const string PLANNER_CONF_DIR = 
+    "../my-code/auto-car/ros/src/planning/conf/og_planner_conf.yaml";
+
+
 
 Car_Planning::Car_Planning(YAML::Node planning_conf)
 :STATE(0)
@@ -8,7 +15,12 @@ Car_Planning::Car_Planning(YAML::Node planning_conf)
     conf.wait_time = planning_conf["wait_time"].as<double>();
     conf.trajectory_dir = planning_conf["trajectory_dir"].as<string>();
     conf.sampling_period = planning_conf["sampling_period"].as<int>();
-    optimizer = new path_optimizer(planning_conf["path_optimizer_conf"]);
+
+    //rprovider = new Refrenceline_provider(planning_conf["refrenceline_provider_conf"]);
+   
+    string path = Common::convert_to_debugpath(PLANNER_CONF_DIR);
+    //planner = new SpPlanner(YAML::LoadFile(path));
+    planner = new OgPlanner(YAML::LoadFile(path));
 }
 
 
@@ -81,13 +93,13 @@ void Car_Planning::Init(){
         ROS_ERROR("Car_Planning::Init: Can not receive car message!");
         ros::shutdown();
     }
-        
+    //rprovider->process();
     /*发送参考线*/
     // 读取轨迹
     static replay replayer(conf.trajectory_dir,"read");
     load_trajectory_from_replay(replayer, origin_Trajectory);
     // 轨迹处理 
-    refrenceline_Sp = optimizer->get_refrenceline(origin_Trajectory, refrence_Trajectory);
+    refrenceline_Sp = planner->get_refrenceline(origin_Trajectory, refrence_Trajectory);
     refrenceline_publisher.publish(refrence_Trajectory);
     //cout<<"published : "<<refrence_Trajectory.total_path_length<<endl;
 
@@ -104,7 +116,7 @@ void Car_Planning::OnTimer(const ros::TimerEvent&){
     //坐标系转换
     Coordinate_converter::POS_to_SL(refrence_Trajectory,car_status,car_status_sl);
     //
-    optimizer->process(car_status, car_status_sl, refrenceline_Sp,now_Trajectory);
+    planner->process(car_status, car_status_sl, refrenceline_Sp,refrence_Trajectory, now_Trajectory);
     //cout << "now_Trajectory:"<<now_Trajectory.total_path_length<<endl;
     //cout<<"publish:"<<now_Trajectory.trajectory_path.size()<<endl;
     //发布

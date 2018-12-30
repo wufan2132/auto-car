@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     planning.trajectory_publisher = 
         car_planning_NodeHandle.advertise<car_msgs::trajectory>("trajectory_topic", 1000);
     //planning_init
-    planning.Init();
+      planning.Init();
     // 创建ros定时器
     ros::Timer cycle_timer;
     if(planning.conf.mode == "send"){

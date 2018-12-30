@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC -g  -shared -Wl,-soname,libreplay.so -o /home/wf/my-code/auto-car/ros/devel/lib/libreplay.so CMakeFiles/replay.dir/replay.cpp.o 

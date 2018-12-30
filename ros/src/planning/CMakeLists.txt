@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(planning)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+# Compile as C++11, supported in ROS Kinetic and newer
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -128,12 +128,18 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/planning.cpp
 # )
+
 add_subdirectory(src/planning)
 add_subdirectory(src/optimizer)
 add_subdirectory(src/replay)
 add_subdirectory(src/tool)
 add_subdirectory(src/model)
 add_subdirectory(src/trajectory)
+add_subdirectory(src/sampler)
+add_subdirectory(src/apollo_tool)
+add_subdirectory(src/planner)
+add_subdirectory(src/map)
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -159,11 +165,15 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    planning
+   planner
    optimizer
    replay
    tool
    car_model
    trajectory
+   sampler
+   apollo_tool
+   map
 )
 
 #############
