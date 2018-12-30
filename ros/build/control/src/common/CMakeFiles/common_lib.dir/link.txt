@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -g  -shared -Wl,-soname,libcommon_lib.so -o /home/wf/my-code/auto-car/ros/devel/lib/libcommon_lib.so CMakeFiles/common_lib.dir/trajectory_analyzer.cc.o 

@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -g  -shared -Wl,-soname,libplanning.so -o /home/wf/my-code/auto-car/ros/devel/lib/libplanning.so CMakeFiles/planning.dir/planning.cpp.o -lyaml-cpp 
