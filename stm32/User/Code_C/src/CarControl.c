@@ -2,32 +2,46 @@
 
 #define SPEED_PWM_BASE 3000
 #define DIR_PWM_BASE 3000
-
+#define SPEED_LIMMIT_U 150
+#define SPEED_LIMMIT_D -500
 //void Speed_Loop(u32 Time);
 //void Direction_Loop(u32 Time);
-void PWM_check();
+void PWM_output();
+void Control_stop();
+
 struct Car_Control_Para_ Car_Control_Para = 
 {
 	Manual,
 	False,
 	False,
 	False,
-	
 };
 
 struct CarControl_ CarControl = 
 {	
 	&Car_Control_Para,
-	PWM_check,
+	PWM_output,
+	Control_stop,
 	0,
 	0,
-	0
+	0,
+	0,
 };
 
 
-void PWM_check(){
-		Motor.PWM->PWM1 = CarControl.brake - CarControl.throttlt + SPEED_PWM_BASE;
+void Control_stop(){
+	CarControl.throttlt = 0;
+	CarControl.brake = 0;
+	CarControl.steer = 0;
+}
+
+
+void PWM_output(){
+		int Motor_speed = CarControl.throttlt - CarControl.brake;
+		Motor_speed = Math.Constrain(Motor_speed, SPEED_LIMMIT_U, SPEED_LIMMIT_D);
+		Motor.PWM->PWM1 = SPEED_PWM_BASE - Motor_speed;
 		Motor.PWM->PWM2 = CarControl.steer + DIR_PWM_BASE;
+		Motor.Output(False);
 }
 //void Speed_Loop(u32 Time)
 //{

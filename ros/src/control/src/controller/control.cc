@@ -159,7 +159,7 @@ bool Control::CheckInput(void){
 void Control::SendCmd(car_msgs::control_cmd &control_cmd){
     if(control_mode_ == 0){
         control_cmd.header = localization_.header;
-        //chassisCommand_publisher.publish(control_cmd);
+        chassisCommand_publisher.publish(control_cmd);
     }
 }
 
@@ -177,12 +177,17 @@ void Control::Debug(void){
 }
 
 void Control::OnTimer(const ros::TimerEvent&){
+    static bool isdataNone = 0;
     car_msgs:: control_cmd control_cmd;
 
     if(!CheckInput()){
-        ROS_WARN("trajectory is null!");
+        if(isdataNone == 0){
+            ROS_WARN("Control::OnTimer: trajectory is null!");
+            isdataNone = 1;
+        }
         return;
     }
+    isdataNone = 0;
     ProduceControlCommand(control_cmd);
     SendCmd(control_cmd);
     Debug();
