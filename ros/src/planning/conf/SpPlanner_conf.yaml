@@ -1,0 +1,44 @@
+########################
+#      sp_planner      #
+########################
+
+# 重新规划的临界距离 m
+available_l: 2
+# 目标速度 m/s
+aim_speed: 10
+# 规划间隔:s
+step_t: 0.1
+# 规划时间:s
+planning_t: 4
+# 最远规划距离: m
+planning_s: 40
+# 规划保留时间:s
+keep_t: 1
+# 速度修正系数 (该系数越大减速越明显,最多减到设定值的1/2)
+speed_correction: 0.8
+# 速度下限
+speed_min_limit: 0.3
+##############采样器
+SamplerPoint_conf:
+  # 横向间隔 m
+  Lwidth: 0.5
+  # 纵向间隔 m
+  Slength: 2
+  # 特征时间 s (最好与规划时间相同)
+  Tlength: 4
+  # 横向采样个数 (奇数)
+  Lnum: 5
+  # 纵向采样个数 
+  Snum: 1
+  # 时间采样个数 (奇数)
+  Tnum: 5
+##############插值器
+Interpolating_conf:
+  # 插值间隔（单位：m）
+  spacing: 0.5
+############DP优化器
+DpRoadGraph: pass
+###########代价评估器
+TrajectoryCost_conf:
+  # 平滑代价权重
+  k_smooth:

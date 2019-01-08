@@ -1,2 +1,0 @@
-car_demo:car_msgs:chassis:citysim:control:debuggerpy:planning:prius_description:show_tool:teleop_twist_keyboard
--DENABLE_MPC=ON -DCATKIN_DEVEL_PREFIX=/home/wf/my-code/auto-car/ros/devel -DCMAKE_INSTALL_PREFIX=/home/wf/my-code/auto-car/ros/install -G Unix Makefiles

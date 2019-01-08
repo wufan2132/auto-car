@@ -64,3 +64,6 @@ double TrajectoryCost::nearcost(const VectorXf& QP5,
                                   const double end_s){
 
 }
+
+/****************曲线与障碍物********************/
+//double TrajectoryCost::obstaclecost(const VectorXf& QP5,const vector<Obstacle>& ObstacleList)

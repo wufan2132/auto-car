@@ -20,7 +20,7 @@ public:
     void getpointsS(double l, double t, vector<Car_State_SL>& points);
     void getpointsT(double s, double l, vector<Car_State_SL>& points);
     //
-    void getpointsSL();
+    void getpointsSL(double t, vector<vector<Car_State_SL> >& points);
 
 
     //路宽

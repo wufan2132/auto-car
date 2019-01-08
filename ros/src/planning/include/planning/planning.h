@@ -9,6 +9,9 @@
 #include "planning/refrenceline.h"
 #include "planning/planner/og_planner.h"
 #include "planning/planner/sp_planner.h"
+#include "planning/planner/mp_planner.h"
+#include "planning/planner/test_planner.h"
+#include "planning/obstacle/obstacle_list.h"
 #include "planning/common.h"
 #include <Eigen/Dense>
 #include "stdlib.h"
@@ -71,6 +74,7 @@ class Car_Planning{
     //模块
     Planner* planner;
     Refrenceline_provider* rprovider;
+    ObstacleList* obstaclelist;
 };
 
 /*path_point*/

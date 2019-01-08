@@ -5,9 +5,11 @@ DpStGraph::DpStGraph(YAML::Node yaml_conf){
 }
 
 
-void DpStGraph::reset(Car_State_SL init_sl, Car_State_SL car_status,int total_level){
+void DpStGraph::reset(Car_State_SL init_sl, Car_State_SL car_status,
+                        int total_level, double aim_v){
     init_SLpoint = init_sl;
     status_sl = car_status;
+    aim_speed = aim_v;
     stcost->reset(total_level);
 }
 
@@ -61,23 +63,32 @@ void DpStGraph::UpdateNode(const list<StGraphNode> &prev_nodes,
     for (const auto& pre_node : prev_nodes) {
         double init_sv = 0;
         double init_sa = 0;
+        double pre_node_t = pre_node.t;
         if(level == 0){
-            init_sv = status_sl.sv;
-            init_sa = status_sl.sa;
+            init_sv = init_SLpoint.sv;
+            init_sa = init_SLpoint.sa;
+            pre_node_t = 0;
         }
-        VectorXf QP4 = Fitting::quartic4_polynomial(pre_node.s,init_sv,init_sa,
-                                            5,0,cur_node->t - pre_node.t);
+        VectorXf QP4 = Fitting::quartic4_polynomial(pre_node.s - init_SLpoint.s ,init_sv,init_sa,
+                                            aim_speed,0,cur_node->t - pre_node_t);
         //曲线评估
         //IsValidCurve(QP4);
         double cost = stcost->evaluate(QP4, pre_node.t, cur_node->t, level);
+        // cout<<"UpdateNode:--------st-------------"<<endl;
+        // cout<<"start.s:"<<pre_node.s - init_SLpoint.s<<endl;
+        // cout<<"start.v:"<<init_sv<<endl;
+        // cout<<"start.a:"<<init_sa<<endl;
+        // cout<<"end.v:"<<aim_speed<<endl;
+        // cout<<"dt:"<<cur_node->t - pre_node_t<<endl;
+        // cout<<"cost:"<<cost<<endl;
         cur_node->UpdateCost(&pre_node, QP4, cost);
     }
     //尝试连接初始点
     if(level>=1){
-        double init_sv = status_sl.sv;
-        double init_sa = status_sl.sa;
-        VectorXf QP4 = Fitting::quartic4_polynomial(front->l,init_sv,init_sa,
-                                            5,0,cur_node->t - front->t);
+        double init_sv = init_SLpoint.sv;
+        double init_sa = init_SLpoint.sa;
+        VectorXf QP4 = Fitting::quartic4_polynomial(0,init_sv,init_sa,
+                                            5,0,cur_node->t);
         //曲线评估
         //IsValidCurve(QP4);
         double cost = stcost->evaluate(QP4, front->t, cur_node->t, level);

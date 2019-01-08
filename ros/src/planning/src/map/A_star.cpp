@@ -1,6 +1,9 @@
 #include "planning/map/A_star.h"
 #include <math.h> 
 
+Astar::Astar(YAML::Node yaml_conf)
+:kG(yaml_conf["kG"].as<double>()),
+kH(yaml_conf["kH"].as<double>()){}
 
 void Astar::InitAstar(std::vector<std::vector<int>> &_maze)
 {
@@ -9,20 +12,20 @@ void Astar::InitAstar(std::vector<std::vector<int>> &_maze)
 
 
 
-int Astar::calcG(MapPoint *temp_start, MapPoint *point)
+double Astar::calcG(MapPoint *temp_start, MapPoint *point)
 {
-	int extraG = (abs(point->x - temp_start->x) + abs(point->y - temp_start->y)) == 1 ? kCost1 : kCost2;
-	int parentG = point->parent == NULL ? 0 : point->parent->G; //����ǳ�ʼ�ڵ㣬���丸�ڵ��ǿ� 
+	double extraG = (abs(point->x - temp_start->x) + abs(point->y - temp_start->y)) == 1 ? kCost1 : kCost2;
+	double parentG = point->parent == NULL ? 0 : point->parent->G; //����ǳ�ʼ�ڵ㣬���丸�ڵ��ǿ� 
 	return parentG + extraG;
 }
 
-int Astar::calcH(MapPoint *point, MapPoint *end)
+double Astar::calcH(MapPoint *point, MapPoint *end)
 {
 	//�ü򵥵�ŷ����þ������H�����H�ļ����ǹؼ������кܶ��㷨��û�����о�^_^ 
 	return sqrt((double)(end->x - point->x)*(double)(end->x - point->x) + (double)(end->y - point->y)*(double)(end->y - point->y))*kCost1;
 }
 
-int Astar::calcF(MapPoint *point)
+double Astar::calcF(MapPoint *point)
 {
 	return kG*point->G + kH*point->H;
 }
@@ -93,6 +96,8 @@ std::list<MapPoint *> Astar::GetPath(MapPoint &startPoint, MapPoint &endPoint, b
 {
 	MapPoint *result = findPath(startPoint, endPoint, isIgnoreCorner);
 	std::list<MapPoint *> path;
+	if(result==NULL)
+		ROS_ERROR("Astar::GetPath: Can not find a feasible path!");
 	//����·�������û�ҵ�·�������ؿ����� 
 	while (result)
 	{
@@ -113,8 +118,8 @@ MapPoint *Astar::isInList(const std::list<MapPoint *> &list, const MapPoint *poi
 
 
 //
-//maze[x][y] == 0:����
-//����ֵ��������
+//maze[x][y] == 0: 可走
+//其他值：不可走
 bool Astar::isCanreach(const MapPoint *point, const MapPoint *target, bool isIgnoreCorner) const
 {
 	if (target->x<0 || target->x>maze.size() - 1
@@ -154,7 +159,7 @@ std::vector<MapPoint *> Astar::getSurroundPoints(const MapPoint *point, bool isI
 void Astar::show_path(std::list<MapPoint *>& path, Image* img, char color){
 	for (auto it = path.begin(); it != path.end(); it++){
 		//
-		cout << "x:" << (*it)->x << "  y:" << (*it)->y << endl;
+		//cout << "x:" << (*it)->x << "  y:" << (*it)->y << endl;
 		int x = min((*it)->x, img->rows-1);
 		x = max(0, x);
 		int y = min((*it)->y, img->cols-1);

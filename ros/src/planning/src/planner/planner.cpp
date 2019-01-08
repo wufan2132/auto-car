@@ -1,7 +1,6 @@
 #include "planning/planner/planner.h"
 
 Planner::Planner(YAML::Node yaml_conf){
-    conf.step_t     = yaml_conf["step_t"].as<double>();
     interpolating = new Interpolating(yaml_conf["Interpolating_conf"]);
 }
 

@@ -40,4 +40,6 @@ public:
     VectorXf QP4; //速度规划
     VectorXf QP5; //位置规划
     Car_State_SL car_last_sl;
+    /***************************/
+    OgPlanner_Conf conf;
 };

@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -g  -shared -Wl,-soname,libmath.so -o /home/wf/my-code/auto-car/ros/devel/lib/libmath.so CMakeFiles/math.dir/linear_quadratic_regulator.cc.o CMakeFiles/math.dir/linear_interpolation.cc.o CMakeFiles/math.dir/search.cc.o CMakeFiles/math.dir/math_utils.cc.o 

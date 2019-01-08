@@ -10,8 +10,8 @@ Image::~Image()
 {
 }
 
-#define  MAXLENGTH 2000
-#define  MAXHIGH 2000
+#define  MAXLENGTH 2500
+#define  MAXHIGH 2500
 //#define  MAXLENGTH 1000
 bool Image::Readpgm(string fileName) {
       FILE *filePointer;    /* for file buffer */
@@ -24,7 +24,7 @@ bool Image::Readpgm(string fileName) {
 
       /* Open the file, return an error if necessary. */
       if ((filePointer = fopen(fileName.c_str(),"r")) == NULL) {
-	   printf ("ERROR: cannot open file\n\n");
+	   ROS_ERROR ("Image::Readpgm: cannot open file\n\n");
 	   fclose (filePointer);
 	   return 0;
       }
@@ -46,7 +46,7 @@ bool Image::Readpgm(string fileName) {
 	  /*  printf ("\nFORMAT: P5\n"); */
       }
       else {
-	   printf ("ERROR: incorrect file format\n\n");
+	   ROS_ERROR ("Image::Readpgm: incorrect file format\n\n");
 	   fclose (filePointer);
 	   return 0;
       }          
@@ -67,7 +67,7 @@ bool Image::Readpgm(string fileName) {
 /*       printf("Maximum value: %d\n\n",maximumValue); */
 
       if (cols<1 ||rows<1 || maximumValue<0){
-	   printf ("ERROR: invalid file specifications (cols/rows/max value)\n\n");
+	   ROS_ERROR ("Image::Readpgm: invalid file specifications (cols/rows/max value)\n\n");
 	   fclose (filePointer);
 	   return 0;
       }
@@ -101,21 +101,31 @@ bool Image::Readpgm(string fileName) {
        *   number indicated by w*h.
        * If not, return an error message, but proceed */
       if (numberRead < rows*cols) {
-	   printf ("ERROR: fewer pixels than rows*cols indicates\n\n");
+	   ROS_ERROR("Image::Readpgm: fewer pixels than rows*cols indicates\n\n");
       }
-     
+	//resize
+	data_R.resize(rows);
+	for (auto &vec : data_R)
+		vec.resize(cols);
+	data_G.resize(rows);
+	for (auto &vec : data_G)
+		vec.resize(cols);
+	data_B.resize(rows);
+	for (auto &vec : data_B)
+		vec.resize(cols);
+	data.resize(rows);
+	for (auto &vec : data)
+		vec.resize(cols);
 	for (i= 0; i < rows; i++) {
 		for (j =0; j < cols; j++) { 
 			data_R[i][j] = image[i][j];
 			data_G[i][j] = image[i][j];
 			data_B[i][j] = image[i][j];
-			if (data_R[i][j] + data_G[i ][j] + data_B[i ][j]< 400)
-				data[i ][j] = 0;
-			else
-				data[i ][j] = 1;
+			data[i ][j] = twovalue(data_R[i ][j],data_G[i ][j],data_B[i ][j]);
 		}
 	}
-
+	pBmpBuf = new BYTE[3*rows*cols];
+	vec_to_bmpbuf();
       /* close the file and return 1 indicating success */
       fclose (filePointer);
       return 1;
@@ -265,10 +275,7 @@ void Image::bmpbuf_to_vec(){
 			data_R[i ][j] = pBmpBuf[j * 3 + 2 + cols*i * 3];
 			data_G[i ][j] = pBmpBuf[j * 3 + 1 + cols *i * 3];
 			data_B[i ][j] = pBmpBuf[j * 3 + cols *i * 3];
-			if (data_R[i ][j] + data_G[i ][j] + data_B[i ][j]< 400)
-				data[i ][j] = 0;
-			else
-				data[i ][j] = 1;
+			data[i ][j] = twovalue(data_R[i ][j],data_G[i ][j],data_B[i ][j]);
 		}
 	}
 }
@@ -279,8 +286,8 @@ void Image::vec_to_bmpbuf(){
 	{
 		for (int j = 0; j<cols; j++)
 		{
-			pBmpBuf[j * 3 + 2 + cols*i * 3] = data_R[i ][j];
-			pBmpBuf[j * 3 + 1 + cols *i * 3] = data_G[i ][j];
+			pBmpBuf[j * 3 + 2 + cols*i * 3] = data_R[i][j];
+			pBmpBuf[j * 3 + 1 + cols *i * 3] = data_G[i][j];
 			pBmpBuf[j * 3 + cols *i * 3] = data_B[i ][j];
 		}
 	}
@@ -325,6 +332,11 @@ void Image::setcolor(int x, int y, char color){
 
 }
 
+void Image::drawPoint(int x, int y,char color, int size){
+	for(int i=x-size/2;i<=x+size/2;i++)
+		for(int j=y-size/2;j<=y+size/2;j++)
+			setcolor(i,j,color);
+}
 
 void Image::compressionBMP(Image& img, double scale){
 	//����ͼ��ߴ�
@@ -343,13 +355,41 @@ void Image::compressionBMP(Image& img, double scale){
 			{
 				after_i = i;
 				after_j = j;
-				pre_i = min(rows, (int)round(after_i / scale));/////ȡ������ֵ����Ϊ�����ڽ���ֵ������ȡ������
-				pre_j = min(cols, (int)round(after_j / scale));
+				pre_i = min(rows, (int)round((double)after_i / scale));/////ȡ������ֵ����Ϊ�����ڽ���ֵ������ȡ������
+				pre_j = min(cols, (int)round((double)after_j / scale));
 				//��ԭͼ��Χ��
-				*(img.pBmpBuf + i * lineByte2 + j * 3 + k) = *(pBmpBuf + pre_i * cols * 3 + pre_j * 3 + k);
+				*(img.pBmpBuf + i * img.cols *3 + j * 3 + k) = *(pBmpBuf + pre_i * cols * 3 + pre_j * 3 + k);
 			}
 		}
 	}
 	//�������ؾ���
 	img.bmpbuf_to_vec();
+}
+
+//二值化
+bool Image::twovalue(int R,int G, int B){
+	if (R + G + B< 400)
+		return 1;
+	else
+		return 0;
+}
+
+void Image::convert_twovalue(){
+	for (int i = 0; i<rows; i++)
+	{
+		for (int j = 0; j<cols; j++)
+		{
+			if (data[i ][j] == 0){
+				data_R[i ][j] = 255;
+				data_G[i ][j] = 255;
+				data_B[i ][j] = 255;
+			}
+			else{
+				data_R[i ][j] = 0;
+				data_G[i ][j] = 0;
+				data_B[i ][j] = 0;
+			}
+		}
+	}
+	vec_to_bmpbuf();
 }

@@ -44,15 +44,19 @@ size_t total_level = path_waypoints.size();
     }
 }
 //寻找最好路径
+//cout<<"---------BEST PATH--------"<<endl;
 RoadGraphNode fake_head;
 for(auto &cur_dp_node : graph_nodes.back())
     fake_head.UpdateCost(&cur_dp_node, cur_dp_node.minQP5,cur_dp_node.minCost);
 const auto *min_cost_node = &fake_head;
+min_cost_path->clear();
   while (min_cost_node->min_pre) {
     min_cost_node = min_cost_node->min_pre;
     min_cost_path->push_back(*min_cost_node);
+    // cout<<"("<<min_cost_node->s<<","<<min_cost_node->l<<")"<<endl;
+    // cout<<"qp5"<<endl;
+    // cout<<min_cost_node->minQP5<<endl;
   }
-min_cost_path->push_back(init_SLpoint);
 reverse(min_cost_path->begin(), min_cost_path->end());
 }
 
@@ -64,8 +68,8 @@ void DpRoadGraph::UpdateNode(const list<RoadGraphNode> &prev_nodes,
         double init_dl = 0;
         double init_ddl = 0;
         if(level == 0){
-            init_dl = status_sl.dl;
-            init_ddl = status_sl.ddl;
+            init_dl = init_SLpoint.dl;
+            init_ddl = init_SLpoint.ddl;
         }
         VectorXf QP5 = Fitting::quintic5_polynomial(pre_node.l,init_dl,init_ddl,
                                             cur_node->l,0,0,
@@ -73,12 +77,20 @@ void DpRoadGraph::UpdateNode(const list<RoadGraphNode> &prev_nodes,
         //曲线评估
         //IsValidCurve(QP5);
         double cost = trajectorycost->evaluate(QP5, pre_node.s, cur_node->s, level);
+        // cout<<"UpdateNode:---"<<"level:"<<level<<"-------------------"<<endl;
+        // cout<<"cur_node->l:"<<cur_node->l<<endl;
+        // cout<<"cur_node->s:"<<cur_node->s<<endl;
+        // cout<<"pre_node.l:"<<pre_node.l<<endl;
+        // cout<<"pre_node.s:"<<pre_node.s<<endl;
+        // cout<<"init_dl:"<<init_dl<<endl;
+        // cout<<"init_ddl"<<init_ddl<<endl;
+        // cout<<"cost:"<<cost<<endl;
         cur_node->UpdateCost(&pre_node, QP5, cost);
     }
     //尝试连接初始点
     if(level>=1){
-        double init_dl = status_sl.dl;
-        double init_ddl = status_sl.ddl;
+        double init_dl = init_SLpoint.dl;
+        double init_ddl = init_SLpoint.ddl;
         VectorXf QP5 = Fitting::quintic5_polynomial(front->l,init_dl,init_ddl,
                                             cur_node->l,0,0,
                                             cur_node->s - front->s);

@@ -1,8 +1,0 @@
-prefix=/home/wf/my-code/auto-car/ros/devel
-
-Name: teleop_twist_keyboard
-Description: Description of teleop_twist_keyboard
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/wf/my-code/auto-car/ros/devel/lib 
-Requires: geometry_msgs car_msgs rospy std_msgs

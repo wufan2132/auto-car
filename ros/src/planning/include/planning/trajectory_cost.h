@@ -33,11 +33,6 @@ private:
     //临时变量
     int total_level;
 
-
-
-
-
-
     //cost类
     class Cost{
     public:

@@ -3,9 +3,14 @@
 #define pi 3.14159265354
 
 bool TrajectoryGeneration::getTrajectory_from_SLT(const MatrixXf& S,const MatrixXf& L,const VectorXf& T,
-                            const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now,int start_index){
+                            const Spline_Out* refrenceline_Sp,
+                            car_msgs::trajectory& trajectory_now,
+                            int start_index){
     int len = T.rows();
-
+    // cout<<"getTrajectory_from_SLT:"<<endl;
+    // cout<<"T:"<<endl;
+    // cout<<T<<endl;
+    // cout<<"start_index:"<<start_index<<endl;
     trajectory_now.trajectory_path.resize(start_index + len);
     for(int i=0;i<len;i++){
         trajectory_now.trajectory_path[start_index+i].s = S(i,0);
@@ -43,7 +48,6 @@ bool TrajectoryGeneration::getTrajectory_from_SLT(const MatrixXf& S,const Matrix
         // <<refrenceline_y<<","
         // <<refrenceline_theta<<endl;
     }
-   
     //计算theta
     float dx,dy;
     for(int i=0;i<len-1;i++){
@@ -57,10 +61,12 @@ bool TrajectoryGeneration::getTrajectory_from_SLT(const MatrixXf& S,const Matrix
             dx = trajectory_now.trajectory_path[start_index+i+2].x - trajectory_now.trajectory_path[start_index+i-1].x;
             dy = trajectory_now.trajectory_path[start_index+i+2].y - trajectory_now.trajectory_path[start_index+i-1].y;
             trajectory_now.trajectory_path[start_index+i].theta = Interpolating::yaw(dx,dy);
+        //ROS_INFO("dx:%f dy:%f theta:%f  changed!", dx,dy,trajectory_now.trajectory_path[start_index+i].theta);
         }
     }
     //优化theta
-    trajectory_now.trajectory_path[len-1].theta = 2*trajectory_now.trajectory_path[len-2].theta - trajectory_now.trajectory_path[len-3].theta;
+    trajectory_now.trajectory_path[start_index + len-1].theta = 2*trajectory_now.trajectory_path[start_index+len-2].theta - trajectory_now.trajectory_path[start_index+len-3].theta;
+
     // //使用多项式拟合
     // VectorXf thetaVec(len);
     // for(int i=0;i<len;i++) 

@@ -139,7 +139,8 @@ add_subdirectory(src/sampler)
 add_subdirectory(src/apollo_tool)
 add_subdirectory(src/planner)
 add_subdirectory(src/map)
-
+add_subdirectory(src/refrenceline)
+add_subdirectory(src/obstacle)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -149,7 +150,7 @@ add_subdirectory(src/map)
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node src/main.cpp)
-
+add_executable(${PROJECT_NAME}_node_test src/main_test.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -160,22 +161,41 @@ add_executable(${PROJECT_NAME}_node src/main.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
+add_dependencies(${PROJECT_NAME}_node_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    planning
    planner
+   yaml-cpp
    optimizer
+   obstacle
    replay
    tool
    car_model
    trajectory
    sampler
    apollo_tool
+   refrenceline
    map
 )
 
+target_link_libraries(${PROJECT_NAME}_node_test
+   ${catkin_LIBRARIES}
+   planning
+   planner
+   yaml-cpp
+   optimizer
+   obstacle
+   replay
+   tool
+   car_model
+   trajectory
+   sampler
+   apollo_tool
+   refrenceline
+   map
+)
 #############
 ## Install ##
 #############

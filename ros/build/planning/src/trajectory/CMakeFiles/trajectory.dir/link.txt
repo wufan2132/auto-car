@@ -1,1 +1,0 @@
-/usr/bin/c++  -fPIC -g  -shared -Wl,-soname,libtrajectory.so -o /home/wf/my-code/auto-car/ros/devel/lib/libtrajectory.so CMakeFiles/trajectory.dir/refrenceline.cpp.o CMakeFiles/trajectory.dir/trajectory_stitcher.cpp.o CMakeFiles/trajectory.dir/trajectory_generation.cpp.o 
