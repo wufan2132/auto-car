@@ -166,7 +166,7 @@ void trajectory_topic_callback(const car_msgs::trajectory::ConstPtr &trajectory_
 int main(int argc, char **argv){
     ros::init(argc, argv, "showline");
     ros::NodeHandle n;
-    car_markerPub = n.advertise<visualization_msgs::Marker>("localization_Marker", 1000);
+    car_markerPub = n.advertise<visualization_msgs::Marker>("car_Marker", 1000);
 
     localization_markerPub = n.advertise<visualization_msgs::Marker>("localization_Marker", 1000);
     ros::Subscriber localization_publisher = n.subscribe("localization_topic", 1, localization_topic_callback);
