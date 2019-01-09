@@ -1,6 +1,6 @@
 #include "planning/car_model.h"
 
-#define nums 270 //每次向后查找多少个点 假设采样间隔splice = 0.1m,车速100km/h (27m/s),1s 会经过270个点
+#define FINDNUMS 270 //每次向后查找多少个点 假设采样间隔splice = 0.1m,车速100km/h (27m/s),1s 会经过270个点
 
 bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,car_msgs::trajectory_point& point,Car_State_SL& status_sl){
     if(!point.header.seq>0){
@@ -9,7 +9,7 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
         return 0;
     }
     //cout<<"status_sl.index:"<<status_sl.index<<endl;
-    int end_index = min(status_sl.index+nums,int(reference_line.total_path_length)-2);
+    int end_index = min(status_sl.index+FINDNUMS,int(reference_line.total_path_length)-2);
     //cout<<"end_index:"<<end_index<<endl;
     for(int i=status_sl.index;i<end_index;i++){
         float distance0 = (point.x - reference_line.trajectory_path[i].x)*(point.x - reference_line.trajectory_path[i].x) +
@@ -61,6 +61,43 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
     //status_sl.index,theta,status_sl.s,status_sl.sv,status_sl.sa,status_sl.l,status_sl.dl,status_sl.ddl);
     return 0;
 }
+
+//
+pair<double, double> Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line, double x, double y, int start){
+    pair<double, double> sl;
+    int end = start + FINDNUMS;
+    int pos = 0;
+    while(end - start > 1){
+        pos = (start + end)/2;
+        float distance0 = (x - reference_line.trajectory_path[pos].x)*(x - reference_line.trajectory_path[pos].x) +
+            (y - reference_line.trajectory_path[pos].y)* (y - reference_line.trajectory_path[pos].y);
+        float distance1 = (x - reference_line.trajectory_path[pos+1].x)*(x - reference_line.trajectory_path[pos+1].x) +   
+            (y - reference_line.trajectory_path[pos+1].y)* (y - reference_line.trajectory_path[pos+1].y);  
+        if(distance0>distance1){
+            start = pos;
+        }else {
+            end = pos;
+        }
+    }
+    //pos = start+1;
+    //求点到直线的距离
+    float A = reference_line.trajectory_path[pos].y - reference_line.trajectory_path[pos+1].y;
+    float B = reference_line.trajectory_path[pos+1].x - reference_line.trajectory_path[pos].x;
+    float C = reference_line.trajectory_path[pos+1].y*(reference_line.trajectory_path[pos].x - reference_line.trajectory_path[pos+1].x) -
+            reference_line.trajectory_path[pos+1].x*(reference_line.trajectory_path[pos].y - reference_line.trajectory_path[pos+1].y);
+    sl.second = (A*x+B*y+C)/sqrt(A*A+B*B);
+    //cout<<"h:"<<status_sl.l<<endl;
+    //求垂足
+    float x_ = (B*B*x-A*B*y-A*C)/(A*A+B*B);
+    float y_ = (-A*B*x+A*A*y-B*C)/(A*A+B*B);
+    //根据垂足求s
+    sl.first = reference_line.trajectory_path[pos].s + 
+    (reference_line.trajectory_path[pos+1].s - reference_line.trajectory_path[pos].s)*
+    (x_ - reference_line.trajectory_path[pos].x)/
+    (reference_line.trajectory_path[pos+1].x - reference_line.trajectory_path[pos].x);
+    return sl;
+}
+
 
 void Coordinate_converter::SL_to_POS(const double s, const double l,
      const MatrixXf& sx, const MatrixXf& sy, car_msgs::trajectory_point& point, const int start_index){

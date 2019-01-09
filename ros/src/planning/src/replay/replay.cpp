@@ -5,11 +5,6 @@ replay::replay(string path,string io){
      if(io=="read"){
         mode =1;
         save_path = path;
-        if(DEBUG){
-            string str = "auto-car/ros/";
-            int index = save_path.find(str);
-            save_path = save_path.substr(index+str.size());
-        }
         inFile.open(save_path.c_str(), ios::in); // 打开模式可省略
         char cwd[50];
         getcwd(cwd,sizeof(cwd));
@@ -17,11 +12,6 @@ replay::replay(string path,string io){
     }else if(io=="write"){
         mode = 2;
         save_path = path;
-        if(DEBUG){
-            string str = "auto-car/ros/";
-            int index = save_path.find(str);
-            save_path = save_path.substr(index+str.size());
-        }
         outFile.open(save_path.c_str(), ios::out); // 打开模式可省略
         char cwd[50];
         getcwd(cwd,sizeof(cwd));
@@ -55,7 +45,6 @@ void replay::writeinit(string path){
             char cwd[50];
             getcwd(cwd,sizeof(cwd));
             cout<<"outFile open:"<<cwd<<endl;
-
         }
 }
 
@@ -78,7 +67,7 @@ void replay::close(){
 }
 
 
-
+//
 bool replay::readOnce(car_msgs::trajectory_point &point){
     static int count = 0;
     if(mode!=1) 
@@ -142,5 +131,66 @@ bool replay::saveOnce(car_msgs::trajectory_point point, int period){
         outFile<<std::endl;
     }
     
+    return 1;
+}
+
+bool replay::readOnce(Obstacle& object){
+    static int count = 0;
+    if(mode!=1) 
+    {
+        cout<<"mode err!";
+        return 0;
+    }
+    string lineStr;
+    getline(inFile, lineStr);
+    if(lineStr.size()<10)
+    {
+        count = 0;
+        return 0;
+    }
+        
+    stringstream ss(lineStr);
+	string str;
+    object.header.seq = count;
+    object.xa.resize(4);
+    object.ya.resize(4);
+    object.theta_a.resize(4);
+
+    getline(ss, str, ',');
+    object.type=atoi(str.c_str());
+
+    getline(ss, str, ',');
+    object.xa[0]=atof(str.c_str());
+    getline(ss, str, ',');
+    object.xa[1]=atof(str.c_str());
+    getline(ss, str, ',');
+    object.xa[2]=atof(str.c_str());
+    getline(ss, str, ',');
+    object.xa[3]=atof(str.c_str());
+
+    getline(ss, str, ',');
+    object.ya[0]=atof(str.c_str());
+    getline(ss, str, ',');
+    object.ya[1]=atof(str.c_str());
+    getline(ss, str, ',');
+    object.ya[2]=atof(str.c_str());
+    getline(ss, str, ',');
+    object.ya[3]=atof(str.c_str());
+
+    getline(ss, str, ',');
+    object.theta_a[0]=atof(str.c_str());
+    getline(ss, str, ',');
+    object.theta_a[1]=atof(str.c_str());
+    getline(ss, str, ',');
+    object.theta_a[2]=atof(str.c_str());
+    getline(ss, str, ',');
+    object.theta_a[3]=atof(str.c_str());
+
+    getline(ss, str, ',');
+    object.a=atof(str.c_str());
+    getline(ss, str, ',');
+    object.b=atof(str.c_str());
+
+    count++;
     return 1;
 }

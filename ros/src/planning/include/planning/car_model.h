@@ -30,18 +30,20 @@ public:
     //
     double t=0;
     double theta=0;
-    //功能复用
     //1.在POS转SL中表示refrenceline中对应点的序号
-    //2.在作为规划的起始点时，表示规划起始点在输出轨迹的序号
     int index=0;
+    //2.在作为规划的起始点时，表示规划起始点在输出轨迹的序号
+    int start_pos;
 };
 
 /*转换器*/
 class Coordinate_converter{
 public:
     //这个只计算x,y
-    static void SL_to_POS(const double s, const double l, const MatrixXf& sx, const MatrixXf& sy, car_msgs::trajectory_point& point, const int start_index=-1);
+    static pair<double, double> POS_to_SL(const car_msgs::trajectory& reference_line, double x, double y, int start);
     static bool POS_to_SL(const car_msgs::trajectory& reference_line,car_msgs::trajectory_point& point, Car_State_SL& status_sl);
+    static void SL_to_POS(const double s, const double l, const MatrixXf& sx, const MatrixXf& sy, car_msgs::trajectory_point& point, const int start_index=-1);
+    
 private:
     static int search_index(double st, VectorXf& s);
 };

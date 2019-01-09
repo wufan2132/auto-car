@@ -1,9 +1,9 @@
 #include "planning/planning.h"
 //
+//const string PLANNER_CONF_DIR = 
+//   "../my-code/auto-car/ros/src/planning/conf/sp_planner_conf.yaml";
 // const string PLANNER_CONF_DIR = 
-//     "../my-code/auto-car/ros/src/planning/conf/sp_planner_conf.yaml";
-const string PLANNER_CONF_DIR = 
-    "../my-code/auto-car/ros/src/planning/conf/og_planner_conf.yaml";
+//     "../my-code/auto-car/ros/src/planning/conf/og_planner_conf.yaml";
 
 
 
@@ -13,14 +13,26 @@ Car_Planning::Car_Planning(YAML::Node planning_conf)
     conf.mode = planning_conf["mode"].as<string>();
     conf.period = planning_conf["period"].as<double>();
     conf.wait_time = planning_conf["wait_time"].as<double>();
-    conf.trajectory_dir = planning_conf["trajectory_dir"].as<string>();
+    conf.trajectory_dir = 
+        Common::convert_to_debugpath(planning_conf["trajectory_dir"].as<string>());
     conf.sampling_period = planning_conf["sampling_period"].as<int>();
 
-    //rprovider = new Refrenceline_provider(planning_conf["refrenceline_provider_conf"]);
-   
-    string path = Common::convert_to_debugpath(PLANNER_CONF_DIR);
-    //planner = new SpPlanner(YAML::LoadFile(path));
-    planner = new OgPlanner(YAML::LoadFile(path));
+    rprovider = new Refrenceline_provider(planning_conf["refrenceline_provider"]);
+    obstaclelist = new ObstacleList(planning_conf["obstacle_list"]);
+    //规划器初始化
+    string planner_name = planning_conf["planner"].as<string>();
+    string planner_path =
+        Common::convert_to_debugpath(planning_conf["planner_dir"].as<string>());
+    if(planner_name=="OgPlanner")
+        planner = new OgPlanner(YAML::LoadFile(planner_path+planner_name+"_conf.yaml"));
+    else if(planner_name=="SpPlanner")
+        planner = new SpPlanner(YAML::LoadFile(planner_path+planner_name+"_conf.yaml"));
+    else if(planner_name=="MpPlanner")
+        planner = new MpPlanner(YAML::LoadFile(planner_path+planner_name+"_conf.yaml"));
+    else if(planner_name=="TestPlanner")
+        planner = new TestPlanner(YAML::LoadFile(planner_path+planner_name+"_conf.yaml"));
+    else
+        ROS_ERROR("Car_Planning::Car_Planning: invalid planner name!");
 }
 
 
@@ -111,8 +123,8 @@ void Car_Planning::Init(){
 }
 
 void Car_Planning::OnTimer(const ros::TimerEvent&){
-    //判断规划的起始位置
-    
+    //TODO: 从csv中读取暂时放在这儿
+    obstaclelist->refresh(obstaclelist->conf.obstacle_path);
     //坐标系转换
     Coordinate_converter::POS_to_SL(refrence_Trajectory,car_status,car_status_sl);
     //

@@ -2,6 +2,7 @@
 
 OgPlanner::OgPlanner(YAML::Node yaml_conf)
 :Planner(yaml_conf){
+    conf.step_t = yaml_conf["step_t"].as<double>();
     conf.planning_t = yaml_conf["planning_t"].as<double>();
     conf.aim_speed  = yaml_conf["aim_speed"].as<double>();
     conf.keep_t  = yaml_conf["keep_t"].as<double>();
@@ -25,7 +26,7 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         replanning_flag = 1;
         //设置起点为车的当前坐标
         Car_State_SL start_sl = status_sl;
-        start_sl.index = 0;
+        start_sl.start_pos = 0;
         ROS_INFO("OgPlanner::get_start_point: replanning!");
         start_sl.t = 0;
         return start_sl;
@@ -59,7 +60,7 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         }
         //设置起点为end_index当前坐标
         Car_State_SL start_sl;
-        // start_sl.index = status_sl.index;
+        // start_sl.start_pos = status_sl.index;
         // Coordinate_converter::POS_to_SL(reference_line,trajectory_now.trajectory_path[end_index],start_sl);
         start_sl.s = S_out(0,0);
         start_sl.sv = S_out(0,1);
@@ -67,7 +68,7 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         start_sl.l = L_out(0,0);
         start_sl.dl = L_out(0,1);
         start_sl.ddl = L_out(0,2);
-        start_sl.index = len1;
+        start_sl.start_pos = len1;
         start_sl.t = conf.keep_t;
         ////////////////////////////////////////////////
         // int end_index2 = start_index+8;
@@ -89,7 +90,7 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         // // cout<<S_out<<endl;
         // cout<<"car_S:"<<status_sl.s<<endl;
         // cout<<"start_S:"<<start_sl.s<<endl;
-        // cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<"  len1:"<< start_sl.index << endl;
+        // cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<"  len1:"<< start_sl.start_pos << endl;
         return start_sl;
      }
 }
@@ -118,7 +119,7 @@ void OgPlanner::get_current_line(const car_msgs::trajectory_point car_status,con
 
     //
     path_planning(start_sl, end_sl, conf.planning_t-start_sl.t, refrenceline_Sp, trajectory_now);
-    for(int i=start_sl.index;i<trajectory_now.total_path_length;i++)
+    for(int i=start_sl.start_pos;i<trajectory_now.total_path_length;i++)
         trajectory_now.trajectory_path[i].relative_time +=start_sl.t;
     /************debug 1***********/
     // for(int i=0;i<len;i++)
@@ -156,7 +157,7 @@ void OgPlanner::process(const car_msgs::trajectory_point car_status,const Car_St
 
 void OgPlanner::path_planning(const Car_State_SL& start_sl,const Car_State_SL& end_sl,const float planning_t,
  const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now, int start_index){
-    start_index = start_sl.index;
+    start_index = start_sl.start_pos;
     int len = planning_t/conf.step_t+1;
     if(len<5)
         cout << "error: Planner::path_planning: sample error!"<<endl;

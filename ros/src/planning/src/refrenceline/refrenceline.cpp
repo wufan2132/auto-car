@@ -2,18 +2,36 @@
 
 
 Refrenceline_provider::Refrenceline_provider(YAML::Node yaml_conf){
+	conf.start_point_x = yaml_conf["start_point_x"].as<int>();
+	conf.start_point_y = yaml_conf["start_point_y"].as<int>();
+	conf.end_point_x = yaml_conf["end_point_x"].as<int>();
+	conf.end_point_y = yaml_conf["end_point_y"].as<int>();
+
     conf.origin_image_dir = Common::convert_to_debugpath(yaml_conf["origin_image_dir"].as<string>());
     conf.output_image_dir = Common::convert_to_debugpath(yaml_conf["output_image_dir"].as<string>());
     conf.origin_road_width  = yaml_conf["origin_road_width"].as<int>();
     conf.scale = yaml_conf["scale"].as<double>();
+
+	conf.spacing = yaml_conf["spacing"].as<double>();
+	conf.smooth_order = yaml_conf["smooth_order"].as<int>();
+	
+	astar = new Astar(yaml_conf["Astar"]);
 }
 
 void Refrenceline_provider::process(){
     //原始图像
     Image origin_img;
-	origin_img.Read24BMP(conf.origin_image_dir);
-	MapPoint origin_start(origin_img.convert_from_huatu(889, 102));
-	MapPoint origin_end(origin_img.convert_from_huatu(133, 698));//(836, 430))
+	origin_img.Readpgm(conf.origin_image_dir);
+	//二值化
+	origin_img.convert_twovalue();
+
+	MapPoint origin_start(origin_img.convert_from_huatu(conf.start_point_x, conf.start_point_y));
+	MapPoint origin_end(origin_img.convert_from_huatu(conf.end_point_x, conf.end_point_y));
+		//标记起点与终点
+	origin_img.drawPoint(origin_start.x, origin_start.y, 'g', 10);
+	origin_img.drawPoint(origin_end.x, origin_end.y, 'g', 10);
+
+	origin_img.Write24BMP(conf.output_image_dir+"roadout_origin.bmp");
 	//压缩图像
 	Image img;
 	origin_img.compressionBMP(img, conf.scale);
@@ -37,14 +55,13 @@ void Refrenceline_provider::process(){
 
 
 	//A* 初始化
-	Astar astar;
 	vector<vector<int>> &maze = img.data;
-	astar.InitAstar(maze);
-	astar.setBMP(&img); 
+	astar->InitAstar(maze);
+	astar->setBMP(&img); 
 	//A*算法找寻路径 
-	list<MapPoint *> path = astar.GetPath(start, end, false);
+	list<MapPoint *> path = astar->GetPath(start, end, false);
 	//显示
-	astar.show_path(path, astar.img);
+	astar->show_path(path, astar->img);
 	img.Write24BMP(conf.output_image_dir+"roadout_pool.bmp");
 
 	//映射到原图
@@ -54,10 +71,10 @@ void Refrenceline_provider::process(){
 		*p = img.point_rescale((**it), conf.scale);
 		path_origin.push_back(p);
 	}
-	astar.smooth(path_origin,6);
+	astar->smooth(path_origin,conf.smooth_order);
 	//显示
-	astar.show_path(path_origin, &origin_img, 'y');
-	cout << "path.size:" << path_origin.size() << endl;
+	astar->show_path(path_origin, &origin_img, 'y');
+	ROS_INFO("Refrenceline_provider::process: path.size:%d", (int)path_origin.size());
 	origin_img.Write24BMP(conf.output_image_dir+"roadout.bmp");
 	
 	
@@ -70,7 +87,7 @@ void Refrenceline_provider::process(){
 	}
 
 	Spline_Out csp;
-	Interpolating::Spline2D(point_x, point_y, csp ,2);
+	Interpolating::Spline2D(point_x, point_y, csp ,conf.spacing);
 
 
 	int len = csp.x.rows();
@@ -81,7 +98,7 @@ void Refrenceline_provider::process(){
 		path_finally.push_back(new MapPoint(x, y));
 	}
 
-	astar.show_path(path_finally, &origin_img, 'g');
-	cout << "path_output.size:" << path_finally.size() << endl;
+	astar->show_path(path_finally, &origin_img, 'g');
+	ROS_INFO("Refrenceline_provider::process: path.size:%d", (int)path_finally.size());
 	origin_img.Write24BMP(conf.output_image_dir+"road_Interpolating.bmp");
 }

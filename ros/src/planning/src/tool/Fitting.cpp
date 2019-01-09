@@ -48,6 +48,15 @@ void Fitting::cal_point_quartic4(const VectorXf& QP, const VectorXf& t, MatrixXf
 	}
 }
 
+void Fitting::cal_point_quartic4(const VectorXf& QP, double t, VectorXf& St){
+	St.resize(4);
+
+	St << QP(0) + QP(1) * t + QP(2) * t*t + QP(3) * t*t*t + QP(4) * t*t*t*t,
+		QP(1) + 2 * QP(2) * t + 3 * QP(3) * t*t + 4 * QP(4) * t*t*t,
+		2 * QP(2) + 6 * QP(3) * t + 12 * QP(4) * t*t,
+		6 * QP(3) + 24 * QP(4) * t;
+}
+
 void Fitting::cal_point_quintic5(const VectorXf& QP, const VectorXf& t, MatrixXf& Xt){
 	int len = t.rows();
 	Xt.resize(len, 4);
@@ -59,6 +68,14 @@ void Fitting::cal_point_quintic5(const VectorXf& QP, const VectorXf& t, MatrixXf
 	}
 	//cout << "Xt" << endl;
 	//cout << Xt << endl;
+}
+
+void Fitting::cal_point_quintic5(const VectorXf& QP, double t, VectorXf& Xt){
+	Xt.resize(4);
+	Xt << QP(0) + QP(1) * t + QP(2) * t*t + QP(3) * t*t*t + QP(4) * t*t*t*t + QP(5) * t*t*t*t*t,
+		QP(1) + 2 * QP(2) * t + 3 * QP(3) * t*t + 4 * QP(4) * t*t*t + 5 * QP(5) * t*t*t*t,
+		2 * QP(2) + 6 * QP(3) * t + 12 * QP(4) * t*t + 20 * QP(5) * t*t*t,
+		6 * QP(3) + 24 * QP(4) * t + 60 * QP(5) * t*t;
 }
 
 void Fitting::gradient_descent(const VectorXf& y,VectorXf& QP,int dime){

@@ -60,6 +60,10 @@ public:
 
 	bool Write24BMP(string strFileName);//��???
 
+	void convert_twovalue();
+
+	void drawPoint(int x, int y,char color, int size = 1);
+
 	void bmpbuf_to_vec();//
 
 	void vec_to_bmpbuf();
@@ -71,6 +75,8 @@ public:
 	void compressionBMP(Image& img, double scale);
 	MapPoint point_scale(MapPoint& p, double scale){ return MapPoint(p.x*scale, p.y*scale); };
 	MapPoint point_rescale(MapPoint& p, double scale){ return MapPoint(p.x/scale, p.y/scale); };
+	//
+	bool twovalue(int R,int G, int B);
 
 	int rows, cols;
 	vector<vector<int>> data_R,data_G,data_B;

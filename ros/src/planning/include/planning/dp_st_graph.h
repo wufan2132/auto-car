@@ -1,3 +1,4 @@
+#pragma once
 #include "planning/common.h"
 #include "planning/car_model.h"
 #include "planning/sampler.h"
@@ -45,7 +46,10 @@ public:
 class DpStGraph{
 public:
     DpStGraph(YAML::Node yaml_conf);
-    void reset(Car_State_SL init_SLpoint,Car_State_SL car_status,int total_level); //
+    void reset(Car_State_SL init_SLpoint,
+                Car_State_SL car_status,
+                int total_level,
+                double aim_speed); //
 
     void process(const vector<Car_State_SL>& path_waypoints,
                 StGraphNode* min_cost_Node);
@@ -56,6 +60,9 @@ public:
                         StGraphNode *front,
                         StGraphNode *cur_node);
     list<list<StGraphNode> > graph_nodes;
+
+    //
+    double aim_speed = 0;
 
     StCost* stcost;
     Car_State_SL status_sl;
