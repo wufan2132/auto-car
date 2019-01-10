@@ -79,8 +79,8 @@ using namespace std;
 using namespace boost::asio;
 Usart car_chassis_usart("/dev/ttyTHS2");
 //to m/s2
-#define ACC_RATE 23.2199546
-#define DEC_RATE 238.095238
+#define ACC_RATE 55
+#define DEC_RATE 130
 void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg){
  
  car_chassis_usart.send_to_serial((uint16_t)(control_cmd_msg.throttle * ACC_RATE),
@@ -91,6 +91,7 @@ void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg)
 
 
 void chassis_publish_callback(const ros::TimerEvent&){
+  char flag;
   car_chassis_usart.reveive_from_serial(car_chassis.speed.x,
                                         car_localization.angle.x,
                                         car_localization.angle.y,
@@ -100,10 +101,10 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_chassis.acc.z,
                                         car_localization.angular_velocity.x,
                                         car_localization.angular_velocity.y,
-                                        car_localization.angular_velocity.z);
+                                        car_localization.angular_velocity.z,
+                                        flag);
 
   car_localization.angle.y = -car_localization.angle.y;
-  car_localization.angular_velocity.x = -car_localization.angular_velocity.x;
   car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
 
   car_localization.header.stamp = ros::Time::now();

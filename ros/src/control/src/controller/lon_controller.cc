@@ -84,6 +84,10 @@ void LonController::ComputeLongitudinalErrors(
   debug.preview_acceleration_reference = reference_point.accel;
   debug.current_station = s_matched;
 }
+void LonController::UpdateParam(const PidConf &station_pid_conf,const PidConf &speed_pid_conf){
+      station_pid_controller_.SetPID(station_pid_conf);
+      speed_pid_controller_.SetPID(speed_pid_conf);
+}
 
 bool LonController::Reset(){
       

@@ -17,12 +17,12 @@ lon_controller_conf:
     output_saturation_level: 1.0
   speed_pid_conf:
     integrator_enable: true
-    integrator_saturation_level: 0.3
-    kp: 0.4
-    ki: 0.03
+    integrator_saturation_level: 2.0
+    kp: 2.5
+    ki: 0.4
     kd: 0.0
     kaw: 0.0
-    output_saturation_level: 1.0
+    output_saturation_level: 4.0
 
 lat_controller_conf:
   ts: 0.01

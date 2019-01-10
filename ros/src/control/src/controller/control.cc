@@ -7,8 +7,6 @@ using namespace std;
 
 void Control::Init(void){
     YAML::Node control_conf = YAML::LoadFile(CONTROL_CONF_DIR);
-
-
 //模式参数
     control_mode_ = control_conf["control_mode"].as<int>();
     debug_mode_ = control_conf["debug_mode"].as<int>();
@@ -128,6 +126,7 @@ void Control::Init(void){
 }
 
 void Control::ProduceControlCommand(car_msgs::control_cmd &control_cmd){
+
 #if MPC_OR_LQR
     lon_controller_.ComputeControlCommand(trajectory_path_,vehicle_state_,control_cmd,debug_.lon_debug_msg);
 
@@ -202,5 +201,21 @@ void Control::chassis_topic_callback(const car_msgs::chassis &chassis){
 
 void Control::path_topic_callback(const car_msgs::trajectory &trajectory_path){
     trajectory_path_ = trajectory_path;
+}
+
+void Control::param_topic_callback(const car_msgs::param &param){
+    PidConf station_pid_conf,speed_pid_conf;
+
+    station_pid_conf.kp = param.station_kp;
+    station_pid_conf.ki = param.station_ki;
+    station_pid_conf.kd = param.station_kd;
+    station_pid_conf.kaw = param.station_kaw;
+
+    speed_pid_conf.kp = param.speed_kp;
+    speed_pid_conf.ki = param.speed_ki;
+    speed_pid_conf.kd = param.speed_kd;
+    speed_pid_conf.kaw = param.speed_kaw;
+
+    lon_controller_.UpdateParam(station_pid_conf,speed_pid_conf);
 }
 }
