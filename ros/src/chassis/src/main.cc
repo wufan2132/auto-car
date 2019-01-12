@@ -12,6 +12,7 @@
 
 ros::Publisher localization_msg_Publisher;
 ros::Publisher chassis_msg_Publisher;
+ros::Publisher imu_msg_Publisher;
 car_msgs::localization car_localization;
 car_msgs::chassis car_chassis;
 
@@ -103,14 +104,42 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_localization.angular_velocity.y,
                                         car_localization.angular_velocity.z,
                                         flag);
+  car_localization.position.x = ;
+  car_localization.position.x = ;
+  car_localization.position.x = ;
 
   car_localization.angle.y = -car_localization.angle.y;
   car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
 
   car_localization.header.stamp = ros::Time::now();
   car_chassis.header.stamp = car_localization.header.stamp; 
+
+  sensor_msgs::Imu imu_msg;
+  Eigen::Matrix3d R;
+  Eigen::Quaterniond q;
+
+  R = Eigen::AngleAxisd(car_localization.angle.z, Eigen::Vector3d::UnitZ())
+  * Eigen::AngleAxisd(car_localization.angle.y, Eigen::Vector3d::UnitY())
+  * Eigen::AngleAxisd(car_localization.angle.x, Eigen::Vector3d::UnitX());
+  //RotationMatrix to Quaterniond
+  q = R;
+
+  imu_msg.orientation.x = q.x();
+  imu_msg.orientation.y = q.y();
+  imu_msg.orientation.z = q.z();
+  imu_msg.orientation.w = q.w();
+
+  imu_msg.angular_velocity.x = car_localization.angular_velocity.x;
+  imu_msg.angular_velocity.y = car_localization.angular_velocity.y;
+  imu_msg.angular_velocity.z = car_localization.angular_velocity.z;
+
+  imu_msg.linear_acceleration.x = car_chassis.acc.x;
+  imu_msg.linear_acceleration.y = car_chassis.acc.y;
+  imu_msg.linear_acceleration.z = car_chassis.acc.z;
+
   localization_msg_Publisher.publish(car_localization);
   chassis_msg_Publisher.publish(car_chassis);
+  imu_msg_Publisher.publish(imu_msg);
 }
 #endif
 
@@ -126,7 +155,7 @@ int main(int argc, char **argv){
   #else //use nvidia run
   ros::Subscriber control_cmd_msg_subscriber = car_chassis_NodeHandle.subscribe("prius", 1, control_cmd_subscrib_callback);
   ros::Timer cycle_timer = car_chassis_NodeHandle.createTimer(ros::Duration(0.005),chassis_publish_callback);
-
+  imu_msg_Publisher = car_chassis_NodeHandle.advertise<sensor_msgs::Imu>("imu", 100);
   #endif
 
   localization_msg_Publisher = car_chassis_NodeHandle.advertise<car_msgs::localization>("localization_topic", 1000);
