@@ -12,8 +12,13 @@ MpPlanner::MpPlanner(YAML::Node yaml_conf)
     conf.speed_min_limit = yaml_conf["speed_min_limit"].as<double>();
 
     sampler = new SamplerPoint(yaml_conf["SamplerPoint_conf"]); 
-    dpgraph = new DpRoadGraph(yaml_conf);  
+    dpgraph = new DpRoadGraph(yaml_conf["DpRoadGraph_conf"]);  
     stgraph = new DpStGraph(yaml_conf);
+}
+
+void MpPlanner::init(ObstacleList* obslist){
+    obstaclelist = obslist;
+    dpgraph->init(obslist);
 }
 
 
@@ -88,7 +93,7 @@ Car_State_SL MpPlanner::get_start_point(const car_msgs::trajectory_point car_sta
         // cout<<"L_out"<<endl;
         // cout<<L_out<<endl;
         //cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<"  len1:"<< start_sl.start_pos << endl;
-        cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<endl;
+        //cout<<"start_pos:"<<start_index<<"  end_pos:"<<end_index<<endl;
         return start_sl2;
      }
 }
@@ -97,30 +102,42 @@ Car_State_SL MpPlanner::get_start_point(const car_msgs::trajectory_point car_sta
                                          const Spline_Out* refrenceline_Sp,const car_msgs::trajectory& reference_line, car_msgs::trajectory& trajectory_now){
     /*****************获得采样的起始点***********************/
     Car_State_SL start_sl = get_start_point(car_status,status_sl,reference_line, trajectory_now);
-    cout<<"status_sl.s: "<<status_sl.s<<endl;
-    cout<<"status_sl.l: "<<status_sl.l<<endl;
-    cout<<"start_sl.s: "<<start_sl.s<<endl;
-    cout<<"start_sl.l: "<<start_sl.l<<endl;
+    // cout<<"status_sl.s: "<<status_sl.s<<endl;
+    // cout<<"status_sl.l: "<<status_sl.l<<endl;
+    // cout<<"start_sl.s: "<<start_sl.s<<endl;
+    // cout<<"start_sl.l: "<<start_sl.l<<endl;
     
     sampler->reset(start_sl);
+
     /***SL采样***/
     vector<vector<Car_State_SL> > SamplerPointsSL;
     sampler->getpointsSL(conf.planning_t, SamplerPointsSL);
     dpgraph->reset(start_sl,status_sl,sampler->Snum);
     dpgraph->process(SamplerPointsSL, &min_cost_path);
+    //debugger
+    debugger->show_sampler_points(SamplerPointsSL);
     //获得sl曲线
     QPsl.resize(min_cost_path.size()-1,6);
     for(int i = 0;i<min_cost_path.size()-1;i++){
-        // cout<<"minQP5"<<endl;
-        // cout<<min_cost_path[i+1].minQP5<<endl;
         QPsl.row(i) = min_cost_path[i+1].minQP5;
     }
+    //输出cost
+    min_cost_path.back().minCost.print();
     // cout<<"QPsl:"<<endl;
     // cout<<QPsl<<endl;
-
+    // vector<double> s_list(min_cost_path.size());
+    // for(int i=0;i<min_cost_path.size();i++){
+    //     s_list[i] = min_cost_path[i].s;
+    //     cout<<"list.s:"<<min_cost_path[i].s<<"list.l:"<<min_cost_path[i].l<<endl;
+    // }
+    // for(int i=0;i<obstaclelist->list.size();i++){
+    //     double distant = ObstacleMethod::distance_Ob_QP(obstaclelist->list[i],QPsl,s_list,0);
+    //     cout<<"obstacle distant "<< obstaclelist->list[i].header.seq<<": "<<distant<<endl;
+    // }
     //QPsl = min_road_Node.minQP5;
     double planning_l = min_cost_path.back().l;
     //cout<<"minscost_L:"<<min_road_Node.minCost<<endl;
+
     /***ST采样***/
     vector<Car_State_SL> SamplerPointsT;
     sampler->getpointsT(planning_l, conf.planning_s, SamplerPointsT);
@@ -143,23 +160,24 @@ Car_State_SL MpPlanner::get_start_point(const car_msgs::trajectory_point car_sta
     // trajectory_now.trajectory_path[start_index+i].theta<<","<<
     // trajectory_now.trajectory_path[start_index+i].kappa<<endl;
     /************debug 2***********/
-    cout<<"------trajectory_now--------"<<endl;
-    for(int i=0;i<trajectory_now.total_path_length;i++)
-    cout<<
-    i<<"."<<
-    " s:"<<trajectory_now.trajectory_path[i].s<<
-    " t:"<<trajectory_now.trajectory_path[i].relative_time<<
-    " x:"<<trajectory_now.trajectory_path[i].x<<
-    " y:"<<trajectory_now.trajectory_path[i].y<<","<<
-    " theta:"<<trajectory_now.trajectory_path[i].theta<<","<<
-    " kappa:"<<trajectory_now.trajectory_path[i].kappa<<endl;
-    /************debug 3***********/
-    // for(int i=0;i<trajectory_sl.size();i++)
+    // cout<<"------trajectory_now--------"<<endl;
+    // for(int i=0;i<trajectory_now.total_path_length;i++)
     // cout<<
     // i<<"."<<
-    // " s:"<<trajectory_sl[i].s<<
-    // " l:"<<trajectory_sl[i].l<<
-    // " t:"<<trajectory_sl[i].t<<endl;
+    // " s:"<<trajectory_now.trajectory_path[i].s<<
+    // " t:"<<trajectory_now.trajectory_path[i].relative_time<<
+    // " x:"<<trajectory_now.trajectory_path[i].x<<
+    // " y:"<<trajectory_now.trajectory_path[i].y<<","<<
+    // " theta:"<<trajectory_now.trajectory_path[i].theta<<","<<
+    // " kappa:"<<trajectory_now.trajectory_path[i].kappa<<endl;
+    /************debug 3***********/
+     cout<<"------trajectory_sl--------"<<endl;
+    for(int i=0;i<trajectory_sl.size();i++)
+    cout<<
+    i<<"."<<
+    " s:"<<trajectory_sl[i].s<<
+    " l:"<<trajectory_sl[i].l<<
+    " t:"<<trajectory_sl[i].t<<endl;
     return;
  }
 
@@ -197,15 +215,16 @@ void MpPlanner::path_generate(const MatrixXf& qpsl,const VectorXf& qpts,
     int index = 1;
     while(si<len){
         if(index >= min_cost_path.size()-1 || S(si) + start_sl.s<min_cost_path[index].s){
-            Fitting::cal_point_quintic5(QPsl.row(index-1), S(si), Ltemp);
+            double s = S(si) + start_sl.s-min_cost_path[index-1].s;
+            Fitting::cal_point_quintic5(QPsl.row(index-1),s , Ltemp);
             L_out.row(si) = Ltemp;
             si++;
         }
         else {
+
             index ++;
         }
     }
-    
     for(int i=0;i<S.rows();i++){
         S_out(i,0) += start_sl.s;
     }
@@ -223,7 +242,8 @@ void MpPlanner::path_generate(const MatrixXf& qpsl,const VectorXf& qpts,
     //check
     for(int i=0;i<len-1;i++){
         if(S_out(i+1,0)-S_out(i,0)<0|| //S倒走
-             abs(L_out(i+1,0) - L_out(i,0))>2) //横向跳动太大
+             abs(L_out(i+1,0) - L_out(i,0))>2||
+             L_out(i,0)>10) //横向跳动太大
           ROS_WARN("MpPlanner::path_generate: qp cal error!");   
     }
 

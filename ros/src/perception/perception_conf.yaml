@@ -1,6 +1,6 @@
 
 #工作周期:s
-period: 0.5
+period: 0.1
 
 #####ObstacleSet_conf
 ObstacleSet_conf:

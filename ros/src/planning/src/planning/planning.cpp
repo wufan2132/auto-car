@@ -16,7 +16,7 @@ Car_Planning::Car_Planning(YAML::Node planning_conf)
     conf.trajectory_dir = 
         Common::convert_to_debugpath(planning_conf["trajectory_dir"].as<string>());
     conf.sampling_period = planning_conf["sampling_period"].as<int>();
-
+    /***************模块初始化*************************/
     rprovider = new Refrenceline_provider(planning_conf["refrenceline_provider"]);
     obstaclelist = new ObstacleList(planning_conf["obstacle_list"]);
     //规划器初始化
@@ -60,6 +60,10 @@ void Car_Planning::chassis_callback(const car_msgs::chassis& chassis){
     }
 }
 
+void Car_Planning::obstacle_callback(const car_msgs::base_obstacle_list& obstacle_msg){
+    obstaclelist->refresh(obstacle_msg);
+}
+
 car_msgs::trajectory_point Car_Planning::generate_trajectory_point(const car_msgs::localization& localization,const car_msgs::chassis& chassis){
     static int count=0;
     count++;
@@ -75,21 +79,7 @@ car_msgs::trajectory_point Car_Planning::generate_trajectory_point(const car_msg
     return point;
 }
 
-void Car_Planning::load_trajectory_from_replay(replay& replayer, car_msgs::trajectory& refrence_line){
-    static int count=0;
-    
-    replayer.reset();       
-    refrence_line.header.seq = count; 
-    refrence_line.trajectory_path.clear();
-    car_msgs::trajectory_point point;
-    while(replayer.readOnce(point))
-    {
-        refrence_line.trajectory_path.push_back(point);
-    }
-    refrence_line.total_path_length = refrence_line.trajectory_path.size();
-    //cout<<"get "<<origin_Trajectory.total_path_length<<" point."<<endl;
-    count++;
-}
+
 
 //主要作用是发送参考线信息，并且等待传感器连接
 void Car_Planning::Init(){
@@ -105,11 +95,10 @@ void Car_Planning::Init(){
         ROS_ERROR("Car_Planning::Init: Can not receive car message!");
         ros::shutdown();
     }
-    //rprovider->process();
     /*发送参考线*/
     // 读取轨迹
     static replay replayer(conf.trajectory_dir,"read");
-    load_trajectory_from_replay(replayer, origin_Trajectory);
+    replay::load_trajectory_from_replay(replayer, origin_Trajectory);
     // 轨迹处理 
     refrenceline_Sp = planner->get_refrenceline(origin_Trajectory, refrence_Trajectory);
     refrenceline_publisher.publish(refrence_Trajectory);
@@ -120,11 +109,17 @@ void Car_Planning::Init(){
     if((refrence_Trajectory.trajectory_path[0].x-car_status.x)*(refrence_Trajectory.trajectory_path[0].x-car_status.x)+
     (refrence_Trajectory.trajectory_path[0].y-car_status.y)*(refrence_Trajectory.trajectory_path[0].y-car_status.y)>5)
         ROS_WARN("Car_Planning::Init: The car is too far away from the starting point!");
+
+        /*模块初始化*/
+    obstaclelist->init(&refrence_Trajectory ,&car_status, &car_status_sl);
+    planner->init(obstaclelist);
+    debugger->init(refrenceline_Sp);
+    //rprovider->process();
 }
 
 void Car_Planning::OnTimer(const ros::TimerEvent&){
     //TODO: 从csv中读取暂时放在这儿
-    obstaclelist->refresh(obstaclelist->conf.obstacle_path);
+    obstaclelist->process();
     //坐标系转换
     Coordinate_converter::POS_to_SL(refrence_Trajectory,car_status,car_status_sl);
     //
