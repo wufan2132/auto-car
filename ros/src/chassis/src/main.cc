@@ -104,9 +104,9 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_localization.angular_velocity.y,
                                         car_localization.angular_velocity.z,
                                         flag);
-  car_localization.position.x = ;
-  car_localization.position.x = ;
-  car_localization.position.x = ;
+  // car_localization.position.x = ;
+  // car_localization.position.x = ;
+  // car_localization.position.x = ;
 
   car_localization.angle.y = -car_localization.angle.y;
   car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
