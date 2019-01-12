@@ -113,10 +113,19 @@ void chassis_publish_callback(const ros::TimerEvent&){
   car_localization.position.y = car_transform.translation.y;
   car_localization.position.z = car_transform.translation.z;
 
+  common::math::EulerAnglesZXY EulerAngles(car_transform.rotation.w,
+                                            car_transform.rotation.x,
+                                            car_transform.rotation.y,
+                                            car_transform.rotation.z)；
+
+  // car_localization.angle.x = EulerAngles.pitch();
+  // car_localization.angle.y = EulerAngles.yaw();
+  car_localization.angle.z = EulerAngles.roll();
+
   car_localization.angle.y = -car_localization.angle.y;
   car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
-
   car_localization.header.stamp = ros::Time::now();
+  
   car_chassis.header.stamp = car_localization.header.stamp; 
 
   sensor_msgs::Imu imu_msg;
