@@ -27,6 +27,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   tf2_msgs
 )
+
 #find_package(Eigen3 REQUIRED)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -132,10 +133,11 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include
+  ../common
   ${catkin_INCLUDE_DIRS}
   #${EIGEN3_INCLUDE_DIR}
 )
-
+# add_subdirectory(../common/math math.out)
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/chassis.cpp
@@ -164,7 +166,7 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node
-  ${catkin_LIBRARIES}
+  ${catkin_LIBRARIES} math
 )
 
 #############

@@ -9,6 +9,7 @@
 #include "geometry_msgs/Quaternion.h" 
 #include "tf2_msgs/TFMessage.h"
 #include "sensor_msgs/Imu.h"
+#include "math/euler_angles_zxy.h"
 
 ros::Publisher localization_msg_Publisher;
 ros::Publisher chassis_msg_Publisher;
