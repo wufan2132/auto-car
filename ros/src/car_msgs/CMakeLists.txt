@@ -64,6 +64,7 @@ add_message_files(
     debug.msg
     base_obstacle.msg
     base_obstacle_list.msg
+    param.msg
 )
 
 ## Generate services in the 'srv' folder

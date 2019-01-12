@@ -9,6 +9,7 @@
   </node>
   <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
   </node>
+  <node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="--slider-file $(find control)/src/conf/setting.yaml" />
 
   <arg name="model" default="$(find prius_description)/urdf/prius.urdf"/>
   <arg name="rvizconfig" default="$(find car_demo)/rviz/demo.rviz" />

@@ -25,6 +25,7 @@ public:
     void chassis_topic_callback(const car_msgs::chassis &chassis);
     void localization_topic_callback(const car_msgs::localization &localization);
     void path_topic_callback(const car_msgs::trajectory &trajectory_path);
+    void param_topic_callback(const car_msgs::param &param);
 
     ros::NodeHandle control_NodeHandle;
     ros::Publisher chassisCommand_publisher;

@@ -2,6 +2,6 @@
 <launch>
 
   <arg name="rvizconfig" default="$(find car_demo)/rviz/demo-for-nvidia.rviz" />
-
+  <node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="--slider-file $(find control)/src/conf/setting.yaml" />
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
 </launch>
