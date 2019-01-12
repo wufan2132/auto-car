@@ -25,6 +25,7 @@ find_package(catkin REQUIRED COMPONENTS
   car_msgs
   nav_msgs
   geometry_msgs
+  tf2_msgs
 )
 #find_package(Eigen3 REQUIRED)
 ## System dependencies are found with CMake's conventions
@@ -119,7 +120,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES chassis
-  CATKIN_DEPENDS roscpp rospy std_msgs car_msgs nav_msgs geometry_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs car_msgs nav_msgs geometry_msgs tf2_msgs
 #  DEPENDS system_lib
 )
 
