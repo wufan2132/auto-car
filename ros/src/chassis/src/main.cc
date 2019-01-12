@@ -101,9 +101,9 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_localization.angular_velocity.y,
                                         car_localization.angular_velocity.z,
                                         flag);
-  car_localization.position.x = ;
-  car_localization.position.x = ;
-  car_localization.position.x = ;
+  //car_localization.position.x = ;
+  //car_localization.position.x = ;
+  //car_localization.position.x = ;
 
   car_localization.angle.y = -car_localization.angle.y;
   car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
@@ -114,6 +114,8 @@ void chassis_publish_callback(const ros::TimerEvent&){
   sensor_msgs::Imu imu_msg;
   Eigen::Matrix3d R;
   Eigen::Quaterniond q;
+  imu_msg.header.stamp = ros::Time::now();
+  imu_msg.header.frame_id = "imu_link";
 
   R = Eigen::AngleAxisd(car_localization.angle.z, Eigen::Vector3d::UnitZ())
   * Eigen::AngleAxisd(car_localization.angle.y, Eigen::Vector3d::UnitY())
@@ -121,14 +123,16 @@ void chassis_publish_callback(const ros::TimerEvent&){
   //RotationMatrix to Quaterniond
   q = R;
 
-  imu_msg.orientation.x = q.x();
-  imu_msg.orientation.y = q.y();
-  imu_msg.orientation.z = q.z();
-  imu_msg.orientation.w = q.w();
+  imu_msg.orientation.x = 0;//q.x();
+  imu_msg.orientation.y = 0;//q.y();
+  imu_msg.orientation.z = 0;//q.z();
+  imu_msg.orientation.w = 0;//q.w();
 
-  imu_msg.angular_velocity.x = car_localization.angular_velocity.x;
-  imu_msg.angular_velocity.y = car_localization.angular_velocity.y;
-  imu_msg.angular_velocity.z = car_localization.angular_velocity.z;
+  #define RATE 0.001064225 //(pi/180)*0.0609756
+
+  imu_msg.angular_velocity.x = RATE * car_localization.angular_velocity.x;
+  imu_msg.angular_velocity.y = RATE * car_localization.angular_velocity.y;
+  imu_msg.angular_velocity.z = RATE * car_localization.angular_velocity.z;
 
   imu_msg.linear_acceleration.x = car_chassis.acc.x;
   imu_msg.linear_acceleration.y = car_chassis.acc.y;
