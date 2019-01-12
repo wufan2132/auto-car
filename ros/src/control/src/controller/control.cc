@@ -158,7 +158,7 @@ bool Control::CheckInput(void){
 void Control::SendCmd(car_msgs::control_cmd &control_cmd){
     if(control_mode_ == 0){
         control_cmd.header = localization_.header;
-        chassisCommand_publisher.publish(control_cmd);
+//        chassisCommand_publisher.publish(control_cmd);
     }
 }
 
