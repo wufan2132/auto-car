@@ -7,6 +7,7 @@
 #include "car_msgs/chassis.h"
 #include <Eigen/Dense>
 #include "geometry_msgs/Quaternion.h" 
+#include "geometry_msgs/Transform.h"
 #include "tf2_msgs/TFMessage.h"
 #include "sensor_msgs/Imu.h"
 #include "math/euler_angles_zxy.h"
@@ -90,9 +91,9 @@ void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg)
                                      (int16_t)control_cmd_msg.steer);
 }
 
-tf2_msgs::TFMessage tf_msg;
-void tf_subscrib_callback(const tf2_msgs::TFMessage &TF_msg){
-  tf_msg = TF_msg[1];
+geometry_msgs::Transform car_transform;
+void tf_subscrib_callback(const tf2_msgs::TFMessage::ConstPtr &TF_msg){
+  car_transform = TF_msg->transforms[1].transform;
 }
 
 void chassis_publish_callback(const ros::TimerEvent&){
@@ -108,9 +109,9 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_localization.angular_velocity.y,
                                         car_localization.angular_velocity.z,
                                         flag);
-  car_localization.position.x = tf_msg.translation.x;
-  car_localization.position.y = tf_msg.translation.y;
-  car_localization.position.z = tf_msg.translation.z;
+  car_localization.position.x = car_transform.translation.x;
+  car_localization.position.y = car_transform.translation.y;
+  car_localization.position.z = car_transform.translation.z;
 
   car_localization.angle.y = -car_localization.angle.y;
   car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
