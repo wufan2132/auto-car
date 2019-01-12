@@ -86,8 +86,13 @@ void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg)
  car_chassis_usart.send_to_serial((uint16_t)(control_cmd_msg.throttle * ACC_RATE),
                                    (uint16_t)(control_cmd_msg.brake * DEC_RATE),
                                      (int16_t)control_cmd_msg.steer);
-//  car_chassis_usart.send_to_serial(1,2,cnt++);
 }
+
+tf2_msgs::TFMessage tf_msg;
+void tf_subscrib_callback(const tf2_msgs::TFMessage &TF_msg){
+  tf_msg = TF_msg[1];
+}
+
 void chassis_publish_callback(const ros::TimerEvent&){
   char flag;
   car_chassis_usart.reveive_from_serial(car_chassis.speed.x,
@@ -101,9 +106,9 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_localization.angular_velocity.y,
                                         car_localization.angular_velocity.z,
                                         flag);
-  //car_localization.position.x = ;
-  //car_localization.position.x = ;
-  //car_localization.position.x = ;
+  car_localization.position.x = tf_msg.translation.x;
+  car_localization.position.y = tf_msg.translation.y;
+  car_localization.position.z = tf_msg.translation.z;
 
   car_localization.angle.y = -car_localization.angle.y;
   car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
@@ -157,6 +162,7 @@ int main(int argc, char **argv){
   ros::Subscriber control_cmd_msg_subscriber = car_chassis_NodeHandle.subscribe("prius", 1, control_cmd_subscrib_callback);
   ros::Timer cycle_timer = car_chassis_NodeHandle.createTimer(ros::Duration(0.005),chassis_publish_callback);
   imu_msg_Publisher = car_chassis_NodeHandle.advertise<sensor_msgs::Imu>("imu", 100);
+  ros::Subscriber tf_msg_subscriber = car_chassis_NodeHandle.subscribe("tf", 1, tf_subscrib_callback);
   #endif
 
   localization_msg_Publisher = car_chassis_NodeHandle.advertise<car_msgs::localization>("localization_topic", 1000);
