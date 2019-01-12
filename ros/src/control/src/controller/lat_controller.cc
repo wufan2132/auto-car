@@ -184,7 +184,14 @@ void LatController::ComputeControlCommand(
 //     steer_angle = pre_steer_angle_;
 //   }
   pre_steer_angle_ = steer_angle;
-  cmd.steer = steer_angle/100.0;
+
+  #if SIMULATE //use gazebo simulate
+    #define STEER_SIMULATE 100
+  #else
+    #define STEER_SIMULATE 0.1
+  #endif
+
+  cmd.steer = steer_angle/STEER_SIMULATE;
   // compute extra information for logging and debugging
   const double steer_angle_lateral_contribution =
       -matrix_k_(0, 0) * matrix_state_(0, 0) * 180 / M_PI * steer_ratio_ /
