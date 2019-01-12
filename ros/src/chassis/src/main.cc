@@ -9,7 +9,6 @@
 #include "geometry_msgs/Quaternion.h" 
 #include "sensor_msgs/Imu.h"
 
-
 ros::Publisher localization_msg_Publisher;
 ros::Publisher chassis_msg_Publisher;
 car_msgs::localization car_localization;
@@ -79,8 +78,8 @@ using namespace std;
 using namespace boost::asio;
 Usart car_chassis_usart("/dev/ttyTHS2");
 //to m/s2
-#define ACC_RATE 1 //23.2199546
-#define DEC_RATE 1 //238.095238
+#define ACC_RATE 55
+#define DEC_RATE 130
 void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg){
  
  car_chassis_usart.send_to_serial((uint16_t)(control_cmd_msg.throttle * ACC_RATE),
@@ -88,8 +87,6 @@ void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg)
                                      (int16_t)control_cmd_msg.steer);
 //  car_chassis_usart.send_to_serial(1,2,cnt++);
 }
-
-
 void chassis_publish_callback(const ros::TimerEvent&){
   car_chassis_usart.reveive_from_serial(car_chassis.speed.x,
                                         car_localization.angle.x,
@@ -103,7 +100,6 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_localization.angular_velocity.z);
 
   car_localization.angle.y = -car_localization.angle.y;
-  car_localization.angular_velocity.x = -car_localization.angular_velocity.x;
   car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
 
   car_localization.header.stamp = ros::Time::now();
