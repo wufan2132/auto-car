@@ -59,10 +59,10 @@ namespace control {
         double ts;            // sample time (dt) 0.01 now, configurable
         double cf;
         double cr;            // N/rad
-        int mass_fl;
-        int mass_fr;
-        int mass_rl;
-        int mass_rr;
+        double mass_fl;
+        double mass_fr;
+        double mass_rl;
+        double mass_rr;
         double eps;          // converge threshold
         double matrix_q1;     // matrix_q size = 6
         double matrix_q2;     // matrix_q size = 6

@@ -55,10 +55,10 @@ mpc_controller_conf:
   ts: 0.01
   cf: 155494.663
   cr: 155494.663
-  mass_fl: 340
-  mass_fr: 340
-  mass_rl: 340
-  mass_rr: 340
+  mass_fl: 1.25
+  mass_fr: 1.25
+  mass_rl: 1.25
+  mass_rr: 1.25
   eps: 0.01
   matrix_q1: 0.9
   matrix_q2: 0.0

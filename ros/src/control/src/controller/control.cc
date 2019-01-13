@@ -79,10 +79,10 @@ void Control::Init(void){
     mpc_controller_conf.ts                       = control_conf["mpc_controller_conf"]["ts"].as<double>();
     mpc_controller_conf.cf                       = control_conf["mpc_controller_conf"]["cf"].as<double>();
     mpc_controller_conf.cr                       = control_conf["mpc_controller_conf"]["cr"].as<double>();
-    mpc_controller_conf.mass_fl                  = control_conf["mpc_controller_conf"]["mass_fl"].as<int>();
-    mpc_controller_conf.mass_fr                  = control_conf["mpc_controller_conf"]["mass_fr"].as<int>();
-    mpc_controller_conf.mass_rl                  = control_conf["mpc_controller_conf"]["mass_rl"].as<int>();
-    mpc_controller_conf.mass_rr                  = control_conf["mpc_controller_conf"]["mass_rr"].as<int>();
+    mpc_controller_conf.mass_fl                  = control_conf["mpc_controller_conf"]["mass_fl"].as<double>();
+    mpc_controller_conf.mass_fr                  = control_conf["mpc_controller_conf"]["mass_fr"].as<double>();
+    mpc_controller_conf.mass_rl                  = control_conf["mpc_controller_conf"]["mass_rl"].as<double>();
+    mpc_controller_conf.mass_rr                  = control_conf["mpc_controller_conf"]["mass_rr"].as<double>();
     mpc_controller_conf.eps                      = control_conf["mpc_controller_conf"]["eps"].as<double>();
     mpc_controller_conf.matrix_q1                = control_conf["mpc_controller_conf"]["matrix_q1"].as<double>();
     mpc_controller_conf.matrix_q2                = control_conf["mpc_controller_conf"]["matrix_q2"].as<double>();
