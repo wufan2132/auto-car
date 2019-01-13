@@ -204,6 +204,7 @@ void Control::path_topic_callback(const car_msgs::trajectory &trajectory_path){
 }
 
 void Control::param_topic_callback(const car_msgs::param &param){
+#if MPC_OR_LQR
     PidConf station_pid_conf,speed_pid_conf;
 
     station_pid_conf.kp = param.station_kp;
@@ -217,5 +218,8 @@ void Control::param_topic_callback(const car_msgs::param &param){
     speed_pid_conf.kaw = param.speed_kaw;
 
     lon_controller_.UpdateParam(station_pid_conf,speed_pid_conf);
+#else
+
+#endif
 }
 }

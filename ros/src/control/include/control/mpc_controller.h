@@ -29,7 +29,7 @@
 #include "car_msgs/localization.h"
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
-
+#include "car_msgs/param.h"
 
 #include <fstream>
 #include <memory>
