@@ -35,10 +35,10 @@ class LatControllerConf{
     int preview_window = 2;
     double cf;
     double cr;            // N/rad
-    int mass_fl;
-    int mass_fr;
-    int mass_rl;
-    int mass_rr;
+    double mass_fl;
+    double mass_fr;
+    double mass_rl;
+    double mass_rr;
     double eps;          // converge threshold for lqr solver
     double matrix_q1;     // matrix_q size = 4 + preview_window
     double matrix_q2;     // matrix_q size = 4 + preview_window

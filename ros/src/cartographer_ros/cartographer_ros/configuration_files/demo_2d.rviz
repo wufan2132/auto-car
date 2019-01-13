@@ -4,9 +4,13 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /TF1
+        - /TF1/Frames1
         - /Submaps1
         - /Submaps1/Submaps1
         - /PointCloud21
+        - /refrenceline_Marker1
+        - /trajectory_Marker1
       Splitter Ratio: 0.600670993
     Tree Height: 595
   - Class: rviz/Selection
@@ -53,19 +57,19 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        All Enabled: true
+        All Enabled: false
         base_link:
           Value: true
         horizontal_laser_link:
-          Value: true
+          Value: false
         imu_link:
-          Value: true
+          Value: false
         map:
           Value: true
         odom:
           Value: true
         vertical_laser_link:
-          Value: true
+          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -165,7 +169,7 @@ Visualization Manager:
           Submap Pose Markers: false
           Value: true
         Trajectory 1:
-          0.19: true
+          0.42: true
           Submap Pose Markers: false
           Value: true
       Topic: /submap_list
@@ -211,13 +215,13 @@ Visualization Manager:
       Queue Size: 100
       Value: false
     - Class: rviz/MarkerArray
-      Enabled: true
+      Enabled: false
       Marker Topic: /landmark_poses_list
       Name: Landmark Poses
       Namespaces:
         {}
       Queue Size: 100
-      Value: true
+      Value: false
     - Class: rviz/MarkerArray
       Enabled: false
       Marker Topic: /constraint_list
@@ -226,6 +230,30 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: false
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /localization_Marker
+      Name: localization_Marker
+      Namespaces:
+        my_namespace: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /refrenceline_Marker
+      Name: refrenceline_Marker
+      Namespaces:
+        my_namespace: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /trajectory_Marker
+      Name: trajectory_Marker
+      Namespaces:
+        my_namespace: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 100; 100; 100
@@ -250,7 +278,7 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: 0
+      Angle: -0.00999999978
       Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
@@ -260,11 +288,11 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 61.3039436
+      Scale: 127.660973
       Target Frame: <Fixed Frame>
       Value: TopDownOrtho (rviz)
-      X: 0
-      Y: 0
+      X: -1.00007439
+      Y: -1.11307204
     Saved: ~
 Window Geometry:
   Displays:

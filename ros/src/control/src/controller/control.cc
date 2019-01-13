@@ -40,10 +40,10 @@ void Control::Init(void){
     lat_controller_conf.preview_window           = control_conf["lat_controller_conf"]["preview_window"].as<int>();
     lat_controller_conf.cf                       = control_conf["lat_controller_conf"]["cf"].as<double>();
     lat_controller_conf.cr                       = control_conf["lat_controller_conf"]["cr"].as<double>();
-    lat_controller_conf.mass_fl                  = control_conf["lat_controller_conf"]["mass_fl"].as<int>();
-    lat_controller_conf.mass_fr                  = control_conf["lat_controller_conf"]["mass_fr"].as<int>();
-    lat_controller_conf.mass_rl                  = control_conf["lat_controller_conf"]["mass_rl"].as<int>();
-    lat_controller_conf.mass_rr                  = control_conf["lat_controller_conf"]["mass_rr"].as<int>();
+    lat_controller_conf.mass_fl                  = control_conf["lat_controller_conf"]["mass_fl"].as<double>();
+    lat_controller_conf.mass_fr                  = control_conf["lat_controller_conf"]["mass_fr"].as<double>();
+    lat_controller_conf.mass_rl                  = control_conf["lat_controller_conf"]["mass_rl"].as<double>();
+    lat_controller_conf.mass_rr                  = control_conf["lat_controller_conf"]["mass_rr"].as<double>();
     lat_controller_conf.eps                      = control_conf["lat_controller_conf"]["eps"].as<double>();
     lat_controller_conf.matrix_q1                = control_conf["lat_controller_conf"]["matrix_q1"].as<double>();
     lat_controller_conf.matrix_q2                = control_conf["lat_controller_conf"]["matrix_q2"].as<double>();
@@ -158,7 +158,7 @@ bool Control::CheckInput(void){
 void Control::SendCmd(car_msgs::control_cmd &control_cmd){
     if(control_mode_ == 0){
         control_cmd.header = localization_.header;
-//        chassisCommand_publisher.publish(control_cmd);
+        chassisCommand_publisher.publish(control_cmd);
     }
 }
 

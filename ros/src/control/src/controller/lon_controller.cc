@@ -77,7 +77,7 @@ void LonController::ComputeLongitudinalErrors(
        trajectory_analyzer.QueryNearestPointByAbsoluteTime(current_control_time);
 
   debug.station_error = reference_point.s - s_matched;
-  debug.speed_error = 2 - linear_velocity;//reference_point.speed - s_dot_matched;
+  debug.speed_error = reference_point.speed - s_dot_matched;
   debug.station_reference = reference_point.s;
   debug.speed_reference = reference_point.speed;
   debug.preview_acceleration_reference = reference_point.accel;

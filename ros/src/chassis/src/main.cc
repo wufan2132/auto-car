@@ -11,6 +11,7 @@
 #include "tf2_msgs/TFMessage.h"
 #include "sensor_msgs/Imu.h"
 #include "math/euler_angles_zxy.h"
+#include <cmath>
 
 ros::Publisher localization_msg_Publisher;
 ros::Publisher chassis_msg_Publisher;
@@ -84,17 +85,49 @@ Usart car_chassis_usart("/dev/ttyTHS2");
 //to m/s2
 #define ACC_RATE 55
 #define DEC_RATE 130
+#define STEER_RATE 10
 void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg){
  
  car_chassis_usart.send_to_serial((uint16_t)(control_cmd_msg.throttle * ACC_RATE),
                                    (uint16_t)(control_cmd_msg.brake * DEC_RATE),
-                                     (int16_t)control_cmd_msg.steer);
+                                     (int16_t)control_cmd_msg.steer * STEER_RATE);
 }
 
 geometry_msgs::Transform car_transform;
 void tf_subscrib_callback(const tf2_msgs::TFMessage::ConstPtr &TF_msg){
-  car_transform = TF_msg->transforms[1].transform;
+
+    Eigen::Quaterniond Q1,Q2,Q3;
+  //定义车在世界坐标系下的线速度
+  Q1 = Eigen::Quaterniond(TF_msg->transforms[0].transform.rotation.w,
+                          TF_msg->transforms[0].transform.rotation.x,
+                          TF_msg->transforms[0].transform.rotation.y,
+                          TF_msg->transforms[0].transform.rotation.z).normalized();
+  Q2 = Eigen::Quaterniond(TF_msg->transforms[1].transform.rotation.w,
+                          TF_msg->transforms[1].transform.rotation.x,
+                          TF_msg->transforms[1].transform.rotation.y,
+                          TF_msg->transforms[1].transform.rotation.z).normalized();
+  Q2 = Q2*Q1;
+
+  Eigen::Matrix <double,3,1> Lw(TF_msg->transforms[1].transform.translation.x,
+                                TF_msg->transforms[1].transform.translation.y,
+                                TF_msg->transforms[1].transform.translation.z);
+
+  Q3 = Eigen::Quaterniond(TF_msg->transforms[0].transform.rotation.w,
+                          TF_msg->transforms[0].transform.rotation.x,
+                          TF_msg->transforms[0].transform.rotation.y,
+                          TF_msg->transforms[0].transform.rotation.z).normalized();
+  Eigen::Matrix <double,3,1> Lc = Q3*Lw;
+
+  car_transform.translation.x = TF_msg->transforms[0].transform.translation.x + Lc.x();
+  car_transform.translation.y = TF_msg->transforms[0].transform.translation.y + Lc.y();
+  car_transform.translation.z = TF_msg->transforms[0].transform.translation.z + Lc.z();
+  
+  car_transform.rotation.x = Q2.x();
+  car_transform.rotation.y = Q2.y();
+  car_transform.rotation.z = Q2.z();
+  car_transform.rotation.w = Q2.w();
 }
+
 
 void chassis_publish_callback(const ros::TimerEvent&){
   char flag;
@@ -117,10 +150,14 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                            	car_transform.rotation.x,
                                            	car_transform.rotation.y,
                                            	car_transform.rotation.z);
-
   // car_localization.angle.x = EulerAngles.pitch();
   // car_localization.angle.y = EulerAngles.yaw();
   car_localization.angle.z = EulerAngles.yaw();
+
+  if(car_localization.angle.z > 0)
+    car_localization.angle.z = car_localization.angle.z - M_PI;
+  else
+    car_localization.angle.z = M_PI + car_localization.angle.z;
 
   car_localization.angle.y = -car_localization.angle.y;
   car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
