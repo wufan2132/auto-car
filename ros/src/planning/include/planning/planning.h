@@ -26,6 +26,7 @@ class Car_Planning_Conf{
 public:
     string mode;
     double period;
+    string refrenceline_source;
     double wait_time;
     string trajectory_dir;
     int sampling_period;

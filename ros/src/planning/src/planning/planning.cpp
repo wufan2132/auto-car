@@ -11,6 +11,7 @@ Car_Planning::Car_Planning(YAML::Node planning_conf)
 :STATE(0)
 {
     conf.mode = planning_conf["mode"].as<string>();
+    conf.refrenceline_source = planning_conf["refrenceline_source"].as<string>();
     conf.period = planning_conf["period"].as<double>();
     conf.wait_time = planning_conf["wait_time"].as<double>();
     conf.trajectory_dir = 
@@ -97,8 +98,13 @@ void Car_Planning::Init(){
     }
     /*发送参考线*/
     // 读取轨迹
-    static replay replayer(conf.trajectory_dir,"read");
-    replay::load_trajectory_from_replay(replayer, origin_Trajectory);
+    if(conf.refrenceline_source == "replay"){
+        static replay replayer(conf.trajectory_dir,"read");
+        replay::load_trajectory_from_replay(replayer, origin_Trajectory);
+    }else if(conf.refrenceline_source == "refrenceline_provider"){
+        rprovider->process(origin_Trajectory);
+    }else
+        ROS_ERROR("Car_Planning::Init: invalid refrenceline_source!");
     // 轨迹处理 
     refrenceline_Sp = planner->get_refrenceline(origin_Trajectory, refrence_Trajectory);
     refrenceline_publisher.publish(refrence_Trajectory);
@@ -114,7 +120,7 @@ void Car_Planning::Init(){
     obstaclelist->init(&refrence_Trajectory ,&car_status, &car_status_sl);
     planner->init(obstaclelist);
     debugger->init(refrenceline_Sp);
-    //rprovider->process();
+    
 }
 
 void Car_Planning::OnTimer(const ros::TimerEvent&){

@@ -14,6 +14,7 @@ MpPlanner::MpPlanner(YAML::Node yaml_conf)
     sampler = new SamplerPoint(yaml_conf["SamplerPoint_conf"]); 
     dpgraph = new DpRoadGraph(yaml_conf["DpRoadGraph_conf"]);  
     stgraph = new DpStGraph(yaml_conf);
+
 }
 
 void MpPlanner::init(ObstacleList* obslist){
