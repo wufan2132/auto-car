@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
+  <!--include file="$(find cartographer_ros)/launch/demo_backpack_2d_localization.launch"-->
+  <!--arg name="load_state_filename" value="~/Downloads/demo.pbstream"/-->
+  <!--/include-->
+
+  <node pkg="control" type="control_node" name="control_node" output="screen" >
+  </node>
+  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" >
+  </node>
+  <node pkg="planning" type="planning_node" name="planning_node" output="screen" >
+  </node>
+  <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
+  </node>
+</launch>
+ 

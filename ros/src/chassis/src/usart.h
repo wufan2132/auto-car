@@ -36,7 +36,8 @@ class Usart
                                 double &acc_z,
                                 double &ang_v_x,
                                 double &ang_v_y,
-                                double &ang_v_z);
+                                double &ang_v_z,
+                                char  &flag);
                                 
     private:
         io_service m_ios;

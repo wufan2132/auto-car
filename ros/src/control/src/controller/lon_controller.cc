@@ -27,10 +27,9 @@ void LonController::ComputeControlCommand(const car_msgs::trajectory &planning_p
                               trajectory_analyzer_,
                               debug);
 
-      debug.station_out = station_pid_controller_.Control(debug.station_error,ts_);
+      debug.station_out = 0;//station_pid_controller_.Control(debug.station_error,ts_);
 
       double speed_err = debug.station_out + debug.speed_error;
-      //double speed_err = 5 - vehicle_state.linear_velocity;
       
       debug.speed_out = speed_pid_controller_.Control(speed_err,ts_);
       double speed_cmd_out = debug.speed_out;// + debug.preview_acceleration_reference;
@@ -83,6 +82,10 @@ void LonController::ComputeLongitudinalErrors(
   debug.speed_reference = reference_point.speed;
   debug.preview_acceleration_reference = reference_point.accel;
   debug.current_station = s_matched;
+}
+void LonController::UpdateParam(const PidConf &station_pid_conf,const PidConf &speed_pid_conf){
+      station_pid_controller_.SetPID(station_pid_conf);
+      speed_pid_controller_.SetPID(speed_pid_conf);
 }
 
 bool LonController::Reset(){
