@@ -30,7 +30,6 @@
  * @namespace apollo::common::math
  * @brief apollo::common::math
  */
-namespace apollo {
 namespace common {
 namespace math {
 
@@ -274,6 +273,5 @@ float tan(Angle8 a);
 
 }  // namespace math
 }  // namespace common
-}  // namespace apollo
 
 #endif /* MODULES_COMMON_MATH_AABOX2D_H_ */

@@ -7,7 +7,9 @@
 #include "car_msgs/localization.h"
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
+#include "car_msgs/param.h"
 #include "control/trajectory_analyzer.h"
+
 namespace control {
 
 class LonControllerConf{
@@ -35,10 +37,10 @@ class LonController {
          * @return Status computation status
          */
         void ComputeControlCommand(
-                                const car_msgs::trajectory *planning_published_trajectory,
-                                const VehicleState *vehicle_state,
-                                car_msgs::control_cmd *control_cmd,
-                                SimpleLongitudinalDebug *debug);
+                                const car_msgs::trajectory &planning_published_trajectory,
+                                const car_msgs::vehicle_state &vehicle_state,
+                                car_msgs::control_cmd &control_cmd,
+                                car_msgs::lon_debug &debug);
                                 
         void ComputeLongitudinalErrors(
                                         const double x, 
@@ -46,11 +48,12 @@ class LonController {
                                         const double theta,
                                         const double linear_velocity, 
                                         const TrajectoryAnalyzer &trajectory_analyzer,
-                                        SimpleLongitudinalDebug *debug);
+                                        car_msgs::lon_debug &debug);
         /**
          * @brief reset longitudinal controller
          * @return Status reset status
          */
+        void UpdateParam(const PidConf &station_pid_conf,const PidConf &speed_pid_conf);
         bool Reset();
 
         /**

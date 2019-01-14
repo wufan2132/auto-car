@@ -17,9 +17,8 @@
 /**
  * @file: qp_solver.cc
  **/
-#include "modules/common/math/qp_solver/qp_solver.h"
+#include "math/qp_solver/qp_solver.h"
 
-namespace apollo {
 namespace common {
 namespace math {
 
@@ -62,4 +61,4 @@ const Eigen::MatrixXd& QpSolver::affine_inequality_boundary() const {
 
 }  // namespace math
 }  // namespace common
-}  // namespace apollo
+

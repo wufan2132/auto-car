@@ -11,41 +11,40 @@ void LonController::Init(const LonControllerConf *control_conf){
       station_pid_controller_.Init(control_conf->station_pid_conf);
       speed_pid_controller_.Init(control_conf->speed_pid_conf);
 }
-void LonController::ComputeControlCommand(const car_msgs::trajectory *planning_published_trajectory,
-                                          const VehicleState *vehicle_state,
-                                          car_msgs::control_cmd *control_cmd,
-                                          SimpleLongitudinalDebug *debug){
-      auto target_tracking_trajectory = *planning_published_trajectory;
+void LonController::ComputeControlCommand(const car_msgs::trajectory &planning_published_trajectory,
+                                          const car_msgs::vehicle_state &vehicle_state,
+                                          car_msgs::control_cmd &control_cmd,
+                                          car_msgs::lon_debug &debug){
+      auto target_tracking_trajectory = planning_published_trajectory;
 
       trajectory_analyzer_ = std::move(TrajectoryAnalyzer(&target_tracking_trajectory));
 
       ComputeLongitudinalErrors(
-                              vehicle_state->x, 
-                              vehicle_state->y, 
-                              vehicle_state->yaw,
-                              vehicle_state->linear_velocity, 
+                              vehicle_state.x, 
+                              vehicle_state.y, 
+                              vehicle_state.yaw,
+                              vehicle_state.linear_velocity, 
                               trajectory_analyzer_,
                               debug);
 
-      double station_err = debug->station_error;
-      double station_err_out = station_pid_controller_.Control(station_err,ts_);
+      debug.station_out = 0;//station_pid_controller_.Control(debug.station_error,ts_);
 
-      //double speed_err = station_err_out + debug->speed_error;
-      double speed_err = 5 - vehicle_state->linear_velocity;
-      double speed_cmd_out = speed_pid_controller_.Control(speed_err,ts_);
-      speed_cmd_out += debug->preview_acceleration_reference;
+      double speed_err = debug.station_out + debug.speed_error;
+      
+      debug.speed_out = speed_pid_controller_.Control(speed_err,ts_);
+      double speed_cmd_out = debug.speed_out;// + debug.preview_acceleration_reference;
 
       //double speed_cmd_out = 0;
       if(speed_cmd_out > 0.0){
-            control_cmd->throttle = speed_cmd_out;
-            control_cmd->brake = 0.0;
+            control_cmd.throttle = speed_cmd_out;
+            control_cmd.brake = 0.0;
       }else if(speed_cmd_out < 0.0){
-            control_cmd->throttle = 0.0;
-            control_cmd->brake = -speed_cmd_out;
+            control_cmd.throttle = 0.0;
+            control_cmd.brake = -speed_cmd_out;
       }
       else{
-            control_cmd->throttle = 0.0;
-            control_cmd->brake = 0.0;
+            control_cmd.throttle = 0.0;
+            control_cmd.brake = 0.0;
       }
 }
 
@@ -56,7 +55,7 @@ void LonController::ComputeLongitudinalErrors(
                                                 const double yaw,
                                                 const double linear_velocity, 
                                                 const TrajectoryAnalyzer &trajectory_analyzer,
-                                                SimpleLongitudinalDebug *debug) {
+                                                car_msgs::lon_debug &debug) {
   // the decomposed vehicle motion onto Frenet frame
   // s: longitudinal accumulated distance along reference path_point
   // s_dot: longitudinal velocity along reference path_point
@@ -77,12 +76,16 @@ void LonController::ComputeLongitudinalErrors(
       car_msgs::trajectory_point reference_point =
        trajectory_analyzer.QueryNearestPointByAbsoluteTime(current_control_time);
 
-  debug->station_error = reference_point.s - s_matched;
-  debug->speed_error = reference_point.speed - s_dot_matched;
-  debug->station_reference = reference_point.s;
-  debug->speed_reference = reference_point.speed;
-  debug->preview_acceleration_reference = reference_point.accel;
-  debug->current_station = s_matched;
+  debug.station_error = reference_point.s - s_matched;
+  debug.speed_error = reference_point.speed - s_dot_matched;
+  debug.station_reference = reference_point.s;
+  debug.speed_reference = reference_point.speed;
+  debug.preview_acceleration_reference = reference_point.accel;
+  debug.current_station = s_matched;
+}
+void LonController::UpdateParam(const PidConf &station_pid_conf,const PidConf &speed_pid_conf){
+      station_pid_controller_.SetPID(station_pid_conf);
+      speed_pid_controller_.SetPID(speed_pid_conf);
 }
 
 bool LonController::Reset(){
@@ -143,7 +146,7 @@ bool LonController::Reset(){
 // using apollo::common::ErrorCode;
 // using apollo::common::Status;
 // using apollo::common::path_pointPoint;
-// using apollo::common::VehicleStateProvider;
+// using apollo::common::car_msgs::vehicle_stateProvider;
 // using apollo::common::time::Clock;
 
 // constexpr double GRA_ACC = 9.8;
@@ -275,7 +278,7 @@ bool LonController::Reset(){
 //       control_conf_->lon_controller_conf();
 
 //   auto debug = cmd->mutable_debug()->mutable_simple_lon_debug();
-//   debug->Clear();
+//   debug.Clear();
 
 //   double brake_cmd = 0.0;
 //   double throttle_cmd = 0.0;
@@ -294,11 +297,11 @@ bool LonController::Reset(){
 //   double station_error_limited = 0.0;
 //   if (FLAGS_enable_speed_station_preview) {
 //     station_error_limited =
-//         common::math::Clamp(debug->preview_station_error(),
+//         common::math::Clamp(debug.preview_station_error(),
 //                             -station_error_limit, station_error_limit);
 //   } else {
 //     station_error_limited = common::math::Clamp(
-//         debug->station_error(), -station_error_limit, station_error_limit);
+//         debug.station_error(), -station_error_limit, station_error_limit);
 //   }
 //   double speed_offset =
 //       station_pid_controller_.Control(station_error_limited, ts);
@@ -308,9 +311,9 @@ bool LonController::Reset(){
 //       lon_controller_conf.speed_controller_input_limit();
 //   double speed_controller_input_limited = 0.0;
 //   if (FLAGS_enable_speed_station_preview) {
-//     speed_controller_input = speed_offset + debug->preview_speed_error();
+//     speed_controller_input = speed_offset + debug.preview_speed_error();
 //   } else {
-//     speed_controller_input = speed_offset + debug->speed_error();
+//     speed_controller_input = speed_offset + debug.speed_error();
 //   }
 //   speed_controller_input_limited =
 //       common::math::Clamp(speed_controller_input, -speed_controller_input_limit,
@@ -335,24 +338,24 @@ bool LonController::Reset(){
 //       slope_offset_compenstaion = 0;
 //   }
 
-//   debug->set_slope_offset_compensation(slope_offset_compenstaion);
+//   debug.set_slope_offset_compensation(slope_offset_compenstaion);
 
 //   double acceleration_cmd =
-//       acceleration_cmd_closeloop + debug->preview_acceleration_reference() +
-//       FLAGS_enable_slope_offset * debug->slope_offset_compensation();
-//   debug->set_is_full_stop(false);
+//       acceleration_cmd_closeloop + debug.preview_acceleration_reference() +
+//       FLAGS_enable_slope_offset * debug.slope_offset_compensation();
+//   debug.set_is_full_stop(false);
 //   GetPathRemain(debug);
 
 //   if ((path_point_message_->path_point_type() ==
 //    apollo::planning::ADCpath_point::NORMAL) &&
-//       ((std::fabs(debug->preview_acceleration_reference()) <=
+//       ((std::fabs(debug.preview_acceleration_reference()) <=
 //            FLAGS_max_acceleration_when_stopped &&
-//        std::fabs(debug->preview_speed_reference()) <=
+//        std::fabs(debug.preview_speed_reference()) <=
 //            vehicle_param_.max_abs_speed_when_stopped()) ||
-//       (debug->path_remain() < 0.3))) {
+//       (debug.path_remain() < 0.3))) {
 //     acceleration_cmd = lon_controller_conf.standstill_acceleration();
 //     AINFO << "Stop location reached";
-//     debug->set_is_full_stop(true);
+//     debug.set_is_full_stop(true);
 //   }
 
 //   double throttle_deadzone = lon_controller_conf.throttle_deadzone();
@@ -360,7 +363,7 @@ bool LonController::Reset(){
 //   double calibration_value = 0.0;
 //   if (FLAGS_use_preview_speed_for_table) {
 //     calibration_value = control_interpolation_->Interpolate(
-//         std::make_pair(debug->preview_speed_reference(), acceleration_cmd));
+//         std::make_pair(debug.preview_speed_reference(), acceleration_cmd));
 //   } else {
 //     calibration_value = control_interpolation_->Interpolate(
 //         std::make_pair(chassis_->speed_mps(), acceleration_cmd));
@@ -376,29 +379,29 @@ bool LonController::Reset(){
 //                                                     : brake_deadzone;
 //   }
 
-//   debug->set_station_error_limited(station_error_limited);
-//   debug->set_speed_controller_input_limited(speed_controller_input_limited);
-//   debug->set_acceleration_cmd(acceleration_cmd);
-//   debug->set_throttle_cmd(throttle_cmd);
-//   debug->set_brake_cmd(brake_cmd);
-//   debug->set_acceleration_lookup(acceleration_cmd);
-//   debug->set_speed_lookup(chassis_->speed_mps());
-//   debug->set_calibration_value(calibration_value);
-//   debug->set_acceleration_cmd_closeloop(acceleration_cmd_closeloop);
+//   debug.set_station_error_limited(station_error_limited);
+//   debug.set_speed_controller_input_limited(speed_controller_input_limited);
+//   debug.set_acceleration_cmd(acceleration_cmd);
+//   debug.set_throttle_cmd(throttle_cmd);
+//   debug.set_brake_cmd(brake_cmd);
+//   debug.set_acceleration_lookup(acceleration_cmd);
+//   debug.set_speed_lookup(chassis_->speed_mps());
+//   debug.set_calibration_value(calibration_value);
+//   debug.set_acceleration_cmd_closeloop(acceleration_cmd_closeloop);
 
 //   if (FLAGS_enable_csv_debug && speed_log_file_ != nullptr) {
 //     fprintf(speed_log_file_,
 //             "%.6f, %.6f, %.6f, %.6f, %.6f, %.6f, %.6f, %.6f, %.6f, %.6f,"
 //             "%.6f, %.6f, %.6f, %.6f, %.6f, %.6f, %.6f, %d,\r\n",
-//             debug->station_reference(), debug->station_error(),
-//             station_error_limited, debug->preview_station_error(),
-//             debug->speed_reference(), debug->speed_error(),
-//             speed_controller_input_limited, debug->preview_speed_reference(),
-//             debug->preview_speed_error(),
-//             debug->preview_acceleration_reference(), acceleration_cmd_closeloop,
-//             acceleration_cmd, debug->acceleration_lookup(),
-//             debug->speed_lookup(), calibration_value, throttle_cmd, brake_cmd,
-//             debug->is_full_stop());
+//             debug.station_reference(), debug.station_error(),
+//             station_error_limited, debug.preview_station_error(),
+//             debug.speed_reference(), debug.speed_error(),
+//             speed_controller_input_limited, debug.preview_speed_reference(),
+//             debug.preview_speed_error(),
+//             debug.preview_acceleration_reference(), acceleration_cmd_closeloop,
+//             acceleration_cmd, debug.acceleration_lookup(),
+//             debug.speed_lookup(), calibration_value, throttle_cmd, brake_cmd,
+//             debug.is_full_stop());
 //   }
 
 //   cmd->set_throttle(throttle_cmd);
@@ -451,12 +454,12 @@ bool LonController::Reset(){
 //       AINFO << "the last point is selected as parking point";
 //     } else {
 //       AINFO << "the last point found in path and speed > speed_deadzone";
-//       debug->set_path_remain(10000);
+//       debug.set_path_remain(10000);
 //     }
 //   }
-//   debug->set_path_remain(
+//   debug.set_path_remain(
 //       path_point_message_->path_point_point(stop_index).path_point().s() -
-//       debug->current_station());
+//       debug.current_station());
 // }
 
 // }  // namespace control
