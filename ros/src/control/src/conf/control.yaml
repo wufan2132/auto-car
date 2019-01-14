@@ -1,19 +1,95 @@
+#0自动驾驶 1手动驾驶
+control_mode: 0
+#0关闭调试信息 1开启调试信息
+debug_mode: 1
+query_relative_time: 0.8
+minimum_speed_protection: 0.1
+
 lon_controller_conf:
- ts: 0.01
- station_pid_conf:
-  integrator_enable: false
-  integrator_saturation_level: 0.3
-  kp: 0.2
-  ki: 0.0
-  kd: 0.0
-  kaw: 0.0
-  output_saturation_level: 0.0
- speed_pid_conf:
-  integrator_enable: true
-  integrator_saturation_level: 0.3
-  kp: 0.5
-  ki: 0.03
-  kd: 0.0
-  kaw: 0.0
-  output_saturation_level: 0.0
- 
+  ts: 0.01
+  station_pid_conf:
+    integrator_enable: false
+    integrator_saturation_level: 0.3
+    kp: 0.2
+    ki: 0.0
+    kd: 0.0
+    kaw: 0.0
+    output_saturation_level: 1.0
+  speed_pid_conf:
+    integrator_enable: true
+    integrator_saturation_level: 0.3
+    kp: 0.4
+    ki: 0.03
+    kd: 0.0
+    kaw: 0.0
+    output_saturation_level: 1.0
+
+lat_controller_conf:
+  ts: 0.01
+  preview_window: 0
+  cf: 155494.663
+  cr: 155494.663
+  mass_fl: 340
+  mass_fr: 340
+  mass_rl: 340
+  mass_rr: 340
+  eps: 0.01
+  matrix_q1: 0.05
+  matrix_q2: 0.0
+  matrix_q3: 1.0
+  matrix_q4: 0.0
+  cutoff_freq: 10
+  mean_filter_window_size: 10
+  max_iteration: 150
+  max_lateral_acceleration: 5.0
+  lat_err_gain_scheduler:
+    scheduler:
+      speed: 4.0
+      ratio: 1.0
+  heading_err_gain_scheduler:
+    scheduler:
+      speed: 4.0
+      ratio: 1.0
+
+mpc_controller_conf:
+  ts: 0.01
+  cf: 155494.663
+  cr: 155494.663
+  mass_fl: 340
+  mass_fr: 340
+  mass_rl: 340
+  mass_rr: 340
+  eps: 0.01
+  matrix_q1: 0.9
+  matrix_q2: 0.0
+  matrix_q3: 15
+  matrix_q4: 0.0
+  matrix_q5: 50.0
+  matrix_q6: 10.0
+  matrix_r1: 3.25
+  matrix_r2: 1.0
+  cutoff_freq: 10
+  mean_filter_window_size: 10
+  max_iteration: 150
+  max_lateral_acceleration: 5.0
+  standstill_acceleration: -0.2
+  brake_deadzone: 0
+  throttle_deadzone: 0
+
+vehicle_param:
+  front_edge_to_center: 3.89
+  back_edge_to_center: 1.043
+  left_edge_to_center: 1.055
+  right_edge_to_center: 1.055
+
+  length: 4.933
+  width: 2.11
+  height: 1.48
+  min_turn_radius: 5.05386147161
+  max_acceleration: 2.0
+  max_deceleration: -6.0
+  max_steer_angle: 8.20304748437
+  max_steer_angle_rate: 6.98131700798
+  steer_ratio: 16
+  wheel_base: 2.8448
+  wheel_rolling_radius: 0.335

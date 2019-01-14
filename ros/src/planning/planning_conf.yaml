@@ -1,0 +1,41 @@
+
+#规划器 (OgPlanner SpPlanner MpPlanner)
+planner: MpPlanner
+#规划器配置文件目录
+planner_dir: ../my-code/auto-car/ros/src/planning/conf/
+#工作模式 send / write
+mode: send
+#参考线来源 (replay refrenceline_provider)
+refrenceline_source: refrenceline_provider
+#工作周期:s
+period: 0.5
+#等待时间: s (-1 表示不等待直接运行planning模块)
+wait_time: 10
+#########replay
+trajectory_dir: ../my-code/auto-car/ros/src/planning/file/trajectory/trajectory.csv
+sampling_period: 100
+#########obstacle_list
+obstacle_list:
+  obstacle_path: ../my-code/auto-car/ros/src/planning/file/obstacle/obstacle_list.csv
+#########refrenceline_provider
+refrenceline_provider:
+  #起点
+  start_point_x: 889
+  start_point_y: 102
+  #终点
+  end_point_x: 1800
+  end_point_y: 1700
+  pgm_yaml_dir: ../my-code/auto-car/ros/src/planning/conf/ros_map.yaml
+  origin_image_dir: ../my-code/auto-car/ros/src/planning/file/map/ros_map.pgm #原始地图路径
+  output_image_dir: ../my-code/auto-car/ros/src/planning/file/output/ #输出文件路径
+  origin_road_width: 40 #原始路宽 (像素点)
+  scale: 0.11 #压缩比例
+  #############Astar
+  Astar:
+    kG: 1 #实际距离权重
+    kH: 1 #预期距离权重
+  #######Interpolating
+  spacing: 2 #插值间隔(像素点)
+  #######smooth
+  smooth_order: 5 #平均滤波点的个数
+  

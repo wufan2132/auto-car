@@ -1,0 +1,19 @@
+Header header
+
+float64 lateral_error
+float64 ref_heading
+float64 heading
+float64 heading_error
+float64 heading_error_rate
+float64 lateral_error_rate
+float64 curvature
+float64 steer_angle
+float64 steer_angle_feedforward
+float64 steer_angle_lateral_contribution
+float64 steer_angle_lateral_rate_contribution
+float64 steer_angle_heading_contribution
+float64 steer_angle_heading_rate_contribution
+float64 steer_angle_feedback
+float64 steering_position
+float64 ref_speed
+float64 steer_angle_limited

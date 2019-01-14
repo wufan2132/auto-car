@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.txt": "shellscript",
         "cctype": "cpp",
         "cmath": "cpp",
         "cstdarg": "cpp",
@@ -48,7 +49,18 @@
         "utility": "cpp",
         "complex": "cpp",
         "list": "cpp",
-        "unordered_set": "cpp"
+        "unordered_set": "cpp",
+        "bitset": "cpp",
+        "core": "cpp",
+        "dense": "cpp",
+        "csignal": "cpp",
+        "*.ipp": "cpp",
+        "algorithm": "cpp",
+        "lu": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "future": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.intelliSenseEngineFallback": "Disabled"
 }

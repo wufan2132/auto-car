@@ -5,7 +5,7 @@ from __future__ import print_function
 import roslib; roslib.load_manifest('teleop_twist_keyboard')
 import rospy
 
-from msgs.msg import chassisCommand
+from car_msgs.msg import control_cmd
 
 import sys, select, termios, tty
 
@@ -21,11 +21,11 @@ CTRL-C to quit
 """
 
 moveBindings = {
-		'w':(10,0,0),
-		'a':(10,0,3),
-		'd':(10,0,-3),
-		's':(-10,0,0),
-		'q':(0,10,0),
+		'w':(0.5,0,0),
+		'a':(0,0,300),
+		'd':(0,0,-300),
+		's':(0,1.5,0),
+		'q':(0,2,0),
 		}
 
 def getKey():
@@ -38,12 +38,12 @@ def getKey():
 if __name__=="__main__":
 	settings = termios.tcgetattr(sys.stdin)
 	
-	pub = rospy.Publisher('chassisCommand_topic', chassisCommand, queue_size = 1)
+	pub = rospy.Publisher('prius', control_cmd, queue_size = 1)
 	rospy.init_node('teleop_twist_keyboard')
 	throttle = 0
 	throttle = 0
 	brake = 0
-	steering = 0
+	steer = 0
 	status = 0
 
 	try:
@@ -51,33 +51,32 @@ if __name__=="__main__":
 		while(1):
 			key = getKey()
 			if key in moveBindings.keys():
-				throttle = moveBindings[key][0]
+				throttle += moveBindings[key][0]
 				brake = moveBindings[key][1]
-				steering = moveBindings[key][2]
+				steer = moveBindings[key][2]
 
 			else:
 				throttle = 0
 				brake = 0
-				steering = 0
+				steer = 0
 				if (key == '\x03'):
 					break
 
-			twist = chassisCommand()
+			twist = control_cmd()
 			twist.throttle = throttle
 			twist.brake = brake
-			twist.steering = steering
+			twist.steer = steer
 			pub.publish(twist)
 
 	except Exception as e:
 		print(e)
 
 	finally:
-		twist = chassisCommand()
+		twist = control_cmd()
 		twist.throttle = 0
 		twist.brake = 0
-		twist.steering = 0
+		twist.steer = 0
 		pub.publish(twist)
-
 		termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
 

@@ -1,0 +1,7 @@
+
+#工作周期:s
+period: 0.1
+
+#####ObstacleSet_conf
+ObstacleSet_conf:
+  obstacle_path: ../my-code/auto-car/ros/src/perception/file/obstacle/obstacle_list.csv
