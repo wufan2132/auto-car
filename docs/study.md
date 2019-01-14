@@ -1,5 +1,5 @@
-À©Õ¹Ñ§Ï°£º
--------->Ç¿»¯Ñ§Ï°×ÊÔ´Á´½Ó
+æ‰©å±•å­¦ä¹ ï¼š
+-------->å¼ºåŒ–å­¦ä¹ èµ„æºé“¾æ¥
 
 https://blog.openai.com/ingredients-for-robotics-research/
 

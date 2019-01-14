@@ -1,7 +1,26 @@
-ÏµÍ³´î½¨£º
--------->ubuntu16.04 °²×°dockerºÍnvidia-docker
+
+ç³»ç»Ÿæ­å»ºï¼š
+
+-------->ubuntu16.04 å®‰è£…dockerå’Œnvidia-docker
 https://blog.csdn.net/junxiacaocao/article/details/79471770
-ÏÂÔØÊ§°ÜÔò¸üºÃ¹úÄÚÔ´·½°¸£¨°¢ÀïÔÆ£©
+ä¸‹è½½å¤±è´¥åˆ™æ›´æ¢å›½å†…æºæ–¹æ¡ˆï¼ˆé˜¿é‡Œäº‘ï¼‰
+
+
+-------->å®Œæˆgazeboæ›´æ–° version 8:
+https://blog.csdn.net/qq_30667639/article/details/78409603
+
+
+-------->Install Gazebo using Ubuntu packagesï¼š
+http://gazebosim.org/tutorials?cat=install&tut=install_ubuntu&ver=7.0#Alternativeinstallation:step-by-step
+æŒ‡ä»¤ï¼šcurl -sSL http://get.gazebosim.org | sh 
+å®Œæˆgazeboæ›´æ–° version 9
+meshæ–‡ä»¶ï¼š objæ ¼å¼7.4ç‰ˆæœ¬ä»¥ä¸Šæ‰æ”¯æŒ
+
+
+
+-------->Ubuntu16.04å®‰è£…å¸è½½Kinetic:
+https://blog.csdn.net/yeluohanchan/article/details/75578268
+
 
 TODO
 

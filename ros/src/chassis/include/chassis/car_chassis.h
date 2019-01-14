@@ -1,8 +1,9 @@
 #ifndef CHASSIS_H
 #define CHASSIS_H
+
 #include "ros/ros.h"
-#include "msgs/chassis.h"
-#include "msgs/chassisCommand.h"
+#include "car_msgs/chassis.h"
+#include "car_msgs/control_cmd.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -17,7 +18,7 @@ typedef struct Chassis_class_{
   double y;
   double yaw;
   double speed;
-  double acc;
+  //double acc;
   double steer;
 }Chassis_class;
 
@@ -30,7 +31,8 @@ typedef struct ChassisCommand_class_{
 typedef struct Socket_class_{
   int sock;
   struct sockaddr_in servaddr;
-  char recvbuf[1024];
+  struct sockaddr_in localaddr;
+  char recvbuf[50];
 }Socket_class;
 
 class CarChassis{
@@ -40,8 +42,8 @@ public:
         };
 
     void Init(void);
-    void communicate(const msgs::chassisCommand &chassisCommand);
-    void chassisCommand_topic_callback(const msgs::chassisCommand &chassisCommand);
+    void communicate(const car_msgs::control_cmd &control_cmd);
+    void chassisCommand_topic_callback(const car_msgs::control_cmd &control_cmd);
 
     ros::NodeHandle car_chassis_NodeHandle;
     ros::Publisher chassis_publisher;

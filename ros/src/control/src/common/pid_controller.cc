@@ -49,6 +49,14 @@ double PIDController::Control(const double error, const double dt) {
   }
   previous_error_ = error;
   output = error * kp_ + integral_ + diff * kd_;  // Ki already applied
+  
+//TODO:gyl 
+  if (output > output_saturation_high_) {
+    output = output_saturation_high_;
+  } else if (output < output_saturation_low_) {
+    output = output_saturation_low_;
+  }
+
   previous_output_ = output;
   return output;
 }
