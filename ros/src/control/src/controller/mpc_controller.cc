@@ -181,7 +181,7 @@ void MPCController::Init(const MPCControllerConf *control_conf) {
 
 
 double MPCController::Wheel2SteerPct(const double wheel_angle) {
-  return wheel_angle / wheel_single_direction_max_degree_ * 1;
+  return wheel_angle / wheel_single_direction_max_degree_ * 100;
 }
 
 std::string MPCController::Name() const { return name_; }
