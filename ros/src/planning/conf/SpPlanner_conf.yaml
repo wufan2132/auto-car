@@ -37,8 +37,14 @@ Interpolating_conf:
   # 插值间隔（单位：m）
   spacing: 0.5
 ############DP优化器
-DpRoadGraph: pass
-###########代价评估器
-TrajectoryCost_conf:
-  # 平滑代价权重
-  k_smooth:
+DpRoadGraph_conf:
+  ###########代价评估器
+  TrajectoryCost_conf:
+    # 路径代价总权重
+    k_path: 1.0
+    k_smooth_l: 0.1 # 一阶平滑
+    k_smooth_dl: 2.0 # 二阶平滑
+    k_smooth_ddl: 1.0 # 三阶平滑
+    k_smooth_dddl: 0.5 # 四阶平滑
+    # 障碍物权重
+    k_obstacle_l: 10.0

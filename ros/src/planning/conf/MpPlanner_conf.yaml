@@ -5,13 +5,13 @@
 # 重新规划的临界距离 m
 available_l: 2
 # 目标速度 m/s
-aim_speed: 5
+aim_speed: 10
 # 规划间隔:s
 step_t: 0.2
 # 规划时间:s
 planning_t: 4
 # 最远规划距离: m (这个值应该等于Slength*Snum)
-planning_s: 20
+planning_s: 40
 # 规划保留时间:s
 keep_t: 1
 # 速度修正系数 (该系数越大减速越明显,最多减到设定值的1/2)
@@ -29,7 +29,7 @@ SamplerPoint_conf:
   # 横向采样个数 (奇数)
   Lnum: 9
   # 纵向采样个数 
-  Snum: 5
+  Snum: 10
   # 时间采样个数 (奇数)
   Tnum: 1
 ##############插值器
