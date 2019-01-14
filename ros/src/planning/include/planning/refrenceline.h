@@ -8,7 +8,7 @@
 #include "planning/map/Image.h"
 #include "planning/map/A_star.h"
 #include "planning/map/road.h"
-
+#include "planning/map/map_convert.h"
 using namespace std;
 using namespace Eigen;
 
@@ -33,7 +33,9 @@ public:
 class Refrenceline_provider{
 public:
     Refrenceline_provider(YAML::Node yaml_conf);
-    void process();
+    void process(car_msgs::trajectory& origin_Trajectory);
     Refrenceline_provider_conf conf;
+    /****************/
     Astar* astar;
+    MapConvert* map_convert;
 };

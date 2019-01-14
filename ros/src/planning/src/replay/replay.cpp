@@ -6,16 +6,16 @@ replay::replay(string path,string io){
         mode =1;
         save_path = path;
         inFile.open(save_path.c_str(), ios::in); // 打开模式可省略
-        char cwd[50];
-        getcwd(cwd,sizeof(cwd));
-        cout<<"inFile open:"<<cwd<<endl;
+        // char cwd[50];
+        // getcwd(cwd,sizeof(cwd));
+        // cout<<"inFile open:"<<cwd<<endl;
     }else if(io=="write"){
         mode = 2;
         save_path = path;
         outFile.open(save_path.c_str(), ios::out); // 打开模式可省略
-        char cwd[50];
-        getcwd(cwd,sizeof(cwd));
-        cout<<"outFile open:"<<cwd<<endl;
+        // char cwd[50];
+        // getcwd(cwd,sizeof(cwd));
+        // cout<<"outFile open:"<<cwd<<endl;
     }else
         mode=0;
 };
@@ -32,9 +32,9 @@ void replay::readinit(string path){
             mode =1;
             save_path = path;
             inFile.open(save_path.c_str(), ios::in); // 打开模式可省略
-            char cwd[50];
-            getcwd(cwd,sizeof(cwd));
-            cout<<"inFile open:"<<cwd<<endl;
+            // char cwd[50];
+            // getcwd(cwd,sizeof(cwd));
+            // cout<<"inFile open:"<<cwd<<endl;
         }
 }
 void replay::writeinit(string path){
@@ -42,9 +42,9 @@ void replay::writeinit(string path){
             mode = 2;
             save_path = path;
             outFile.open(save_path.c_str(), ios::out); // 打开模式可省略
-            char cwd[50];
-            getcwd(cwd,sizeof(cwd));
-            cout<<"outFile open:"<<cwd<<endl;
+            // char cwd[50];
+            // getcwd(cwd,sizeof(cwd));
+            // cout<<"outFile open:"<<cwd<<endl;
         }
 }
 
@@ -193,4 +193,20 @@ bool replay::readOnce(Obstacle& object){
 
     count++;
     return 1;
+}
+
+
+void replay::load_trajectory_from_replay(replay& replayer, car_msgs::trajectory& refrence_line){
+    static int count=0;
+    replayer.reset();       
+    refrence_line.header.seq = count; 
+    refrence_line.trajectory_path.clear();
+    car_msgs::trajectory_point point;
+    while(replayer.readOnce(point))
+    {
+        refrence_line.trajectory_path.push_back(point);
+    }
+    refrence_line.total_path_length = refrence_line.trajectory_path.size();
+    //cout<<"get "<<origin_Trajectory.total_path_length<<" point."<<endl;
+    count++;
 }

@@ -16,9 +16,12 @@ Refrenceline_provider::Refrenceline_provider(YAML::Node yaml_conf){
 	conf.smooth_order = yaml_conf["smooth_order"].as<int>();
 	
 	astar = new Astar(yaml_conf["Astar"]);
+
+	string pgm_yaml_dir = Common::convert_to_debugpath(yaml_conf["pgm_yaml_dir"].as<string>());
+	map_convert = new MapConvert(YAML::LoadFile(pgm_yaml_dir));
 }
 
-void Refrenceline_provider::process(){
+void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
     //原始图像
     Image origin_img;
 	origin_img.Readpgm(conf.origin_image_dir);
@@ -75,30 +78,34 @@ void Refrenceline_provider::process(){
 	//显示
 	astar->show_path(path_origin, &origin_img, 'y');
 	ROS_INFO("Refrenceline_provider::process: path.size:%d", (int)path_origin.size());
-	origin_img.Write24BMP(conf.output_image_dir+"roadout.bmp");
+	origin_img.Write24BMP(conf.output_image_dir+"roadout_smooth.bmp");
 	
-	
-	VectorXf point_x(path_origin.size()), point_y(path_origin.size());
-
+	//生成原始轨迹，转化到pos坐标系
+	origin_Trajectory.header.seq = 1; 
+    origin_Trajectory.trajectory_path.clear();
 	auto it = path_origin.begin();
 	for (int i = 0; it != path_origin.end(); i++, it++){
-		point_x(i) = (*it)->x;
-		point_y(i) = (*it)->y;
+		origin_Trajectory.trajectory_path.push_back(map_convert->MapToPos(**it));
 	}
+	origin_Trajectory.total_path_length = origin_Trajectory.trajectory_path.size();
 
-	Spline_Out csp;
-	Interpolating::Spline2D(point_x, point_y, csp ,conf.spacing);
-
-
-	int len = csp.x.rows();
-	list<MapPoint *> path_finally;
-	for (int i = 0; i < len; i++){
-		int x = csp.x(i);
-		int y = csp.y(i);
-		path_finally.push_back(new MapPoint(x, y));
-	}
-
-	astar->show_path(path_finally, &origin_img, 'g');
-	ROS_INFO("Refrenceline_provider::process: path.size:%d", (int)path_finally.size());
-	origin_img.Write24BMP(conf.output_image_dir+"road_Interpolating.bmp");
+	/**************************在原图上进行插值*********************************/
+	// VectorXf point_x(path_origin.size()), point_y(path_origin.size());
+	// auto it = path_origin.begin();
+	// for (int i = 0; it != path_origin.end(); i++, it++){
+	// 	point_x(i) = (*it)->x;
+	// 	point_y(i) = (*it)->y;
+	// }
+	// Spline_Out csp;
+	// Interpolating::Spline2D(point_x, point_y, csp ,conf.spacing);
+	// int len = csp.x.rows();
+	// list<MapPoint *> path_finally;
+	// for (int i = 0; i < len; i++){
+	// 	int x = csp.x(i);
+	// 	int y = csp.y(i);
+	// 	path_finally.push_back(new MapPoint(x, y));
+	// }
+	// astar->show_path(path_finally, &origin_img, 'g');
+	// ROS_INFO("Refrenceline_provider::process: path.size:%d", (int)path_finally.size());
+	// origin_img.Write24BMP(conf.output_image_dir+"road_Interpolating.bmp");
 }

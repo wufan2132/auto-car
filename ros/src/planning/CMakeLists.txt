@@ -141,6 +141,7 @@ add_subdirectory(src/planner)
 add_subdirectory(src/map)
 add_subdirectory(src/refrenceline)
 add_subdirectory(src/obstacle)
+add_subdirectory(src/debugger)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -178,6 +179,7 @@ target_link_libraries(${PROJECT_NAME}_node
    apollo_tool
    refrenceline
    map
+   debugger
 )
 
 target_link_libraries(${PROJECT_NAME}_node_test
@@ -195,6 +197,7 @@ target_link_libraries(${PROJECT_NAME}_node_test
    apollo_tool
    refrenceline
    map
+   debugger
 )
 #############
 ## Install ##

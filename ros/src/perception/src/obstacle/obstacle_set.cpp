@@ -16,5 +16,5 @@ bool ObstacleSet::refresh(string path){//从replay获得障碍物数据
     {
         obstacle_message.list.push_back(obst);
     }
-    cout<< "Obstacle size:"<< obstacle_message.list.size()<<endl;
+    //ROS_INFO("ObstacleSet::refresh: Obstacle size: %d", (int)obstacle_message.list.size());
 }

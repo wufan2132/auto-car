@@ -25,7 +25,7 @@ public:
     Planner(YAML::Node yaml_conf);
 
     Spline_Out* get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
-    void reset(ObstacleList* obslist){obstaclelist = obslist;};
+    virtual void init(ObstacleList* obslist){obstaclelist = obslist;};
     
     virtual void process(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
              const Spline_Out* refrenceline_Sp,const car_msgs::trajectory& reference_line,
