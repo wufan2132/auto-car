@@ -17,22 +17,22 @@ lon_controller_conf:
     output_saturation_level: 1.0
   speed_pid_conf:
     integrator_enable: true
-    integrator_saturation_level: 2.0
-    kp: 2.5
-    ki: 0.4
+    integrator_saturation_level: 0.3
+    kp: 0.4
+    ki: 0.03
     kd: 0.0
     kaw: 0.0
-    output_saturation_level: 4.0
+    output_saturation_level: 3.0
 
 lat_controller_conf:
   ts: 0.01
   preview_window: 0
   cf: 155494.663
   cr: 155494.663
-  mass_fl: 1.25
-  mass_fr: 1.25
-  mass_rl: 1.25
-  mass_rr: 1.25
+  mass_fl: 340
+  mass_fr: 340
+  mass_rl: 340
+  mass_rr: 340
   eps: 0.01
   matrix_q1: 0.05
   matrix_q2: 0.0
@@ -55,10 +55,10 @@ mpc_controller_conf:
   ts: 0.01
   cf: 155494.663
   cr: 155494.663
-  mass_fl: 1.25
-  mass_fr: 1.25
-  mass_rl: 1.25
-  mass_rr: 1.25
+  mass_fl: 340
+  mass_fr: 340
+  mass_rl: 340
+  mass_rr: 340
   eps: 0.01
   matrix_q1: 0.9
   matrix_q2: 0.0
@@ -77,19 +77,19 @@ mpc_controller_conf:
   throttle_deadzone: 0
 
 vehicle_param:
-  front_edge_to_center: 0.3
-  back_edge_to_center: 0.3
-  left_edge_to_center: 0.15
-  right_edge_to_center: 0.15
+  front_edge_to_center: 3.89
+  back_edge_to_center: 1.043
+  left_edge_to_center: 1.055
+  right_edge_to_center: 1.055
 
-  length: 0.6
-  width: 0.3
-  height: 0.25
+  length: 4.933
+  width: 2.11
+  height: 1.48
   min_turn_radius: 5.05386147161
   max_acceleration: 2.0
   max_deceleration: -6.0
-  max_steer_angle: 17.45    #1000*pi/180
+  max_steer_angle: 8.20304748437
   max_steer_angle_rate: 6.98131700798
-  steer_ratio: 34.48  #1000/29  29 max angle
-  wheel_base: 0.335
-  wheel_rolling_radius: 0.075
+  steer_ratio: 16
+  wheel_base: 2.8448
+  wheel_rolling_radius: 0.335
