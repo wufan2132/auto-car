@@ -14,7 +14,8 @@
 using namespace std;
 using namespace Eigen;
 
-
+#define DOUBLE_MAX 99999.9
+#define PI 3.14159265354
 extern bool DEBUG;
 
 class Common{
@@ -22,7 +23,7 @@ public:
     static void debug_check(){
     //判断是否为debug模式
         char cwd[50];
-        getcwd(cwd,sizeof(cwd));
+        char *s = getcwd(cwd,sizeof(cwd));
         string runpath = cwd;
         if(runpath.find(".ros")==std::string::npos)
             DEBUG = 1;

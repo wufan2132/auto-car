@@ -25,10 +25,12 @@ public:
 	/*         sN,s_dN,s_ddN,s_dddN           */
 	static void cal_point_quartic4(const VectorXf& QP, const VectorXf& t, MatrixXf& St);
 	static void cal_point_quartic4(const VectorXf& QP, double t, VectorXf& Xt);
+	static double cal_point_quartic4(const VectorXf& QP, double t);
 	/*横向五次多项式拟合*/
 	static VectorXf quintic5_polynomial(float now_hs, float now_hs_d, float now_hs_dd, float aim_hs, float aim_hs_d, float aim_hs_dd, float t);
 	static void cal_point_quintic5(const VectorXf& QP, const VectorXf& t, MatrixXf& Xt);
 	static void cal_point_quintic5(const VectorXf& QP, double t, VectorXf& Xt);
+	static double cal_point_quintic5(const VectorXf& QP, double t);
 	/*N多项式优化*/
 	static void gradient_descent(const VectorXf& y,VectorXf& QP, int dime);
 	static void gradient_descent_optimizer(VectorXf& y,int dime = 2);

@@ -26,6 +26,7 @@ void DpStGraph::process(const vector<Car_State_SL>& path_waypoints,
 void DpStGraph::process(const vector<vector<Car_State_SL> >& path_waypoints,
                             vector<StGraphNode> *min_cost_path){
 //生成图节点
+graph_nodes.clear();
 graph_nodes.emplace_back();
 graph_nodes.back().emplace_back(init_SLpoint);//插入初始点
 StGraphNode &front = graph_nodes.front().front();

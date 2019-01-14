@@ -63,9 +63,9 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
 }
 
 //
-pair<double, double> Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line, double x, double y, int start){
+pair<double, double> Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line, double x, double y, int start, int end){
     pair<double, double> sl;
-    int end = start + FINDNUMS;
+    //int end = start + FINDNUMS;
     int pos = 0;
     while(end - start > 1){
         pos = (start + end)/2;

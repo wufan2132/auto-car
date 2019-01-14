@@ -48,7 +48,14 @@
         "type_traits": "cpp",
         "tuple": "cpp",
         "typeindex": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "csignal": "cpp",
+        "cstdarg": "cpp",
+        "bitset": "cpp",
+        "codecvt": "cpp",
+        "condition_variable": "cpp",
+        "future": "cpp",
+        "mutex": "cpp"
     },
     "python.pythonPath": "/usr/bin/python"
 }

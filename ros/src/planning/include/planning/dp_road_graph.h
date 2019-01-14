@@ -5,6 +5,8 @@
 #include "planning/sampler.h"
 #include "planning/Fitting.h"
 #include "planning/trajectory_cost.h"
+#include "planning/obstacle/obstacle_list.h"
+#include "planning/ConCost.h"
 
 using namespace Eigen;
 using namespace std;
@@ -24,7 +26,7 @@ public:
 
     void UpdateCost(const RoadGraphNode *pre_node,
                     VectorXf& QP5,
-                    double cost){
+                    ConCost cost){
         if(cost<minCost||min_pre == NULL){
             minCost = cost;
             min_pre = pre_node;
@@ -35,12 +37,15 @@ public:
     const RoadGraphNode* next = NULL;
     const RoadGraphNode* min_pre = NULL;
     VectorXf minQP5;
-    double minCost = INT_MAX;
+    ConCost minCost;
 };
 
 class DpRoadGraph{
 public:
     DpRoadGraph(YAML::Node yaml_conf);
+
+    void init(ObstacleList* obslist);
+
     void reset(Car_State_SL init_SLpoint,Car_State_SL car_status, int total_level); //
     void process(const vector<Car_State_SL>& path_waypoints,
                     RoadGraphNode* min_cost_Node);
@@ -55,4 +60,7 @@ public:
     TrajectoryCost* trajectorycost;
     Car_State_SL status_sl;
     Car_State_SL init_SLpoint;
+
+    /**********引用模块*************/
+    ObstacleList* obstaclelist;
 };
