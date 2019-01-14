@@ -6,7 +6,6 @@ Panels:
       Expanded:
         - /TF1
         - /TF1/Frames1
-        - /Submaps1
         - /Submaps1/Submaps1
         - /PointCloud21
         - /refrenceline_Marker1
@@ -68,8 +67,6 @@ Visualization Manager:
           Value: true
         odom:
           Value: true
-        vertical_laser_link:
-          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -82,8 +79,6 @@ Visualization Manager:
               horizontal_laser_link:
                 {}
               imu_link:
-                {}
-              vertical_laser_link:
                 {}
       Update Interval: 0
       Value: true
@@ -101,17 +96,13 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+          Value: true
         horizontal_laser_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
         imu_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        vertical_laser_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -158,9 +149,21 @@ Visualization Manager:
           29.70: true
           3.70: true
           30.70: true
-          31.59: true
-          32.24: true
+          31.70: true
+          32.70: true
+          33.70: true
+          34.70: true
+          35.70: true
+          36.70: true
+          37.70: true
+          38.70: true
+          39.70: true
           4.70: true
+          40.70: true
+          41.70: true
+          42.70: true
+          43.44: true
+          44.9: true
           5.70: true
           6.70: true
           7.70: true
@@ -169,7 +172,7 @@ Visualization Manager:
           Submap Pose Markers: false
           Value: true
         Trajectory 1:
-          0.42: true
+          0.36: true
           Submap Pose Markers: false
           Value: true
       Topic: /submap_list
@@ -278,21 +281,26 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Angle: -0.00999999978
-      Class: rviz/TopDownOrtho
+      Class: rviz/XYOrbit
+      Distance: 3.59634542
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
+      Focal Point:
+        X: 0
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Scale: 127.660973
+      Pitch: 0.785398185
       Target Frame: <Fixed Frame>
-      Value: TopDownOrtho (rviz)
-      X: -1.00007439
-      Y: -1.11307204
+      Value: XYOrbit (rviz)
+      Yaw: 0.785398185
     Saved: ~
 Window Geometry:
   Displays:

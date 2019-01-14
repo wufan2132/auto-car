@@ -75,8 +75,6 @@ mpc_controller_conf:
   standstill_acceleration: -0.2
   brake_deadzone: 0
   throttle_deadzone: 1
-
-
 #
 #     ^ y
 #     +      

@@ -23,17 +23,17 @@
 
   <link name="imu_link">
     <visual>
-      <origin xyz="0 0 0" />
+      <origin xyz="-0.15 0 0.15" />
       <geometry>
         <box size="0.06 0.04 0.02" />
       </geometry>
-      <material name="orange" />
+      <material name="gray" />
     </visual>
   </link>
 
   <link name="horizontal_laser_link">
     <visual>
-      <origin xyz="0 0 0" />
+      <origin xyz="0 0 0.2" />
       <geometry>
         <cylinder length="0.05" radius="0.03" />
       </geometry>
@@ -41,7 +41,7 @@
     </visual>
   </link>
 
-  <link name="vertical_laser_link">
+  <!--link name="vertical_laser_link">
     <visual>
       <origin xyz="0 0 0" />
       <geometry>
@@ -49,9 +49,17 @@
       </geometry>
       <material name="gray" />
     </visual>
-  </link>
+  </link-->
 
-  <link name="base_link" />
+  <link name="base_link">
+      <visual>
+      <origin xyz="0 0 0" />
+      <geometry>
+        <box size="0.6 0.3 0.25" />
+      </geometry>
+      <material name="orange" />
+    </visual>
+  </link>
 
   <joint name="imu_link_joint" type="fixed">
     <parent link="base_link" />
@@ -62,12 +70,12 @@
   <joint name="horizontal_laser_link_joint" type="fixed">
     <parent link="base_link" />
     <child link="horizontal_laser_link" />
-    <origin xyz="0.1007 0 0.0558" />
+    <origin xyz="0.0 0 0.0" />
   </joint>
 
-  <joint name="vertical_laser_link_joint" type="fixed">
+  <!--joint name="vertical_laser_link_joint" type="fixed">
     <parent link="base_link" />
     <child link="vertical_laser_link" />
     <origin rpy="0 -1.570796 3.141593" xyz="0.1007 0 0.1814" />
-  </joint>
+  </joint-->
 </robot>
