@@ -7,6 +7,7 @@
 #include "car_msgs/trajectory_point.h"
 #include "car_msgs/base_obstacle.h"
 #include "car_msgs/base_obstacle_list.h"
+#include "sensor_msgs/PointCloud2.h"
 #include "yaml-cpp/yaml.h"
 #include <string>
 #include <Eigen/Dense>

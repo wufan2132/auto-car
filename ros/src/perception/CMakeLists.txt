@@ -13,7 +13,11 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   car_msgs
   nav_msgs
+  sensor_msgs
   geometry_msgs
+  pcl_ros
+  PCL
+  pcl_conversions
 )
 
 ## System dependencies are found with CMake's conventions
@@ -130,6 +134,7 @@ include_directories(
 # )
 add_subdirectory(src/obstacle)
 add_subdirectory(src/perception)
+add_subdirectory(src/lidar)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -156,6 +161,7 @@ target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    perception
    obstacle_tool
+   lidar_handle
    yaml-cpp
 )
 

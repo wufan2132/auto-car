@@ -17,4 +17,9 @@ bool ObstacleSet::refresh(string path){//从replay获得障碍物数据
         obstacle_message.list.push_back(obst);
     }
     //ROS_INFO("ObstacleSet::refresh: Obstacle size: %d", (int)obstacle_message.list.size());
+    return 1;
+}
+
+bool ObstacleSet::refresh(const sensor_msgs::PointCloud2& msg, LidarHandle* handle){
+    handle->process(msg, obstacle_message);
 }
