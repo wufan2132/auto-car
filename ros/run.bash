@@ -25,7 +25,6 @@ elif [[ "X$1" != "X" && "X$2" != "X" && "X$3" == "Xs" ]];then
     export ROS_MASTER_URI=http://$master_name:11311
     source devel/setup.bash
     echo "ROS_HOSTNAME=$local_name, ROS_MASTER_URI=http://$master_name:11311 , source devel/setup.bash"
-    exit 0
 else
     echo "error! please run:
     ./run.bash pc pc
@@ -40,13 +39,13 @@ fi
 
 echo "local:$local_name , master:$master_name"
 
-if [[ "$local_name" == "pc" && "$master_name" == "pc" ]];then
+if [[ "$local_name" == "pc" && "$master_name" == "pc" && "X$3" != "Xs" ]];then
     echo "running on pc"
     roslaunch launch/auto-car-pc.launch
-elif [[ "$local_name" == 'pc' && "$master_name" == 'tx2' ]];then
+elif [[ "$local_name" == 'pc' && "$master_name" == 'tx2' && "X$3" != "Xs" ]];then
     echo "running on pc for tx2"
     roslaunch launch/auto-car-pc-for-tx2.launch
-elif [[ "$local_name" == 'tx2' && "$master_name" == 'tx2' ]];then
+elif [[ "$local_name" == 'tx2' && "$master_name" == 'tx2' && "X$3" != "Xs" ]];then
     echo "running on tx2"
     roslaunch launch/auto-car-tx2.launch
 fi
