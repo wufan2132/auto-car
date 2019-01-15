@@ -20,6 +20,8 @@ int main(int argc, char **argv)
     string path = Common::convert_to_debugpath(PERCEPTION_CONF_DIR);
     Car_Perception perception(YAML::LoadFile(path));
     /*订阅*/
+    perception.pointcloud2_subscriber = 
+        car_perception_NodeHandle.subscribe("scan_matched_points2", 1, &Car_Perception::pointcloud2_callback,&perception);
     /*发布*/
     perception.obstacle_publisher = 
         car_perception_NodeHandle.advertise<car_msgs::base_obstacle_list>("obstacle_topic", 1000);
