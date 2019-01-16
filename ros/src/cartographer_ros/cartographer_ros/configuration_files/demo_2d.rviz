@@ -115,7 +115,7 @@ Visualization Manager:
       Value: true
       Visual Enabled: true
     - Class: Submaps
-      Enabled: false
+      Enabled: true
       Fade-out distance: 1
       High Resolution: true
       Low Resolution: false
@@ -124,10 +124,62 @@ Visualization Manager:
       Submaps:
         All: true
         All Submap Pose Markers: false
+        Trajectory 0:
+          0.70: true
+          1.70: true
+          10.70: true
+          11.70: true
+          12.70: true
+          13.70: true
+          14.70: true
+          15.70: true
+          16.70: true
+          17.70: true
+          18.70: true
+          19.70: true
+          2.70: true
+          20.70: true
+          21.70: true
+          22.70: true
+          23.70: true
+          24.70: true
+          25.70: true
+          26.70: true
+          27.70: true
+          28.70: true
+          29.70: true
+          3.70: true
+          30.70: true
+          31.70: true
+          32.70: true
+          33.70: true
+          34.70: true
+          35.70: true
+          36.70: true
+          37.70: true
+          38.70: true
+          39.70: true
+          4.70: true
+          40.70: true
+          41.70: true
+          42.70: true
+          43.44: true
+          44.9: true
+          5.70: true
+          6.70: true
+          7.70: true
+          8.70: true
+          9.70: true
+          Submap Pose Markers: false
+          Value: true
+        Trajectory 1:
+          0.5: true
+          Submap Pose Markers: false
+          Value: true
       Topic: /submap_list
       Tracking frame: base_link
       Unreliable: false
-      Value: false
+      Value: true
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -140,7 +192,7 @@ Visualization Manager:
       Color: 0; 255; 0
       Color Transformer: FlatColor
       Decay Time: 0
-      Enabled: false
+      Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
@@ -157,7 +209,7 @@ Visualization Manager:
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
-      Value: false
+      Value: true
     - Class: rviz/MarkerArray
       Enabled: false
       Marker Topic: /trajectory_node_list
@@ -219,7 +271,7 @@ Visualization Manager:
       Marker Topic: /obstacles_Marker
       Name: obstacles_Marker
       Namespaces:
-        {}
+        my_namespace: true
       Queue Size: 100
       Value: true
   Enabled: true
@@ -246,26 +298,21 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/XYOrbit
-      Distance: 65.8632202
+      Angle: 0
+      Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Focal Point:
-        X: 6.64794827
-        Y: -1.15592122
-        Z: -5.68240466e-06
-      Focal Shape Fixed Size: true
-      Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: -0.584601998
+      Scale: 61.3039436
       Target Frame: <Fixed Frame>
-      Value: XYOrbit (rviz)
-      Yaw: 0.715397358
+      Value: TopDownOrtho (rviz)
+      X: -1.74413323
+      Y: 3.83345604
     Saved: ~
 Window Geometry:
   Displays:

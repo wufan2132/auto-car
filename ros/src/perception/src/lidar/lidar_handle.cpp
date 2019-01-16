@@ -1,8 +1,8 @@
 #include "perception/lidar_handle.h"
 
 #define DATATYPE float  
-#define POINT_D 0.5
-#define MAX_PNUM 5
+#define POINT_D 0.1
+#define MAX_PNUM 3
 
 LidarHandle::LidarHandle(YAML::Node yaml_conf){
 

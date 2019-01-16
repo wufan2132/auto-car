@@ -21,13 +21,13 @@ speed_min_limit: 0.3
 ##############采样器
 SamplerPoint_conf:
   # 横向间隔 m
-  Lwidth: 0.1
+  Lwidth: 0.2
   # 纵向间隔 m
-  Slength: 1
+  Slength: 0.5
   # 特征时间 s (最好与规划时间相同)
   Tlength: 4
   # 横向采样个数 (奇数)
-  Lnum: 9
+  Lnum: 15
   # 纵向采样个数 
   Snum: 5
   # 时间采样个数 (奇数)
