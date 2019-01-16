@@ -11,7 +11,7 @@ inline double Dangle(double ang1, double ang2){
 // *与车体前进方向的夹角小于一定值
 bool ObstacleMethod::isconcern(const car_msgs::base_obstacle& b_obst,
                                 const car_msgs::trajectory_point& car_status,
-                                const ObstacleList_conf& conf){
+                                const ObstacleList_conf* conf){
     double dx = b_obst.xa[0] - car_status.x;
     double dy = b_obst.ya[0] - car_status.y;
     double theta = Interpolating::yaw(dx, dy);
@@ -21,7 +21,7 @@ bool ObstacleMethod::isconcern(const car_msgs::base_obstacle& b_obst,
     // cout<<"distance_xy:" <<distance_xy<<endl;
     // cout<<"obstacle.theta:" <<theta<<endl;
     // cout<<"car_status.theta:" <<car_status.theta<<endl;
-    if(abs(dtheta)<DegtoRad(conf.visible_angle)&&distance_xy<conf.visible_distance)
+    if(dtheta<DegtoRad(conf->visible_angle)&&distance_xy<conf->visible_distance)
         return 1;
     else
         return 0;

@@ -11,6 +11,8 @@ refrenceline_source: replay
 period: 0.5
 #等待时间: s (-1 表示不等待直接运行planning模块)
 wait_time: 10
+#########坐标转换
+find_len: 100 #每次向后寻找多少个点
 #########replay
 trajectory_dir: ../my-code/auto-car/ros/src/planning/file/trajectory/trajectory.csv
 sampling_period: 100

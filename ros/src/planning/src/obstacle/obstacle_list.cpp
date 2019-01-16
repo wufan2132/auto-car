@@ -28,7 +28,7 @@ bool ObstacleList::refresh(const car_msgs::base_obstacle_list& obstacle_list){//
 void ObstacleList::process(){
     list.clear();
     for(auto obs : obstacle_msg.list){
-        if(ObstacleMethod::isconcern(obs, *car_status_ptr, conf)){
+        if(ObstacleMethod::isconcern(obs, *car_status_ptr, &conf)){
             list.emplace_back(obs);
             ObstacleMethod::XTtoSL(*reference_line_ptr, *status_sl_ptr, list.back());
             cout<<"obstacle "
