@@ -5,6 +5,7 @@
 #include "planning/Interpolating.h"
 #include "planning/car_model.h"
 #include "planning/Fitting.h"
+#include "planning/obstacle/obstacle_list.h"
 
 class ObstacleList_conf;
 
