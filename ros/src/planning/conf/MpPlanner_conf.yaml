@@ -48,3 +48,6 @@ DpRoadGraph_conf:
     k_smooth_dddl: 0.5 # 四阶平滑
     # 障碍物权重
     k_obstacle_l: 10.0
+    ignore_obs_d: 1
+    critical_obs_d: 0.1
+
