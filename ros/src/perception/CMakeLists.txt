@@ -4,6 +4,9 @@ project(perception)
 # Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
+find_package(PCL REQUIRED)
+include_directories(${PCL_INCLUDE_DIRS})
+link_directories(${PCL_LIBRARY_DIRS})
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -16,7 +19,6 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   geometry_msgs
   pcl_ros
-  PCL
   pcl_conversions
 )
 
@@ -163,6 +165,7 @@ target_link_libraries(${PROJECT_NAME}_node
    obstacle_tool
    lidar_handle
    yaml-cpp
+   ${PCL_LIBRARIES}
 )
 
 #############
