@@ -12,7 +12,10 @@ typedef pair<double, double> XY;
 
 
 class LidarHandle_conf{
-
+public:
+    double devide_d2;
+    double max_obs_num;
+    double default_r;
 };
 
 

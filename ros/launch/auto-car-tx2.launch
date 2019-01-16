@@ -9,6 +9,8 @@
   </node>
   <node pkg="planning" type="planning_node" name="planning_node" output="screen" >
   </node>
+  <node pkg="perception" type="perception_node" name="perception_node" output="screen" >
+  </node>
   <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
   </node>
 </launch>

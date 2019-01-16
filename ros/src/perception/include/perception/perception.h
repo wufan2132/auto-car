@@ -12,6 +12,7 @@ using namespace std;
 class Car_Perception_Conf{
 public:
     double period;
+    string obstacle_source;
 };
 
 class Car_Perception{

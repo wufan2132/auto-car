@@ -1,11 +1,11 @@
 #include "perception/lidar_handle.h"
 
-#define DATATYPE float  
-#define POINT_D 0.5
-#define MAX_PNUM 5
 
 LidarHandle::LidarHandle(YAML::Node yaml_conf){
-
+     double devide_d = yaml_conf["devide_d"].as<double>();
+     conf.devide_d2 = devide_d*devide_d;
+     conf.max_obs_num = yaml_conf["max_obs_num"].as<int>();
+     conf.default_r = yaml_conf["default_r"].as<double>();
 }
 
 void LidarHandle::process(const sensor_msgs::PointCloud2& msg,
@@ -17,7 +17,7 @@ void LidarHandle::process(const sensor_msgs::PointCloud2& msg,
     pcl::fromPCLPointCloud2(pcl_pc2,*temp_cloud);
     int len = temp_cloud->points.size();
     //
-    cout<<"convert finnished!"<<endl;
+    //cout<<"convert finnished!"<<endl;
     XY cur,start,last;
     int point_count = 0;
     obstacle_list.list.clear();
@@ -25,16 +25,17 @@ void LidarHandle::process(const sensor_msgs::PointCloud2& msg,
     for(int i=0;i<len;i++){
         cur.first = temp_cloud->points[i].x;
         cur.second = temp_cloud->points[i].y;
-        if((cur.first-last.first)*(cur.first-last.first)+(cur.second-last.second)*(cur.second-last.second)>POINT_D
-        ||point_count>MAX_PNUM||point_count == 0){
+        if((cur.first-last.first)*(cur.first-last.first)
+            +(cur.second-last.second)*(cur.second-last.second)>conf.devide_d2
+        ||point_count>=conf.max_obs_num||point_count == 0){
             //创造障碍物
             if(creat_obstacle(start, last, point_count, obst)){
                 obstacle_list.list.push_back(obst);
-                cout<<obst.header.seq<<"."
-                <<"x:"<<obst.xa[0]
-                <<"y:"<<obst.ya[0]
-                <<"r:"<<obst.a
-                <<endl;
+                // cout<<obst.header.seq<<"."
+                // <<"x:"<<obst.xa[0]
+                // <<"y:"<<obst.ya[0]
+                // <<"r:"<<obst.a
+                // <<endl;
             }
             point_count = 1;
             //
@@ -91,7 +92,7 @@ bool LidarHandle::creat_obstacle(XY start,XY end,
     obst.xa[0] = (start.first + end.first)/2;
     obst.ya[0] = (start.second + end.second)/2;
     if(point_count==1)
-        obst.a = 0.01;
+        obst.a = conf.default_r;
     else
         obst.a = sqrt((start.first - end.first)*(start.first - end.first) 
             + (start.second - end.second)*(start.second - end.second));
