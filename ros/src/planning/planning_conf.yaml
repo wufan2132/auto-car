@@ -18,9 +18,9 @@ sampling_period: 100
 obstacle_list:
   obstacle_path: ../my-code/auto-car/ros/src/planning/file/obstacle/obstacle_list.csv
   # 障碍物的可视距离，只关注在该距离内的障碍物
-  visible_distance: 20 
+  visible_distance: 2
   # 障碍物的可视角度，只关注与车正前方夹角小于这个值内的障碍物
-  visible_angle: 180
+  visible_angle: 70
 #########refrenceline_provider
 refrenceline_provider:
   #起点
