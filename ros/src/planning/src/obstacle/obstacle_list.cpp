@@ -29,13 +29,13 @@ void ObstacleList::process(){
         if(ObstacleMethod::isconcern(obs, *car_status_ptr, conf)){
             list.emplace_back(obs);
             ObstacleMethod::XTtoSL(*reference_line_ptr, *status_sl_ptr, list.back());
-            // cout<<"obstacle "
-            // <<list.back().header.seq<<"."
-            // << list.back().xa[0]<<","
-            // << list.back().ya[0]<<","
-            // << list.back().sa[0]<<","
-            // << list.back().la[0]<<","
-            // <<endl;
+            cout<<"obstacle "
+            <<list.back().header.seq<<"."
+            << list.back().xa[0]<<","
+            << list.back().ya[0]<<","
+            << list.back().sa[0]<<","
+            << list.back().la[0]<<","
+            <<endl;
         }
     }
 }
