@@ -11,6 +11,8 @@ refrenceline_source: replay
 period: 0.5
 #等待时间: s (-1 表示不等待直接运行planning模块)
 wait_time: 10
+#########坐标转换
+find_len: 100 #每次向后寻找多少个点
 #########replay
 trajectory_dir: ../my-code/auto-car/ros/src/planning/file/trajectory/trajectory_tx2.csv
 sampling_period: 100
@@ -18,7 +20,7 @@ sampling_period: 100
 obstacle_list:
   obstacle_path: ../my-code/auto-car/ros/src/planning/file/obstacle/obstacle_list.csv
   # 障碍物的可视距离，只关注在该距离内的障碍物
-  visible_distance: 2
+  visible_distance: 3
   # 障碍物的可视角度，只关注与车正前方夹角小于这个值内的障碍物
   visible_angle: 70
 #########refrenceline_provider

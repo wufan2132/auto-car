@@ -17,13 +17,12 @@ bool ObstacleMethod::isconcern(const car_msgs::base_obstacle& b_obst,
     double theta = Interpolating::yaw(dx, dy);
     double distance_xy = sqrt(dx*dx+dy*dy);
     double dtheta = Dangle(theta, car_status.theta);
-    //cout<< "obstacle "<<b_obst.header.seq<<":"<<endl;
-    //cout<<"distance_xy:" <<distance_xy<<endl;
-    //cout<<"obstacle.theta:" <<theta<<endl;
-    //cout<<"car_status.theta:" <<car_status.theta<<endl;
-    if(abs(dtheta)<DegtoRad(conf->visible_angle)&&distance_xy<conf->visible_distance){
+    // cout<< "obstacle "<<b_obst.header.seq<<":"<<endl;
+    // cout<<"distance_xy:" <<distance_xy<<endl;
+    // cout<<"obstacle.theta:" <<theta<<endl;
+    // cout<<"car_status.theta:" <<car_status.theta<<endl;
+    if(dtheta<DegtoRad(conf->visible_angle)&&distance_xy<conf->visible_distance)
         return 1;
-}
     else
         return 0;
 }
