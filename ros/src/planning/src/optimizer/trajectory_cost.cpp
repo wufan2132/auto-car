@@ -9,6 +9,9 @@ TrajectoryCost::TrajectoryCost(YAML::Node yaml_conf){
     conf.k_smooth_dddl = yaml_conf["k_smooth_dddl"].as<double>();
 
     conf.k_obstacle_l = yaml_conf["k_obstacle_l"].as<double>();
+    //
+    conf.ignore_obs_d = yaml_conf["ignore_obs_d"].as<double>();
+    conf.critical_obs_d= yaml_conf["critical_obs_d"].as<double>();
 }
 
 
@@ -124,8 +127,6 @@ double TrajectoryCost::nearcost(const VectorXf& QP5,
 
 
 /****************曲线与障碍物********************/
-#define CRITICAL_DISTANCE 0.5
-#define IGNORE_DISTANCE 2.0
 double TrajectoryCost::obstaclecost(const VectorXf& QP5,
                                     const double start_s,
                                     const double end_s){
@@ -134,12 +135,12 @@ double TrajectoryCost::obstaclecost(const VectorXf& QP5,
     for(int i=0;i<obstaclelist->list.size();i++){
         distance = ObstacleMethod::distance_Ob_QP(obstaclelist->list[i],QP5,start_s,end_s,0)
                     - obstaclelist->list[i].a;
-        if(distance<CRITICAL_DISTANCE)
+        if(distance<conf.critical_obs_d)
             cost += MAX_COST;
-        else if(distance>IGNORE_DISTANCE)
+        else if(distance>conf.ignore_obs_d)
             cost += 0;
         else 
-            cost += 100*(IGNORE_DISTANCE - distance);
+            cost += 100*(conf.ignore_obs_d - distance);
     }
     return cost;
 }

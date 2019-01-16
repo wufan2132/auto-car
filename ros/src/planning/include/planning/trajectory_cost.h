@@ -13,6 +13,8 @@ public:
     double k_smooth_dddl=1.0; //三阶导
 
     double k_obstacle_l=1.0;//障碍距离
+    double ignore_obs_d = 2;//
+    double critical_obs_d= 0.5;
 };
 
 
