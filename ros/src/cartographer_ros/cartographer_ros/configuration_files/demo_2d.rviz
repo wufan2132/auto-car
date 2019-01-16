@@ -7,9 +7,10 @@ Panels:
         - /TF1
         - /TF1/Frames1
         - /Submaps1/Submaps1
-        - /PointCloud21
         - /refrenceline_Marker1
         - /trajectory_Marker1
+        - /samplers_Marker1
+        - /obstacles_Marker1
       Splitter Ratio: 0.600670993
     Tree Height: 595
   - Class: rviz/Selection
@@ -172,7 +173,7 @@ Visualization Manager:
           Submap Pose Markers: false
           Value: true
         Trajectory 1:
-          0.36: true
+          0.5: true
           Submap Pose Markers: false
           Value: true
       Topic: /submap_list
@@ -257,6 +258,22 @@ Visualization Manager:
         my_namespace: true
       Queue Size: 100
       Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /samplers_Marker
+      Name: samplers_Marker
+      Namespaces:
+        my_namespace: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /obstacles_Marker
+      Name: obstacles_Marker
+      Namespaces:
+        my_namespace: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 100; 100; 100
@@ -281,26 +298,21 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/XYOrbit
-      Distance: 3.59634542
+      Angle: 0
+      Class: rviz/TopDownOrtho
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
-      Focal Shape Fixed Size: true
-      Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.785398185
+      Scale: 61.3039436
       Target Frame: <Fixed Frame>
-      Value: XYOrbit (rviz)
-      Yaw: 0.785398185
+      Value: TopDownOrtho (rviz)
+      X: -1.74413323
+      Y: 3.83345604
     Saved: ~
 Window Geometry:
   Displays:
