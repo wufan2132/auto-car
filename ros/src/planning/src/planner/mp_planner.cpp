@@ -254,10 +254,10 @@ void MpPlanner::path_generate(const MatrixXf& qpsl,const VectorXf& qpts,
     // cout<<"qpsl"<<endl;
     // cout<<qpsl<<endl;
 
-    // cout<<"Sout:" <<endl;
-    // cout<<S_out<<endl;
-    // cout<<"Lout:" <<endl;
-    // cout<<L_out<<endl;
+    cout<<"Sout:" <<endl;
+    cout<<S_out<<endl;
+    cout<<"Lout:" <<endl;
+    cout<<L_out<<endl;
     //生成轨迹
     TrajectoryGeneration::getTrajectory_from_SLT(S_out,L_out,T,refrenceline_Sp, trajectory_now, start_sl.start_pos);
  }

@@ -136,11 +136,11 @@ double TrajectoryCost::obstaclecost(const VectorXf& QP5,
         distance = ObstacleMethod::distance_Ob_QP(obstaclelist->list[i],QP5,start_s,end_s,0)
                     - obstaclelist->list[i].a;
         if(distance<conf.critical_obs_d)
-            cost += MAX_COST;
+            cost = max(cost, MAX_COST);
         else if(distance>conf.ignore_obs_d)
-            cost += 0;
+            cost = max(cost, 0.0);
         else 
-            cost += 100*(conf.ignore_obs_d - distance);
+            cost = max(cost, conf.ignore_obs_d - distance);
     }
     return cost;
 }
