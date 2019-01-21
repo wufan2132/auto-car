@@ -2,8 +2,8 @@
 
 #define SPEED_PWM_BASE 3000
 #define DIR_PWM_BASE 3000
-#define SPEED_LIMMIT_U 150
-#define SPEED_LIMMIT_D -500
+#define SPEED_LIMMIT_U 1000
+#define SPEED_LIMMIT_D -1000
 //void Speed_Loop(u32 Time);
 //void Direction_Loop(u32 Time);
 void PWM_output();
@@ -39,7 +39,7 @@ void Control_stop(){
 void PWM_output(){
 		int Motor_speed = CarControl.throttlt - CarControl.brake;
 		Motor_speed = Math.Constrain(Motor_speed, SPEED_LIMMIT_U, SPEED_LIMMIT_D);
-		Motor.PWM->PWM1 = SPEED_PWM_BASE - Motor_speed;
+		Motor.PWM->PWM1 = SPEED_PWM_BASE + Motor_speed;
 		Motor.PWM->PWM2 = CarControl.steer + DIR_PWM_BASE;
 		Motor.Output(False);
 }

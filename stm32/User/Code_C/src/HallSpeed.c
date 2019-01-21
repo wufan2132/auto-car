@@ -122,7 +122,7 @@ void  speed_measure_init(void)
 //描    述：采集三个编码器速度，数据存放在speed_value中
 //入口参数 Time: 定时器时间
 //出口参数：无
-#define SPEED_K 0.00003419154101275344
+#define SPEED_K 0.000020202700427
 void speed_measure_get(u16 Time)
 {
 	int32_t count = 0;
@@ -154,7 +154,7 @@ void speed_measure_get(u16 Time)
 	else if(count < SPEED_MAX)
 		speed = -count;//反转
 	TIM_SetCounter(TIM8,0); 
-	speed_measure.Value = speed * SPEED_K *1000.0 /(float)Time;
+	speed_measure.Value = speed* SPEED_K *1000.0 /(float)Time;
 	speed_measure.distant += speed_measure.Value;
 }
 
