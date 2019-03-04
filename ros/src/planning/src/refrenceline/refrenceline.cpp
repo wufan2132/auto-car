@@ -2,10 +2,10 @@
 
 
 Refrenceline_provider::Refrenceline_provider(YAML::Node yaml_conf){
-	conf.start_point_x = yaml_conf["start_point_x"].as<int>();
-	conf.start_point_y = yaml_conf["start_point_y"].as<int>();
-	conf.end_point_x = yaml_conf["end_point_x"].as<int>();
-	conf.end_point_y = yaml_conf["end_point_y"].as<int>();
+	conf.start_point_x = yaml_conf["start_point_x"].as<double>();
+	conf.start_point_y = yaml_conf["start_point_y"].as<double>();
+	conf.end_point_x = yaml_conf["end_point_x"].as<double>();
+	conf.end_point_y = yaml_conf["end_point_y"].as<double>();
 
     conf.origin_image_dir = Common::convert_to_debugpath(yaml_conf["origin_image_dir"].as<string>());
     conf.output_image_dir = Common::convert_to_debugpath(yaml_conf["output_image_dir"].as<string>());
@@ -27,10 +27,17 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 	origin_img.Readpgm(conf.origin_image_dir);
 	//二值化
 	origin_img.convert_twovalue();
-
-	MapPoint origin_start(origin_img.convert_from_huatu(conf.start_point_x, conf.start_point_y));
-	MapPoint origin_end(origin_img.convert_from_huatu(conf.end_point_x, conf.end_point_y));
-		//标记起点与终点
+	//初始化起点与终点
+	// MapPoint origin_start(origin_img.convert_from_huatu(conf.start_point_x, conf.start_point_y));
+	// MapPoint origin_end(origin_img.convert_from_huatu(conf.end_point_x, conf.end_point_y));
+	car_msgs::trajectory_point start_point,end_point;
+	start_point.x = conf.start_point_x;
+	start_point.y = conf.start_point_y;
+	end_point.x = conf.end_point_x;
+	end_point.y = conf.end_point_y;
+	MapPoint origin_start = map_convert->PosToMap(start_point);
+	MapPoint origin_end = map_convert->PosToMap(end_point);
+	//标记起点与终点
 	origin_img.drawPoint(origin_start.x, origin_start.y, 'g', 10);
 	origin_img.drawPoint(origin_end.x, origin_end.y, 'g', 10);
 
@@ -63,6 +70,10 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 	astar->setBMP(&img); 
 	//A*算法找寻路径 
 	list<MapPoint *> path = astar->GetPath(start, end, false);
+	if(path.size()==0){
+		ROS_ERROR("Refrenceline_provider::process: can not find a available path!");
+		return;
+	}
 	//显示
 	astar->show_path(path, astar->img);
 	img.Write24BMP(conf.output_image_dir+"roadout_pool.bmp");

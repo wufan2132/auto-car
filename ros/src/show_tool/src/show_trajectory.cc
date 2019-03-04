@@ -30,6 +30,9 @@ car_msgs::base_obstacle_list obstacles_msg_list;
 ros::Publisher samplers_markerPub;
 visualization_msgs::Marker samplers_marker_list;
 car_msgs::trajectory samplers_msg_list;
+
+float localization_msg_position_x = 0;
+float localization_msg_position_y = 0;
 void localization_topic_callback(const car_msgs::localization::ConstPtr &localization_msg){
     double time_now = ros::Time::now().toSec();
     Eigen::Matrix3d R;
@@ -84,9 +87,18 @@ void localization_topic_callback(const car_msgs::localization::ConstPtr &localiz
         localization_marker_list.color.g = 1.0;
         localization_marker_list.color.b = 0.0;
 
-        if(localization_marker_list.points.size() > LONCALIZATION_PATH_LENGTH)
-            localization_marker_list.points.erase(localization_marker_list.points.begin());
-        localization_marker_list.points.push_back(localization_msg->position);
+        // if(localization_marker_list.points.size() > LONCALIZATION_PATH_LENGTH)
+        //     localization_marker_list.points.erase(localization_marker_list.points.begin());
+        
+        float dx = localization_msg->position.x - localization_msg_position_x;
+        float dy = localization_msg->position.y - localization_msg_position_y;
+        float distance = sqrt(dx*dx + dy*dy);
+        #define MIN_DISTANCE 0.03 
+        if(MIN_DISTANCE < distance){
+            localization_marker_list.points.push_back(localization_msg->position);
+            localization_msg_position_x = localization_msg->position.x;
+            localization_msg_position_y = localization_msg->position.y;
+        }
 
         localization_markerPub.publish(localization_marker_list);
 
