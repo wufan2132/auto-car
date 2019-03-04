@@ -11,18 +11,13 @@
         count++;
         car_msgs::trajectory_point t_point;
         t_point.header.seq = count;
-        t_point.x = point.x*resolution + origin_x;
-        t_point.y = point.y*resolution + origin_y;
+        t_point.x = point.x*resolution - origin_x;
+        t_point.y = point.y*resolution - origin_y;
         t_point.z = 0;
         return t_point;
     }
     MapPoint MapConvert::PosToMap(const car_msgs::trajectory_point& point){
-        // static int count = 0;
-        // count++;
-        // car_msgs::trajectory_point t_point;
-        // t_point.header.seq = count;
-        // t_point.x = point.x*resolution + origin_x;
-        // t_point.y = point.y*resolution + origin_y;
-        // t_point.z = 0;
-        // return t_point;
+        double x = (point.x + origin_x)/resolution;
+        double y = (point.y + origin_y)/resolution;
+        return MapPoint(x,y);
     }
