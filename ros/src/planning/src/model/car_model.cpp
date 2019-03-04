@@ -65,19 +65,19 @@ bool Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line,
 //
 pair<double, double> Coordinate_converter::POS_to_SL(const car_msgs::trajectory& reference_line, double x, double y, int start, int end){
     pair<double, double> sl;
-    //int end = start + FINDNUMS;
-    int pos = 0;
-    while(end - start > 1){
-        pos = (start + end)/2;
-        float distance0 = (x - reference_line.trajectory_path[pos].x)*(x - reference_line.trajectory_path[pos].x) +
-            (y - reference_line.trajectory_path[pos].y)* (y - reference_line.trajectory_path[pos].y);
-        float distance1 = (x - reference_line.trajectory_path[pos+1].x)*(x - reference_line.trajectory_path[pos+1].x) +   
-            (y - reference_line.trajectory_path[pos+1].y)* (y - reference_line.trajectory_path[pos+1].y);  
-        if(distance0>distance1){
-            start = pos;
-        }else {
-            end = pos;
-        }
+    //cout<<"end_index:"<<end_index<<endl;
+    int pos = start;
+    for(int i=start;i<end;i++){
+        float distance0 = (x - reference_line.trajectory_path[i].x)*(x - reference_line.trajectory_path[i].x) +
+        (y - reference_line.trajectory_path[i].y)* (y - reference_line.trajectory_path[i].y);
+        float distance1 = (x - reference_line.trajectory_path[i+1].x)*(x - reference_line.trajectory_path[i+1].x) +   
+        (y - reference_line.trajectory_path[i+1].y)* (y - reference_line.trajectory_path[i+1].y);  
+        if(distance0>distance1)
+            continue;
+        else{
+            pos = i;
+            break;
+        }          
     }
     //pos = start+1;
     //求点到直线的距离

@@ -23,6 +23,7 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher"
     type="robot_state_publisher" />
 
+  <arg name="load_state_filename" value="$(find cartographer_ros)/map/map2.pbstream"/>
   <node name="cartographer_node" pkg="cartographer_ros"
       type="cartographer_node" args="
           -configuration_directory $(find cartographer_ros)/configuration_files
@@ -38,3 +39,4 @@
   <node name="rviz" pkg="rviz" type="rviz" required="true"
       args="-d $(find cartographer_ros)/configuration_files/demo_2d.rviz" />
 </launch>
+

@@ -5,6 +5,7 @@
 #include "planning/Interpolating.h"
 #include "planning/car_model.h"
 #include "planning/Fitting.h"
+#include "planning/obstacle/obstacle_list.h"
 
 class ObstacleList_conf;
 
@@ -13,7 +14,7 @@ public:
 //该障碍物是否值得关注
 static bool isconcern(const car_msgs::base_obstacle& b_obst, 
                         const car_msgs::trajectory_point& car_status,
-                        const ObstacleList_conf& conf);
+                        const ObstacleList_conf* conf);
 //t时刻，障碍物与曲线的最短距离
 //思路：用几何求解太麻烦
 //将曲线按点采样，求曲线上的点到障碍物的距离

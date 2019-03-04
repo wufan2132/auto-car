@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
 <launch>
+  <!-- $(find cartographer_ros)/configuration_files/demo_2d.rviz -->
+  <!-- $(find car_demo)/rviz/demo-for-nvidia.rviz -->
 
-  <arg name="rvizconfig" default="$(find car_demo)/rviz/demo-for-nvidia.rviz" />
-  <node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="--slider-file $(find control)/src/conf/setting.yaml" />
+  <arg name="rvizconfig" default="$(find cartographer_ros)/configuration_files/demo_2d.rviz" />
+
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+
+  <!--node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="-slider-file $(find control)/src/conf/setting.yaml" /-->
+  <node pkg="rosbag" type="play" name="bag_play" args="/home/nvidia/my-code/auto-car/bag/test.bag"/>
 </launch>

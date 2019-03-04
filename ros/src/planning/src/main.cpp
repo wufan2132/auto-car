@@ -9,6 +9,7 @@ bool DEBUG=0;
 
 int main(int argc, char **argv)
 {
+    ROS_INFO("PLANNING start!!!!!");
     //判断是否为debug模式
     Common::debug_check();
 

@@ -142,6 +142,7 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_localization.angular_velocity.y,
                                         car_localization.angular_velocity.z,
                                         flag);
+
   car_localization.position.x = car_transform.translation.x;
   car_localization.position.y = car_transform.translation.y;
   car_localization.position.z = car_transform.translation.z;

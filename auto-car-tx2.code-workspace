@@ -1,0 +1,9 @@
+{
+	"folders": [
+		{
+			"uri": "sftp://nvidia:nvidia@192.168.0.10:22/home/nvidia/my-code/auto-car/?debug=1",
+			"name": "remote_www"
+		}
+	],
+	"settings": {}
+}

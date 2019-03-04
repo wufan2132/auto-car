@@ -9,6 +9,8 @@
 class ObstacleList_conf{
 public:
     string obstacle_path;
+    double visible_distance;
+    double visible_angle;
 };
 
 class ObstacleList{

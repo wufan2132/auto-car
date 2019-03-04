@@ -94,17 +94,17 @@ void DpRoadGraph::UpdateNode(const list<RoadGraphNode> &prev_nodes,
         // cout<<"cost:"<<cost<<endl;
         cur_node->UpdateCost(&pre_node, QP5, cost);
     }
-    //尝试连接初始点
-    if(level>=1){
-        double init_dl = init_SLpoint.dl;
-        double init_ddl = init_SLpoint.ddl;
-        VectorXf QP5 = Fitting::quintic5_polynomial(front->l,init_dl,init_ddl,
-                                            cur_node->l,0,0,
-                                            cur_node->s - front->s);
-        //曲线评估
-        //IsValidCurve(QP5);
-        ConCost cost;
-        trajectorycost->evaluate(QP5, front->s, cur_node->s, level, cost);
-        cur_node->UpdateCost(front, QP5, cost);
-    }
+    // //尝试连接初始点
+    // if(level>=1){
+    //     double init_dl = init_SLpoint.dl;
+    //     double init_ddl = init_SLpoint.ddl;
+    //     VectorXf QP5 = Fitting::quintic5_polynomial(front->l,init_dl,init_ddl,
+    //                                         cur_node->l,0,0,
+    //                                         cur_node->s - front->s);
+    //     //曲线评估
+    //     //IsValidCurve(QP5);
+    //     ConCost cost;
+    //     trajectorycost->evaluate(QP5, front->s, cur_node->s, level, cost);
+    //     cur_node->UpdateCost(front, QP5, cost);
+    // }
 }

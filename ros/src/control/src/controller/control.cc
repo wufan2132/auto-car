@@ -1,6 +1,6 @@
 #include "control/control.h"
 #include "yaml-cpp/yaml.h"
-#define CONTROL_CONF_DIR "../my-code/auto-car/ros/src/control/src/conf/control.yaml"
+#define CONTROL_CONF_DIR "../my-code/auto-car/ros/src/control/src/conf/control_pc.yaml"
 
 namespace control {
 using namespace std;
@@ -79,10 +79,10 @@ void Control::Init(void){
     mpc_controller_conf.ts                       = control_conf["mpc_controller_conf"]["ts"].as<double>();
     mpc_controller_conf.cf                       = control_conf["mpc_controller_conf"]["cf"].as<double>();
     mpc_controller_conf.cr                       = control_conf["mpc_controller_conf"]["cr"].as<double>();
-    mpc_controller_conf.mass_fl                  = control_conf["mpc_controller_conf"]["mass_fl"].as<int>();
-    mpc_controller_conf.mass_fr                  = control_conf["mpc_controller_conf"]["mass_fr"].as<int>();
-    mpc_controller_conf.mass_rl                  = control_conf["mpc_controller_conf"]["mass_rl"].as<int>();
-    mpc_controller_conf.mass_rr                  = control_conf["mpc_controller_conf"]["mass_rr"].as<int>();
+    mpc_controller_conf.mass_fl                  = control_conf["mpc_controller_conf"]["mass_fl"].as<double>();
+    mpc_controller_conf.mass_fr                  = control_conf["mpc_controller_conf"]["mass_fr"].as<double>();
+    mpc_controller_conf.mass_rl                  = control_conf["mpc_controller_conf"]["mass_rl"].as<double>();
+    mpc_controller_conf.mass_rr                  = control_conf["mpc_controller_conf"]["mass_rr"].as<double>();
     mpc_controller_conf.eps                      = control_conf["mpc_controller_conf"]["eps"].as<double>();
     mpc_controller_conf.matrix_q1                = control_conf["mpc_controller_conf"]["matrix_q1"].as<double>();
     mpc_controller_conf.matrix_q2                = control_conf["mpc_controller_conf"]["matrix_q2"].as<double>();
@@ -204,6 +204,7 @@ void Control::path_topic_callback(const car_msgs::trajectory &trajectory_path){
 }
 
 void Control::param_topic_callback(const car_msgs::param &param){
+#if MPC_OR_LQR
     PidConf station_pid_conf,speed_pid_conf;
 
     station_pid_conf.kp = param.station_kp;
@@ -217,5 +218,8 @@ void Control::param_topic_callback(const car_msgs::param &param){
     speed_pid_conf.kaw = param.speed_kaw;
 
     lon_controller_.UpdateParam(station_pid_conf,speed_pid_conf);
+#else
+
+#endif
 }
 }
