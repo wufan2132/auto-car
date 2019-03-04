@@ -52,7 +52,7 @@ MapPoint road::Map_to_road(MapPoint& p){
 		y = p.y;
 		if (data[x][y] == 0)
 			return MapPoint(x,y);
-		x = max(p.x - d, 0);
+		x = max(p.x - d, 1);
 		y = p.y;
 		if (data[x][y] == 0)
 			return MapPoint(x, y);

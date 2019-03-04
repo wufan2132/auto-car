@@ -27,12 +27,19 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 	origin_img.Readpgm(conf.origin_image_dir);
 	//二值化
 	origin_img.convert_twovalue();
-
-	MapPoint origin_start(origin_img.convert_from_huatu(conf.start_point_x, conf.start_point_y));
-	MapPoint origin_end(origin_img.convert_from_huatu(conf.end_point_x, conf.end_point_y));
+	//初始化起点与终点
+	// MapPoint origin_start(origin_img.convert_from_huatu(conf.start_point_x, conf.start_point_y));
+	// MapPoint origin_end(origin_img.convert_from_huatu(conf.end_point_x, conf.end_point_y));
+	car_msgs::trajectory_point start_point,end_point;
+	start_point.x = conf.start_point_x;
+	start_point.y = conf.start_point_y;
+	end_point.x = conf.end_point_x;
+	end_point.y = conf.end_point_y;
+	MapPoint origin_start = map_convert->PosToMap(start_point);
+	MapPoint origin_end = map_convert->PosToMap(end_point);
 		//标记起点与终点
-	origin_img.drawPoint(origin_start.x, origin_start.y, 'g', 10);
-	origin_img.drawPoint(origin_end.x, origin_end.y, 'g', 10);
+	origin_img.drawPoint(origin_start.x, origin_start.y, 'r', 2);
+	origin_img.drawPoint(origin_end.x, origin_end.y, 'g', 2);
 
 	origin_img.Write24BMP(conf.output_image_dir+"roadout_origin.bmp");
 	//压缩图像
@@ -76,7 +83,7 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 	}
 	astar->smooth(path_origin,conf.smooth_order);
 	//显示
-	astar->show_path(path_origin, &origin_img, 'y');
+	astar->show_path(path_origin, &origin_img, 'b');
 	ROS_INFO("Refrenceline_provider::process: path.size:%d", (int)path_origin.size());
 	origin_img.Write24BMP(conf.output_image_dir+"roadout_smooth.bmp");
 	

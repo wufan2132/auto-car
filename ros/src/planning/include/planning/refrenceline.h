@@ -15,10 +15,10 @@ using namespace Eigen;
 class Refrenceline_provider_conf{
 public:
 
-    int start_point_x;
-    int start_point_y;
-    int end_point_x;
-    int end_point_y;
+    double start_point_x;
+    double start_point_y;
+    double end_point_x;
+    double end_point_y;
     string origin_image_dir;
     string output_image_dir;
     int origin_road_width;

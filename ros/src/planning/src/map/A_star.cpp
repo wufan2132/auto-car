@@ -159,7 +159,7 @@ std::vector<MapPoint *> Astar::getSurroundPoints(const MapPoint *point, bool isI
 void Astar::show_path(std::list<MapPoint *>& path, Image* img, char color){
 	for (auto it = path.begin(); it != path.end(); it++){
 		//
-		//cout << "x:" << (*it)->x << "  y:" << (*it)->y << endl;
+		cout << "x:" << (*it)->x << "  y:" << (*it)->y << endl;
 		int x = min((*it)->x, img->rows-1);
 		x = max(0, x);
 		int y = min((*it)->y, img->cols-1);
