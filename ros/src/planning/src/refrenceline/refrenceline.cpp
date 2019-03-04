@@ -30,7 +30,7 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 
 	MapPoint origin_start(origin_img.convert_from_huatu(conf.start_point_x, conf.start_point_y));
 	MapPoint origin_end(origin_img.convert_from_huatu(conf.end_point_x, conf.end_point_y));
-		//标记起点与终点
+	//标记起点与终点
 	origin_img.drawPoint(origin_start.x, origin_start.y, 'g', 10);
 	origin_img.drawPoint(origin_end.x, origin_end.y, 'g', 10);
 
