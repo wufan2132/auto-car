@@ -1,5 +1,7 @@
 #include "perception/lidar_handle.h"
-
+#define DATATYPE float  
+#define POINT_D 0.1
+#define MAX_PNUM 3
 
 LidarHandle::LidarHandle(YAML::Node yaml_conf){
      double devide_d = yaml_conf["devide_d"].as<double>();

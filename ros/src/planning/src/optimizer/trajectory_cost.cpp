@@ -1,5 +1,5 @@
 #include "planning/trajectory_cost.h"
-#define MAX_COST 9999.9
+#define MAX_COST 999999.9
 
 TrajectoryCost::TrajectoryCost(YAML::Node yaml_conf){
     conf.k_path = yaml_conf["k_path"].as<double>();

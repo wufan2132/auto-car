@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="cartographer_pbstream_to_ros_map" pkg="cartographer_ros"
+      type="cartographer_pbstream_to_ros_map" args="
+          -pbstream_filename /home/nvidia/my-code/auto-car/ros/src/cartographer_ros/cartographer_ros/map/map2.pbstream
+          -map_filestem /home/nvidia/my-code/auto-car/ros/file/map/labmap
+          -resolution 0.05"
+      output="screen">
+   </node>
+</launch>

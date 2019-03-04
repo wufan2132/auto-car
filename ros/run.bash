@@ -11,8 +11,8 @@ if [[ "X$1" == "X" ]];then
 elif [[ "X$1" != "X" && "X$2" != "X" && "X$3" == "X" ]];then
     local_name="$1"
     master_name="$2"
-    export ROS_HOSTNAME=$local_name
-    export ROS_MASTER_URI=http://$master_name:11311
+   # export ROS_HOSTNAME=$local_name
+   # export ROS_MASTER_URI=http://$master_name:11311
     source devel/setup.bash
 elif [[ "X$1" != "X" && "X$2" != "X" && "X$3" == "Xr" ]];then #pc上单独运行 用于bag play
     local_name="$1"
