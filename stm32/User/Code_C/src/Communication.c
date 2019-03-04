@@ -44,7 +44,7 @@ void Send_Senser_TX2(void)
 	Communicate_BUF[Cnt++] = 0XA1;
 	Communicate_BUF[Cnt++] = 0;
 	
-	//Communicate_BUF[Cnt++] = flag;
+	
 	
 	Temp3 = speed_measure.Value;	
 	Communicate_BUF[Cnt++] = BYTE0(Temp3);	
@@ -52,20 +52,20 @@ void Send_Senser_TX2(void)
 	Communicate_BUF[Cnt++] = BYTE2(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE3(Temp3);
 	
-	Temp3 = Attitude.Angle->x;	
+	Temp3 = Radians(Attitude.Angle->x);	
 	Communicate_BUF[Cnt++] = BYTE0(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE1(Temp3);
 	Communicate_BUF[Cnt++] = BYTE2(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE3(Temp3);		
 	
-	Temp3 = Attitude.Angle->y;	
+	Temp3 = Radians(Attitude.Angle->y);	
 	Communicate_BUF[Cnt++] = BYTE0(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE1(Temp3);
 	Communicate_BUF[Cnt++] = BYTE2(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE3(Temp3);
 	
-	Temp3 = Attitude.Angle->z;	
-	Communicate_BUF[Cnt++] = BYTE0(Temp3);	
+	Temp3 = Radians(Attitude.Angle->z);	
+	Communicate_BUF[Cnt++] = BYTE0(Temp3);
 	Communicate_BUF[Cnt++] = BYTE1(Temp3);
 	Communicate_BUF[Cnt++] = BYTE2(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE3(Temp3);
@@ -105,6 +105,9 @@ void Send_Senser_TX2(void)
 	Communicate_BUF[Cnt++] = BYTE1(Temp3);
 	Communicate_BUF[Cnt++] = BYTE2(Temp3);	
 	Communicate_BUF[Cnt++] = BYTE3(Temp3);	
+	
+	//标志位发送
+	Communicate_BUF[Cnt++] = flag;
 	
 	Communicate_BUF[4] = Cnt - 5;
 	
