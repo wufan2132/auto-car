@@ -29,7 +29,6 @@ refrenceline_provider:
   start_point_x: 0
   start_point_y: 0
   #终点
-<<<<<<< HEAD
   end_point_x: -6
   end_point_y: 4
   pgm_yaml_dir: ../my-code/auto-car/ros/src/planning/file/map/labmap.yaml
@@ -37,15 +36,6 @@ refrenceline_provider:
   output_image_dir: ../my-code/auto-car/ros/src/planning/file/output/ #输出文件路径
   origin_road_width: 20 #原始路宽 (像素点)
   scale: 0.4 #压缩比例
-=======
-  end_point_x: 1
-  end_point_y: 1
-  pgm_yaml_dir: ../my-code/auto-car/ros/file/map/labmap.yaml
-  origin_image_dir: ../my-code/auto-car/ros/file/map/labmap.pgm #原始地图路径
-  output_image_dir: ../my-code/auto-car/ros/src/planning/file/output/ #输出文件路径
-  origin_road_width: 40 #原始路宽 (像素点)
-  scale: 0.2 #压缩比例
->>>>>>> a217cdb67066cc4e2dd5e42b89653362f6d6c029
   #############Astar
   Astar:
     kG: 2 #实际距离权重
