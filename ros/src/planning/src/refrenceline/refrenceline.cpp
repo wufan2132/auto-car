@@ -37,9 +37,15 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 	end_point.y = conf.end_point_y;
 	MapPoint origin_start = map_convert->PosToMap(start_point);
 	MapPoint origin_end = map_convert->PosToMap(end_point);
+<<<<<<< HEAD
+		//标记起点与终点
+	origin_img.drawPoint(origin_start.x, origin_start.y, 'r', 2);
+	origin_img.drawPoint(origin_end.x, origin_end.y, 'g', 2);
+=======
 	//标记起点与终点
 	origin_img.drawPoint(origin_start.x, origin_start.y, 'g', 10);
 	origin_img.drawPoint(origin_end.x, origin_end.y, 'g', 10);
+>>>>>>> a217cdb67066cc4e2dd5e42b89653362f6d6c029
 
 	origin_img.Write24BMP(conf.output_image_dir+"roadout_origin.bmp");
 	//压缩图像
@@ -87,7 +93,7 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 	}
 	astar->smooth(path_origin,conf.smooth_order);
 	//显示
-	astar->show_path(path_origin, &origin_img, 'y');
+	astar->show_path(path_origin, &origin_img, 'b');
 	ROS_INFO("Refrenceline_provider::process: path.size:%d", (int)path_origin.size());
 	origin_img.Write24BMP(conf.output_image_dir+"roadout_smooth.bmp");
 	
