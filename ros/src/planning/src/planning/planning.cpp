@@ -92,7 +92,7 @@ void Car_Planning::Init(){
     ros::Duration(1).sleep();
     double time_begin =ros::Time::now().toSec();
     double time_now = time_begin;
-    while(STATE==1||conf.wait_time<0||time_now-time_begin>conf.wait_time){
+    while(!(STATE==1||conf.wait_time<=0||time_now-time_begin>conf.wait_time)){
         ros::Duration(0.5).sleep(); // sleep for half a second
         time_now =ros::Time::now().toSec();
     }

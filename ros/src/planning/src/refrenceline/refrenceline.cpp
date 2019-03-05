@@ -37,15 +37,9 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 	end_point.y = conf.end_point_y;
 	MapPoint origin_start = map_convert->PosToMap(start_point);
 	MapPoint origin_end = map_convert->PosToMap(end_point);
-<<<<<<< HEAD
 		//标记起点与终点
 	origin_img.drawPoint(origin_start.x, origin_start.y, 'r', 2);
 	origin_img.drawPoint(origin_end.x, origin_end.y, 'g', 2);
-=======
-	//标记起点与终点
-	origin_img.drawPoint(origin_start.x, origin_start.y, 'g', 10);
-	origin_img.drawPoint(origin_end.x, origin_end.y, 'g', 10);
->>>>>>> a217cdb67066cc4e2dd5e42b89653362f6d6c029
 
 	origin_img.Write24BMP(conf.output_image_dir+"roadout_origin.bmp");
 	//压缩图像
@@ -69,7 +63,7 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 	img.setcolor(start.x, start.y, 'b');
 	img.setcolor(end.x, end.y, 'b');
 
-
+	ROS_INFO("Refrenceline_provider::process: Astar begin......");
 	//A* 初始化
 	vector<vector<int>> &maze = img.data;
 	astar->InitAstar(maze);
@@ -83,7 +77,7 @@ void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){
 	//显示
 	astar->show_path(path, astar->img);
 	img.Write24BMP(conf.output_image_dir+"roadout_pool.bmp");
-
+	ROS_INFO("Refrenceline_provider::process: Astar finished!");
 	//映射到原图
 	list<MapPoint *> path_origin;
 	for (auto it = path.begin(); it != path.end(); it++){
