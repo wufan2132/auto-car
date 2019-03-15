@@ -14,11 +14,11 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "modules/common/math/angle.h"
+#include "angle.h"
 
-#include "modules/common/math/sin_table.h"
+#include "sin_table.h"
 
-namespace apollo {
+
 namespace common {
 namespace math {
 
@@ -62,4 +62,3 @@ float tan(Angle8 a) {
 
 }  // namespace math
 }  // namespace common
-}  // namespace apollo

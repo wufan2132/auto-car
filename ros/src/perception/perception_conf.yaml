@@ -1,7 +1,19 @@
-
-#工作周期:s
+###################
+# perception conf #
+###################
+# 工作周期:s
 period: 0.1
 
+# 障碍物的数据来源 (reader lidar)
+obstacle_source: lidar
 #####ObstacleSet_conf
 ObstacleSet_conf:
   obstacle_path: ../my-code/auto-car/ros/src/perception/file/obstacle/obstacle_list.csv
+#####lidar_handle
+lidar_handle_conf:
+  # 点云划分距离，两个点如果超过该距离就会被分开
+  devide_d: 0.1
+  # 一个障碍物所能够包含的最大点数
+  max_obs_num: 5
+  # 默认障碍物半径
+  default_r: 0.01

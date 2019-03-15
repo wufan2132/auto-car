@@ -42,13 +42,14 @@ void Loop_100Hz(u16 Time_Ms)
 void Loop_50Hz(u16 Time_Ms)
 {
 	//GPS_Location.GPS_Update();						//GPS数据采集
+	
 	PWM_In.Updata();											//遥控数据采集 
-  //FlyControl.POS_OuterLoop(Time_Ms);		//位置控制外环						-------------------位置 环
+  
 	Power.Updata();									
 	
 	//系统状态监控
 	SystemState.Updata(Time_Ms);
-	//Motor.Output(False);
+	
 	if(CarControl.Para->IsLock == True){
 		if(CarControl.Para->Mode == Auto)
 			CarControl.stop();
@@ -60,11 +61,8 @@ void Loop_50Hz(u16 Time_Ms)
 		CarControl.PWM_output();
 	}
 	else if(CarControl.Para->Mode == Manual){
-
-		PWM_In.Data->CH1 = Math.Constrain(PWM_In.Data->CH1, 4000, 2900);
-		PWM_In.Data->CH2 = Math.Constrain(PWM_In.Data->CH2, 4000, 2000);
-		Motor.PWM->PWM1 = PWM_In.Data->CH1;
-		Motor.PWM->PWM2 = PWM_In.Data->CH2;
+		Motor.PWM->PWM1 = Math.Constrain(PWM_In.Data->CH1, 3250, 2000);
+		Motor.PWM->PWM2 = Math.Constrain(PWM_In.Data->CH2, 4000, 2000);
 		Motor.Output(False);
 
 	}

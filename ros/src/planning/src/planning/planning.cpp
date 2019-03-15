@@ -10,6 +10,7 @@
 Car_Planning::Car_Planning(YAML::Node planning_conf)
 :STATE(0)
 {
+    ROS_INFO("Car_Planning::Car_Planning: refrenceline_provider load para start!");
     conf.mode = planning_conf["mode"].as<string>();
     conf.refrenceline_source = planning_conf["refrenceline_source"].as<string>();
     conf.period = planning_conf["period"].as<double>();
@@ -19,7 +20,9 @@ Car_Planning::Car_Planning(YAML::Node planning_conf)
     conf.sampling_period = planning_conf["sampling_period"].as<int>();
     /***************模块初始化*************************/
     rprovider = new Refrenceline_provider(planning_conf["refrenceline_provider"]);
+    ROS_INFO("Car_Planning::Car_Planning: refrenceline_provider load para finished!");
     obstaclelist = new ObstacleList(planning_conf["obstacle_list"]);
+    ROS_INFO("Car_Planning::Car_Planning: obstacle_list load para finished!");
     //规划器初始化
     string planner_name = planning_conf["planner"].as<string>();
     string planner_path =
@@ -34,6 +37,7 @@ Car_Planning::Car_Planning(YAML::Node planning_conf)
         planner = new TestPlanner(YAML::LoadFile(planner_path+planner_name+"_conf.yaml"));
     else
         ROS_ERROR("Car_Planning::Car_Planning: invalid planner name!");
+    ROS_INFO("Car_Planning::Car_Planning: planner load para finished!");
 }
 
 
@@ -88,7 +92,7 @@ void Car_Planning::Init(){
     ros::Duration(1).sleep();
     double time_begin =ros::Time::now().toSec();
     double time_now = time_begin;
-    while(STATE==1||conf.wait_time<0||time_now-time_begin>conf.wait_time){
+    while(!(STATE==1||conf.wait_time<=0||time_now-time_begin>conf.wait_time)){
         ros::Duration(0.5).sleep(); // sleep for half a second
         time_now =ros::Time::now().toSec();
     }
@@ -96,6 +100,7 @@ void Car_Planning::Init(){
         ROS_ERROR("Car_Planning::Init: Can not receive car message!");
         ros::shutdown();
     }
+    ROS_INFO("Car_Planning::Init: link successed!");
     /*发送参考线*/
     // 读取轨迹
     if(conf.refrenceline_source == "replay"){
@@ -109,7 +114,7 @@ void Car_Planning::Init(){
     refrenceline_Sp = planner->get_refrenceline(origin_Trajectory, refrence_Trajectory);
     refrenceline_publisher.publish(refrence_Trajectory);
     //cout<<"published : "<<refrence_Trajectory.total_path_length<<endl;
-
+    ROS_INFO("Car_Planning::Init: get refrenceline successed!");
     /*起点检测*/
     //如果起点的位置与车起点位置差的过大（大于5m）
     if((refrence_Trajectory.trajectory_path[0].x-car_status.x)*(refrence_Trajectory.trajectory_path[0].x-car_status.x)+
@@ -120,7 +125,8 @@ void Car_Planning::Init(){
     obstaclelist->init(&refrence_Trajectory ,&car_status, &car_status_sl);
     planner->init(obstaclelist);
     debugger->init(refrenceline_Sp);
-    
+
+    ROS_INFO("Car_Planning::Init: init finished!");
 }
 
 void Car_Planning::OnTimer(const ros::TimerEvent&){

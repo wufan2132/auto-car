@@ -83,7 +83,8 @@ void Usart::reveive_from_serial(double &speed,
                               double &acc_z,
                               double &ang_v_x,
                               double &ang_v_y,
-                              double &ang_v_z){
+                              double &ang_v_z,
+                              char  &flag){
     #define RX_BUF_SIZE 64
     uint8_t Rx_buf[RX_BUF_SIZE];
     uint8_t Rx_buf_head[2];
@@ -127,6 +128,7 @@ void Usart::reveive_from_serial(double &speed,
                 ang_v_x = *(float*)(&Rx_buf[Start + 32]);
                 ang_v_y = *(float*)(&Rx_buf[Start + 36]);
                 ang_v_z = *(float*)(&Rx_buf[Start + 40]);
+                flag = *(char*)(&Rx_buf[Start + 44]);
 		break;
             default:
             break;

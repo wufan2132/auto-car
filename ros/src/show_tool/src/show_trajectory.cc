@@ -8,6 +8,9 @@
 #include <Eigen/Dense>
 
 //localization
+ros::Publisher car_markerPub;
+visualization_msgs::Marker car_marker;
+//localization
 ros::Publisher localization_markerPub;
 visualization_msgs::Marker localization_marker_list;
 double time_old = 0;
@@ -27,11 +30,47 @@ car_msgs::base_obstacle_list obstacles_msg_list;
 ros::Publisher samplers_markerPub;
 visualization_msgs::Marker samplers_marker_list;
 car_msgs::trajectory samplers_msg_list;
+
+float localization_msg_position_x = 0;
+float localization_msg_position_y = 0;
 void localization_topic_callback(const car_msgs::localization::ConstPtr &localization_msg){
     double time_now = ros::Time::now().toSec();
+    Eigen::Matrix3d R;
+    Eigen::Quaterniond q;
+
+        //显示车位置
+        car_marker.header.frame_id = "map";
+        car_marker.header.stamp = ros::Time::now();
+        car_marker.ns = "my_namespace";
+        car_marker.id = 0;
+        car_marker.type = visualization_msgs::Marker::CUBE;
+        car_marker.action = visualization_msgs::Marker::MODIFY;
+        car_marker.pose.position = localization_msg->position;
+        
+        R = Eigen::AngleAxisd(localization_msg->angle.z, Eigen::Vector3d::UnitZ())
+        * Eigen::AngleAxisd(localization_msg->angle.y, Eigen::Vector3d::UnitY())
+        * Eigen::AngleAxisd(localization_msg->angle.x, Eigen::Vector3d::UnitX());
+        //RotationMatrix to Quaterniond
+        q = R;
+
+        car_marker.pose.orientation.x = q.x();
+        car_marker.pose.orientation.y = q.y();
+        car_marker.pose.orientation.z = q.z();
+        car_marker.pose.orientation.w = q.w();
+        car_marker.scale.x = 4;
+        car_marker.scale.y = 2;
+        car_marker.scale.z = 0.1;
+        car_marker.color.a = 1.0; // Don't forget to set the alpha!
+        car_marker.color.r = 0.0;
+        car_marker.color.g = 1.0;
+        car_marker.color.b = 0.0;
+        // only if using a MESH_RESOURCE marker type:
+        // car_marker.mesh_resource = "package://pr2_description/meshes/base_v0/base.dae";
+        car_markerPub.publish(car_marker);
 
     if(time_now - time_old > 0.01){
         time_old = time_now;
+
         //显示已走轨迹
         localization_marker_list.header.frame_id = "map";
         localization_marker_list.header.stamp = ros::Time::now();
@@ -48,9 +87,18 @@ void localization_topic_callback(const car_msgs::localization::ConstPtr &localiz
         localization_marker_list.color.g = 1.0;
         localization_marker_list.color.b = 0.0;
 
-        if(localization_marker_list.points.size() > LONCALIZATION_PATH_LENGTH)
-            localization_marker_list.points.erase(localization_marker_list.points.begin());
-        localization_marker_list.points.push_back(localization_msg->position);
+        // if(localization_marker_list.points.size() > LONCALIZATION_PATH_LENGTH)
+        //     localization_marker_list.points.erase(localization_marker_list.points.begin());
+        
+        float dx = localization_msg->position.x - localization_msg_position_x;
+        float dy = localization_msg->position.y - localization_msg_position_y;
+        float distance = sqrt(dx*dx + dy*dy);
+        #define MIN_DISTANCE 0.03 
+        if(MIN_DISTANCE < distance){
+            localization_marker_list.points.push_back(localization_msg->position);
+            localization_msg_position_x = localization_msg->position.x;
+            localization_msg_position_y = localization_msg->position.y;
+        }
 
         localization_markerPub.publish(localization_marker_list);
 
@@ -87,14 +135,12 @@ void localization_topic_callback(const car_msgs::localization::ConstPtr &localiz
                 trajectory_marker_list.pose.position.z = trajectory_msg_list.trajectory_path[i].z;
 
 
-                Eigen::Matrix3d R;
+
                 R = Eigen::AngleAxisd(trajectory_msg_list.trajectory_path[i].theta, Eigen::Vector3d::UnitZ())
                     * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitY())
                     * Eigen::AngleAxisd(0, Eigen::Vector3d::UnitX());
                 //RotationMatrix to Quaterniond
-                Eigen::Quaterniond q; 
                 q = R;    
-
                 trajectory_marker_list.pose.orientation.x = q.x();
                 trajectory_marker_list.pose.orientation.y = q.y();
                 trajectory_marker_list.pose.orientation.z = q.z();
@@ -215,6 +261,7 @@ void samplers_topic_callback(const car_msgs::trajectory::ConstPtr &samples_msg){
 int main(int argc, char **argv){
     ros::init(argc, argv, "showline");
     ros::NodeHandle n;
+    car_markerPub = n.advertise<visualization_msgs::Marker>("car_Marker", 1000);
 
     localization_markerPub = n.advertise<visualization_msgs::Marker>("localization_Marker", 1000);
     ros::Subscriber localization_publisher = n.subscribe("localization_topic", 1, localization_topic_callback);

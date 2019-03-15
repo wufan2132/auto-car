@@ -12,7 +12,7 @@ SpPlanner::SpPlanner(YAML::Node yaml_conf)
     conf.speed_min_limit = yaml_conf["speed_min_limit"].as<double>();
 
     sampler = new SamplerPoint(yaml_conf["SamplerPoint_conf"]); 
-    dpgraph = new DpRoadGraph(yaml_conf);  
+    dpgraph = new DpRoadGraph(yaml_conf["DpRoadGraph_conf"]);  
     stgraph = new DpStGraph(yaml_conf);
 }
 

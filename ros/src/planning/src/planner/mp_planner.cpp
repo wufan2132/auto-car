@@ -103,10 +103,10 @@ Car_State_SL MpPlanner::get_start_point(const car_msgs::trajectory_point car_sta
                                          const Spline_Out* refrenceline_Sp,const car_msgs::trajectory& reference_line, car_msgs::trajectory& trajectory_now){
     /*****************获得采样的起始点***********************/
     Car_State_SL start_sl = get_start_point(car_status,status_sl,reference_line, trajectory_now);
-    // cout<<"status_sl.s: "<<status_sl.s<<endl;
-    // cout<<"status_sl.l: "<<status_sl.l<<endl;
-    // cout<<"start_sl.s: "<<start_sl.s<<endl;
-    // cout<<"start_sl.l: "<<start_sl.l<<endl;
+    cout<<"status_sl.s: "<<status_sl.s<<endl;
+    cout<<"status_sl.l: "<<status_sl.l<<endl;
+    cout<<"start_sl.s: "<<start_sl.s<<endl;
+    cout<<"start_sl.l: "<<start_sl.l<<endl;
     
     sampler->reset(start_sl);
 
@@ -131,11 +131,12 @@ Car_State_SL MpPlanner::get_start_point(const car_msgs::trajectory_point car_sta
     //     s_list[i] = min_cost_path[i].s;
     //     cout<<"list.s:"<<min_cost_path[i].s<<"list.l:"<<min_cost_path[i].l<<endl;
     // }
+    //
+    //输出
     // for(int i=0;i<obstaclelist->list.size();i++){
     //     double distant = ObstacleMethod::distance_Ob_QP(obstaclelist->list[i],QPsl,s_list,0);
     //     cout<<"obstacle distant "<< obstaclelist->list[i].header.seq<<": "<<distant<<endl;
     // }
-    //QPsl = min_road_Node.minQP5;
     double planning_l = min_cost_path.back().l;
     //cout<<"minscost_L:"<<min_road_Node.minCost<<endl;
 
@@ -172,13 +173,13 @@ Car_State_SL MpPlanner::get_start_point(const car_msgs::trajectory_point car_sta
     // " theta:"<<trajectory_now.trajectory_path[i].theta<<","<<
     // " kappa:"<<trajectory_now.trajectory_path[i].kappa<<endl;
     /************debug 3***********/
-     cout<<"------trajectory_sl--------"<<endl;
-    for(int i=0;i<trajectory_sl.size();i++)
-    cout<<
-    i<<"."<<
-    " s:"<<trajectory_sl[i].s<<
-    " l:"<<trajectory_sl[i].l<<
-    " t:"<<trajectory_sl[i].t<<endl;
+    //  cout<<"------trajectory_sl--------"<<endl;
+    // for(int i=0;i<trajectory_sl.size();i++)
+    // cout<<
+    // i<<"."<<
+    // " s:"<<trajectory_sl[i].s<<
+    // " l:"<<trajectory_sl[i].l<<
+    // " t:"<<trajectory_sl[i].t<<endl;
     return;
  }
 
@@ -253,10 +254,10 @@ void MpPlanner::path_generate(const MatrixXf& qpsl,const VectorXf& qpts,
     // cout<<"qpsl"<<endl;
     // cout<<qpsl<<endl;
 
-    // cout<<"Sout:" <<endl;
-    // cout<<S_out<<endl;
-    // cout<<"Lout:" <<endl;
-    // cout<<L_out<<endl;
+    cout<<"Sout:" <<endl;
+    cout<<S_out<<endl;
+    cout<<"Lout:" <<endl;
+    cout<<L_out<<endl;
     //生成轨迹
     TrajectoryGeneration::getTrajectory_from_SLT(S_out,L_out,T,refrenceline_Sp, trajectory_now, start_sl.start_pos);
  }

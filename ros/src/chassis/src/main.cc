@@ -7,11 +7,15 @@
 #include "car_msgs/chassis.h"
 #include <Eigen/Dense>
 #include "geometry_msgs/Quaternion.h" 
+#include "geometry_msgs/Transform.h"
+#include "tf2_msgs/TFMessage.h"
 #include "sensor_msgs/Imu.h"
-
+#include "math/euler_angles_zxy.h"
+#include <cmath>
 
 ros::Publisher localization_msg_Publisher;
 ros::Publisher chassis_msg_Publisher;
+ros::Publisher imu_msg_Publisher;
 car_msgs::localization car_localization;
 car_msgs::chassis car_chassis;
 
@@ -79,18 +83,54 @@ using namespace std;
 using namespace boost::asio;
 Usart car_chassis_usart("/dev/ttyTHS2");
 //to m/s2
-#define ACC_RATE 23.2199546
-#define DEC_RATE 238.095238
+#define ACC_RATE 55
+#define DEC_RATE 130
+#define STEER_RATE 10
 void control_cmd_subscrib_callback(const car_msgs::control_cmd &control_cmd_msg){
  
  car_chassis_usart.send_to_serial((uint16_t)(control_cmd_msg.throttle * ACC_RATE),
                                    (uint16_t)(control_cmd_msg.brake * DEC_RATE),
-                                     (int16_t)control_cmd_msg.steer);
-//  car_chassis_usart.send_to_serial(1,2,cnt++);
+                                     (int16_t)control_cmd_msg.steer * STEER_RATE);
+}
+
+geometry_msgs::Transform car_transform;
+void tf_subscrib_callback(const tf2_msgs::TFMessage::ConstPtr &TF_msg){
+
+    Eigen::Quaterniond Q1,Q2,Q3;
+  //定义车在世界坐标系下的线速度
+  Q1 = Eigen::Quaterniond(TF_msg->transforms[0].transform.rotation.w,
+                          TF_msg->transforms[0].transform.rotation.x,
+                          TF_msg->transforms[0].transform.rotation.y,
+                          TF_msg->transforms[0].transform.rotation.z).normalized();
+  Q2 = Eigen::Quaterniond(TF_msg->transforms[1].transform.rotation.w,
+                          TF_msg->transforms[1].transform.rotation.x,
+                          TF_msg->transforms[1].transform.rotation.y,
+                          TF_msg->transforms[1].transform.rotation.z).normalized();
+  Q2 = Q2*Q1;
+
+  Eigen::Matrix <double,3,1> Lw(TF_msg->transforms[1].transform.translation.x,
+                                TF_msg->transforms[1].transform.translation.y,
+                                TF_msg->transforms[1].transform.translation.z);
+
+  Q3 = Eigen::Quaterniond(TF_msg->transforms[0].transform.rotation.w,
+                          TF_msg->transforms[0].transform.rotation.x,
+                          TF_msg->transforms[0].transform.rotation.y,
+                          TF_msg->transforms[0].transform.rotation.z).normalized();
+  Eigen::Matrix <double,3,1> Lc = Q3*Lw;
+
+  car_transform.translation.x = TF_msg->transforms[0].transform.translation.x + Lc.x();
+  car_transform.translation.y = TF_msg->transforms[0].transform.translation.y + Lc.y();
+  car_transform.translation.z = TF_msg->transforms[0].transform.translation.z + Lc.z();
+  
+  car_transform.rotation.x = Q2.x();
+  car_transform.rotation.y = Q2.y();
+  car_transform.rotation.z = Q2.z();
+  car_transform.rotation.w = Q2.w();
 }
 
 
 void chassis_publish_callback(const ros::TimerEvent&){
+  char flag;
   car_chassis_usart.reveive_from_serial(car_chassis.speed.x,
                                         car_localization.angle.x,
                                         car_localization.angle.y,
@@ -100,11 +140,62 @@ void chassis_publish_callback(const ros::TimerEvent&){
                                         car_chassis.acc.z,
                                         car_localization.angular_velocity.x,
                                         car_localization.angular_velocity.y,
-                                        car_localization.angular_velocity.z);
+                                        car_localization.angular_velocity.z,
+                                        flag);
+
+  car_localization.position.x = car_transform.translation.x;
+  car_localization.position.y = car_transform.translation.y;
+  car_localization.position.z = car_transform.translation.z;
+
+  common::math::EulerAnglesZXY<double> EulerAngles(car_transform.rotation.w,
+                                           	car_transform.rotation.x,
+                                           	car_transform.rotation.y,
+                                           	car_transform.rotation.z);
+  // car_localization.angle.x = EulerAngles.pitch();
+  // car_localization.angle.y = EulerAngles.yaw();
+  car_localization.angle.z = EulerAngles.yaw();
+
+  if(car_localization.angle.z > 0)
+    car_localization.angle.z = car_localization.angle.z - M_PI;
+  else
+    car_localization.angle.z = M_PI + car_localization.angle.z;
+
+  car_localization.angle.y = -car_localization.angle.y;
+  car_localization.angular_velocity.y = -car_localization.angular_velocity.y;
   car_localization.header.stamp = ros::Time::now();
+  
   car_chassis.header.stamp = car_localization.header.stamp; 
+
+  sensor_msgs::Imu imu_msg;
+  Eigen::Matrix3d R;
+  Eigen::Quaterniond q;
+  imu_msg.header.stamp = ros::Time::now();
+  imu_msg.header.frame_id = "imu_link";
+
+  R = Eigen::AngleAxisd(car_localization.angle.z, Eigen::Vector3d::UnitZ())
+  * Eigen::AngleAxisd(car_localization.angle.y, Eigen::Vector3d::UnitY())
+  * Eigen::AngleAxisd(car_localization.angle.x, Eigen::Vector3d::UnitX());
+  //RotationMatrix to Quaterniond
+  q = R;
+
+  imu_msg.orientation.x = 0;//q.x();
+  imu_msg.orientation.y = 0;//q.y();
+  imu_msg.orientation.z = 0;//q.z();
+  imu_msg.orientation.w = 0;//q.w();
+
+  #define RATE 0.001064225 //(pi/180)*0.0609756
+
+  imu_msg.angular_velocity.x = RATE * car_localization.angular_velocity.x;
+  imu_msg.angular_velocity.y = RATE * car_localization.angular_velocity.y;
+  imu_msg.angular_velocity.z = RATE * car_localization.angular_velocity.z;
+
+  imu_msg.linear_acceleration.x = car_chassis.acc.x;
+  imu_msg.linear_acceleration.y = car_chassis.acc.y;
+  imu_msg.linear_acceleration.z = car_chassis.acc.z;
+
   localization_msg_Publisher.publish(car_localization);
   chassis_msg_Publisher.publish(car_chassis);
+  imu_msg_Publisher.publish(imu_msg);
 }
 #endif
 
@@ -120,7 +211,8 @@ int main(int argc, char **argv){
   #else //use nvidia run
   ros::Subscriber control_cmd_msg_subscriber = car_chassis_NodeHandle.subscribe("prius", 1, control_cmd_subscrib_callback);
   ros::Timer cycle_timer = car_chassis_NodeHandle.createTimer(ros::Duration(0.005),chassis_publish_callback);
-
+  imu_msg_Publisher = car_chassis_NodeHandle.advertise<sensor_msgs::Imu>("imu", 100);
+  ros::Subscriber tf_msg_subscriber = car_chassis_NodeHandle.subscribe("tf", 1, tf_subscrib_callback);
   #endif
 
   localization_msg_Publisher = car_chassis_NodeHandle.advertise<car_msgs::localization>("localization_topic", 1000);

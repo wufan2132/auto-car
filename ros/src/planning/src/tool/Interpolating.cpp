@@ -25,13 +25,14 @@ Spline_Out* Interpolating::process(const car_msgs::trajectory& trajectory_in, ca
         yVec(i) = trajectory_in.trajectory_path[i].y;
     }
     Spline_Out* csp = new Spline_Out;
-    // cout<<"Spline2D"<<endl;
+    cout<<"Spline2D"<<endl;
     Interpolating::Spline2D(xVec, yVec, *csp, conf.Spline_space);
     trajectory_out.header = trajectory_in.header;
     trajectory_out.total_path_length = csp->length;
     trajectory_out.trajectory_path.clear();
     for(int i=0;i<csp->length;i++)
     {
+		
         car_msgs::trajectory_point point;
         point.header.seq = i;
         point.x = csp->x(i);
@@ -40,6 +41,8 @@ Spline_Out* Interpolating::process(const car_msgs::trajectory& trajectory_in, ca
         point.theta = csp->yaw(i);
         point.kappa = csp->curvature(i);
         trajectory_out.trajectory_path.push_back(point);
+		//
+		cout << point.x << ',' <<point.y<<endl;
     }
 	return csp;
 }

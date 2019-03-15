@@ -55,7 +55,11 @@
         "codecvt": "cpp",
         "condition_variable": "cpp",
         "future": "cpp",
-        "mutex": "cpp"
+        "mutex": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "forward_list": "cpp",
+        "unordered_set": "cpp"
     },
     "python.pythonPath": "/usr/bin/python"
 }

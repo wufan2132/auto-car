@@ -7,7 +7,9 @@
 #include "car_msgs/localization.h"
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
+#include "car_msgs/param.h"
 #include "control/trajectory_analyzer.h"
+
 namespace control {
 
 class LonControllerConf{
@@ -51,6 +53,7 @@ class LonController {
          * @brief reset longitudinal controller
          * @return Status reset status
          */
+        void UpdateParam(const PidConf &station_pid_conf,const PidConf &speed_pid_conf);
         bool Reset();
 
         /**

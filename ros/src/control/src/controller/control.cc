@@ -1,14 +1,12 @@
 #include "control/control.h"
 #include "yaml-cpp/yaml.h"
-#define CONTROL_CONF_DIR "../my-code/auto-car/ros/src/control/src/conf/control.yaml"
+#define CONTROL_CONF_DIR "../my-code/auto-car/ros/src/control/src/conf/control_pc.yaml"
 
 namespace control {
 using namespace std;
 
 void Control::Init(void){
     YAML::Node control_conf = YAML::LoadFile(CONTROL_CONF_DIR);
-
-
 //模式参数
     control_mode_ = control_conf["control_mode"].as<int>();
     debug_mode_ = control_conf["debug_mode"].as<int>();
@@ -42,10 +40,10 @@ void Control::Init(void){
     lat_controller_conf.preview_window           = control_conf["lat_controller_conf"]["preview_window"].as<int>();
     lat_controller_conf.cf                       = control_conf["lat_controller_conf"]["cf"].as<double>();
     lat_controller_conf.cr                       = control_conf["lat_controller_conf"]["cr"].as<double>();
-    lat_controller_conf.mass_fl                  = control_conf["lat_controller_conf"]["mass_fl"].as<int>();
-    lat_controller_conf.mass_fr                  = control_conf["lat_controller_conf"]["mass_fr"].as<int>();
-    lat_controller_conf.mass_rl                  = control_conf["lat_controller_conf"]["mass_rl"].as<int>();
-    lat_controller_conf.mass_rr                  = control_conf["lat_controller_conf"]["mass_rr"].as<int>();
+    lat_controller_conf.mass_fl                  = control_conf["lat_controller_conf"]["mass_fl"].as<double>();
+    lat_controller_conf.mass_fr                  = control_conf["lat_controller_conf"]["mass_fr"].as<double>();
+    lat_controller_conf.mass_rl                  = control_conf["lat_controller_conf"]["mass_rl"].as<double>();
+    lat_controller_conf.mass_rr                  = control_conf["lat_controller_conf"]["mass_rr"].as<double>();
     lat_controller_conf.eps                      = control_conf["lat_controller_conf"]["eps"].as<double>();
     lat_controller_conf.matrix_q1                = control_conf["lat_controller_conf"]["matrix_q1"].as<double>();
     lat_controller_conf.matrix_q2                = control_conf["lat_controller_conf"]["matrix_q2"].as<double>();
@@ -81,10 +79,10 @@ void Control::Init(void){
     mpc_controller_conf.ts                       = control_conf["mpc_controller_conf"]["ts"].as<double>();
     mpc_controller_conf.cf                       = control_conf["mpc_controller_conf"]["cf"].as<double>();
     mpc_controller_conf.cr                       = control_conf["mpc_controller_conf"]["cr"].as<double>();
-    mpc_controller_conf.mass_fl                  = control_conf["mpc_controller_conf"]["mass_fl"].as<int>();
-    mpc_controller_conf.mass_fr                  = control_conf["mpc_controller_conf"]["mass_fr"].as<int>();
-    mpc_controller_conf.mass_rl                  = control_conf["mpc_controller_conf"]["mass_rl"].as<int>();
-    mpc_controller_conf.mass_rr                  = control_conf["mpc_controller_conf"]["mass_rr"].as<int>();
+    mpc_controller_conf.mass_fl                  = control_conf["mpc_controller_conf"]["mass_fl"].as<double>();
+    mpc_controller_conf.mass_fr                  = control_conf["mpc_controller_conf"]["mass_fr"].as<double>();
+    mpc_controller_conf.mass_rl                  = control_conf["mpc_controller_conf"]["mass_rl"].as<double>();
+    mpc_controller_conf.mass_rr                  = control_conf["mpc_controller_conf"]["mass_rr"].as<double>();
     mpc_controller_conf.eps                      = control_conf["mpc_controller_conf"]["eps"].as<double>();
     mpc_controller_conf.matrix_q1                = control_conf["mpc_controller_conf"]["matrix_q1"].as<double>();
     mpc_controller_conf.matrix_q2                = control_conf["mpc_controller_conf"]["matrix_q2"].as<double>();
@@ -128,6 +126,7 @@ void Control::Init(void){
 }
 
 void Control::ProduceControlCommand(car_msgs::control_cmd &control_cmd){
+
 #if MPC_OR_LQR
     lon_controller_.ComputeControlCommand(trajectory_path_,vehicle_state_,control_cmd,debug_.lon_debug_msg);
 
@@ -202,5 +201,25 @@ void Control::chassis_topic_callback(const car_msgs::chassis &chassis){
 
 void Control::path_topic_callback(const car_msgs::trajectory &trajectory_path){
     trajectory_path_ = trajectory_path;
+}
+
+void Control::param_topic_callback(const car_msgs::param &param){
+#if MPC_OR_LQR
+    PidConf station_pid_conf,speed_pid_conf;
+
+    station_pid_conf.kp = param.station_kp;
+    station_pid_conf.ki = param.station_ki;
+    station_pid_conf.kd = param.station_kd;
+    station_pid_conf.kaw = param.station_kaw;
+
+    speed_pid_conf.kp = param.speed_kp;
+    speed_pid_conf.ki = param.speed_ki;
+    speed_pid_conf.kd = param.speed_kd;
+    speed_pid_conf.kaw = param.speed_kaw;
+
+    lon_controller_.UpdateParam(station_pid_conf,speed_pid_conf);
+#else
+
+#endif
 }
 }

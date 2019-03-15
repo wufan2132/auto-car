@@ -156,7 +156,7 @@ void LatController::ComputeControlCommand(
                                       M_PI * steer_ratio_ /
                                       steer_single_direction_max_degree_ * 100;
 
-  const double steer_angle_feedforward = 0;//ComputeFeedForward(debug.curvature,vehicle_state);
+  const double steer_angle_feedforward = ComputeFeedForward(debug.curvature,vehicle_state);
 
   // Clamp the steer angle to -100.0 to 100.0
   double steer_angle = common::math::Clamp(steer_angle_feedback + steer_angle_feedforward, -100.0, 100.0);
@@ -184,7 +184,7 @@ void LatController::ComputeControlCommand(
 //     steer_angle = pre_steer_angle_;
 //   }
   pre_steer_angle_ = steer_angle;
-  cmd.steer = steer_angle/100.0;
+  cmd.steer = steer_angle;
   // compute extra information for logging and debugging
   const double steer_angle_lateral_contribution =
       -matrix_k_(0, 0) * matrix_state_(0, 0) * 180 / M_PI * steer_ratio_ /
