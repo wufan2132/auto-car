@@ -114,7 +114,7 @@ void localization_topic_callback(const car_msgs::localization::ConstPtr &localiz
             refrenceline_marker_list.scale.x = 0.1;
             refrenceline_marker_list.scale.y = 0.1;
             refrenceline_marker_list.scale.z = 0.1;
-            refrenceline_marker_list.color.a = 0.7; // Don't forget to set the alpha!
+            refrenceline_marker_list.color.a = 1.0; // Don't forget to set the alpha!
             refrenceline_marker_list.color.r = 1.0;
             refrenceline_marker_list.color.g = 0.0;
             refrenceline_marker_list.color.b = 0.0;

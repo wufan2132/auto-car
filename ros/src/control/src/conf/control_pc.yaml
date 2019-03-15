@@ -60,13 +60,13 @@ mpc_controller_conf:
   mass_rl: 340
   mass_rr: 340
   eps: 0.01
-  matrix_q1: 0.9
+  matrix_q1: 15
   matrix_q2: 0.0
   matrix_q3: 15
   matrix_q4: 0.0
   matrix_q5: 50.0
   matrix_q6: 10.0
-  matrix_r1: 3.25
+  matrix_r1: 1.0
   matrix_r2: 1.0
   cutoff_freq: 10
   mean_filter_window_size: 10
