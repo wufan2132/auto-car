@@ -1,10 +1,5 @@
 #include "planning/planning.h"
-//
-//const string PLANNER_CONF_DIR = 
-//   "../my-code/auto-car/ros/src/planning/conf/sp_planner_conf.yaml";
-// const string PLANNER_CONF_DIR = 
-//     "../my-code/auto-car/ros/src/planning/conf/og_planner_conf.yaml";
-
+ 
 
 
 Car_Planning::Car_Planning(YAML::Node planning_conf)
