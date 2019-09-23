@@ -1,3 +1,9 @@
+#
+.vscode
+
+#docker images
+docker/images
+
 ros/build/
 ros/devel
 ros/src/planning/planning_conf.yaml
