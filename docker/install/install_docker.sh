@@ -73,6 +73,10 @@ else
   echo "Unknown machine architecture $MACHINE_ARCH"
   exit 1
 fi
+# remove docker root
+sudo groupadd docker 
+sudo gpasswd -a ${USER} docker
+sudo chmod a+rw /var/run/docker.sock
 }
 
 case $1 in
