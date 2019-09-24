@@ -132,7 +132,7 @@ do
     break
   fi
 done
-if [ $VERSION == "" ]; then
+if [ "$VERSION" == "" ]; then
     echo "images not found!":
     exit 0
 fi

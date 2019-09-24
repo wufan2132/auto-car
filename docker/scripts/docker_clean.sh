@@ -1,3 +1,5 @@
+
+docker stop $(docker ps -a -q)
 # 删除所有未打 dangling 标签的镜像
 docker rmi $(docker images -q -f dangling=true)
 

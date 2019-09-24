@@ -27,8 +27,8 @@ REPO=autocar
 ARCH=$(uname -m)
 TIME=$(date +%Y%m%d_%H%M)
 
-TAG="${REPO}:dev-${ARCH}"
-#TAG="${REPO}:dev-${ARCH}-${TIME}"
+#TAG="${REPO}:dev-${ARCH}"
+TAG="${REPO}:dev-${ARCH}-${TIME}"
 
 # Fail on first error.
 set -e

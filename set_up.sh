@@ -18,6 +18,24 @@
 
 ARCH=$(uname -m)
 
+LOCAL_IMAGE="yes"
+while [ $# -gt 0 ]
+do
+    case "$1" in
+    -h|--help)
+        show_usage
+        ;;
+    -b|--build)
+        LOCAL_IMAGE="no"
+        ;;
+    *)
+        echo -e "\033[93mWarning\033[0m: Unknown option: $1"
+        exit 2
+        ;;
+    esac
+    shift
+done
+
 
 
 source scripts/autocar_base.sh
@@ -33,12 +51,20 @@ fi
 
 echo ""
 info "2.build docker image..."
- if [ "$ARCH" == 'aarch64' ]; then
-    echo "暂不支持arm"
- else
+if [ "$LOCAL_IMAGE" == 'yes' ]; 
+then
+    echo build image from tar
+    bash docker/build/build_from_tar.sh
+else
+    echo build new image
     bash docker/build/build_dev.sh  docker/build/dev.x86_64.dockerfile
 fi
-
+#  if [ "$ARCH" == 'aarch64' ]; then
+#     echo "暂不支持arm"
+#  else
+#     bash docker/build/build_dev.sh  docker/build/dev.x86_64.dockerfile
+# fi
+set -e
 echo ""
 info "3.generating docker container..."
 bash docker/scripts/dev_start.sh
