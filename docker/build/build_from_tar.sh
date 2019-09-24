@@ -14,4 +14,10 @@ for image in `ls "${AUTOCAR_ROOT_DIR}"/docker/images`
     done
 fi
 
+if ["$IMG_FILE" == ""]; then
+    error "找不到镜像文件: ${IMG_FILE}  "
+    info "请将镜像文件拷贝到 docker/images 目录下"
+    exit 0
+fi
+
 docker load --input ${IMG_FILE}
