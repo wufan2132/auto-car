@@ -4,7 +4,7 @@ IMG_FILE=$1
 
 AUTOCAR_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
-if ["$IMG_FILE" == ""]; then
+if [ "$IMG_FILE" == "" ]; then
 for image in `ls "${AUTOCAR_ROOT_DIR}"/docker/images`
     do
         if [[ $image == autocar:dev-* ]]
@@ -14,7 +14,7 @@ for image in `ls "${AUTOCAR_ROOT_DIR}"/docker/images`
     done
 fi
 
-if ["$IMG_FILE" == ""]; then
+if [ "$IMG_FILE" == "" ]; then
     error "找不到镜像文件: ${IMG_FILE}  "
     info "请将镜像文件拷贝到 docker/images 目录下"
     exit 0
