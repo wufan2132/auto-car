@@ -6,9 +6,9 @@ REPO=autocar
 COMMIT_MSG=$2
 CONTAINER_ID=$1
 TIME=$(date +%Y%m%d_%H%M)
-AUTOCAR_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+AUTOCAR_ROOT_DIR="$( cd "$( dirname $0 )/../.." && pwd )"
 
-if [ ${COMMIT_MSG} == "" ]; then
+if [ "${COMMIT_MSG}" == "" ]; then
     COMMIT_MSG="defult"
 fi
 
@@ -20,13 +20,13 @@ docker commit \
         $CONTAINER_ID ${TAG}
 
 # move history images
-if [ ! -d "${AUTOCAR_ROOT_DIR}/docker/images/history"  ];then
+if [ ! -d "${AUTOCAR_ROOT_DIR}/docker/images/history" ]; then
   mkdir "${AUTOCAR_ROOT_DIR}/docker/images/history"
 fi
 
 for image in `ls "${AUTOCAR_ROOT_DIR}"/docker/images`
     do
-        if [[ $image == autocar:dev-* ]]
+        if [ "$image" == autocar:dev-* ];
         then
             mv "${AUTOCAR_ROOT_DIR}/docker/images/${image}" "${AUTOCAR_ROOT_DIR}/docker/images/history/${image}"
         fi
