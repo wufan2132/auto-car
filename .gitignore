@@ -1,9 +1,17 @@
-#
-.vscode
+# IDE
+/.vscode
 
-#docker images
-docker/images
+# user space
+/user/
 
+# data
+/data/
+
+# docker images
+/docker/images/*.tar
+/docker/images/**/*.tar
+
+# gen files
 ros/build/
 ros/devel
 ros/src/planning/planning_conf.yaml

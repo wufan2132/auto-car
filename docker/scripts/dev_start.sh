@@ -20,7 +20,7 @@ INCHINA="no"
 LOCAL_IMAGE="yes"
 VERSION=""
 ARCH=$(uname -m)
-VERSION_X86_64="dev-x86_64-20190923_1643"
+VERSION_X86_64="dev-x86_64-20190923_2118"
 VERSION_AARCH64="dev-aarch64-20181108_1330"
 VERSION_OPT=""
 IN_DOCKER_USER=cat
@@ -123,14 +123,17 @@ do
     shift
 done
 
-if [ ! -z "$VERSION_OPT" ]; then
-    VERSION=$VERSION_OPT
-elif [ ${ARCH} == "x86_64" ]; then
-    VERSION=${VERSION_X86_64}
-elif [ ${ARCH} == "aarch64" ]; then
-    VERSION=${VERSION_AARCH64}
-else
-    echo "Unknown architecture: ${ARCH}"
+
+for file in `docker images`
+do
+  if [[ $file == dev-${ARCH}* ]]
+  then
+  	VERSION=$file
+    break
+  fi
+done
+if [ $VERSION == "" ]; then
+    echo "images not found!":
     exit 0
 fi
 
