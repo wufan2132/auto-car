@@ -16,7 +16,7 @@
 # limitations under the License.
 ###############################################################################
 
-APOLLO_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+AUTOCAR_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 RED='\033[0;31m'
 YELLOW='\e[33m'
@@ -88,8 +88,8 @@ function set_lib_path() {
     if [ -e "${ROS_SETUP}" ]; then
       source "${ROS_SETUP}"
     fi
-    PY_LIB_PATH=${APOLLO_ROOT_DIR}/py_proto
-    PY_TOOLS_PATH=${APOLLO_ROOT_DIR}/modules/tools
+    PY_LIB_PATH=${AUTOCAR_ROOT_DIR}/py_proto
+    PY_TOOLS_PATH=${AUTOCAR_ROOT_DIR}/modules/tools
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/apollo/lib:/apollo/bazel-genfiles/external/caffe/lib:/home/caros/secure_upgrade/depend_lib
   fi
   PY_LIB_PATH=${PY_LIB_PATH}:/usr/local/apollo/snowboy/Python
@@ -105,7 +105,7 @@ function set_lib_path() {
 function create_data_dir() {
   local DATA_DIR=""
   if [ "$RELEASE_DOCKER" != "1" ];then
-    DATA_DIR="${APOLLO_ROOT_DIR}/data"
+    DATA_DIR="${AUTOCAR_ROOT_DIR}/data"
   else
     DATA_DIR="${HOME}/data"
   fi
@@ -116,9 +116,9 @@ function create_data_dir() {
 }
 
 function determine_bin_prefix() {
-  APOLLO_BIN_PREFIX=$APOLLO_ROOT_DIR
-  if [ -e "${APOLLO_ROOT_DIR}/bazel-bin" ]; then
-    APOLLO_BIN_PREFIX="${APOLLO_ROOT_DIR}/bazel-bin"
+  APOLLO_BIN_PREFIX=$AUTOCAR_ROOT_DIR
+  if [ -e "${AUTOCAR_ROOT_DIR}/bazel-bin" ]; then
+    APOLLO_BIN_PREFIX="${AUTOCAR_ROOT_DIR}/bazel-bin"
   fi
   export APOLLO_BIN_PREFIX
 }
@@ -233,12 +233,12 @@ function start_customized_path() {
   MODULE=$2
   shift 2
 
-  LOG="${APOLLO_ROOT_DIR}/data/log/${MODULE}.out"
+  LOG="${AUTOCAR_ROOT_DIR}/data/log/${MODULE}.out"
   is_stopped_customized_path "${MODULE_PATH}" "${MODULE}"
   if [ $? -eq 1 ]; then
     eval "nohup ${APOLLO_BIN_PREFIX}/modules/${MODULE_PATH}/${MODULE} \
         --flagfile=modules/${MODULE_PATH}/conf/${MODULE}.conf \
-        --log_dir=${APOLLO_ROOT_DIR}/data/log $@ </dev/null >${LOG} 2>&1 &"
+        --log_dir=${AUTOCAR_ROOT_DIR}/data/log $@ </dev/null >${LOG} 2>&1 &"
     sleep 0.5
     is_stopped_customized_path "${MODULE_PATH}" "${MODULE}"
     if [ $? -eq 0 ]; then
@@ -267,7 +267,7 @@ function start_prof_customized_path() {
   shift 2
 
   echo "Make sure you have built with 'bash apollo.sh build_prof'"
-  LOG="${APOLLO_ROOT_DIR}/data/log/${MODULE}.out"
+  LOG="${AUTOCAR_ROOT_DIR}/data/log/${MODULE}.out"
   is_stopped_customized_path "${MODULE_PATH}" "${MODULE}"
   if [ $? -eq 1 ]; then
     PROF_FILE="/tmp/$MODULE.prof"
@@ -275,7 +275,7 @@ function start_prof_customized_path() {
     BINARY=${APOLLO_BIN_PREFIX}/modules/${MODULE_PATH}/${MODULE}
     eval "CPUPROFILE=$PROF_FILE $BINARY \
         --flagfile=modules/${MODULE_PATH}/conf/${MODULE}.conf \
-        --log_dir=${APOLLO_ROOT_DIR}/data/log $@ </dev/null >${LOG} 2>&1 &"
+        --log_dir=${AUTOCAR_ROOT_DIR}/data/log $@ </dev/null >${LOG} 2>&1 &"
     sleep 0.5
     is_stopped_customized_path "${MODULE_PATH}" "${MODULE}"
     if [ $? -eq 0 ]; then
@@ -306,7 +306,7 @@ function start_fe_customized_path() {
 
   eval "${APOLLO_BIN_PREFIX}/modules/${MODULE_PATH}/${MODULE} \
       --flagfile=modules/${MODULE_PATH}/conf/${MODULE}.conf \
-      --alsologtostderr --log_dir=${APOLLO_ROOT_DIR}/data/log $@"
+      --alsologtostderr --log_dir=${AUTOCAR_ROOT_DIR}/data/log $@"
 }
 
 function start_fe() {
@@ -323,7 +323,7 @@ function start_gdb_customized_path() {
 
   eval "gdb --args ${APOLLO_BIN_PREFIX}/modules/${MODULE_PATH}/${MODULE} \
       --flagfile=modules/${MODULE_PATH}/conf/${MODULE}.conf \
-      --log_dir=${APOLLO_ROOT_DIR}/data/log $@"
+      --log_dir=${AUTOCAR_ROOT_DIR}/data/log $@"
 }
 
 function start_gdb() {

@@ -50,7 +50,17 @@ else
 fi
 
 echo ""
-info "2.build docker image..."
+info "2.download images tar..."
+if [ -f docker/images/*\.tar ]; then
+    echo "images tar is already exist!"
+else
+	echo "现在还没写好，客官下次再来！"
+	exit 0
+
+fi
+
+echo ""
+info "3.build docker image..."
 if [ "$LOCAL_IMAGE" == 'yes' ]; 
 then
     echo build image from tar

@@ -26,8 +26,9 @@ fi
 
 for image in `ls "${AUTOCAR_ROOT_DIR}"/docker/images`
     do
-        if [ "$image" == autocar:dev-* ];
+        if [[ "$image" == autocar:dev-* ]];
         then
+            echo "remove old images:${image}"
             mv "${AUTOCAR_ROOT_DIR}/docker/images/${image}" "${AUTOCAR_ROOT_DIR}/docker/images/history/${image}"
         fi
     done
