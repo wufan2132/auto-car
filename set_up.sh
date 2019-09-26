@@ -16,9 +16,8 @@
 # limitations under the License.
 ###############################################################################
 
-ARCH=$(uname -m)
-
 LOCAL_IMAGE="yes"
+
 while [ $# -gt 0 ]
 do
     case "$1" in
@@ -36,8 +35,7 @@ do
     shift
 done
 
-
-
+# TODO: add autocar_base.sh to bashrc
 source scripts/autocar_base.sh
 
 echo ""
@@ -56,7 +54,6 @@ if [ -f docker/images/*\.tar ]; then
 else
 	echo "现在还没写好，客官下次再来！"
 	exit 0
-
 fi
 
 echo ""
