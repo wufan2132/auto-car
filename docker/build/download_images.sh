@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Usage:
-#  ./download_images.sh  [images_path]
+#  ./download_images.sh  [images_filename]
 
 SERVER=sixianka
 

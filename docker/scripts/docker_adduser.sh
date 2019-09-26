@@ -20,9 +20,9 @@ ARCH=$(uname -m)
 
 addgroup --gid "$DOCKER_GRP_ID" "$DOCKER_GRP"
 adduser --disabled-password --force-badname --gecos '' "$DOCKER_USER" \
-    --uid "$DOCKER_USER_ID" --gid "$DOCKER_GRP_ID" 2>/dev/null
+  --uid "$DOCKER_USER_ID" --gid "$DOCKER_GRP_ID" 2>/dev/null
 usermod -aG sudo "$DOCKER_USER"
-echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+echo '%sudo ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers
 cp -r /etc/skel/. /home/${DOCKER_USER}
 
 if [ "$ARCH" == 'aarch64' ]; then
@@ -33,21 +33,22 @@ export NVBLAS_CONFIG_FILE=/usr/local/cuda
 if [ -e "/autocar/scripts/autocar_base.sh" ]; then 
   source /autocar/scripts/autocar_base.sh; 
 fi
-ulimit -c unlimited" >> /home/${DOCKER_USER}/.bashrc
+ulimit -c unlimited" >>/home/${DOCKER_USER}/.bashrc
   source /home/${DOCKER_USER}/.bashrc
 else
   echo '
-  export PATH=${PATH}:/autocar/scripts:/usr/local/miniconda2/bin
-   if [ -e "/autocar/scripts/autocar_base.sh" ]; then
-    source /autocar/scripts/autocar_base.sh
-  fi
-   ulimit -c unlimited
-  ' >> "/home/${DOCKER_USER}/.bashrc"
+export PATH=${PATH}:/autocar/scripts:/usr/local/miniconda2/bin
+if [ -e "/autocar/scripts/autocar_base.sh" ]; then
+  source /autocar/scripts/autocar_base.sh
+fi
+ulimit -c unlimited
+source /opt/ros/melodic/setup.bash
+  ' >>"/home/${DOCKER_USER}/.bashrc"
 fi
 echo '
 genhtml_branch_coverage = 1
 lcov_branch_coverage = 1
-' > "/home/${DOCKER_USER}/.lcovrc"
+' >"/home/${DOCKER_USER}/.lcovrc"
 
 chown -R ${DOCKER_USER}:${DOCKER_GRP} "/home/${DOCKER_USER}"
 

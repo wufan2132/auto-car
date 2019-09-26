@@ -18,13 +18,12 @@
 
 LOCAL_IMAGE="yes"
 
-while [ $# -gt 0 ]
-do
+while [ $# -gt 0 ]; do
     case "$1" in
-    -h|--help)
+    -h | --help)
         show_usage
         ;;
-    -b|--build)
+    -b | --build)
         LOCAL_IMAGE="no"
         ;;
     *)
@@ -35,8 +34,9 @@ do
     shift
 done
 
-# TODO: add autocar_base.sh to bashrc
-source scripts/autocar_base.sh
+echo "set up env....."
+AUTOCAR_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
 
 echo ""
 info "1.install docker..."
@@ -44,34 +44,33 @@ docker ps >/dev/null
 if [ $? == 0 ]; then
     echo "docker is already installed,  skip install."
 else
-    sudo bash docker/install/install_docker.sh >/dev/null
+    sudo bash "${AUTOCAR_ROOT_DIR}/docker/install/install_docker.sh" >/dev/null
 fi
-
+set -e
 echo ""
 info "2.download images tar..."
 if [ -f docker/images/*\.tar ]; then
     echo "images tar is already exist!"
 else
-	echo "现在还没写好，客官下次再来！"
-	exit 0
+    source "${AUTOCAR_ROOT_DIR}/docker/images/release_images.sh"
+    IMG=$IMG_x86_64
+    bash "${AUTOCAR_ROOT_DIR}/docker/build/download_images.sh" $IMG
 fi
 
 echo ""
 info "3.build docker image..."
-if [ "$LOCAL_IMAGE" == 'yes' ]; 
-then
+if [ "$LOCAL_IMAGE" == 'yes' ]; then
     echo build image from tar
-    bash docker/build/build_from_tar.sh
+    bash "${AUTOCAR_ROOT_DIR}/docker/build/build_from_tar.sh"
 else
     echo build new image
-    bash docker/build/build_dev.sh  docker/build/dev.x86_64.dockerfile
+    bash "${AUTOCAR_ROOT_DIR}/docker/build/build_dev.sh docker/build/dev.x86_64.dockerfile"
 fi
 #  if [ "$ARCH" == 'aarch64' ]; then
 #     echo "暂不支持arm"
 #  else
 #     bash docker/build/build_dev.sh  docker/build/dev.x86_64.dockerfile
 # fi
-set -e
 echo ""
-info "3.generating docker container..."
-bash docker/scripts/dev_start.sh
+info "4.generating docker container..."
+bash "${AUTOCAR_ROOT_DIR}/docker/scripts/dev_start.sh"

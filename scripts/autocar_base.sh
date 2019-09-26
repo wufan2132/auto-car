@@ -16,7 +16,7 @@
 # limitations under the License.
 ###############################################################################
 
-AUTOCAR_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+AUTOCAR_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ARCH=$(uname -m)
 
 RED='\033[0;31m'
@@ -24,19 +24,19 @@ YELLOW='\e[33m'
 NO_COLOR='\033[0m'
 
 function info() {
-  (>&2 echo -e "[\e[34m\e[1mINFO\e[0m] $*")
+  (echo >&2 -e "[\e[34m\e[1mINFO\e[0m] $*")
 }
 
 function error() {
-  (>&2 echo -e "[${RED}ERROR${NO_COLOR}] $*")
+  (echo >&2 -e "[${RED}ERROR${NO_COLOR}] $*")
 }
 
 function warning() {
-  (>&2 echo -e "${YELLOW}[WARNING] $*${NO_COLOR}")
+  (echo >&2 -e "${YELLOW}[WARNING] $*${NO_COLOR}")
 }
 
 function ok() {
-  (>&2 echo -e "[\e[32m\e[1m OK \e[0m] $*")
+  (echo >&2 -e "[\e[32m\e[1m OK \e[0m] $*")
 }
 
 function print_delim() {
@@ -78,10 +78,9 @@ function check_in_docker() {
   export APOLLO_IN_DOCKER
 }
 
-
 function create_data_dir() {
   local DATA_DIR=""
-  if [ "$RELEASE_DOCKER" != "1" ];then
+  if [ "$RELEASE_DOCKER" != "1" ]; then
     DATA_DIR="${AUTOCAR_ROOT_DIR}/data"
   else
     DATA_DIR="${HOME}/data"
@@ -92,13 +91,10 @@ function create_data_dir() {
   mkdir -p "${DATA_DIR}/core"
 }
 
-
-
-
 # Note: This 'help' function here will overwrite the bash builtin command 'help'.
 # TODO: add a command to query known modules.
 function help() {
-cat <<EOF
+  cat <<EOF
 Invoke ". scripts/apollo_base.sh" within docker to add the following commands to the environment:
 Usage: COMMAND [<module_name>]
 
@@ -114,8 +110,3 @@ EOF
 check_in_docker
 create_data_dir
 
-if [ -z $APOLLO_BASE_SOURCED ]; then
-  # set_lib_path
-  # determine_bin_prefix
-  export APOLLO_BASE_SOURCED=1
-fi
