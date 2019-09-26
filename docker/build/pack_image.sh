@@ -14,6 +14,8 @@ TIME=$(date +%Y%m%d_%H%M)
 AUTOCAR_ROOT_DIR="$(cd "$(dirname $0)/../.." && pwd)"
 source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
 
+get_start_time
+
 if [ "${CONTAINER_ID}" == "" ]; then
     for id in $(docker ps -q); do
         if [ "$CONTAINER_ID" == "" ]; then
@@ -59,6 +61,6 @@ docker save \
     -o "${AUTOCAR_ROOT_DIR}/docker/images/${REPO}:dev-${ARCH}-${TIME}.tar" $TAG
 
 # log
-echo "${TAG}.tar  ${COMMIT_MSG}" >>"${AUTOCAR_ROOT_DIR}/docker/images/images-log-${USER} .md"
+echo "${TAG}.tar  ${COMMIT_MSG}" >>"${AUTOCAR_ROOT_DIR}/docker/images/images-log-${USER}.md"
 
 success
