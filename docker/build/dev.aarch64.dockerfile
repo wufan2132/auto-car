@@ -31,14 +31,15 @@ FROM arm64v8/ubuntu:18.04
 # RUN bash /tmp/installers/post_install.sh
 # RUN bash /tmp/installers/install_google_perftools_aarch64.sh
 
-RUN apt-get install -y \
-   bc \
-   cppcheck \
-   debconf-utils \
-   doxygen \
-   graphviz \
-   gdb \
-   git \
+#RUN apt-get install -y \
+#   vim
+   #bc \
+   #cppcheck \
+   #debconf-utils \
+   #doxygen \
+   #graphviz \
+   #gdb \
+   #git \
    # subversion \
    # lcov \
    # libblas-dev \
@@ -48,13 +49,13 @@ RUN apt-get install -y \
    # liblapack-dev \
    # libpcap-dev \
    # locate \
-   lsof \
-   realpath \
-   shellcheck \
-   vim \
-   v4l-utils \
-   nfs-common \
-   zip
+   #lsof \
+   #realpath \
+   #shellcheck \
+   #vim \
+   #v4l-utils \
+   #nfs-common \
+   #zip
 
 WORKDIR /autocar
 #USER autocar

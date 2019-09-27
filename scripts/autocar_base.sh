@@ -47,6 +47,10 @@ function get_now() {
   echo $(date +%s)
 }
 
+function get_start_time() {
+  START_TIME=$(get_now)
+}
+
 function print_time() {
   END_TIME=$(get_now)
   ELAPSED_TIME=$(echo "$END_TIME - $START_TIME" | bc -l)

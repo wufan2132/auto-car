@@ -53,7 +53,11 @@ if [ -f docker/images/*\.tar ]; then
     echo "images tar is already exist!"
 else
     source "${AUTOCAR_ROOT_DIR}/docker/images/release_images.sh"
-    IMG=$IMG_x86_64
+    if [ "$ARCH" == 'aarch64' ]; then
+	IMG=$IMG_aarch64
+    else 
+        IMG=$IMG_x86_64
+    fi
     bash "${AUTOCAR_ROOT_DIR}/docker/build/download_images.sh" $IMG
 fi
 
