@@ -50,7 +50,7 @@ genhtml_branch_coverage = 1
 lcov_branch_coverage = 1
 ' >"/home/${DOCKER_USER}/.lcovrc"
 
-chown -R ${DOCKER_USER}:${DOCKER_GRP} "/home/${DOCKER_USER}"
+#sudo chown -R "${DOCKER_USER}" "/home/${DOCKER_USER}"
 
 # # setup GPS device
 # if [ -e /dev/novatel0 ]; then

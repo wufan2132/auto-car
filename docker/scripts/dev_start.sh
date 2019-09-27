@@ -218,7 +218,7 @@ function main(){
         "
     fi
 
-
+	
     ${DOCKER_CMD} run -it \
         -d \
         --privileged \

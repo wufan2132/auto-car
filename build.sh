@@ -32,8 +32,8 @@ function build_aarch64() {
 
 function build() {
     get_start_time
-    if [ $TARGET == "" ]; then
-        if [ $ARCH == "aarch64" ]; then
+    if [ "$TARGET" == "" ]; then
+        if [ "$ARCH" == "aarch64" ]; then
             build_aarch64
         else
             build_x86_64
