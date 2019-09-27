@@ -30,9 +30,9 @@ apt-get install -y oracle-java8-installer
 
 # Install Bazel.
 cd "$(dirname "${BASH_SOURCE[0]}")"
-wget https://github.com/bazelbuild/bazel/releases/download/0.5.3/bazel-0.5.3-installer-linux-x86_64.sh
-bash bazel-0.5.3-installer-linux-x86_64.sh
+wget https://github.com/bazelbuild/bazel/releases/download/0.26.1/bazel-0.26.1-installer-linux-x86_64.sh
+bash bazel-0.26.1-installer-linux-x86_64.sh
 
 # Clean up.
 apt-get clean && rm -rf /var/lib/apt/lists/*
-rm -fr bazel-0.5.3-installer-linux-x86_64.sh /etc/apt/sources.list.d/bazel.list
+rm -fr bazel-0.26.1-installer-linux-x86_64.sh /etc/apt/sources.list.d/bazel.list
