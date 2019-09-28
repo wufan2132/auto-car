@@ -215,10 +215,7 @@ function main() {
         --privileged \
         --name autocar_dev \
         --user=$USER_ID \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        -e DISPLAY=unix$DISPLAY \
-        -e GDK_SCALE \
-        -e GDK_DPI_SCALE \
+        -e DISPLAY=$display \
         -e DOCKER_USER=$IN_DOCKER_USER \
         -e DOCKER_USER_ID=$USER_ID \
         -e DOCKER_GRP=$IN_DOCKER_GRP \
