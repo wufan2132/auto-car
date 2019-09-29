@@ -9,4 +9,4 @@ AUTOCAR_ROOT_DIR="$( cd "$( dirname "$0" )/../.." && pwd )"
 source "${AUTOCAR_ROOT_DIR}/config/servers/${SERVER}.sh"
 #
 echo "the password is ${S_PWD} ${S_PWD_DETALL}"
-scp  $IMAGE "${S_USER}@${S_IP}:${IMAGES_PATH}"
+scp  "$IMAGE" "${S_USER}@${S_IP}:${IMAGES_PATH}"
