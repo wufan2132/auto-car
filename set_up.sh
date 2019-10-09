@@ -42,7 +42,7 @@ echo ""
 info "1.install docker..."
 docker ps >/dev/null
 if [ $? == 0 ]; then
-    echo "docker is already installed,  skip install."
+    echo "docker is already installed, skip install."
 else
     sudo bash "${AUTOCAR_ROOT_DIR}/docker/install/install_docker.sh" >/dev/null
 fi
@@ -50,7 +50,7 @@ set -e
 echo ""
 info "2.download images tar..."
 if [ -f docker/images/*\.tar ]; then
-    echo "images tar is already exist!"
+    echo "images tar is already exist, skip download."
 else
     source "${AUTOCAR_ROOT_DIR}/docker/images/release_images.sh"
     if [ "$ARCH" == 'aarch64' ]; then

@@ -61,6 +61,7 @@ docker save \
     -o "${AUTOCAR_ROOT_DIR}/docker/images/${REPO}:dev-${ARCH}-${TIME}.tar" $TAG
 
 # log
+echo "${TAG}.tar  ${COMMIT_MSG}" 
 echo "${TAG}.tar  ${COMMIT_MSG}" >>"${AUTOCAR_ROOT_DIR}/docker/images/images-log-${USER}.md"
 
-success
+success "build images success"

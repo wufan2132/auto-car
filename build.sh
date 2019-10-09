@@ -32,6 +32,7 @@ function build_aarch64() {
 
 function build() {
     get_start_time
+
     if [ "$TARGET" == "" ]; then
         if [ "$ARCH" == "aarch64" ]; then
             build_aarch64
@@ -39,6 +40,7 @@ function build() {
             build_x86_64
         fi
     else
+        info "build target: $TARGET"
         catkin_make -DCATKIN_WHITELIST_PACKAGES="$TARGET"
     fi
     success "build success"
