@@ -3,7 +3,8 @@
 ###############################################
 # 最新版本，支持nvidia显卡以及opengl加速，
 # 可以运行gazebo rviz.
-IMG_x86_64=autocar:dev-x86_64-20190929_2020.tar
+# 依赖的库glog、gtest、qpsaoes已安装
+IMG_x86_64=autocar:dev-x86_64-20191009_2011.tar
 # 之前不带nvidia驱动的镜像
 #IMG_x86_64=autocar:dev-x86_64-20190927_1557.tar
 
