@@ -2,6 +2,7 @@
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
+##
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
@@ -9,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 include_directories(
   qp_solver
+  ${PROJECT_SOURCE_DIR}
    ${catkin_INCLUDE_DIRS}
 )
 

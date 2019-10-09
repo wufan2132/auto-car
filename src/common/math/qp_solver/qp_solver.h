@@ -29,16 +29,19 @@
 #include "Eigen/Core"
 #include "Eigen/LU"
 
-namespace common {
-namespace math {
+namespace common
+{
+namespace math
+{
 
-class QpSolver {
- public:
-  QpSolver(const Eigen::MatrixXd& kernel_matrix, const Eigen::MatrixXd& offset,
-           const Eigen::MatrixXd& affine_inequality_matrix,
-           const Eigen::MatrixXd& affine_inequality_boundary,
-           const Eigen::MatrixXd& affine_equality_matrix,
-           const Eigen::MatrixXd& affine_equality_boundary);
+class QpSolver
+{
+public:
+  QpSolver(const Eigen::MatrixXd &kernel_matrix, const Eigen::MatrixXd &offset,
+           const Eigen::MatrixXd &affine_inequality_matrix,
+           const Eigen::MatrixXd &affine_inequality_boundary,
+           const Eigen::MatrixXd &affine_equality_matrix,
+           const Eigen::MatrixXd &affine_equality_boundary);
   virtual ~QpSolver() = default;
 
   virtual void set_pos_semi_definite_hessian() {}
@@ -47,15 +50,15 @@ class QpSolver {
   virtual void SetTerminationTolerance(const double) {}
   virtual bool Solve() = 0;
 
-  const Eigen::MatrixXd& params() const;
-  const Eigen::MatrixXd& kernel_matrix() const;
-  const Eigen::MatrixXd& offset() const;
-  const Eigen::MatrixXd& affine_equality_matrix() const;
-  const Eigen::MatrixXd& affine_equality_boundary() const;
-  const Eigen::MatrixXd& affine_inequality_matrix() const;
-  const Eigen::MatrixXd& affine_inequality_boundary() const;
+  const Eigen::MatrixXd &params() const;
+  const Eigen::MatrixXd &kernel_matrix() const;
+  const Eigen::MatrixXd &offset() const;
+  const Eigen::MatrixXd &affine_equality_matrix() const;
+  const Eigen::MatrixXd &affine_equality_boundary() const;
+  const Eigen::MatrixXd &affine_inequality_matrix() const;
+  const Eigen::MatrixXd &affine_inequality_boundary() const;
 
- protected:
+protected:
   virtual bool sanity_check() = 0;
   Eigen::MatrixXd params_;
   Eigen::MatrixXd kernel_matrix_;
@@ -66,7 +69,7 @@ class QpSolver {
   Eigen::MatrixXd affine_equality_boundary_;
 };
 
-}  // namespace math
-}  // namespace common
+} // namespace math
+} // namespace common
 
-#endif  // MODULES_COMMON_MATH_QP_SOLVER_QP_SOLVER_H_
+#endif // MODULES_COMMON_MATH_QP_SOLVER_QP_SOLVER_H_

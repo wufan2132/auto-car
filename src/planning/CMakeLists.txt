@@ -86,6 +86,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## * In this file (CMakeLists.txt):
 ##   * add "dynamic_reconfigure" to
 find_package(Eigen3 REQUIRED)
+find_package(glog REQUIRED)
+find_package(gflags REQUIRED)
 ##     find_package(catkin REQUIRED COMPONENTS ...)
 ##   * uncomment the "generate_dynamic_reconfigure_options" section below
 ##     and list every .cfg file to be processed
@@ -128,7 +130,7 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/planning.cpp
 # )
-
+## 添加子目录
 add_subdirectory(src/planning)
 add_subdirectory(src/optimizer)
 add_subdirectory(src/replay)
@@ -151,7 +153,6 @@ add_subdirectory(src/debugger)
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node src/main.cpp)
-add_executable(${PROJECT_NAME}_node_test src/main_test.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -162,13 +163,19 @@ add_executable(${PROJECT_NAME}_node_test src/main_test.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(${PROJECT_NAME}_node_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 ## Specify libraries to link a library or executable target against
+## 添加公共库
+target_link_libraries(${PROJECT_NAME}_node
+  PUBLIC 
+  glog
+  gflags
+  yaml-cpp
+)
+## 添加私有库
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    planning
    planner
-   yaml-cpp
    optimizer
    obstacle
    replay
@@ -182,23 +189,6 @@ target_link_libraries(${PROJECT_NAME}_node
    debugger
 )
 
-target_link_libraries(${PROJECT_NAME}_node_test
-   ${catkin_LIBRARIES}
-   planning
-   planner
-   yaml-cpp
-   optimizer
-   obstacle
-   replay
-   tool
-   car_model
-   trajectory
-   sampler
-   apollo_tool
-   refrenceline
-   map
-   debugger
-)
 #############
 ## Install ##
 #############
