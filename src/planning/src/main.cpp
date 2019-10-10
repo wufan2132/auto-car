@@ -28,8 +28,7 @@ int main(int argc, char **argv)
     ros::NodeHandle car_planning_NodeHandle;
 
     /*planning模块初始化*/
-    string path = FilePathTool::ToAbsDir(PLANNING_CONF_DIR);
-    Car_Planning planning(YAML::LoadFile(path));
+    Car_Planning planning(YAML::LoadFile(FLAGS_planning_conf_path));
     debugger = new Debugger();
 
     /*订阅*/
