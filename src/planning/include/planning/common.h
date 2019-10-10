@@ -25,6 +25,7 @@ public:
         char cwd[50];
         char *s = getcwd(cwd,sizeof(cwd));
         string runpath = cwd;
+        cout << "run_path:" << runpath << endl;
         if(runpath.find(".ros")==std::string::npos)
             DEBUG = 1;
     }

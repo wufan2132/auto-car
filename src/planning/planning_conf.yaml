@@ -2,7 +2,7 @@
 #规划器 (OgPlanner SpPlanner MpPlanner)
 planner: OgPlanner
 #规划器配置文件目录
-planner_dir: ../my-code/auto-car/ros/src/planning/conf/
+planner_dir: /auto-car/src/planning/conf/
 #工作模式 send / write
 mode: send
 #参考线来源 (replay refrenceline_provider)
@@ -14,11 +14,11 @@ wait_time: -1
 #########坐标转换
 find_len: 100 #每次向后寻找多少个点
 #########replay
-trajectory_dir: ../my-code/auto-car/ros/src/planning/file/trajectory/trajectory_tx2.csv
+trajectory_dir: /autocar/src/planning/file/trajectory/trajectory_tx2.csv
 sampling_period: 100
 #########obstacle_list
 obstacle_list:
-  obstacle_path: ../my-code/auto-car/ros/src/planning/file/obstacle/obstacle_list.csv
+  obstacle_path: /autocar/src/planning/file/obstacle/obstacle_list.csv
   # 障碍物的可视距离，只关注在该距离内的障碍物
   visible_distance: 3
   # 障碍物的可视角度，只关注与车正前方夹角小于这个值内的障碍物
@@ -31,9 +31,9 @@ refrenceline_provider:
   #终点
   end_point_x: -6
   end_point_y: 4
-  pgm_yaml_dir: ../my-code/auto-car/ros/src/planning/file/map/labmap.yaml
-  origin_image_dir: ../my-code/auto-car/ros/src/planning/file/map/labmap.pgm #原始地图路径
-  output_image_dir: ../my-code/auto-car/ros/src/planning/file/output/ #输出文件路径
+  pgm_yaml_dir: /autocar/src/planning/file/map/labmap.yaml
+  origin_image_dir: /autocar/src/planning/file/map/labmap.pgm #原始地图路径
+  output_image_dir: /autocar/src/planning/file/output/ #输出文件路径
   origin_road_width: 20 #原始路宽 (像素点)
   scale: 0.4 #压缩比例
   #############Astar

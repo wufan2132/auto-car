@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 include_directories(
-  qp_solver
   ${PROJECT_SOURCE_DIR}
    ${catkin_INCLUDE_DIRS}
 )

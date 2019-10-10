@@ -1,27 +1,34 @@
 
 #include <gflags/gflags.h>
 #include <glog/logging.h>
+#include "common/base/global_gflags/global_gflags.h"
+#include "common/base/file_path/file_path.h"
+#include "planning/src/common/planning_gflags.h"
 #include "planning/common.h"
 #include "planning/planning.h"
 
-#define PLANNING_CONF_DIR "../my-code/auto-car/ros/src/planning/planning_conf.yaml"
+#define PLANNING_CONF_DIR "src/planning/planning_conf.yaml"
 
 bool DEBUG = 0;
-
+using autocar::common::FilePathTool;
 int main(int argc, char **argv)
 {
     google::InitGoogleLogging(argv[0]);
     google::ParseCommandLineFlags(&argc, &argv, true);
     ROS_INFO("PLANNING start!!!!!");
-    //判断是否为debug模式
-    Common::debug_check();
+    LOG(INFO) << "INFO　PLANNING start!!!!!";
+    LOG(ERROR) << "ERROR　PLANNING start!!!!!";
+    cout << "FLAGS_log_dir:" << FLAGS_log_dir << endl;
+    cout << "FLAGS_test_flag_1:" << FLAGS_test_flag_1 << endl;
+    // //判断是否为debug模式
+    // Common::debug_check();
 
     /* code for main function */
     ros::init(argc, argv, "planning");
     ros::NodeHandle car_planning_NodeHandle;
 
     /*planning模块初始化*/
-    string path = Common::convert_to_debugpath(PLANNING_CONF_DIR);
+    string path = FilePathTool::ToAbsDir(PLANNING_CONF_DIR);
     Car_Planning planning(YAML::LoadFile(path));
     debugger = new Debugger();
 

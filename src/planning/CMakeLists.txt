@@ -122,8 +122,11 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include
+  ${CMAKE_SOURCE_DIR}
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
+  ${glog_INCLUDE_DIR}
+  ${gflags_INCLUDE_DIR}
 )
 
 ## Declare a C++ library
@@ -131,6 +134,7 @@ include_directories(
 #   src/${PROJECT_NAME}/planning.cpp
 # )
 ## 添加子目录
+add_subdirectory(src/common)
 add_subdirectory(src/planning)
 add_subdirectory(src/optimizer)
 add_subdirectory(src/replay)
@@ -174,6 +178,8 @@ target_link_libraries(${PROJECT_NAME}_node
 ## 添加私有库
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
+   planning_common
+   file_path
    planning
    planner
    optimizer

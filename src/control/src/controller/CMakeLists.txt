@@ -6,7 +6,7 @@ FIND_LIBRARY(YAML_CPP_LIBRARIES yaml-cpp)
 include_directories(
   ../../../common
 )
-add_subdirectory(../../../common/math math.out)
+
 # 生成链接库
 if(ENABLE_MPC)
   add_library(control 

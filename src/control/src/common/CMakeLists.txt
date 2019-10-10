@@ -7,7 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 include_directories(
     include
-  ../../../common
+    ${CMAKE_SOURCE_DIR}/common
 )
 
 # 生成链接库
