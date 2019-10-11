@@ -7,9 +7,10 @@ include_directories(
 )
 
 # 生成链接库
-add_library(file_path
-    file_path.cc)
-target_link_libraries(file_path
-     global_gflags)
+add_library(file_tool
+    file_tool.cc)
+target_link_libraries(file_tool
+     global_gflags
+     yaml-cpp)
 
 

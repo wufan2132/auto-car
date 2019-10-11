@@ -1,12 +1,12 @@
 #include "control/control.h"
 #include "yaml-cpp/yaml.h"
-#define CONTROL_CONF_DIR "../my-code/auto-car/ros/src/control/src/conf/control_pc.yaml"
+#include "control/common/control_gflags.h"
 
 namespace control {
 using namespace std;
 
 void Control::Init(void){
-    YAML::Node control_conf = YAML::LoadFile(CONTROL_CONF_DIR);
+    YAML::Node control_conf = YAML::LoadFile(FLAGS_control_conf_path);
 //模式参数
     control_mode_ = control_conf["control_mode"].as<int>();
     debug_mode_ = control_conf["debug_mode"].as<int>();

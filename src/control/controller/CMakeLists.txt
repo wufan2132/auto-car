@@ -4,26 +4,25 @@ add_compile_options(-std=c++11)
 
 FIND_LIBRARY(YAML_CPP_LIBRARIES yaml-cpp)
 include_directories(
-  ../../../common
+  ${CMAKE_SOURCE_DIR}
 )
 
 # 生成链接库
 if(ENABLE_MPC)
-  add_library(control 
-              control.cc 
+  add_library(mpc_controller 
               mpc_controller.cc
               )
-  target_link_libraries(control mpc_math)
+  target_link_libraries(mpc_controller mpc_math)
   message(STATUS "Use mpc_math")
 else()
-  add_library(control 
-              control.cc 
+  add_library(pid_controller 
               lon_controller.cc 
               lat_controller.cc 
+              pid_controller.cc
               )    
-  target_link_libraries(control math)
+  target_link_libraries(pid_controller 
+  math
+  trajectory_analyzer
+  )
   message(STATUS "Use math")
 endif()
-
-target_link_libraries(control common_lib)
-target_link_libraries(control ${YAML_CPP_LIBRARIES})

@@ -14,15 +14,15 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "control/trajectory_analyzer.h"
+#include "trajectory_analyzer.h"
 
 #include <algorithm>
 #include <cmath>
 #include <utility>
 
-#include "math/linear_interpolation.h"
-#include "math/math_utils.h"
-#include "math/search.h"
+#include "common/math/linear_interpolation.h"
+#include "common/math/math_utils.h"
+#include "common/math/search.h"
 
 namespace math = common::math;
 

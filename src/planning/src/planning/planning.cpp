@@ -1,6 +1,7 @@
 #include "planning/planning.h"
- 
+#include "common/base/file_tool/file_tool.h"
 
+using autocar::common::FileTool;
 
 Car_Planning::Car_Planning(YAML::Node planning_conf)
 :STATE(0)
@@ -20,16 +21,15 @@ Car_Planning::Car_Planning(YAML::Node planning_conf)
     ROS_INFO("Car_Planning::Car_Planning: obstacle_list load para finished!");
     //规划器初始化
     string planner_name = planning_conf["planner"].as<string>();
-    string planner_path =
-        Common::convert_to_debugpath(planning_conf["planner_dir"].as<string>());
+    string planner_path = planning_conf["planner_dir"].as<string>();
     if(planner_name=="OgPlanner")
-        planner = new OgPlanner(YAML::LoadFile(planner_path+planner_name+"_conf.yaml"));
+        planner = new OgPlanner(FileTool::LoadFile(planner_path+planner_name+"_conf.yaml"));
     else if(planner_name=="SpPlanner")
-        planner = new SpPlanner(YAML::LoadFile(planner_path+planner_name+"_conf.yaml"));
+        planner = new SpPlanner(FileTool::LoadFile(planner_path+planner_name+"_conf.yaml"));
     else if(planner_name=="MpPlanner")
-        planner = new MpPlanner(YAML::LoadFile(planner_path+planner_name+"_conf.yaml"));
+        planner = new MpPlanner(FileTool::LoadFile(planner_path+planner_name+"_conf.yaml"));
     else if(planner_name=="TestPlanner")
-        planner = new TestPlanner(YAML::LoadFile(planner_path+planner_name+"_conf.yaml"));
+        planner = new TestPlanner(FileTool::LoadFile(planner_path+planner_name+"_conf.yaml"));
     else
         ROS_ERROR("Car_Planning::Car_Planning: invalid planner name!");
     ROS_INFO("Car_Planning::Car_Planning: planner load para finished!");
@@ -50,10 +50,8 @@ void Car_Planning::chassis_callback(const car_msgs::chassis& chassis){
         STATE=1;
     car_chassis = chassis;
     car_status = generate_trajectory_point(car_localization, car_chassis);
-    //cout<< "chassis_callback"<<endl;
     if(conf.mode=="write"){
         static replay replayer(conf.trajectory_dir,"write");
-        //cout<<"chassis callback"<<endl;
         if(car_localization.header.seq>0){
             replayer.saveOnce(car_status,conf.sampling_period);
         }
@@ -87,15 +85,22 @@ void Car_Planning::Init(){
     ros::Duration(1).sleep();
     double time_begin =ros::Time::now().toSec();
     double time_now = time_begin;
-    while(!(STATE==1||conf.wait_time<=0||time_now-time_begin>conf.wait_time)){
-        ros::Duration(0.5).sleep(); // sleep for half a second
-        time_now =ros::Time::now().toSec();
-    }
+    // while(!(STATE==1||conf.wait_time<=0||time_now-time_begin>conf.wait_time)){
+    //     ros::Duration(0.5).sleep(); // sleep for half a second
+    //     time_now =ros::Time::now().toSec();
+    // }
     if(time_now-time_begin>conf.wait_time){
         ROS_ERROR("Car_Planning::Init: Can not receive car message!");
+        std::cout << "wait_time:" << conf.wait_time << endl;
+        std::cout << "time_begin:" << time_begin << endl;
+        std::cout << "time_now:" << time_now << endl;
         ros::shutdown();
     }
     ROS_INFO("Car_Planning::Init: link successed!");
+    if(conf.mode == "write") {
+        ROS_INFO("Car_Planning::Init: init finished!");
+        return;
+    }
     /*发送参考线*/
     // 读取轨迹
     if(conf.refrenceline_source == "replay"){

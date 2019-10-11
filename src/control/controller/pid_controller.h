@@ -1,23 +1,23 @@
 
-class PidConf{
-  public:
-  PidConf():
-    integrator_enable(0),
-    integrator_saturation_level(0),
-    kp(0),
-    ki(0),
-    kd(0),
-    kaw(0),
-    output_saturation_level(0){};
-    
+class PidConf {
+ public:
+  PidConf()
+      : integrator_enable(0),
+        integrator_saturation_level(0),
+        kp(0),
+        ki(0),
+        kd(0),
+        kaw(0),
+        output_saturation_level(0){};
+
   virtual ~PidConf(){};
-    bool integrator_enable;
-    double integrator_saturation_level;
-    double kp;
-    double ki;
-    double kd;
-    double kaw;
-    double output_saturation_level;
+  bool integrator_enable;
+  double integrator_saturation_level;
+  double kp;
+  double ki;
+  double kd;
+  double kaw;
+  double output_saturation_level;
 };
 
 /**
@@ -27,7 +27,7 @@ class PidConf{
  */
 class PIDController {
  public:
-  PIDController(){
+  PIDController() {
     kp_ = 0.0;
     ki_ = 0.0;
     kd_ = 0.0;
@@ -43,7 +43,7 @@ class PIDController {
     integrator_saturation_status_ = 0;
     // Only used for pid_BC_controller and pid_IC_controller
     output_saturation_high_ = 0.0;
-    output_saturation_low_ =0.0;
+    output_saturation_low_ = 0.0;
     output_saturation_status_ = 0;
   }
   /**

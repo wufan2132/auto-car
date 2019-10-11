@@ -1,4 +1,4 @@
-#include "control/lon_controller.h"
+#include "lon_controller.h"
 #include "ros/ros.h"
 namespace control {
 
@@ -127,7 +127,7 @@ bool LonController::Reset(){
 //  * See the License for the specific language governing permissions and
 //  * limitations under the License.
 //  *****************************************************************************/
-// #include "modules/control/controller/lon_controller.h"
+// #include "modules/controller/lon_controller.h"
 
 // #include <cstdio>
 // #include <utility>

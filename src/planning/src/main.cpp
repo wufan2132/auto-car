@@ -2,15 +2,13 @@
 #include <gflags/gflags.h>
 #include <glog/logging.h>
 #include "common/base/global_gflags/global_gflags.h"
-#include "common/base/file_path/file_path.h"
+#include "common/base/file_tool/file_tool.h"
 #include "planning/src/common/planning_gflags.h"
 #include "planning/common.h"
 #include "planning/planning.h"
 
-#define PLANNING_CONF_DIR "src/planning/planning_conf.yaml"
-
 bool DEBUG = 0;
-using autocar::common::FilePathTool;
+using autocar::common::FileTool;
 int main(int argc, char **argv)
 {
     google::InitGoogleLogging(argv[0]);
@@ -18,7 +16,7 @@ int main(int argc, char **argv)
     ROS_INFO("PLANNING start!!!!!");
     LOG(INFO) << "INFO　PLANNING start!!!!!";
     LOG(ERROR) << "ERROR　PLANNING start!!!!!";
-    cout << "FLAGS_log_dir:" << FLAGS_log_dir << endl;
+    cout << "FLAGS_planning_conf_path:" << FLAGS_planning_conf_path << endl;
     cout << "FLAGS_test_flag_1:" << FLAGS_test_flag_1 << endl;
     // //判断是否为debug模式
     // Common::debug_check();
@@ -28,7 +26,8 @@ int main(int argc, char **argv)
     ros::NodeHandle car_planning_NodeHandle;
 
     /*planning模块初始化*/
-    Car_Planning planning(YAML::LoadFile(FLAGS_planning_conf_path));
+    Car_Planning planning(FileTool::LoadFile(FLAGS_planning_conf_path));
+    LOG(ERROR) << "FileTool::LoadFile";
     debugger = new Debugger();
 
     /*订阅*/
@@ -53,8 +52,16 @@ int main(int argc, char **argv)
     ros::Timer cycle_timer;
     if (planning.conf.mode == "send")
     {
+        ROS_INFO("planning send mode!");
         cycle_timer = car_planning_NodeHandle.createTimer(ros::Duration(planning.conf.period), &Car_Planning::OnTimer, &planning);
+    }else if(planning.conf.mode == "write"){
+        ROS_INFO("planning write mode!");
+    }else{
+        ROS_ERROR("unknow planning mode!");
+        ros::shutdown();
     }
+
+
     ros::spin();
 
     return 0;

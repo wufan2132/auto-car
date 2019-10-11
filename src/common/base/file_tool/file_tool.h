@@ -4,19 +4,16 @@
 #include <string>
 
 #include "common/base/global_gflags/global_gflags.h"
+#include "yaml-cpp/yaml.h"
 
 namespace autocar {
 
 namespace common {
 
-class FilePathTool {
+class FileTool {
  public:
-  static std::string ToAbsDir(std::string path) {
-    if (path != "" && path[0] == '/') {
-      return path;
-    }
-    return FLAGS_base_dir + '/' + path;
-  }
+  static std::string ToAbsDir(std::string path);
+  static YAML::Node LoadFile(std::string path);
 };
 
 }  // namespace common

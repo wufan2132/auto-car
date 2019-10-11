@@ -5,13 +5,13 @@
 # 重新规划的临界距离 m
 available_l: 2
 # 目标速度 m/s
-aim_speed: 0.5
+aim_speed: 10
 # 规划间隔:s
-step_t: 0.2
+step_t: 0.25
 # 最远规划时间:s
-planning_t: 5
+planning_t: 10
 # 规划保留时间:s
-keep_t: 0.5
+keep_t: 2
 # 速度修正系数 (该系数越大减速越明显,最多减到设定值的1/2)
 speed_correction: 0.8
 # 速度下限
@@ -33,7 +33,10 @@ SamplerPoint_conf:
 ##############插值器
 Interpolating_conf:
   # 插值间隔（单位：m）
-  spacing: 0.1
+  spacing: 0.5
 ############DP优化器
 DpRoadGraph: pass
 ###########代价评估器
+TrajectoryCost_conf:
+  # 平滑代价权重
+  k_smooth:

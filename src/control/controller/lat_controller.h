@@ -1,8 +1,8 @@
 #ifndef _LAT_CONTROLLER_H_
 #define _LAT_CONTROLLER_H_
 
-#include "control/controller.h"
-#include "control/trajectory_analyzer.h"
+#include "controller.h"
+#include "control/common/trajectory_analyzer.h"
 #include "car_msgs/control_cmd.h"
 #include "car_msgs/chassis.h"
 #include "car_msgs/localization.h"

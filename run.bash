@@ -1,51 +1,47 @@
 #!/bin/bash 
 
-#添加或修改 /etc/hosts中的ip
-#192.168.1.132 pc                                                                                     
-#192.168.1.110 tx2
+AUTOCAR_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [[ "X$1" == "X" ]];then
-    echo "please run: ./run.bash <1> <2> <3>"
-    source devel/setup.bash
-    exit 0
-elif [[ "X$1" != "X" && "X$2" != "X" && "X$3" == "X" ]];then
-    local_name="$1"
-    master_name="$2"
-   # export ROS_HOSTNAME=$local_name
-   # export ROS_MASTER_URI=http://$master_name:11311
-    source devel/setup.bash
-elif [[ "X$1" != "X" && "X$2" != "X" && "X$3" == "Xr" ]];then #pc上单独运行 用于bag play
-    local_name="$1"
-    master_name="$2"
-    source devel/setup.bash
-elif [[ "X$1" != "X" && "X$2" != "X" && "X$3" == "Xs" ]];then
-    local_name="$1"
-    master_name="$2"
-    export ROS_HOSTNAME=$local_name
-    export ROS_MASTER_URI=http://$master_name:11311
-    source devel/setup.bash
-    echo "ROS_HOSTNAME=$local_name, ROS_MASTER_URI=http://$master_name:11311 , source devel/setup.bash"
+source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
+source ${AUTOCAR_ROOT_DIR}/scripts/autocar_launch.sh
+source ${AUTOCAR_ROOT_DIR}/devel/setup.sh
+RUN_MODE="default"
+TARGET_NODE=$2
+while [ $# -gt 0 ]; do
+    case "$1" in
+    -h | --help)
+        show_usage
+        ;;
+    -s | --single)
+        RUN_MODE="single"
+        ;;
+    -d | --debug)
+        RUN_MODE="debug"
+        ;;
+    -o | --output)
+        RUN_MODE="output"
+        ;;
+    *)
+        echo -e "\033[93mWarning\033[0m: Unknown option: $1"
+        exit 2
+        ;;
+    esac
+    shift
+done
+
+roslaunch launch/auto-car-env.launch
+
+if [ "${RUN_MODE}" == "default" ]; then
+    start planning 
+    start control
+elif [ "${RUN_MODE}" == "output" ]; then
+    start planning -o
+    start control -o
+elif [ "${RUN_MODE}" == "debug" ]; then
+    start planning 
+    start control
+elif [ "${RUN_MODE}" == "single" ]; then
+    start ${TARGET_NODE} -o 
 else
-    echo "error! please run:
-    ./run.bash pc pc
-    ./run.bash pc pc s
-    ./run.bash tx tx
-    ./run.bash tx tx s
-    ./run.bash pc tx
-    ./run.bash pc tx s
-    ./run.bash pc tx r"
-    exit 0
-fi
-
-echo "local:$local_name , master:$master_name"
-
-if [[ "$local_name" == "pc" && "$master_name" == "pc" && "X$3" != "Xs" ]];then
-    echo "running on pc"
-    roslaunch launch/auto-car-pc.launch
-elif [[ "$local_name" == 'pc' && "$master_name" == 'tx2' && "X$3" != "Xs" ]];then
-    echo "running on pc for tx2"
-    roslaunch launch/auto-car-pc-for-tx2.launch
-elif [[ "$local_name" == 'tx2' && "$master_name" == 'tx2' && "X$3" != "Xs" ]];then
-    echo "running on tx2"
-    roslaunch launch/auto-car-tx2.launch
+    error "Unknown mode!"
 fi

@@ -2,7 +2,7 @@
 #规划器 (OgPlanner SpPlanner MpPlanner)
 planner: OgPlanner
 #规划器配置文件目录
-planner_dir: /auto-car/src/planning/conf/
+planner_dir: /autocar/src/planning/conf/
 #工作模式 send / write
 mode: send
 #参考线来源 (replay refrenceline_provider)
@@ -10,11 +10,11 @@ refrenceline_source: replay
 #工作周期:s
 period: 0.5
 #等待时间: s (-1 表示不等待直接运行planning模块)
-wait_time: -1
+wait_time: 1000
 #########坐标转换
 find_len: 100 #每次向后寻找多少个点
 #########replay
-trajectory_dir: /autocar/src/planning/file/trajectory/trajectory_tx2.csv
+trajectory_dir: /autocar/src/planning/file/trajectory/trajectory_gazebo.csv
 sampling_period: 100
 #########obstacle_list
 obstacle_list:

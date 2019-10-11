@@ -1,8 +1,8 @@
 #include "ros/ros.h"
 #include <ros/console.h>
-#include "control/lat_controller.h"
-#include "math/linear_quadratic_regulator.h"
-#include "math/math_utils.h"
+#include "lat_controller.h"
+#include "common/math/linear_quadratic_regulator.h"
+#include "common/math/math_utils.h"
 //#include "math/quaternion.h"
 #include <algorithm>
 #include <cmath>

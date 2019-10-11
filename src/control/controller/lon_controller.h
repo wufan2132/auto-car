@@ -1,14 +1,14 @@
 #ifndef LON_CONTROLLER_H_
 #define LON_CONTROLLER_H_
-#include "control/controller.h"
-#include "control/pid_controller.h"
+#include "controller.h"
+#include "pid_controller.h"
 #include "car_msgs/control_cmd.h"
 #include "car_msgs/chassis.h"
 #include "car_msgs/localization.h"
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
 #include "car_msgs/param.h"
-#include "control/trajectory_analyzer.h"
+#include "control/common/trajectory_analyzer.h"
 
 namespace control {
 

@@ -19,11 +19,10 @@
  * @brief Defines the MPCController class.
  */
 
-#ifndef MODULES_CONTROL_CONTROLLER_MPC_CONTROLLER_H_
-#define MODULES_CONTROL_CONTROLLER_MPC_CONTROLLER_H_
+#pragma once
 
-#include "control/controller.h"
-#include "control/trajectory_analyzer.h"
+#include "controller.h"
+#include "trajectory_analyzer.h"
 #include "car_msgs/control_cmd.h"
 #include "car_msgs/chassis.h"
 #include "car_msgs/localization.h"
@@ -312,4 +311,3 @@ class MPCController {
  double   max_abs_speed_when_stopped_;
 };
 } //namespace control
-#endif  // MODULES_CONTROL_CONTROLLER_MPC_CONTROLLER_H_

@@ -1,16 +1,9 @@
 <?xml version="1.0"?>
 <launch>
 
-  <node pkg="control" type="control_node" name="control_node" output="screen" 
-    args="--flagfile=$(find control)/conf/control.conf"  >
-  </node>
   <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" >
   </node>
-  <!-- <node pkg="perception" type="perception_node" name="perception_node" output="screen" >
-  </node> -->
-  <node pkg="planning" type="planning_node" name="planning_node" output="screen" 
-  args="--flagfile=$(find planning)/conf/planning.conf"  >
-  </node>
+
   <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
   </node>
   <node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="--slider-file $(find control)/conf/setting.yaml" />

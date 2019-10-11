@@ -21,7 +21,7 @@
   </node>
   <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
   </node>
-  <!--node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="-slider-file $(find control)/src/conf/setting.yaml" /-->
+  <!--node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="-slider-file $(find control)/conf/setting.yaml" /-->
   <node pkg="rosbag" type="record" name="bag_record" args="-a -O /home/nvidia/my-code/auto-car/bag/test.bag"/>
 </launch>
  

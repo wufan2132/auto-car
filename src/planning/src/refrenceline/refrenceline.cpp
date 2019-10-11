@@ -1,5 +1,7 @@
 #include "planning/refrenceline.h"
+#include "common/base/file_tool/file_tool.h"
 
+using autocar::common::FileTool;
 
 Refrenceline_provider::Refrenceline_provider(YAML::Node yaml_conf){
 	conf.start_point_x = yaml_conf["start_point_x"].as<double>();
@@ -7,8 +9,8 @@ Refrenceline_provider::Refrenceline_provider(YAML::Node yaml_conf){
 	conf.end_point_x = yaml_conf["end_point_x"].as<double>();
 	conf.end_point_y = yaml_conf["end_point_y"].as<double>();
 
-    conf.origin_image_dir = Common::convert_to_debugpath(yaml_conf["origin_image_dir"].as<string>());
-    conf.output_image_dir = Common::convert_to_debugpath(yaml_conf["output_image_dir"].as<string>());
+    conf.origin_image_dir = yaml_conf["origin_image_dir"].as<string>();
+    conf.output_image_dir = yaml_conf["output_image_dir"].as<string>();
     conf.origin_road_width  = yaml_conf["origin_road_width"].as<int>();
     conf.scale = yaml_conf["scale"].as<double>();
 
@@ -18,7 +20,7 @@ Refrenceline_provider::Refrenceline_provider(YAML::Node yaml_conf){
 	astar = new Astar(yaml_conf["Astar"]);
 
 	string pgm_yaml_dir = Common::convert_to_debugpath(yaml_conf["pgm_yaml_dir"].as<string>());
-	map_convert = new MapConvert(YAML::LoadFile(pgm_yaml_dir));
+	map_convert = new MapConvert(FileTool::LoadFile(pgm_yaml_dir));
 }
 
 void Refrenceline_provider::process(car_msgs::trajectory& origin_Trajectory){

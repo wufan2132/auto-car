@@ -1,16 +1,16 @@
 #include "planning/path_optimizer.h"
 
 #define pi 3.14159265354
-path_optimizer::path_optimizer(YAML::Node optimizer_conf){
-    conf.step_t     = optimizer_conf["step_t"].as<double>();
-    conf.planning_t = optimizer_conf["planning_t"].as<double>();
-    conf.aim_speed  = optimizer_conf["aim_speed"].as<double>();
-    conf.keep_t  = optimizer_conf["keep_t"].as<double>();
-    conf.available_l = optimizer_conf["available_l"].as<double>();
-    conf.speed_correction = optimizer_conf["speed_correction"].as<double>();
-    conf.speed_min_limit = optimizer_conf["speed_min_limit"].as<double>();
-    interpolating = new Interpolating(optimizer_conf["Interpolating_conf"]);
-    sampler = new SamplerPoint(optimizer_conf["SamplerPoint_conf"]);
+path_optimizer::path_optimizer(YAML::Node yaml_conf){
+    conf.step_t     = yaml_conf["step_t"].as<double>();
+    conf.planning_t = yaml_conf["planning_t"].as<double>();
+    conf.aim_speed  = yaml_conf["aim_speed"].as<double>();
+    conf.keep_t  = yaml_conf["keep_t"].as<double>();
+    conf.available_l = yaml_conf["available_l"].as<double>();
+    conf.speed_correction = yaml_conf["speed_correction"].as<double>();
+    conf.speed_min_limit = yaml_conf["speed_min_limit"].as<double>();
+    interpolating = new Interpolating(yaml_conf["Interpolating_conf"]);
+    sampler = new SamplerPoint(yaml_conf["SamplerPoint_conf"]);
 }
 
 

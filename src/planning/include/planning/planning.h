@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "planning/common.h"
 #include "planning/replay.h"
 #include "planning/car_model.h"
@@ -34,7 +33,7 @@ public:
 
 class Car_Planning{
     public:
-        Car_Planning(YAML::Node yaml_conf);
+        Car_Planning(YAML::Node planning_conf);
 
         void Init();
 

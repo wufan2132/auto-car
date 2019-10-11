@@ -1,6 +1,6 @@
 #include "ros/ros.h"
 #include <ros/console.h>
-#include "control/mpc_controller.h"
+#include "mpc_controller.h"
 #include "math/math_utils.h"
 //#include "math/quaternion.h"
 #include <algorithm>

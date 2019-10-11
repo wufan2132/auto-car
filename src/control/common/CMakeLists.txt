@@ -10,10 +10,9 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/common
 )
 
-# 生成链接库
-if(ENABLE_MPC)
-  add_library(common_lib trajectory_analyzer.cc)
-else()
-  add_library(common_lib pid_controller.cc trajectory_analyzer.cc)
-endif()
+add_library(control_gflags 
+control_gflags.cc)
+
+add_library(trajectory_analyzer trajectory_analyzer.cc)
+
 

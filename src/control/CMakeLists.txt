@@ -28,7 +28,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 find_package(Eigen3 REQUIRED)
-
+find_package(glog REQUIRED)
+find_package(gflags REQUIRED)
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
@@ -128,19 +129,33 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
+  ${CMAKE_SOURCE_DIR}
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
+  ${glog_INCLUDE_DIR}
+  ${gflags_INCLUDE_DIR}
 )
 
-add_subdirectory(src/common)
-add_subdirectory(src/controller)
+add_subdirectory(common)
+add_subdirectory(controller)
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/control.cpp
-# )
-
+add_library(control_lib
+  control.cc
+)
+target_link_libraries(control_lib
+  ${YAML_CPP_LIBRARIES}
+  control_gflags
+)
+if(ENABLE_MPC)
+target_link_libraries(control_lib
+  mpc_controller
+)
+else()
+target_link_libraries(control_lib
+  pid_controller
+)
+endif()
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -149,7 +164,7 @@ add_subdirectory(src/controller)
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/main.cc)
+add_executable(${PROJECT_NAME}_node main.cc)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -162,9 +177,17 @@ add_executable(${PROJECT_NAME}_node src/main.cc)
 add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
+## 添加公共库
+target_link_libraries(${PROJECT_NAME}_node
+  PUBLIC 
+  glog
+  gflags
+  yaml-cpp
+)
+
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
-  control
+  control_lib
 )
 #############
 ## Install ##

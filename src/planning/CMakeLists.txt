@@ -179,7 +179,7 @@ target_link_libraries(${PROJECT_NAME}_node
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    planning_common
-   file_path
+   file_tool
    planning
    planner
    optimizer

@@ -14,7 +14,7 @@
  * limitations under the License.
  *****************************************************************************/
 
-#include "control/pid_controller.h"
+#include "pid_controller.h"
 
 #include <cmath>
 
