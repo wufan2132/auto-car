@@ -43,6 +43,11 @@ done
 echo "set up env....."
 AUTOCAR_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
+check_in_docker
+if [ "$AUTOCAR_IN_DOCKER" == "true" ]; then
+        error "setup.sh must run in local. and can not run in docker!"
+        exit 0
+fi
 
 echo ""
 info "1.install docker..."
