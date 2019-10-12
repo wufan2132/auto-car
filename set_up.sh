@@ -69,7 +69,7 @@ fi
 
 echo ""
 info "3.build docker image..."
-if [ "$IMAGE_SOURCE" == 'local' ] || ["$IMAGE_SOURCE" == 'server' ]; then
+if [ "$IMAGE_SOURCE" == 'local' ] || [ "$IMAGE_SOURCE" == 'server' ]; then
     echo build image from tar
     bash "${AUTOCAR_ROOT_DIR}/docker/build/build_from_tar.sh"
 elif [ "$IMAGE_SOURCE" == 'build' ]; then
