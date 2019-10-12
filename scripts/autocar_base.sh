@@ -75,11 +75,11 @@ function fail() {
 
 function check_in_docker() {
   if [ -f /.dockerenv ]; then
-    APOLLO_IN_DOCKER=true
+    AUTOCAR_IN_DOCKER=true
   else
-    APOLLO_IN_DOCKER=false
+    AUTOCAR_IN_DOCKER=false
   fi
-  export APOLLO_IN_DOCKER
+  export AUTOCAR_IN_DOCKER
 }
 
 function create_data_dir() {

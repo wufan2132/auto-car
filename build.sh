@@ -1,5 +1,12 @@
 AUTOCAR_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
+source ${AUTOCAR_ROOT_DIR}/devel/setup.sh
+check_in_docker
+if [ "$AUTOCAR_IN_DOCKER" == "false" ]; then
+        error "build.sh must run in docker!"
+        exit 0
+fi
+
 set -e
 TASK=""
 TARGET=$2

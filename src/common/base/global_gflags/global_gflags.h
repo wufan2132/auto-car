@@ -19,3 +19,7 @@
 #include "gflags/gflags.h"
 
 DECLARE_string(base_dir);
+
+DECLARE_string(system_run_mode);
+
+DEFINE_string(car_name);
