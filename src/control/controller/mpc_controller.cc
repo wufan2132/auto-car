@@ -1,38 +1,18 @@
+
 #include "ros/ros.h"
 #include <ros/console.h>
 #include "mpc_controller.h"
-#include "math/math_utils.h"
-//#include "math/quaternion.h"
+#include "common/math/math_utils.h"
+#include "common/math/mpc_solver.h"
 #include <algorithm>
+#include <glog/logging.h>
 #include <cmath>
 #include <iomanip>
 #include <string>
 #include <utility>
 #include <vector>
-
 #include "Eigen/LU"
 
-
-// #include <algorithm>
-// #include <cmath>
-// #include <iomanip>
-// #include <string>
-// #include <utility>
-// #include <vector>
-
-// #include "Eigen/LU"
-
-// #include "modules/common/configs/vehicle_config_helper.h"
-// #include "modules/common/log.h"
-// #include "modules/common/math/math_utils.h"
-#include "math/mpc_solver.h"
-// #include "modules/common/time/time.h"
-// #include "modules/common/util/string_util.h"
-// #include "modules/control/common/control_gflags.h"
-
-// using apollo::common::TrajectoryPoint;
-// using apollo::common::VehicleStateProvider;
-// using apollo::common::time::Clock;
 using Matrix = Eigen::MatrixXd;
 // using apollo::common::VehicleConfigHelper;
 namespace control {
@@ -108,6 +88,7 @@ void MPCController::Init(const MPCControllerConf *control_conf) {
     //               "failed to load control_conf");
     return;
   }
+  LOG(INFO) << "using mpc contoller";
   // Matrix init operations.
   matrix_a_ = Matrix::Zero(basic_state_size_, basic_state_size_);
   matrix_ad_ = Matrix::Zero(basic_state_size_, basic_state_size_);

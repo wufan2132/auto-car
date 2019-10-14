@@ -3,6 +3,7 @@
 #include "lat_controller.h"
 #include "common/math/linear_quadratic_regulator.h"
 #include "common/math/math_utils.h"
+#include <glog/logging.h>
 //#include "math/quaternion.h"
 #include <algorithm>
 #include <cmath>
@@ -82,6 +83,7 @@ void LatController::Init(const LatControllerConf *control_conf) {
   if (!LoadControlConf(control_conf)) {
     ROS_INFO("failed to load control conf");
   }
+  LOG(INFO) << "using lat contoller";
   // Matrix init operations.
   const int matrix_size = basic_state_size_ + preview_window_;
   matrix_a_ = Matrix::Zero(basic_state_size_, basic_state_size_);

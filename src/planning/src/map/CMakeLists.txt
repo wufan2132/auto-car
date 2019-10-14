@@ -5,3 +5,6 @@ add_library(map
             Image.cpp
             road.cpp
             map_convert.cpp)
+add_dependencies(map
+    car_msgs_gencpp
+)   

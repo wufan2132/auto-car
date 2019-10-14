@@ -28,8 +28,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 find_package(Eigen3 REQUIRED)
-find_package(glog REQUIRED)
-find_package(gflags REQUIRED)
+# find_package(glog REQUIRED)
+# find_package(gflags REQUIRED)
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
@@ -132,8 +132,6 @@ include_directories(
   ${CMAKE_SOURCE_DIR}
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
-  ${glog_INCLUDE_DIR}
-  ${gflags_INCLUDE_DIR}
 )
 
 add_subdirectory(common)
@@ -145,15 +143,16 @@ add_library(control_lib
 )
 target_link_libraries(control_lib
   ${YAML_CPP_LIBRARIES}
-  control_gflags
 )
 if(ENABLE_MPC)
 target_link_libraries(control_lib
   mpc_controller
+  control_gflags
 )
 else()
 target_link_libraries(control_lib
   pid_controller
+  control_gflags
 )
 endif()
 ## Add cmake target dependencies of the library

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 AUTOCAR_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
 source ${AUTOCAR_ROOT_DIR}/devel/setup.sh
@@ -10,6 +12,7 @@ fi
 set -e
 TASK=""
 TARGET=$2
+DEBUG_CMD=""
 case "$1" in
 -h | --help)
     show_usage
@@ -17,6 +20,10 @@ case "$1" in
 -b | --build)
     TASK="build"
     ;;
+-d | --debug)
+    TASK="build"
+    DEBUG_CMD="-DCMAKE_BUILD_TYPE=Debug"
+    ;;    
 -c | --clean)
     TASK="clean"
     ;;
@@ -26,11 +33,8 @@ case "$1" in
 esac
 
 function build_x86_64() {
-    info "1.build msg"
-    catkin_make -DCATKIN_WHITELIST_PACKAGES="car_msgs"
-
-    info "2.build other node"
-    catkin_make -DCATKIN_WHITELIST_PACKAGES=""
+    info "build all target"
+    catkin_make -DCATKIN_WHITELIST_PACKAGES="" ${DEBUG_CMD}
 }
 
 function build_aarch64() {
@@ -48,7 +52,7 @@ function build() {
         fi
     else
         info "build target: $TARGET"
-        catkin_make -DCATKIN_WHITELIST_PACKAGES="$TARGET"
+        catkin_make -DCATKIN_WHITELIST_PACKAGES="$TARGET" ${DEBUG_CMD}
     fi
     success "build success"
 }

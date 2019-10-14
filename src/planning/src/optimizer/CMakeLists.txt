@@ -7,4 +7,8 @@ add_library(optimizer
     trajectory_cost.cpp
     dp_st_graph.cpp
     dp_st_cost.cpp
-    ConCost.cpp)
+    ConCost.cpp
+)
+add_dependencies(optimizer
+    car_msgs_gencpp
+)   

@@ -1,4 +1,5 @@
 #include "lon_controller.h"
+#include <glog/logging.h>
 #include "ros/ros.h"
 namespace control {
 
@@ -7,6 +8,7 @@ LonController::LonController(): name_("Pid-Pid LonController"){
 }
 
 void LonController::Init(const LonControllerConf *control_conf){
+      LOG(INFO) << "using lon contoller";
       ts_ = control_conf->ts;
       station_pid_controller_.Init(control_conf->station_pid_conf);
       speed_pid_controller_.Init(control_conf->speed_pid_conf);

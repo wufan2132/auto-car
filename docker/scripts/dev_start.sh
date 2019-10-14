@@ -211,6 +211,7 @@ function main() {
     fi
 
     ${DOCKER_CMD} run -it \
+        -t \
         -d \
         --privileged \
         --name autocar_dev \

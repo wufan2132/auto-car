@@ -8,6 +8,7 @@ int main(int argc, char **argv) {
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);
   ros::init(argc, argv, "control");
+  LOG(INFO) << "control start:";
   Control control;
   control.Init();
 

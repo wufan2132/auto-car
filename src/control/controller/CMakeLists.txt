@@ -12,8 +12,14 @@ if(ENABLE_MPC)
   add_library(mpc_controller 
               mpc_controller.cc
               )
-  target_link_libraries(mpc_controller mpc_math)
-  message(STATUS "Use mpc_math")
+  target_link_libraries(mpc_controller 
+  mpc_math
+  trajectory_analyzer
+  )
+add_dependencies(mpc_controller
+  car_msgs_gencpp
+)   
+message(STATUS "Use mpc_math")
 else()
   add_library(pid_controller 
               lon_controller.cc 

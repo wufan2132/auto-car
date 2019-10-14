@@ -86,8 +86,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## * In this file (CMakeLists.txt):
 ##   * add "dynamic_reconfigure" to
 find_package(Eigen3 REQUIRED)
-find_package(glog REQUIRED)
-find_package(gflags REQUIRED)
+# find_package(glog REQUIRED)
+# find_package(gflags REQUIRED)
 ##     find_package(catkin REQUIRED COMPONENTS ...)
 ##   * uncomment the "generate_dynamic_reconfigure_options" section below
 ##     and list every .cfg file to be processed
@@ -110,7 +110,12 @@ find_package(gflags REQUIRED)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES chassis
-  CATKIN_DEPENDS roscpp rospy std_msgs car_msgs nav_msgs geometry_msgs
+  CATKIN_DEPENDS 
+  roscpp rospy 
+  std_msgs 
+  car_msgs 
+  nav_msgs 
+  geometry_msgs
 #  DEPENDS system_lib
 )
 
@@ -125,8 +130,6 @@ include_directories(
   ${CMAKE_SOURCE_DIR}
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
-  ${glog_INCLUDE_DIR}
-  ${gflags_INCLUDE_DIR}
 )
 
 ## Declare a C++ library
@@ -166,7 +169,11 @@ add_executable(${PROJECT_NAME}_node src/main.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_node 
+  ${${PROJECT_NAME}_EXPORTED_TARGETS} 
+  ${catkin_EXPORTED_TARGETS}
+  car_msgs_gencpp
+  )
 ## Specify libraries to link a library or executable target against
 ## 添加公共库
 target_link_libraries(${PROJECT_NAME}_node
@@ -178,7 +185,7 @@ target_link_libraries(${PROJECT_NAME}_node
 ## 添加私有库
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
-   planning_common
+   planning_gflags
    file_tool
    planning
    planner

@@ -22,7 +22,7 @@
 #pragma once
 
 #include "controller.h"
-#include "trajectory_analyzer.h"
+#include "control/common/trajectory_analyzer.h"
 #include "car_msgs/control_cmd.h"
 #include "car_msgs/chassis.h"
 #include "car_msgs/localization.h"

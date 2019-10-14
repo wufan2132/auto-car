@@ -13,6 +13,11 @@ TIME=$(date +%Y%m%d_%H%M)
 
 AUTOCAR_ROOT_DIR="$(cd "$(dirname $0)/../.." && pwd)"
 source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
+check_in_docker
+if [ "$AUTOCAR_IN_DOCKER" == "true" ]; then
+        error "it must run in local. and can not run in docker!"
+        exit 0
+fi
 
 get_start_time
 

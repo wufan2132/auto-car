@@ -14,5 +14,6 @@ add_library(control_gflags
 control_gflags.cc)
 
 add_library(trajectory_analyzer trajectory_analyzer.cc)
-
-
+add_dependencies(trajectory_analyzer
+    car_msgs_gencpp
+)
