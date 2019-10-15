@@ -3,15 +3,14 @@
 #include <boost/bind.hpp>
 
 #define SEND_BUF_SIZE 64
-using namespace std;
-using namespace boost::asio;
+
 
 #define BYTE0(dwTemp)       (*(char *)(&dwTemp))
 #define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))
 #define BYTE2(dwTemp)       (*((char *)(&dwTemp) + 2))
 #define BYTE3(dwTemp)       (*((char *)(&dwTemp) + 3))
 
-typedef string anytype;
+typedef std::string anytype;
 
 class Usart
 {
@@ -40,8 +39,8 @@ class Usart
                                 char  &flag);
                                 
     private:
-        io_service m_ios;
-        serial_port *pSerialPort;
+        boost::asio::io_service m_ios;
+        boost::asio::serial_port *pSerialPort;
         anytype m_port;
         boost::system::error_code m_ec;
 

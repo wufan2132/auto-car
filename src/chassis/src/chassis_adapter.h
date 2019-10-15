@@ -2,6 +2,9 @@
 
 #include <ros/ros.h>
 #include <Eigen/Dense>
+#include <memory>
+#include "usart.h"
+
 
 class ChassisAdapterConf;
 
@@ -35,6 +38,8 @@ class ChassisAdapter {
   // message buf
   car_msgs::localization car_localization_;
   car_msgs::chassis car_pose_;
+  //
+  std::unique_ptr<Usart> usart_;
 }
 
 class ChassisAdapterConf {

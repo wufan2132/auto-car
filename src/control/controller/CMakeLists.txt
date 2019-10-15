@@ -1,6 +1,6 @@
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++14)
 
 FIND_LIBRARY(YAML_CPP_LIBRARIES yaml-cpp)
 include_directories(

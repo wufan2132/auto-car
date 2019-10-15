@@ -14,10 +14,6 @@ int main(int argc, char **argv)
     google::InitGoogleLogging(argv[0]);
     google::ParseCommandLineFlags(&argc, &argv, true);
     ROS_INFO("PLANNING start!!!!!");
-    LOG(INFO) << "INFO　PLANNING start!!!!!";
-    LOG(ERROR) << "ERROR　PLANNING start!!!!!";
-    cout << "FLAGS_planning_conf_path:" << FLAGS_planning_conf_path << endl;
-    cout << "FLAGS_test_flag_1:" << FLAGS_test_flag_1 << endl;
     // //判断是否为debug模式
     // Common::debug_check();
 
