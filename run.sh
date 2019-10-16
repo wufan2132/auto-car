@@ -29,8 +29,6 @@ case "$1" in
     RUN_MODE="output"
     ;;
 *)
-    echo -e "\033[93mWarning\033[0m: Unknown option: $1"
-    exit 2
     ;;
 esac
 
