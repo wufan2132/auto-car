@@ -56,6 +56,7 @@ if [ $? == 0 ]; then
     echo "docker is already installed, skip install."
 else
     sudo bash "${AUTOCAR_ROOT_DIR}/docker/install/install_docker.sh" >/dev/null
+    sudo bash "${AUTOCAR_ROOT_DIR}/docker/install/install_nvidia_docker.sh" >/dev/null
 fi
 set -e
 echo ""
