@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="planning" type="planning_node" name="planning_node" output="screen"
+  args="--flagfile=$(find planning)/conf/planning.conf"  >
+  </node>
+
+</launch>

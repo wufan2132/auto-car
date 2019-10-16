@@ -16,7 +16,7 @@
 # limitations under the License.
 ###############################################################################
 
-LOCAL_IMAGE="yes"
+IMAGE_SOURCE="local"
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -24,7 +24,13 @@ while [ $# -gt 0 ]; do
         show_usage
         ;;
     -b | --build)
-        LOCAL_IMAGE="no"
+        IMAGE_SOURCE="build"
+        ;;
+    -d | --download)
+        IMAGE_SOURCE="server"
+        ;;
+    -l | --local)
+        IMAGE_SOURCE="local"
         ;;
     *)
         echo -e "\033[93mWarning\033[0m: Unknown option: $1"
@@ -37,25 +43,31 @@ done
 echo "set up env....."
 AUTOCAR_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
+check_in_docker
+if [ "$AUTOCAR_IN_DOCKER" == "true" ]; then
+        error "setup.sh must run in local. and can not run in docker!"
+        exit 0
+fi
 
 echo ""
 info "1.install docker..."
 docker ps >/dev/null
 if [ $? == 0 ]; then
-    echo "docker is already installed,  skip install."
+    echo "docker is already installed, skip install."
 else
     sudo bash "${AUTOCAR_ROOT_DIR}/docker/install/install_docker.sh" >/dev/null
+    sudo bash "${AUTOCAR_ROOT_DIR}/docker/install/install_nvidia_docker.sh" >/dev/null
 fi
 set -e
 echo ""
 info "2.download images tar..."
-if [ -f docker/images/*\.tar ]; then
-    echo "images tar is already exist!"
-else
+if [ -f docker/images/*\.tar ] && [ "$IMAGE_SOURCE" == 'local' ]; then
+    echo "images tar is already exist, skip download."
+elif [ "$IMAGE_SOURCE" != 'build' ]; then
     source "${AUTOCAR_ROOT_DIR}/docker/images/release_images.sh"
     if [ "$ARCH" == 'aarch64' ]; then
-	IMG=$IMG_aarch64
-    else 
+        IMG=$IMG_aarch64
+    else
         IMG=$IMG_x86_64
     fi
     bash "${AUTOCAR_ROOT_DIR}/docker/build/download_images.sh" $IMG
@@ -63,10 +75,10 @@ fi
 
 echo ""
 info "3.build docker image..."
-if [ "$LOCAL_IMAGE" == 'yes' ]; then
+if [ "$IMAGE_SOURCE" == 'local' ] || [ "$IMAGE_SOURCE" == 'server' ]; then
     echo build image from tar
     bash "${AUTOCAR_ROOT_DIR}/docker/build/build_from_tar.sh"
-else
+elif [ "$IMAGE_SOURCE" == 'build' ]; then
     echo build new image
     bash "${AUTOCAR_ROOT_DIR}/docker/build/build_dev.sh docker/build/dev.x86_64.dockerfile"
 fi

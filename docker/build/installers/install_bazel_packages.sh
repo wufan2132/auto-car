@@ -24,8 +24,8 @@ cd /home/tmp
 
 wget -O opencv-2.4.13.2.zip \
     https://github.com/opencv/opencv/archive/2.4.13.2.zip
-wget -O googletest-release-1.8.0.tar.gz \
-    https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+wget -O googletest-release-1.8.1.tar.gz \
+    https://github.com/google/googletest/archive/release-1.8.1.tar.gz
 wget -O gflags-2.2.0.tar.gz \
     https://github.com/gflags/gflags/archive/v2.2.0.tar.gz
 wget -O glog-0.3.5.tar.gz \

@@ -20,14 +20,11 @@ INCHINA="no"
 LOCAL_IMAGE="yes"
 VERSION=""
 ARCH=$(uname -m)
-VERSION_X86_64="dev-x86_64-20190923_2118"
-VERSION_AARCH64="dev-aarch64-20181108_1330"
 VERSION_OPT=""
 IN_DOCKER_USER=cat
 IN_DOCKER_GRP=autocar
-function show_usage()
-{
-cat <<EOF
+function show_usage() {
+    cat <<EOF
 Usage: $(basename $0) [options] ...
 OPTIONS:
     -C                     Pull docker image from China mirror.
@@ -36,56 +33,52 @@ OPTIONS:
     -l, --local            Use local docker image.
     stop                   Stop all running Apollo containers.
 EOF
-exit 0
+    exit 0
 }
 
-function stop_containers()
-{
-running_containers=$(docker ps --format "{{.Names}}")
+function stop_containers() {
+    running_containers=$(docker ps --format "{{.Names}}")
 
-for i in ${running_containers[*]}
-do
-  if [[ "$i" =~ autocar_* ]];then
-    printf %-*s 70 "stopping container: $i ..."
-    docker stop $i > /dev/null
-    if [ $? -eq 0 ];then
-      printf "\033[32m[DONE]\033[0m\n"
-    else
-      printf "\033[31m[FAILED]\033[0m\n"
-    fi
-  fi
-done
+    for i in ${running_containers[*]}; do
+        if [[ "$i" =~ autocar_* ]]; then
+            printf %-*s 70 "stopping container: $i ..."
+            docker stop $i >/dev/null
+            if [ $? -eq 0 ]; then
+                printf "\033[32m[DONE]\033[0m\n"
+            else
+                printf "\033[31m[FAILED]\033[0m\n"
+            fi
+        fi
+    done
 }
 
-APOLLO_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+APOLLO_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 if [ ! -e /autocar ]; then
     sudo ln -sf ${APOLLO_ROOT_DIR} /autocar
 fi
 
 if [ -e /proc/sys/kernel ]; then
-    echo "/autocar/data/core/core_%e.%p" | sudo tee /proc/sys/kernel/core_pattern > /dev/null
+    echo "/autocar/data/core/core_%e.%p" | sudo tee /proc/sys/kernel/core_pattern >/dev/null
 fi
-
 
 VOLUME_VERSION="latest"
 DEFAULT_MAPS=(
-  sunnyvale_big_loop
-  sunnyvale_loop
+    sunnyvale_big_loop
+    sunnyvale_loop
 )
 MAP_VOLUME_CONF=""
 
-while [ $# -gt 0 ]
-do
+while [ $# -gt 0 ]; do
     case "$1" in
-    -C|--docker-cn-mirror)
+    -C | --docker-cn-mirror)
         INCHINA="yes"
         ;;
     -image)
         echo -e "\033[093mWarning\033[0m: This option has been replaced by \"-t\" and \"--tag\", please use the new one.\n"
         show_usage
         ;;
-    -t|--tag)
+    -t | --tag)
         VAR=$1
         [ -z $VERSION_OPT ] || echo -e "\033[093mWarning\033[0m: mixed option $VAR with $VERSION_OPT, only the last one will take effect.\n"
         shift
@@ -99,10 +92,10 @@ do
         echo -e "\033[93mWarning\033[0m: You are using an old style command line option which may be removed from"
         echo -e "further versoin, please use -t <version> instead.\n"
         ;;
-    -h|--help)
+    -h | --help)
         show_usage
         ;;
-    -l|--local)
+    -l | --local)
         LOCAL_IMAGE="yes"
         ;;
     --map)
@@ -112,9 +105,9 @@ do
             "${map_name}" "${VOLUME_VERSION}"
         ;;
     stop)
-	stop_containers
-	exit 0
-	;;
+        stop_containers
+        exit 0
+        ;;
     *)
         echo -e "\033[93mWarning\033[0m: Unknown option: $1"
         exit 2
@@ -123,14 +116,11 @@ do
     shift
 done
 
-
-for file in `docker images`
-do
-  if [[ $file == dev-${ARCH}* ]]
-  then
-  	VERSION=$file
-    break
-  fi
+for file in $(docker images); do
+    if [[ $file == dev-${ARCH}* ]]; then
+        VERSION=$file
+        break
+    fi
 done
 if [ "$VERSION" == "" ]; then
     echo "images not found!":
@@ -148,30 +138,30 @@ function local_volumes() {
     volumes="-v $APOLLO_ROOT_DIR:/apollo \
              -v $HOME/.cache:${DOCKER_HOME}/.cache"
     case "$(uname -s)" in
-        Linux)
-            volumes="${volumes} -v /dev:/dev \
+    Linux)
+        volumes="${volumes} -v /dev:/dev \
                                 -v /media:/media \
                                 -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
                                 -v /etc/localtime:/etc/localtime:ro \
                                 -v /usr/src:/usr/src \
                                 -v /lib/modules:/lib/modules"
-            ;;
-        Darwin)
-            # MacOS has strict limitations on mapping volumes.
-            chmod -R a+wr ~/.cache/bazel
-            ;;
+        ;;
+    Darwin)
+        # MacOS has strict limitations on mapping volumes.
+        chmod -R a+wr ~/.cache/bazel
+        ;;
     esac
     echo "${volumes}"
 }
 
-function main(){
+function main() {
     source ${APOLLO_ROOT_DIR}/scripts/autocar_base.sh
-    if [ "$LOCAL_IMAGE" = "yes" ];then
+    if [ "$LOCAL_IMAGE" = "yes" ]; then
         info "Start docker container based on local image : $IMG"
     else
         info "Start pulling docker image $IMG ..."
         docker pull $IMG
-        if [ $? -ne 0 ];then
+        if [ $? -ne 0 ]; then
             error "Failed to pull docker image."
             exit 1
         fi
@@ -184,7 +174,7 @@ function main(){
     fi
 
     local display=""
-    if [[ -z ${DISPLAY} ]];then
+    if [[ -z ${DISPLAY} ]]; then
         display=":0"
     else
         display="${DISPLAY}"
@@ -192,12 +182,12 @@ function main(){
 
     USER_ID=$(id -u)
     GRP_ID=$(id -g)
-    LOCAL_HOST=`hostname`
+    LOCAL_HOST=$(hostname)
     DOCKER_HOME="/home/$USER"
-    if [ "$USER" == "root" ];then
+    if [ "$USER" == "root" ]; then
         DOCKER_HOME="/root"
     fi
-    if [ ! -d "$HOME/.cache" ];then
+    if [ ! -d "$HOME/.cache" ]; then
         mkdir "$HOME/.cache"
     fi
 
@@ -220,8 +210,8 @@ function main(){
         "
     fi
 
-
     ${DOCKER_CMD} run -it \
+        -t \
         -d \
         --privileged \
         --name autocar_dev \
@@ -246,13 +236,13 @@ function main(){
         $IMG \
         /bin/bash
 
-    if [ $? -ne 0 ];then
+    if [ $? -ne 0 ]; then
         error "Failed to start docker container \"autocar_dev\" based on image: $IMG"
         exit 1
     fi
 
     if [ "${USER}" != "root" ]; then
-        docker exec -u root autocar_dev  bash -c '/autocar/docker/scripts/docker_adduser.sh'
+        docker exec -u root autocar_dev bash -c '/autocar/docker/scripts/docker_adduser.sh'
     fi
 
     ok "Finished setting up autocar docker environment. Now you can enter with: \nbash docker/scripts/dev_into.sh"
