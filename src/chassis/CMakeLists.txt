@@ -136,6 +136,9 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
 )
+
+add_subdirectory(common)
+
 # add_subdirectory(../common/math math.out)
 ## Declare a C++ library
 add_library(gazebo_chassis
@@ -164,9 +167,19 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 #add_definitions(${EIGEN_DEFINITIONS})
 
 ## Specify libraries to link a library or executable target against
+## 添加公共库
+target_link_libraries(${PROJECT_NAME}_node
+  PUBLIC 
+  glog
+  gflags
+  yaml-cpp
+)
+
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   gazebo_chassis
+  chassis_gflags
+  file_tool
 )
 
 #############

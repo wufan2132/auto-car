@@ -12,9 +12,7 @@ using autocar::common::FileTool;
 int main(int argc, char **argv) {
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);
-  ROS_INFO("PLANNING start!!!!!");
-  // //判断是否为debug模式
-  // Common::debug_check();
+  AINFO << "planning start...";
 
   /* code for main function */
   ros::init(argc, argv, "planning");
@@ -22,7 +20,6 @@ int main(int argc, char **argv) {
 
   /*planning模块初始化*/
   Car_Planning planning(FileTool::LoadFile(FLAGS_planning_conf_path));
-  LOG(ERROR) << "FileTool::LoadFile";
   debugger = new Debugger();
 
   /*订阅*/
