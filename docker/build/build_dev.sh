@@ -20,17 +20,18 @@
 #   ./build_dev.sh ./dev.x86_64.dockerfile
 DOCKERFILE=$1
 
+PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+source ${PROJECT_ROOT_DIR}/configure
 
 CONTEXT="$(dirname "${BASH_SOURCE[0]}")"
 
-REPO=autocar
 ARCH=$(uname -m)
 TIME=$(date +%Y%m%d_%H%M)
 
 #TAG="${REPO}:dev-${ARCH}"
-TAG="${REPO}:dev-${ARCH}-${TIME}"
+TAG="${PROJECT_NAME}:dev-${ARCH}-${TIME}"
 
 # Fail on first error.
 set -e
 docker build -t ${TAG} -f ${DOCKERFILE} ${CONTEXT}
-echo "Built new image ${TAG}"
+info "Built new image ${TAG}"

@@ -16,9 +16,9 @@
 # limitations under the License.
 ###############################################################################
 
-AUTOCAR_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+PROJECT_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
-source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
+source ${PROJECT_ROOT_DIR}/configure
 
 
 function start() {
@@ -28,13 +28,13 @@ function start() {
   if [ "$OUTPUT" == "-o" ]; then
     # 输出到屏幕
     eval "rosrun ${NODE_NAME} ${NODE_NAME}_node \
-          --flagfile=${AUTOCAR_ROOT_DIR}/src/${NODE_NAME}/conf/${NODE_NAME}.conf \
+          --flagfile=${PROJECT_ROOT_DIR}/src/${NODE_NAME}/conf/${NODE_NAME}.conf \
           &"
   else
     # 输出到文件
     eval "nohup rosrun ${NODE_NAME} ${NODE_NAME}_node \
-          --flagfile=${AUTOCAR_ROOT_DIR}/src/${NODE_NAME}/conf/${NODE_NAME}.conf\
-          $@ </dev/null >${AUTOCAR_ROOT_DIR}/data/log/${NODE_NAME}.out 2>&1 &"
+          --flagfile=${PROJECT_ROOT_DIR}/src/${NODE_NAME}/conf/${NODE_NAME}.conf\
+          $@ </dev/null >${PROJECT_ROOT_DIR}/data/log/${NODE_NAME}.out 2>&1 &"
   fi
   info "${NODE_NAME} is running..."
 }

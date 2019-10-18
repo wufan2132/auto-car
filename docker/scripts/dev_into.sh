@@ -16,9 +16,17 @@
 # limitations under the License.
 ###############################################################################
 
+PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+source ${PROJECT_ROOT_DIR}/configure
+
+DOCKER_NAME=$1
+if [ "$DOCKER_NAME" == "" ]; then
+    DOCKER_NAME=${PROJECT_NAME}_dev
+fi
+
 xhost +local:root 1>/dev/null 2>&1
 docker exec \
     -u cat \
-    -it autocar_dev \
+    -it $DOCKER_NAME \
     /bin/bash
 xhost -local:root 1>/dev/null 2>&1

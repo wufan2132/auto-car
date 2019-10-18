@@ -1,10 +1,12 @@
 #pragma once
 
-#include "car_msgs/lat_debug.h"
-#include "car_msgs/lon_debug.h"
-#include "car_msgs/mpc_debug.h"
+#include "car_msgs/debug.h"
+#include "car_msgs/trajectory.h"
+#include "car_msgs/control_cmd.h"
 #include "car_msgs/vehicle_state.h"
+#include "yaml-cpp/yaml.h"
 
+namespace control {
 /**
  * @class Controller
  * @brief A proportional–integral–derivative controller for speed and steering
@@ -14,16 +16,20 @@ class BaseControllerConf;
 
 class BaseController {
  public:
-  BaseController() = default;
+  BaseController(YAML::Node yaml_conf){};
   virtual ~BaseController() = default;
 
-  virtual void Init(const BaseControllerConf &conf);
-  virtual void Reset();
-  virtual void Stop();
+  virtual void Init() =0;
+  virtual void Reset() =0;
+  virtual void Stop() =0;
 
-  void ComputeControlCommand(
+  virtual void ComputeControlCommand(
       const car_msgs::trajectory &planning_published_trajectory,
-      const car_msgs::vehicle_state &vehicle_state, car_msgs::control_cmd &cmd);
+      const car_msgs::vehicle_state &vehicle_state, 
+      car_msgs::control_cmd *cmd,
+      car_msgs::debug *debug_msg) =0;
 };
 
 class BaseControllerConf {};
+
+}  // namespace control

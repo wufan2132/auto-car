@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Usage:
 #  ./upload_images.sh  [images_path]
-SERVER=sixianka
+PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+source ${PROJECT_ROOT_DIR}/configure
+
+SERVER=${IMAGE_SERVER}
+source "${PROJECT_ROOT_DIR}/config/servers/${SERVER}.sh"
 
 IMAGE=$1
 
-AUTOCAR_ROOT_DIR="$( cd "$( dirname "$0" )/../.." && pwd )"
-source "${AUTOCAR_ROOT_DIR}/config/servers/${SERVER}.sh"
-source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
-check_in_docker
-if [ "$AUTOCAR_IN_DOCKER" == "true" ]; then
+if [ "$PROJECT_IN_DOCKER" == "true" ]; then
         error "it must run in local. and can not run in docker!"
         exit 0
 fi

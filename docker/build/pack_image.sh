@@ -6,15 +6,18 @@
 #  ./pack_image.sh  [commit_msg]  [CONTAINER_ID]
 ARCH=$(uname -m)
 
-REPO=autocar
+PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+source ${PROJECT_ROOT_DIR}/configure
+
+REPO=PROJECT_NAME
 COMMIT_MSG=$1
 CONTAINER_ID=$2
 TIME=$(date +%Y%m%d_%H%M)
 
-AUTOCAR_ROOT_DIR="$(cd "$(dirname $0)/../.." && pwd)"
-source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
-check_in_docker
-if [ "$AUTOCAR_IN_DOCKER" == "true" ]; then
+
+
+
+if [ "$PROJECT_IN_DOCKER" == "true" ]; then
         error "it must run in local. and can not run in docker!"
         exit 0
 fi
@@ -50,23 +53,23 @@ docker commit \
     $CONTAINER_ID ${TAG}
 
 # move history images
-if [ ! -d "${AUTOCAR_ROOT_DIR}/docker/images/history" ]; then
-    mkdir "${AUTOCAR_ROOT_DIR}/docker/images/history"
+if [ ! -d "${PROJECT_ROOT_DIR}/docker/images/history" ]; then
+    mkdir "${PROJECT_ROOT_DIR}/docker/images/history"
 fi
 
-for image in $(ls "${AUTOCAR_ROOT_DIR}"/docker/images); do
-    if [[ "$image" == autocar:dev-* ]]; then
+for image in $(ls "${PROJECT_ROOT_DIR}"/docker/images); do
+    if [[ "$image" == ${REPO}:dev-* ]]; then
         echo "remove old images:${image}"
-        mv "${AUTOCAR_ROOT_DIR}/docker/images/${image}" "${AUTOCAR_ROOT_DIR}/docker/images/history/${image}"
+        mv "${PROJECT_ROOT_DIR}/docker/images/${image}" "${PROJECT_ROOT_DIR}/docker/images/history/${image}"
     fi
 done
 
 # save image
 docker save \
-    -o "${AUTOCAR_ROOT_DIR}/docker/images/${REPO}:dev-${ARCH}-${TIME}.tar" $TAG
+    -o "${PROJECT_ROOT_DIR}/docker/images/${REPO}:dev-${ARCH}-${TIME}.tar" $TAG
 
 # log
 echo "${TAG}.tar  ${COMMIT_MSG}" 
-echo "${TAG}.tar  ${COMMIT_MSG}" >>"${AUTOCAR_ROOT_DIR}/docker/images/images-log-${USER}.md"
+echo "${TAG}.tar  ${COMMIT_MSG}" >>"${PROJECT_ROOT_DIR}/docker/images/images-log-${USER}.md"
 
 success "build images success"

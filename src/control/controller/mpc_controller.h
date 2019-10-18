@@ -21,122 +21,96 @@
 
 #pragma once
 
-#include "controller.h"
-#include "control/common/trajectory_analyzer.h"
-#include "car_msgs/control_cmd.h"
-#include "car_msgs/chassis.h"
-#include "car_msgs/localization.h"
-#include "car_msgs/trajectory.h"
-#include "car_msgs/trajectory_point.h"
-#include "car_msgs/param.h"
-
 #include <fstream>
 #include <memory>
 #include <string>
+#include "car_msgs/chassis.h"
+#include "car_msgs/control_cmd.h"
+#include "car_msgs/localization.h"
+#include "car_msgs/mpc_debug.h"
+#include "car_msgs/param.h"
+#include "car_msgs/trajectory.h"
+#include "car_msgs/trajectory_point.h"
+#include "control/common/trajectory_analyzer.h"
+#include "controller.h"
 
 #include "Eigen/Core"
 
-// #include <fstream>
-// #include <memory>
-// #include <string>
-
-// #include "Eigen/Core"
-
-// #include "modules/common/configs/proto/vehicle_config.pb.h"
-
-// #include "modules/common/filters/digital_filter.h"
-// #include "modules/common/filters/digital_filter_coefficients.h"
-// #include "modules/common/filters/mean_filter.h"
-// #include "modules/control/common/interpolation_1d.h"
-// #include "modules/control/common/interpolation_2d.h"
-// #include "modules/control/common/trajectory_analyzer.h"
-// #include "modules/control/controller/controller.h"
-
 namespace control {
-    class MPCControllerConf{
-        public:
-        double ts;            // sample time (dt) 0.01 now, configurable
-        double cf;
-        double cr;            // N/rad
-        double mass_fl;
-        double mass_fr;
-        double mass_rl;
-        double mass_rr;
-        double eps;          // converge threshold
-        double matrix_q1;     // matrix_q size = 6
-        double matrix_q2;     // matrix_q size = 6
-        double matrix_q3;     // matrix_q size = 6
-        double matrix_q4;     // matrix_q size = 6
-        double matrix_q5;     // matrix_q size = 6
-        double matrix_q6;     // matrix_q size = 6
-        double matrix_r1;    // matrix_r size = 2
-        double matrix_r2;    // matrix_r size = 2
-        int cutoff_freq;   // cutoff frequency
-        int mean_filter_window_size;  // window size of mean filter
-        // for a normal car, it should be in range[16, 18]
-        int max_iteration;  // maximum iteration for lqr solve
-        double max_lateral_acceleration;  // limit aggressive steering
-        double standstill_acceleration;
-        double throttle_deadzone;
-        double brake_deadzone;
-        double minimum_speed_protection;
 
-        //VehicleParam-------------------------------------------------------------------
-        double front_edge_to_center;
-        double back_edge_to_center;
-        double left_edge_to_center;
-        double right_edge_to_center;
+class MPCControllerConf {
+ public:
+  double ts;  // sample time (dt) 0.01 now, configurable
+  double cf;
+  double cr;  // N/rad
+  double mass_fl;
+  double mass_fr;
+  double mass_rl;
+  double mass_rr;
+  double eps;                   // converge threshold
+  double matrix_q1;             // matrix_q size = 6
+  double matrix_q2;             // matrix_q size = 6
+  double matrix_q3;             // matrix_q size = 6
+  double matrix_q4;             // matrix_q size = 6
+  double matrix_q5;             // matrix_q size = 6
+  double matrix_q6;             // matrix_q size = 6
+  double matrix_r1;             // matrix_r size = 2
+  double matrix_r2;             // matrix_r size = 2
+  int cutoff_freq;              // cutoff frequency
+  int mean_filter_window_size;  // window size of mean filter
+  // for a normal car, it should be in range[16, 18]
+  int max_iteration;                // maximum iteration for lqr solve
+  double max_lateral_acceleration;  // limit aggressive steering
+  double standstill_acceleration;
+  double throttle_deadzone;
+  double brake_deadzone;
+  double minimum_speed_protection;
 
-        double length;
-        double width;
-        double height;
+  // VehicleParam-------------------------------------------------------------------
+  double front_edge_to_center;
+  double back_edge_to_center;
+  double left_edge_to_center;
+  double right_edge_to_center;
 
-        double min_turn_radius;
-        double max_acceleration;
-        double max_deceleration;
+  double length;
+  double width;
+  double height;
 
-        // The following items are used to compute trajectory constraints in planning/control/canbus,
-        // vehicle max steer angle
-        double max_steer_angle;
-        // vehicle max steer rate; how fast can the steering wheel turn.
-        double max_steer_angle_rate;
-        // vehicle min steer rate;
-        double min_steer_angle_rate;
-        // ratio between the turn of steering wheel and the turn of wheels
-        double steer_ratio;
-        // the distance between the front and back wheels
-        double wheel_base;
-        // Tire effective rolling radius (vertical distance between the wheel center
-        // and the ground).
-        double wheel_rolling_radius;
+  double min_turn_radius;
+  double max_acceleration;
+  double max_deceleration;
 
-        // minimum differentiable vehicle speed, in m/s
-        float max_abs_speed_when_stopped;
-    };
+  // The following items are used to compute trajectory constraints in
+  // planning/control/canbus, vehicle max steer angle
+  double max_steer_angle;
+  // vehicle max steer rate; how fast can the steering wheel turn.
+  double max_steer_angle_rate;
+  // vehicle min steer rate;
+  double min_steer_angle_rate;
+  // ratio between the turn of steering wheel and the turn of wheels
+  double steer_ratio;
+  // the distance between the front and back wheels
+  double wheel_base;
+  // Tire effective rolling radius (vertical distance between the wheel center
+  // and the ground).
+  double wheel_rolling_radius;
+
+  // minimum differentiable vehicle speed, in m/s
+  float max_abs_speed_when_stopped;
+};
 /**
  * @class MPCController
  *
  * @brief MPCController, combined lateral and logitudinal controllers
  */
-class MPCController {
+class MPCController : public BaseController {
  public:
-  /**
-   * @brief constructor
-   */
-  MPCController();
+  MPCController(YAML::Node yaml_conf);
+  ~MPCController() override;
 
-  /**
-   * @brief destructor
-   */
-  virtual ~MPCController();
-
-  /**
-   * @brief initialize MPC Controller
-   * @param control_conf control configurations
-   * @return Status initialization status
-   */
-  void Init(const MPCControllerConf *control_conf);
-
+  void Init();
+  void Reset() override;
+  void Stop() override{};
   /**
    * @brief compute steering target and throttle/ brake based on current vehicle
    * status and target trajectory
@@ -146,57 +120,48 @@ class MPCController {
    * @param cmd control command
    * @return Status computation status
    */
-   void ComputeControlCommand(
-          const car_msgs::trajectory &planning_published_trajectory,
-          const car_msgs::vehicle_state &vehicle_state,
-          car_msgs::control_cmd &cmd,
-          car_msgs::mpc_debug &debug);
+  void ComputeControlCommand(
+      const car_msgs::trajectory &planning_published_trajectory,
+      const car_msgs::vehicle_state &vehicle_state,
+      car_msgs::control_cmd *cmd,
+      car_msgs::debug *debug_msg)  override;
 
-  /**
-   * @brief reset MPC Controller
-   * @return Status reset status
-   */
-  void Reset();
-
-  /**
-   * @brief stop MPC controller
-   */
-
-  /**
-   * @brief MPC controller name
-   * @return string controller name in string
-   */
+  
   std::string Name() const;
 
- protected:
-  void UpdateState(const car_msgs::vehicle_state &vehicle_state,car_msgs::mpc_debug &debug);
+ private:
+  void UpdateState(const car_msgs::vehicle_state &vehicle_state,
+                   car_msgs::mpc_debug *debug);
 
-  void UpdateMatrix(const car_msgs::vehicle_state &vehicle_state,car_msgs::mpc_debug &debug);
+  void UpdateMatrix(const car_msgs::vehicle_state &vehicle_state,
+                    car_msgs::mpc_debug *debug);
 
-  void FeedforwardUpdate(car_msgs::mpc_debug &debug);
+  void FeedforwardUpdate(car_msgs::mpc_debug *debug);
 
   void ComputeLateralErrors(const double x, const double y, const double theta,
                             const double linear_v, const double angular_v,
                             const TrajectoryAnalyzer &trajectory_analyzer,
-                            car_msgs::mpc_debug &debug);
+                            car_msgs::mpc_debug *debug);
 
   void ComputeLongitudinalErrors(const TrajectoryAnalyzer &trajectory,
                                  const car_msgs::vehicle_state &vehicle_state,
-                                 car_msgs::mpc_debug &debug);
+                                 car_msgs::mpc_debug *debug);
 
-  bool LoadControlConf(const MPCControllerConf *control_conf);
+  bool LoadControlConf();
 
-  void InitializeFilters(const MPCControllerConf *control_conf);
+  void InitializeFilters();
 
   double Wheel2SteerPct(const double wheel_angle);
 
   // vehicle parameter
-//   common::VehicleParam vehicle_param_;
+  //   common::VehicleParam vehicle_param_;
 
   // a proxy to analyze the planning trajectory
   TrajectoryAnalyzer trajectory_analyzer_;
 
-//   std::unique_ptr<Interpolation2D> control_interpolation_;
+  MPCControllerConf conf_;
+
+  //   std::unique_ptr<Interpolation2D> control_interpolation_;
 
   // the following parameters are vehicle physics related.
   // control time interval
@@ -273,41 +238,19 @@ class MPCController {
   // parameters for mpc solver; threshold for computation
   double mpc_eps_ = 0.0;
 
-//   common::DigitalFilter digital_filter_;
-
-//   std::unique_ptr<Interpolation1D> lat_err_interpolation_;
-
-//   std::unique_ptr<Interpolation1D> heading_err_interpolation_;
-
-//   std::unique_ptr<Interpolation1D> feedforwardterm_interpolation_;
-
-//   std::unique_ptr<Interpolation1D> steer_weight_interpolation_;
-
-
   const std::string name_;
 
   double standstill_acceleration_ = 0.0;
-
   double throttle_deadzone_ = 0.0;
-
   double brake_deadzone_ = 0.0;
 
   double steer_angle_feedforwardterm_ = 0.0;
-
   double steer_angle_feedforwardterm_updated_ = 0.0;
 
   double max_acceleration_ = 0.0;
-
   double max_deceleration_ = 0.0;
-
-  // MeanFilter heading_error_filter_;
-//   common::MeanFilter lateral_error_filter_;
-
-  // MeanFilter lateral_error_filter;
-//   common::MeanFilter heading_error_filter_;
-
   double minimum_speed_protection_ = 0.1;
-
- double   max_abs_speed_when_stopped_;
+  double max_abs_speed_when_stopped_;
 };
-} //namespace control
+
+}  // namespace control

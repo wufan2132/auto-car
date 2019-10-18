@@ -187,6 +187,7 @@ target_link_libraries(${PROJECT_NAME}_node
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   control_lib
+  file_tool
 )
 #############
 ## Install ##

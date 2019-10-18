@@ -2,7 +2,7 @@
 #pragma once
 
 #include "ros/ros.h"
-
+#include <memory>
 #if MPC_OR_LQR
 #include "control/controller/lat_controller.h"
 #include "control/controller/lon_controller.h"
@@ -47,7 +47,7 @@ class Control {
   LonController lon_controller_;
   LatController lat_controller_;
 #else
-  MPCController mpc_controller_;
+  std::unique_ptr<MPCController>  mpc_controller_;
 #endif
 };
 }  // namespace control

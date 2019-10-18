@@ -17,6 +17,8 @@
 ###############################################################################
 
 ARCH=$(uname -m)
+PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+source ${PROJECT_ROOT_DIR}/configure
 
 addgroup --gid "$DOCKER_GRP_ID" "$DOCKER_GRP"
 adduser --disabled-password --force-badname --gecos '' "$DOCKER_USER" \
@@ -27,19 +29,19 @@ cp -r /etc/skel/. /home/${DOCKER_USER}
 
 if [ "$ARCH" == 'aarch64' ]; then
   echo "
-export PATH=\$PATH:/usr/lib/java/bin:/autocar/scripts:/usr/local/miniconda2/bin/
+export PATH=\$PATH:/usr/lib/java/bin:/${PROJECT_NAME}/scripts:/usr/local/miniconda2/bin/
 export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/usr/local/lib:/usr/lib/aarch64-linux-gnu/tegra:/usr/local/ipopt/lib:/usr/local/cuda/lib64/stubs
 export NVBLAS_CONFIG_FILE=/usr/local/cuda
-if [ -e "/autocar/scripts/autocar_base.sh" ]; then 
-  source /autocar/scripts/autocar_base.sh; 
+if [ -e "/${PROJECT_NAME}/configure" ]; then 
+  source /${PROJECT_NAME}/configure; 
 fi
 ulimit -c unlimited" >>/home/${DOCKER_USER}/.bashrc
   source /home/${DOCKER_USER}/.bashrc
 else
   echo '
-export PATH=${PATH}:/autocar/scripts:/usr/local/miniconda2/bin
-if [ -e "/autocar/scripts/autocar_base.sh" ]; then
-  source /autocar/scripts/autocar_base.sh
+export PATH=${PATH}:/${PROJECT_NAME}/scripts:/usr/local/miniconda2/bin
+if [ -e "/${PROJECT_NAME}/configure" ]; then
+  source /${PROJECT_NAME}/configure
 fi
 ulimit -c unlimited
 source /opt/ros/melodic/setup.bash
@@ -85,8 +87,8 @@ lcov_branch_coverage = 1
 # if [ "$RELEASE_DOCKER" != "1" ];then
 #   # setup map data
 #   if [ -e /home/tmp/modules_data ]; then
-#     cp -r /home/tmp/modules_data/* /autocar/modules/
-#     chown -R ${DOCKER_USER}:${DOCKER_GRP} "/autocar/modules"
+#     cp -r /home/tmp/modules_data/* /${PROJECT_NAME}/modules/
+#     chown -R ${DOCKER_USER}:${DOCKER_GRP} "/${PROJECT_NAME}/modules"
 #   fi
 
 #   # setup ros package

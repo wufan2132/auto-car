@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-AUTOCAR_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
-source ${AUTOCAR_ROOT_DIR}/scripts/autocar_launch.sh
-source ${AUTOCAR_ROOT_DIR}/devel/setup.sh
+source ${PROJECT_ROOT_DIR}/configure
+source ${PROJECT_ROOT_DIR}/scripts/autocar_launch.sh
+source ${PROJECT_ROOT_DIR}/devel/setup.sh
 
 check_in_docker
-if [ "$AUTOCAR_IN_DOCKER" == "false" ]; then
+if [ "$PROJECT_IN_DOCKER" == "false" ]; then
         error "build.sh must run in docker!"
         exit 0
 fi

@@ -1,6 +1,6 @@
-#include "control/control.h"
 #include <gflags/gflags.h>
-#include <glog/logging.h>
+#include "common/base/log.h"
+#include "control/control.h"
 #include "ros/ros.h"
 using namespace control;
 
@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
   google::InitGoogleLogging(argv[0]);
   google::ParseCommandLineFlags(&argc, &argv, true);
   ros::init(argc, argv, "control");
-  LOG(INFO) << "control start:";
+  AINFO << "control start:";
   Control control;
   control.Init();
 

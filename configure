@@ -16,7 +16,11 @@
 # limitations under the License.
 ###############################################################################
 
-AUTOCAR_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+### project config
+PROJECT_NAME=autocar
+IMAGE_SERVER=sixianka
+##################################################
+PROJECT_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ARCH=$(uname -m)
 
 RED='\033[0;31m'
@@ -75,17 +79,17 @@ function fail() {
 
 function check_in_docker() {
   if [ -f /.dockerenv ]; then
-    AUTOCAR_IN_DOCKER=true
+    PROJECT_IN_DOCKER=true
   else
-    AUTOCAR_IN_DOCKER=false
+    PROJECT_IN_DOCKER=false
   fi
-  export AUTOCAR_IN_DOCKER
+  export PROJECT_IN_DOCKER
 }
 
 function create_data_dir() {
   local DATA_DIR=""
   if [ "$RELEASE_DOCKER" != "1" ]; then
-    DATA_DIR="${AUTOCAR_ROOT_DIR}/data"
+    DATA_DIR="${PROJECT_ROOT_DIR}/data"
   else
     DATA_DIR="${HOME}/data"
   fi
@@ -112,5 +116,5 @@ EOF
 }
 
 check_in_docker
-create_data_dir
+
 

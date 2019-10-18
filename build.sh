@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-AUTOCAR_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source ${AUTOCAR_ROOT_DIR}/scripts/autocar_base.sh
-source ${AUTOCAR_ROOT_DIR}/devel/setup.sh
-check_in_docker
-if [ "$AUTOCAR_IN_DOCKER" == "false" ]; then
+PROJECT_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source ${PROJECT_ROOT_DIR}/configure
+source ${PROJECT_ROOT_DIR}/devel/setup.sh
+
+if [ "$PROJECT_IN_DOCKER" == "false" ]; then
         error "build.sh must run in docker!"
         exit 0
 fi
@@ -58,7 +58,7 @@ function build() {
 }
 
 function clean() {
-    rm -fr ${AUTOCAR_ROOT_DIR}/devel ${AUTOCAR_ROOT_DIR}/build
+    rm -fr ${PROJECT_ROOT_DIR}/devel ${PROJECT_ROOT_DIR}/build
 }
 
 function main() {
