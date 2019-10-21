@@ -56,8 +56,9 @@ docker ps >/dev/null
 if [ $? == 0 ]; then
     echo "docker is already installed, skip install."
 else
-    sudo bash "${PROJECT_ROOT_DIR}/docker/install/install_docker.sh" >/dev/null
-    sudo bash "${PROJECT_ROOT_DIR}/docker/install/install_nvidia_docker.sh" >/dev/null
+    sudo bash "${PROJECT_ROOT_DIR}/docker/install/install_docker.sh"
+    sudo bash "${PROJECT_ROOT_DIR}/docker/install/install_nvidia_docker.sh" 
+    sudo bash "${PROJECT_ROOT_DIR}/docker/scripts/remove_root_permission.sh" 
 fi
 set -e
 echo ""

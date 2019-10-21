@@ -19,7 +19,7 @@ namespace control {
 
 MPCController::MPCController(YAML::Node control_conf)
     : name_("MPC Controller"),
-    BaseController(control_conf) {
+    Controller(control_conf) {
   conf_.ts = control_conf["mpc_controller_conf"]["ts"].as<double>();
   conf_.cf = control_conf["mpc_controller_conf"]["cf"].as<double>();
   conf_.cr = control_conf["mpc_controller_conf"]["cr"].as<double>();

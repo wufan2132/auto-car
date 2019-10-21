@@ -103,7 +103,7 @@ class MPCControllerConf {
  *
  * @brief MPCController, combined lateral and logitudinal controllers
  */
-class MPCController : public BaseController {
+class MPCController : public Controller {
  public:
   MPCController(YAML::Node yaml_conf);
   ~MPCController() override;
