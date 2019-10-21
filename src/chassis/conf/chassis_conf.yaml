@@ -1,0 +1,10 @@
+
+######### gazebo_chassis conf
+gazebo_chassis:
+  # 发送模式 [period callback]
+  send_mode: callback
+  # 发送周期: s (send_mode为period时有效)
+  send_period: 0.02
+
+
+  

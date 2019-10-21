@@ -4,7 +4,7 @@
 #include "common/chassis_gflags.h"
 #include "ros/ros.h"
 
-using autocar::common::FileTool;
+using common::base::FileTool;
 
 int main(int argc, char **argv) {
   google::InitGoogleLogging(argv[0]);

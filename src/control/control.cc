@@ -1,12 +1,13 @@
 #include "control/control.h"
 #include "common/base/file_tool/file_tool.h"
+#include "common/base/global_gflags/global_gflags.h"
 #include "control/common/control_gflags.h"
 #include "yaml-cpp/yaml.h"
 
 namespace control {
 
 using namespace std;
-using autocar::common::FileTool;
+using common::base::FileTool;
 
 void Control::Init(void) {
   YAML::Node control_conf = FileTool::LoadFile(FLAGS_control_conf_path);
@@ -150,8 +151,10 @@ void Control::Init(void) {
 #endif
   //发布控制节点
   chassisCommand_publisher =
-      control_NodeHandle.advertise<car_msgs::control_cmd>("prius", 1);
-  debug_publisher = control_NodeHandle.advertise<car_msgs::debug>("debug", 1);
+      control_NodeHandle.advertise<car_msgs::control_cmd>(
+          FLAGS_control_controlcmd_topic, 1);
+  debug_publisher = control_NodeHandle.advertise<car_msgs::debug>(
+      FLAGS_control_debug_topic, 1);
 }
 
 void Control::ProduceControlCommand(car_msgs::control_cmd &control_cmd) {

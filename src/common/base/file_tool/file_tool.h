@@ -6,9 +6,8 @@
 #include "common/base/global_gflags/global_gflags.h"
 #include "yaml-cpp/yaml.h"
 
-namespace autocar {
-
 namespace common {
+namespace base {
 
 class FileTool {
  public:

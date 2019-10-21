@@ -122,6 +122,7 @@ include_directories(
 
 add_subdirectory(base)
 add_subdirectory(math)
+add_subdirectory(util)
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/planning.cpp

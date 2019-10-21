@@ -1,5 +1,6 @@
 #include <gflags/gflags.h>
 #include "common/base/log.h"
+#include "common/base/global_gflags/global_gflags.h"
 #include "control/control.h"
 #include "ros/ros.h"
 using namespace control;
@@ -17,13 +18,16 @@ int main(int argc, char **argv) {
   ros::Timer cycle_timer = control_NodeHandle.createTimer(
       ros::Duration(0.01), &Control::OnTimer, &control);
   ros::Subscriber localization_subscriber = control_NodeHandle.subscribe(
-      "localization_topic", 1, &Control::localization_topic_callback, &control);
-  ros::Subscriber chassis_subscriber = control_NodeHandle.subscribe(
-      "chassis_topic", 1, &Control::chassis_topic_callback, &control);
-  ros::Subscriber path_subscriber = control_NodeHandle.subscribe(
-      "trajectory_topic", 1, &Control::path_topic_callback, &control);
+      FLAGS_chassis_localization_topic, 1,
+      &Control::localization_topic_callback, &control);
+  ros::Subscriber chassis_subscriber =
+      control_NodeHandle.subscribe(FLAGS_chassis_car_state_topic, 1,
+                                   &Control::chassis_topic_callback, &control);
+  ros::Subscriber path_subscriber =
+      control_NodeHandle.subscribe(FLAGS_planning_trajectory_topic, 1,
+                                   &Control::path_topic_callback, &control);
   ros::Subscriber param_subscriber = control_NodeHandle.subscribe(
-      "param_topic", 1, &Control::param_topic_callback, &control);
+      FLAGS_param_topic, 1, &Control::param_topic_callback, &control);
   ros::spin();
   return 0;
 }

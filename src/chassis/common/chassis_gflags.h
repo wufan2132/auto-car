@@ -22,3 +22,4 @@
 DECLARE_string(chassis_mode);
 // data file
 DECLARE_string(chassis_conf_path);
+

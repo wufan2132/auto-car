@@ -23,3 +23,18 @@ DECLARE_string(base_dir);
 DECLARE_string(system_run_mode);
 
 DECLARE_string(car_name);
+
+/**************************topic*************************/
+//chassis
+DECLARE_string(chassis_localization_topic);
+DECLARE_string(chassis_car_state_topic);
+//gazebo
+DECLARE_string(gazebo_Odometry_topic);
+DECLARE_string(gazebo_imu_topic);
+DECLARE_string(planning_refrenceline_topic);
+DECLARE_string(planning_trajectory_topic);
+//control
+DECLARE_string(control_controlcmd_topic);
+DECLARE_string(control_debug_topic);
+//other
+DECLARE_string(param_topic);

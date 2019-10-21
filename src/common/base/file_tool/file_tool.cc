@@ -3,8 +3,8 @@
 #include "file_tool.h"
 #include <glog/logging.h>
 
-namespace autocar {
 namespace common {
+namespace base {
 
 std::string FileTool::ToAbsDir(std::string path) {
   if (path != "" && path[0] == '/') {

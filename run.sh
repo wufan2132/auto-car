@@ -37,9 +37,7 @@ esac
 
 if [ "${RUN_MODE}" == "default" ]; then
     info "runmode: default"
-    start planning 
-    start control
-    roslaunch launch/auto-car-env.launch
+    roslaunch launch/auto-car-pc.launch
 elif [ "${RUN_MODE}" == "output" ]; then
     info "runmode: output"
     start planning -o
@@ -48,7 +46,8 @@ elif [ "${RUN_MODE}" == "output" ]; then
 elif [ "${RUN_MODE}" == "debug" ]; then
     info "runmode: debug ${TARGET_NODE}"
     eval "gdbserver :2333 devel/lib/${TARGET_NODE}/${TARGET_NODE}_node  \
-        --flagfile=/autocar/src/${TARGET_NODE}/conf/${TARGET_NODE}.conf"
+        --flagfile=/autocar/src/${TARGET_NODE}/conf/${TARGET_NODE}.conf  \
+        --logtostderr=true"
 elif [ "${RUN_MODE}" == "single" ]; then
     info "just run ${TARGET_NODE}"
     start ${TARGET_NODE} -o 
