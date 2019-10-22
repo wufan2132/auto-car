@@ -12,12 +12,7 @@
 /docker/images/**/*.tar
 
 # gen files
-build/
-devel
-planning/planning_conf.yaml
-planning/conf/
-planning/file/
-perception/perception_conf.yaml
-perception/conf/
-perception/file/
-cartographer_ros/
+/build/
+/devel/
+/src/planning/file/
+/src/cartographer_ros/
