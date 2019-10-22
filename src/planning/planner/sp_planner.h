@@ -25,7 +25,7 @@ public:
 
 class SpPlanner: public Planner{
 public:
-    SpPlanner(YAML::Node yaml_conf);
+    SpPlanner(const YAML::Node& yaml_conf);
     void process(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
              const Spline_Out* refrenceline_Sp,  const car_msgs::trajectory& reference_line,
              car_msgs::trajectory& trajectory_out);

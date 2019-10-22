@@ -42,7 +42,7 @@ public:
 
 class DpRoadGraph{
 public:
-    DpRoadGraph(YAML::Node yaml_conf);
+    DpRoadGraph(const YAML::Node& yaml_conf);
 
     void init(ObstacleList* obslist);
 

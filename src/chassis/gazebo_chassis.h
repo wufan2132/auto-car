@@ -23,7 +23,7 @@ namespace chassis {
 
 class GazeboChassis : public Chassis {
  public:
-  GazeboChassis(YAML::Node yaml_conf);
+  GazeboChassis(const YAML::Node& yaml_conf);
   ~GazeboChassis() override;
 
   void Init(ros::NodeHandle *node_handle) override;

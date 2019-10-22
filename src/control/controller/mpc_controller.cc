@@ -17,7 +17,7 @@ using Matrix = Eigen::MatrixXd;
 // using apollo::common::VehicleConfigHelper;
 namespace control {
 
-MPCController::MPCController(YAML::Node control_conf)
+MPCController::MPCController(const YAML::Node& control_conf)
     : name_("MPC Controller"),
     Controller(control_conf) {
   conf_.ts = control_conf["mpc_controller_conf"]["ts"].as<double>();

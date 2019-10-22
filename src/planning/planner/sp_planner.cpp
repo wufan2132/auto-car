@@ -1,6 +1,6 @@
 #include "planning/planner/sp_planner.h"
 
-SpPlanner::SpPlanner(YAML::Node yaml_conf)
+SpPlanner::SpPlanner(const YAML::Node& yaml_conf)
 :Planner(yaml_conf){
     conf.available_l= yaml_conf["available_l"].as<double>();
     conf.aim_speed= yaml_conf["aim_speed"].as<double>();

@@ -1,7 +1,7 @@
 #include "planning/map/A_star.h"
 #include <math.h> 
 
-Astar::Astar(YAML::Node yaml_conf)
+Astar::Astar(const YAML::Node& yaml_conf)
 :kG(yaml_conf["kG"].as<double>()),
 kH(yaml_conf["kH"].as<double>()){}
 

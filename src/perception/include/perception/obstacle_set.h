@@ -11,7 +11,7 @@ public:
 
 class ObstacleSet{
 public:
-    ObstacleSet(YAML::Node yaml_conf);
+    ObstacleSet(const YAML::Node& yaml_conf);
 
     bool refresh(string path);//从reader获得障碍物数据
     bool refresh(const sensor_msgs::PointCloud2& msg, LidarHandle* handle);

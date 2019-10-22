@@ -5,7 +5,7 @@
 
 class MapConvert{
 public:
-    MapConvert(YAML::Node yaml_conf);
+    MapConvert(const YAML::Node& yaml_conf);
     car_msgs::trajectory_point MapToPos(const MapPoint& point);
     MapPoint PosToMap(const car_msgs::trajectory_point& point);
 private:

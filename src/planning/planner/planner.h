@@ -22,7 +22,7 @@ public:
 
 class Planner{
 public:
-    Planner(YAML::Node yaml_conf);
+    Planner(const YAML::Node& yaml_conf);
 
     Spline_Out* get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
     virtual void init(ObstacleList* obslist){obstaclelist = obslist;};

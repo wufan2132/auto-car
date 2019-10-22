@@ -8,7 +8,7 @@
 namespace chassis {
 class GazeboClient {
  public:
-  GazeboClient(YAML::Node yaml_conf);
+  GazeboClient(const YAML::Node& yaml_conf);
   ~GazeboClient();
 
   void Init(ros::NodeHandle *node_handle);

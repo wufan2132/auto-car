@@ -45,7 +45,7 @@ public:
 
 class DpStGraph{
 public:
-    DpStGraph(YAML::Node yaml_conf);
+    DpStGraph(const YAML::Node& yaml_conf);
     void reset(Car_State_SL init_SLpoint,
                 Car_State_SL car_status,
                 int total_level,

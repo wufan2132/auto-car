@@ -3,7 +3,7 @@
 
 using common::base::FileTool;
 
-Car_Planning::Car_Planning(YAML::Node planning_conf)
+Car_Planning::Car_Planning(const YAML::Node& planning_conf)
 :STATE(0)
 {
     ROS_INFO("Car_Planning::Car_Planning: refrenceline_provider load para start!");
@@ -41,11 +41,11 @@ void Car_Planning::RunOnce(void){
 }
 
 //读节点数据
-void Car_Planning::localization_callback(const car_msgs::localization& localization){
+void Car_Planning::LocalizationCallback(const car_msgs::localization& localization){
     car_localization = localization;
 }
 
-void Car_Planning::chassis_callback(const car_msgs::chassis& chassis){
+void Car_Planning::ChassisCallback(const car_msgs::chassis& chassis){
     if(STATE==0)
         STATE=1;
     car_chassis = chassis;
@@ -58,7 +58,7 @@ void Car_Planning::chassis_callback(const car_msgs::chassis& chassis){
     }
 }
 
-void Car_Planning::obstacle_callback(const car_msgs::base_obstacle_list& obstacle_msg){
+void Car_Planning::ObstacleCallback(const car_msgs::base_obstacle_list& obstacle_msg){
     obstaclelist->refresh(obstacle_msg);
 }
 

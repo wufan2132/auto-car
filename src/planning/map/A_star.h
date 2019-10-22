@@ -17,7 +17,7 @@ const double kH = 1; //����
 class Astar
 {
 public:
-	Astar(YAML::Node yaml_conf);
+	Astar(const YAML::Node& yaml_conf);
 	void InitAstar(std::vector<std::vector<int>> &_maze);
 	std::list<MapPoint *> GetPath(MapPoint &startPoint, MapPoint &endPoint, bool isIgnoreCorner);
 

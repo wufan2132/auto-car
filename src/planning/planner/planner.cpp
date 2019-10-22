@@ -1,6 +1,6 @@
 #include "planning/planner/planner.h"
 
-Planner::Planner(YAML::Node yaml_conf){
+Planner::Planner(const YAML::Node& yaml_conf){
     interpolating = new Interpolating(yaml_conf["Interpolating_conf"]);
 }
 

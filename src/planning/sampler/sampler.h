@@ -9,7 +9,7 @@ using namespace std;
 
 class SamplerPoint{
 public:
-    SamplerPoint(YAML::Node yaml_conf);
+    SamplerPoint(const YAML::Node& yaml_conf);
     void setSlength(double s){Slength = s;}
     void setLwidth(double l){Lwidth = l;}
     void setTlength(double t){Tlength = t;}

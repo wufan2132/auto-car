@@ -16,7 +16,7 @@ public:
 
 class OgPlanner:public Planner{
 public:
-    OgPlanner(YAML::Node yaml_conf);
+    OgPlanner(const YAML::Node& yaml_conf);
 
 
     Car_State_SL get_start_point(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,

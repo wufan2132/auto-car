@@ -1,6 +1,6 @@
 #include "planning/sampler.h"
 
-SamplerPoint::SamplerPoint(YAML::Node yaml_conf){
+SamplerPoint::SamplerPoint(const YAML::Node& yaml_conf){
     Lwidth = yaml_conf["Lwidth"].as<double>();
     Slength = yaml_conf["Slength"].as<double>();
     Tlength  = yaml_conf["Tlength"].as<double>();

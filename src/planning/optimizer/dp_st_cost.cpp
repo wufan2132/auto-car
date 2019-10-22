@@ -1,7 +1,7 @@
 #include "planning/dp_st_cost.h"
 
 
-StCost::StCost(YAML::Node yaml_conf){}
+StCost::StCost(const YAML::Node& yaml_conf){}
 void StCost::reset(int totallevel){
     total_level = totallevel;
 }

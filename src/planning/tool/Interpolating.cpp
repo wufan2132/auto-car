@@ -1,7 +1,7 @@
 #include "planning/Interpolating.h"
 #include "ros/ros.h"
 
-Interpolating::Interpolating(YAML::Node yaml_conf){
+Interpolating::Interpolating(const YAML::Node& yaml_conf){
 	conf.Spline_space = yaml_conf["spacing"].as<double>();
 }
 

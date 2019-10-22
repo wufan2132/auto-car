@@ -21,7 +21,7 @@ public:
 class Interpolating
 {
 public:
-	Interpolating(YAML::Node yaml_conf);
+	Interpolating(const YAML::Node& yaml_conf);
 	~Interpolating();
 	//
 

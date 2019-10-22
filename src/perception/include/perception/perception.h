@@ -17,7 +17,7 @@ public:
 
 class Car_Perception{
     public:
-        Car_Perception(YAML::Node yaml_conf);
+        Car_Perception(const YAML::Node& yaml_conf);
 
         void OnTimer(const ros::TimerEvent&);
 

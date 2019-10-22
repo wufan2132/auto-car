@@ -1,7 +1,7 @@
 #include "planning/path_optimizer.h"
 
 #define pi 3.14159265354
-path_optimizer::path_optimizer(YAML::Node yaml_conf){
+path_optimizer::path_optimizer(const YAML::Node& yaml_conf){
     conf.step_t     = yaml_conf["step_t"].as<double>();
     conf.planning_t = yaml_conf["planning_t"].as<double>();
     conf.aim_speed  = yaml_conf["aim_speed"].as<double>();

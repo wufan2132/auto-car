@@ -30,7 +30,7 @@ public:
 
 class MpPlanner: public Planner{
 public:
-    MpPlanner(YAML::Node yaml_conf);
+    MpPlanner(const YAML::Node& yaml_conf);
 
     void init(ObstacleList* obslist);
 

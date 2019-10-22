@@ -1,6 +1,6 @@
 #include "planning/planner/og_planner.h"
 
-OgPlanner::OgPlanner(YAML::Node yaml_conf)
+OgPlanner::OgPlanner(const YAML::Node& yaml_conf)
 :Planner(yaml_conf){
     conf.step_t = yaml_conf["step_t"].as<double>();
     conf.planning_t = yaml_conf["planning_t"].as<double>();

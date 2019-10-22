@@ -13,7 +13,7 @@ std::string FileTool::ToAbsDir(std::string path) {
   return FLAGS_base_dir + '/' + path;
 }
 
-YAML::Node FileTool::LoadFile(std::string path) {
+const YAML::Node& FileTool::LoadFile(std::string path) {
   try {
     return YAML::LoadFile(path);
   } catch(std::exception e) {
