@@ -264,13 +264,13 @@ int main(int argc, char **argv){
     car_markerPub = n.advertise<visualization_msgs::Marker>("car_Marker", 1000);
 
     localization_markerPub = n.advertise<visualization_msgs::Marker>("localization_Marker", 1000);
-    ros::Subscriber localization_publisher = n.subscribe("localization_topic", 1, localization_topic_callback);
+    ros::Subscriber localization_publisher = n.subscribe("/autocar/chassis/localization", 1, localization_topic_callback);
 
     refrenceline_markerPub = n.advertise<visualization_msgs::Marker>("refrenceline_Marker", 1000);
-    ros::Subscriber refrenceline_publisher = n.subscribe("refrenceline_topic", 1, refrenceline_topic_callback);
+    ros::Subscriber refrenceline_publisher = n.subscribe("/autocar/planning/refrenceline", 1, refrenceline_topic_callback);
     
     trajectory_markerPub = n.advertise<visualization_msgs::Marker>("trajectory_Marker", 5000);
-    ros::Subscriber trajectory_publisher = n.subscribe("trajectory_topic", 1, trajectory_topic_callback);
+    ros::Subscriber trajectory_publisher = n.subscribe("/autocar/planning/trajectory", 1, trajectory_topic_callback);
 
     obstacles_markerPub = n.advertise<visualization_msgs::Marker>("obstacles_Marker", 5000);
     ros::Subscriber obstacles_publisher = n.subscribe("obstacle_topic", 1, obstacles_topic_callback);

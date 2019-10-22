@@ -9,7 +9,7 @@ ARCH=$(uname -m)
 PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 source ${PROJECT_ROOT_DIR}/configure
 
-REPO=PROJECT_NAME
+REPO=${PROJECT_NAME}
 COMMIT_MSG=$1
 CONTAINER_ID=$2
 TIME=$(date +%Y%m%d_%H%M)
