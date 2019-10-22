@@ -7,7 +7,7 @@
 namespace chassis {
 
 #define RegisterChassis(name, object_type)              \
-  producers_[name] = [](YAML::Node& conf) -> Chassis* { \
+  producers_[name] = [](YAML::Node& conf) -> Chassis* {  \
     return new object_type(conf);                       \
   };
 
@@ -16,10 +16,7 @@ class ChassisFactory {
   using Productor = std::function<Chassis*(YAML::Node&)>;
   ChassisFactory() {
     // RegisterChassis("gazebo", GazeboChassis);
-    // RegisterChassis("gazebo", GazeboChassis);
-    producers_["gazebo"] = [](YAML::Node& conf) -> Chassis* {
-      return new GazeboChassis(conf);
-    };
+    RegisterChassis("gazebo", GazeboChassis);
   }
 
   std::unique_ptr<Chassis> CreatObject(std::string type, YAML::Node conf) {

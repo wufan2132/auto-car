@@ -138,7 +138,7 @@ include_directories(
 )
 
 add_subdirectory(common)
-
+add_subdirectory(util)
 # add_subdirectory(../common/math math.out)
 ## Declare a C++ library
 add_library(gazebo_chassis

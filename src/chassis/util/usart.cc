@@ -1,40 +1,41 @@
 #include "usart.h"
 
-using namespace boost::asio;
+namespace chassis {
 
-Usart::Usart(const anytype &port_name) : pSerialPort(NULL) {
-  pSerialPort = new serial_port(m_ios);
-  if (pSerialPort) {
+using boost::asio::buffer;
+using boost::asio::serial_port;
+
+Usart::Usart(const std::string &port_name) {
+  serial_port_ = std::make_unique<serial_port>(ios_);
+  if (serial_port_) {
     init_port(port_name, 8);
   }
 }
 
-Usart::~Usart() {
-  if (pSerialPort) {
-    delete pSerialPort;
-  }
-}
+Usart::~Usart() {}
 
-bool Usart::init_port(const anytype port, const unsigned int char_size) {
-  if (!pSerialPort) {
+bool Usart::init_port(const std::string port, const unsigned int char_size) {
+  if (!serial_port_) {
     return false;
   }
 
-  pSerialPort->open(port, m_ec);
+  serial_port_->open(port, err_code_);
 
-  pSerialPort->set_option(serial_port::baud_rate(115200), m_ec);
-  pSerialPort->set_option(
-      serial_port::flow_control(serial_port::flow_control::none), m_ec);
-  pSerialPort->set_option(serial_port::parity(serial_port::parity::none), m_ec);
-  pSerialPort->set_option(serial_port::stop_bits(serial_port::stop_bits::one),
-                          m_ec);
-  pSerialPort->set_option(serial_port::character_size(char_size), m_ec);
+  serial_port_->set_option(serial_port::baud_rate(115200), err_code_);
+  serial_port_->set_option(
+      serial_port::flow_control(serial_port::flow_control::none), err_code_);
+  serial_port_->set_option(serial_port::parity(serial_port::parity::none),
+                           err_code_);
+  serial_port_->set_option(serial_port::stop_bits(serial_port::stop_bits::one),
+                           err_code_);
+  serial_port_->set_option(serial_port::character_size(char_size), err_code_);
 
   return true;
 }
-int16_t cnt_test = 0;
+
 void Usart::send_to_serial(const uint16_t &throttle, const uint16_t &brake,
                            const int16_t &steer) {
+  static int16_t cnt_test = 0;
   uint16_t Temp1 = 0;
   int16_t Temp2 = 0;
   uint8_t Cnt = 1;
@@ -67,7 +68,7 @@ void Usart::send_to_serial(const uint16_t &throttle, const uint16_t &brake,
   Send_BUF[Cnt++] = Sum;
   Send_BUF[0] = Cnt - 1;
 
-  write(*pSerialPort, buffer(Send_BUF, Cnt));
+  write(*serial_port_, buffer(Send_BUF, Cnt));
 }
 
 void Usart::reveive_from_serial(double &speed, double &ang_x, double &ang_y,
@@ -85,13 +86,13 @@ void Usart::reveive_from_serial(double &speed, double &ang_x, double &ang_y,
 
   // TODO: 阻塞问题
   while (1) {
-    read(*pSerialPort, buffer(&Rx_buf[0], 1));
+    read(*serial_port_, buffer(&Rx_buf[0], 1));
     if (Rx_buf[0] == 0XAA) {
-      read(*pSerialPort, buffer(&Rx_buf[1], 1));
+      read(*serial_port_, buffer(&Rx_buf[1], 1));
       if (Rx_buf[1] == 0XAA) {
-        read(*pSerialPort, buffer(&Rx_buf[2], 1));
-        read(*pSerialPort, buffer(&Rx_buf[3], 1));
-        read(*pSerialPort, buffer(&Rx_buf[4], Rx_buf[3] + 1));
+        read(*serial_port_, buffer(&Rx_buf[2], 1));
+        read(*serial_port_, buffer(&Rx_buf[3], 1));
+        read(*serial_port_, buffer(&Rx_buf[4], Rx_buf[3] + 1));
         break;
       }
     }
@@ -123,3 +124,5 @@ void Usart::reveive_from_serial(double &speed, double &ang_x, double &ang_y,
     }
   }
 }
+
+}  // namespace chassis
