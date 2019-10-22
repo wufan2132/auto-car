@@ -8,7 +8,7 @@ if [ "$SERVER" == "" ]; then
     echo "Usage: ./ssh_link.sh  [server_name]"
     exit 0
 fi
-PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 source "${PROJECT_ROOT_DIR}/config/servers/${SERVER}.sh"
 #
 echo "this password is ${S_PWD} ${S_PWD_DETALL}"
