@@ -10,6 +10,14 @@ class Frame {
   Frame();
   ~Frame();
   void Init();
+  //
+  const car_msgs::trajectory_point& car_state(){
+      return car_state_;
+  }
+
+ private:
+  // car state
+  car_msgs::trajectory_point car_state_;
 };
 
 }  // namespace planning

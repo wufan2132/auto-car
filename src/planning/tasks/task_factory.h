@@ -8,7 +8,7 @@
 namespace planning {
 
 #define RegisterTask(object_type)                               \
-  producers_["#object_type#"] = [](YAML::Node& conf) -> Task* { \
+  producers_[#object_type] = [](YAML::Node& conf) -> Task* { \
     return new object_type(conf);                               \
   };
 

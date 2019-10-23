@@ -16,6 +16,6 @@ find_len: 100 #每次向后寻找多少个点
 #########
 task_list: [
   TaskTest,
-  TaskTest
+  TaskTest,
 ]
   

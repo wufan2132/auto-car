@@ -6,12 +6,15 @@ using common::base::FileTool;
 using namespace std;
 
 Planning::Planning(const YAML::Node& planning_conf) {
+  TaskFactory task_factory;
   for (const auto& node : planning_conf["task_list"]) {
-    AINFO << node.as<string>();
+    const string& task_name = node.as<string>();
+    task_list_.emplace_back(task_factory.CreatObject(task_name, planning_conf));
+    CHECK(task_list_.back().get()) << "unknow task name:" << task_name;
+    AINFO << "load task:" << task_name;
   }
 }
 
-//主要作用是发送参考线信息，并且等待传感器连接
 void Planning::Init(ros::NodeHandle* node_handle) {
   //订阅
   localization_subscriber_ =
