@@ -100,7 +100,7 @@ Car_State_SL MpPlanner::get_start_point(const car_msgs::trajectory_point car_sta
 }
 
  void MpPlanner::get_current_line(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
-                                         const Spline_Out* refrenceline_Sp,const car_msgs::trajectory& reference_line, car_msgs::trajectory& trajectory_now){
+                                         const AnalyticPolynomial* refrenceline_Sp,const car_msgs::trajectory& reference_line, car_msgs::trajectory& trajectory_now){
     /*****************获得采样的起始点***********************/
     Car_State_SL start_sl = get_start_point(car_status,status_sl,reference_line, trajectory_now);
     cout<<"status_sl.s: "<<status_sl.s<<endl;
@@ -184,7 +184,7 @@ Car_State_SL MpPlanner::get_start_point(const car_msgs::trajectory_point car_sta
  }
 
 void MpPlanner::process(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
-                                 const Spline_Out* refrenceline_Sp, const car_msgs::trajectory& reference_line, car_msgs::trajectory& trajectory_now){
+                                 const AnalyticPolynomial* refrenceline_Sp, const car_msgs::trajectory& reference_line, car_msgs::trajectory& trajectory_now){
     static int count = 0;
     count++;
     get_current_line(car_status, status_sl, refrenceline_Sp, reference_line,trajectory_now);
@@ -195,7 +195,7 @@ void MpPlanner::process(const car_msgs::trajectory_point car_status,const Car_St
 }
 
 void MpPlanner::path_generate(const MatrixXf& qpsl,const VectorXf& qpts,
-                                const Spline_Out* refrenceline_Sp,
+                                const AnalyticPolynomial* refrenceline_Sp,
                                 const Car_State_SL& start_sl,
                                 car_msgs::trajectory& trajectory_now){
 

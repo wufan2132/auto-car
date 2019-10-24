@@ -58,7 +58,7 @@ class Car_Planning{
     car_msgs::trajectory_point car_status;
     Car_State_SL car_status_sl;
     //refrenceline 解析形式
-    Spline_Out* refrenceline_Sp;
+    AnalyticPolynomial* refrenceline_Sp;
     //各种轨迹
     car_msgs::trajectory origin_Trajectory;
     car_msgs::trajectory refrence_Trajectory;

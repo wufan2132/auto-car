@@ -13,7 +13,7 @@ class frenet_optimal
 public:
 	frenet_optimal();
 	~frenet_optimal();
-	void process(Spline_Out& csp, car_status& status);
+	void process(AnalyticPolynomial& csp, car_status& status);
 
 };
 

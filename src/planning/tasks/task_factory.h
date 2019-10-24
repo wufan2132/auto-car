@@ -3,31 +3,25 @@
 #include <functional>
 #include <string>
 #include <unordered_map>
+#include "planning/replay/record_trajectory.h"
 #include "task.h"
 #include "task_test.h"
 namespace planning {
 
-#define RegisterTask(object_type)                               \
-  producers_[#object_type] = [](YAML::Node& conf) -> Task* { \
-    return new object_type(conf);                               \
+#define RegisterTask(object_type)                            \
+  producers_[#object_type] = [](const YAML::Node& conf) -> Task* { \
+    return new object_type(conf);                            \
   };
 
 class TaskFactory {
  public:
-  using Productor = std::function<Task*(YAML::Node&)>;
+  using Productor = std::function<Task*(const YAML::Node&)>;
   TaskFactory() {
     RegisterTask(TaskTest);
-    // RegisterTask(TaskTest);
+    RegisterTask(RecordTrajectory);
   }
 
-  std::unique_ptr<Task> CreatObject(std::string type, YAML::Node conf) {
-    auto id_iter = producers_.find(type);
-    if (id_iter != producers_.end()) {
-      return std::unique_ptr<Task>((id_iter->second)(conf));
-    }
-    return nullptr;
-  }
-
+  std::unique_ptr<Task> CreatObject(std::string type, const YAML::Node& conf);
  private:
   std::unordered_map<std::string, Productor> producers_;
 };

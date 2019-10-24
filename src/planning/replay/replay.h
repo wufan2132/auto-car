@@ -7,6 +7,7 @@
 #include "car_msgs/trajectory_point.h"
 #include "planning/common.h"
 #include "planning/obstacle/obstacle.h"
+#include "common/base/log.h"
 #include "stdlib.h"
 #include <unistd.h>
 #include <iostream>
@@ -15,28 +16,27 @@
 #include <fstream>
 #include <sstream>
 
-using namespace std;
-class replay{
+
+class Replay{
 public:
-    replay(string path,string io="");
-    ~replay();
+    Replay(std::string path, std::string io="");
+    ~Replay();
 
-    void readinit(string path);
-    void writeinit(string path);
+    void ReadInit(std::string path);
+    void WriteInit(std::string path);
 
-    void reset();
-    void close();
+    void Reset();
+    void Close();
     //trajectory_point
-    bool saveOnce(car_msgs::trajectory_point point, int period=100);
-    bool readOnce(car_msgs::trajectory_point &point);
+    bool SaveOnce(const car_msgs::trajectory_point& point);
+    bool ReadOnce(car_msgs::trajectory_point &point);
     //obstacle
-    bool readOnce(Obstacle& object);
-
-    static void load_trajectory_from_replay(replay& replayer, car_msgs::trajectory& refrence_line);
-    int mode;
+    bool ReadOnce(Obstacle& object);
+    
+    int mode = 0;
     ifstream inFile;
     ofstream outFile;
-    string save_path;
+    std::string save_path;
 };
 
 

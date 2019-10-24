@@ -33,6 +33,9 @@ void Planning::Init(ros::NodeHandle* node_handle) {
   timer_ = node_handle->createTimer(ros::Duration(conf_.period),
                                     &Planning::OnTimer, this);
   //初始化其他模块
+  //frame
+  frame_ = std::make_unique<Frame>();
+  frame_->Init();
   for (auto& task : task_list_) {
     task->Init();
   }

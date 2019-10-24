@@ -4,13 +4,12 @@
 #include <list> 
 #include "planning/map/Image.h"
 #include "planning/map/map_point.h"
-using namespace std;
 
 
 class road
 {
 public:
-	road(vector<vector<int>>& rdata);
+	road(std::vector<std::vector<int>>& rdata);
 	~road();
 
 	void find_start();
@@ -20,7 +19,7 @@ public:
 
 	MapPoint Map_to_road(MapPoint& p);
 
-	vector<vector<int>>& data;
+	std::vector<vector<int>>& data;
 	Image* img;
 	int rows, cols;
 

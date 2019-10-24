@@ -1,7 +1,8 @@
-#include "planning/replay.h"
+#include "planning/replay/replay.h"
 
+using namespace std;
 
-replay::replay(string path,string io){
+Replay::Replay(string path,string io){
      if(io=="read"){
         mode =1;
         save_path = path;
@@ -20,14 +21,14 @@ replay::replay(string path,string io){
         mode=0;
 };
 
-replay::~replay(){
+Replay::~Replay(){
     if(mode==1)
         inFile.close();
     else if(mode==2)
         outFile.close();
 }
 
-void replay::readinit(string path){
+void Replay::ReadInit(string path){
         if(mode==0){
             mode =1;
             save_path = path;
@@ -37,7 +38,7 @@ void replay::readinit(string path){
             // cout<<"inFile open:"<<cwd<<endl;
         }
 }
-void replay::writeinit(string path){
+void Replay::WriteInit(string path){
         if(mode==0){
             mode = 2;
             save_path = path;
@@ -48,7 +49,7 @@ void replay::writeinit(string path){
         }
 }
 
-void replay::reset(){
+void Replay::Reset(){
     if(mode==1){
         inFile.clear();
         inFile.seekg(0,ios::beg);
@@ -58,7 +59,7 @@ void replay::reset(){
     }
 }
 
-void replay::close(){
+void Replay::Close(){
     if(mode==1)
         inFile.close();
     else if(mode==2)
@@ -68,7 +69,7 @@ void replay::close(){
 
 
 //
-bool replay::readOnce(car_msgs::trajectory_point &point){
+bool Replay::ReadOnce(car_msgs::trajectory_point &point){
     static int count = 0;
     if(mode!=1) 
     {
@@ -109,32 +110,26 @@ bool replay::readOnce(car_msgs::trajectory_point &point){
     return 1;
 }
 
-bool replay::saveOnce(car_msgs::trajectory_point point, int period){
+bool Replay::SaveOnce(const car_msgs::trajectory_point& point){
     if(mode!=2){
-        cout<<"mode err!";
+        AERROR<<"replay mode err!";
         return 0;
     }
-    static int count=0;
-    count++;
-    if(count>=period){
-        count=0;
-        cout<<"x:"<<point.x<<"  y:"<<point.y<<endl;
-        outFile<<point.x<<",";
-        outFile<<point.y<<",";
-        outFile<<point.z<<",";
-        outFile<<point.theta<<",";
-        outFile<<point.kappa<<",";
-        outFile<<point.s<<",";
-        outFile<<point.speed<<",";
-        outFile<<point.accel<<",";
-        outFile<<point.relative_time<<",";
-        outFile<<std::endl;
-    }
-    
+    AINFO<<"x:"<<point.x<<"  y:"<<point.y<<endl;
+    outFile<<point.x<<",";
+    outFile<<point.y<<",";
+    outFile<<point.z<<",";
+    outFile<<point.theta<<",";
+    outFile<<point.kappa<<",";
+    outFile<<point.s<<",";
+    outFile<<point.speed<<",";
+    outFile<<point.accel<<",";
+    outFile<<point.relative_time<<",";
+    outFile<<std::endl;
     return 1;
 }
 
-bool replay::readOnce(Obstacle& object){
+bool Replay::ReadOnce(Obstacle& object){
     static int count = 0;
     if(mode!=1) 
     {
@@ -193,20 +188,4 @@ bool replay::readOnce(Obstacle& object){
 
     count++;
     return 1;
-}
-
-
-void replay::load_trajectory_from_replay(replay& replayer, car_msgs::trajectory& refrence_line){
-    static int count=0;
-    replayer.reset();       
-    refrence_line.header.seq = count; 
-    refrence_line.trajectory_path.clear();
-    car_msgs::trajectory_point point;
-    while(replayer.readOnce(point))
-    {
-        refrence_line.trajectory_path.push_back(point);
-    }
-    refrence_line.total_path_length = refrence_line.trajectory_path.size();
-    //cout<<"get "<<origin_Trajectory.total_path_length<<" point."<<endl;
-    count++;
 }

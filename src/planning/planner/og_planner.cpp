@@ -96,7 +96,7 @@ Car_State_SL OgPlanner::get_start_point(const car_msgs::trajectory_point car_sta
 }
 
 void OgPlanner::get_current_line(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
-                                         const Spline_Out* refrenceline_Sp, const car_msgs::trajectory& reference_line,
+                                         const AnalyticPolynomial* refrenceline_Sp, const car_msgs::trajectory& reference_line,
                                          car_msgs::trajectory& trajectory_now){
     static bool replanning_flag = 0;
     /***************速度修正-测试版*******************/
@@ -144,7 +144,7 @@ void OgPlanner::get_current_line(const car_msgs::trajectory_point car_status,con
  }
 
 void OgPlanner::process(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
-                                 const Spline_Out* refrenceline_Sp, const car_msgs::trajectory& reference_line,
+                                 const AnalyticPolynomial* refrenceline_Sp, const car_msgs::trajectory& reference_line,
                                  car_msgs::trajectory& trajectory_now){
     static int count = 0;
     count++;
@@ -156,7 +156,7 @@ void OgPlanner::process(const car_msgs::trajectory_point car_status,const Car_St
 }
 
 void OgPlanner::path_planning(const Car_State_SL& start_sl,const Car_State_SL& end_sl,const float planning_t,
- const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now, int start_index){
+ const AnalyticPolynomial* refrenceline_Sp, car_msgs::trajectory& trajectory_now, int start_index){
     start_index = start_sl.start_pos;
     int len = planning_t/conf.step_t+1;
     if(len<5)

@@ -20,4 +20,5 @@
 
 // data file
 DECLARE_string(planning_conf_path);
+DECLARE_string(record_trajectory_path);
 

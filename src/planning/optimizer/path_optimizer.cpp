@@ -9,12 +9,12 @@ path_optimizer::path_optimizer(const YAML::Node& yaml_conf){
     conf.available_l = yaml_conf["available_l"].as<double>();
     conf.speed_correction = yaml_conf["speed_correction"].as<double>();
     conf.speed_min_limit = yaml_conf["speed_min_limit"].as<double>();
-    interpolating = new Interpolating(yaml_conf["Interpolating_conf"]);
+    interpolating = new Interpolating(yaml_conf["Interpolating"]);
     sampler = new SamplerPoint(yaml_conf["SamplerPoint_conf"]);
 }
 
 
-Spline_Out* path_optimizer::get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_now){
+AnalyticPolynomial* path_optimizer::get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_now){
     return interpolating->process(trajectory_in, trajectory_now);
 }
 #pragma region path_optimizer::get_start_point
@@ -82,7 +82,7 @@ Car_State_SL path_optimizer::get_start_point(const car_msgs::trajectory_point ca
 }
 #pragma region path_optimizer::get_current_line
  void path_optimizer::get_current_line(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
-                                         const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
+                                         const AnalyticPolynomial* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
     static bool replanning_flag = 0;
     /***************速度修正-测试版*******************/
     //设置终点，终点只给定目标速度，其余参数为0
@@ -125,7 +125,7 @@ Car_State_SL path_optimizer::get_start_point(const car_msgs::trajectory_point ca
 
 #pragma region path_optimizer::process
 void path_optimizer::process(const car_msgs::trajectory_point car_status,const Car_State_SL& status_sl,
-                                 const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
+                                 const AnalyticPolynomial* refrenceline_Sp, car_msgs::trajectory& trajectory_now){
     static int count = 0;
     count++;
     get_current_line(car_status, status_sl, refrenceline_Sp, trajectory_now);
@@ -138,7 +138,7 @@ void path_optimizer::process(const car_msgs::trajectory_point car_status,const C
 
 #pragma region path_optimizer::path_planning
 void path_optimizer::path_planning(const Car_State_SL& start_sl,const Car_State_SL& end_sl,const float planning_t,
- const Spline_Out* refrenceline_Sp, car_msgs::trajectory& trajectory_now, int start_index){
+ const AnalyticPolynomial* refrenceline_Sp, car_msgs::trajectory& trajectory_now, int start_index){
     start_index = start_sl.index;
     //速度规划
     QP4 = Fitting::quartic4_polynomial(start_sl.s, start_sl.sv, start_sl.sa, end_sl.sv, end_sl.sa , planning_t);

@@ -11,7 +11,7 @@ void Debugger::set_NodeHandle(ros::NodeHandle* pNodeHandle){
     = car_planning_NodeHandle->advertise<car_msgs::trajectory>("samplers_topic", 1000);
 }
 
-void Debugger::init(Spline_Out* refrenceline_Sp){
+void Debugger::init(AnalyticPolynomial* refrenceline_Sp){
     if(!isActive) return;
     this->refrenceline_Sp = refrenceline_Sp;
 }

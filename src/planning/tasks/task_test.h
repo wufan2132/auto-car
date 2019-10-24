@@ -11,9 +11,15 @@ class TaskTest : public Task {
   };
   ~TaskTest() = default;
 
-  void Init() { AINFO << "TaskTest::Init()"; };
-  void Run(Frame* frame) { AINFO << "TaskTest::Run()"; }
-  void Stop(){};
+  bool Init() {
+    AINFO << "TaskTest::Init()";
+    return true;
+  };
+  bool Run(Frame* frame) {
+    AINFO << "TaskTest::Run()";
+    return true;
+  }
+  bool Stop() { return true; };
 };
 
 }  // namespace planning

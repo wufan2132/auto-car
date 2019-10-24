@@ -31,7 +31,7 @@ SamplerPoint_conf:
   # 时间采样个数 (奇数)
   Tnum: 0
 ##############插值器
-Interpolating_conf:
+Interpolating:
   # 插值间隔（单位：m）
   spacing: 0.5
 ############DP优化器

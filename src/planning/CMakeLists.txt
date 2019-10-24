@@ -137,11 +137,16 @@ add_library(planning
 )
 target_link_libraries(planning
    frame
+   task_factory
 )
 ## 添加子目录
 add_subdirectory(common)
 add_subdirectory(tasks)
-
+add_subdirectory(replay)
+add_subdirectory(map)
+add_subdirectory(refrenceline)
+add_subdirectory(tool)
+add_subdirectory(coordinate)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
