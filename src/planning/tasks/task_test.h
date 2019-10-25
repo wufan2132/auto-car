@@ -6,7 +6,7 @@ namespace planning {
 
 class TaskTest : public Task {
  public:
-  TaskTest(const YAML::Node& yaml_conf) : Task(yaml_conf) {
+  TaskTest(const common::base::ConfNode& yaml_conf) : Task(yaml_conf) {
     AINFO << "TaskTest::TaskTest()";
   };
   ~TaskTest() = default;

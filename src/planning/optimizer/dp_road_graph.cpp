@@ -1,6 +1,6 @@
 #include "planning/dp_road_graph.h"
 
-DpRoadGraph::DpRoadGraph(const YAML::Node& yaml_conf){
+DpRoadGraph::DpRoadGraph(const common::base::ConfNode& yaml_conf){
     trajectorycost = new TrajectoryCost(yaml_conf["TrajectoryCost_conf"]);
 }
 

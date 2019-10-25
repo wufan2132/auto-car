@@ -1,11 +1,11 @@
 #pragma once
 #include "planning/common.h"
 #include "planning/map/map_point.h"
-
+#include "common/base/file_tool/conf_node.h"
 
 class MapConvert{
 public:
-    MapConvert(const YAML::Node& yaml_conf);
+    MapConvert(const common::base::ConfNode& yaml_conf);
     car_msgs::trajectory_point MapToPos(const MapPoint& point);
     MapPoint PosToMap(const car_msgs::trajectory_point& point);
 private:

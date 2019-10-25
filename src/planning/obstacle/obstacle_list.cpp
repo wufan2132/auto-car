@@ -1,7 +1,7 @@
 #include "planning/obstacle/obstacle_list.h"
 
 
-ObstacleList::ObstacleList(const YAML::Node& yaml_conf){
+ObstacleList::ObstacleList(const common::base::ConfNode& yaml_conf){
     conf.obstacle_path = Common::convert_to_debugpath(yaml_conf["obstacle_path"].as<string>());
     conf.visible_distance = yaml_conf["visible_distance"].as<double>();
     conf.visible_angle = yaml_conf["visible_angle"].as<double>();

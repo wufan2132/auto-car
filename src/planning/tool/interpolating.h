@@ -6,6 +6,7 @@
 #include "analytic_polynomial.h"
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
+#include "common/base/file_tool/conf_node.h"
 #include "common/base/log.h"
 #include "yaml-cpp/yaml.h"
 
@@ -13,7 +14,7 @@ namespace planning {
 
 class Interpolating {
  public:
-  Interpolating(const YAML::Node& yaml_conf);
+  Interpolating(const common::base::ConfNode& yaml_conf);
   ~Interpolating();
   //
 

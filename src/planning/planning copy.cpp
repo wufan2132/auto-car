@@ -1,9 +1,9 @@
 #include "planning/planning.h"
-#include "common/base/file_tool/file_tool.h"
+#include "common/base/file_tool/conf_node.h"
 
-using common::base::FileTool;
+using common::base::ConfNode;
 
-Car_Planning::Car_Planning(const YAML::Node& planning_conf)
+Car_Planning::Car_Planning(const common::base::ConfNode& planning_conf)
 :STATE(0)
 {
     ROS_INFO("Car_Planning::Car_Planning: refrenceline_provider load para start!");
@@ -23,13 +23,13 @@ Car_Planning::Car_Planning(const YAML::Node& planning_conf)
     string planner_name = planning_conf["planner"].as<string>();
     string planner_path = planning_conf["planner_dir"].as<string>();
     if(planner_name=="OgPlanner")
-        planner = new OgPlanner(FileTool::LoadFile(planner_path+planner_name+"_conf.yaml"));
+        planner = new OgPlanner(ConfNode::LoadFile(planner_path+planner_name+"_conf.yaml"));
     else if(planner_name=="SpPlanner")
-        planner = new SpPlanner(FileTool::LoadFile(planner_path+planner_name+"_conf.yaml"));
+        planner = new SpPlanner(ConfNode::LoadFile(planner_path+planner_name+"_conf.yaml"));
     else if(planner_name=="MpPlanner")
-        planner = new MpPlanner(FileTool::LoadFile(planner_path+planner_name+"_conf.yaml"));
+        planner = new MpPlanner(ConfNode::LoadFile(planner_path+planner_name+"_conf.yaml"));
     else if(planner_name=="TestPlanner")
-        planner = new TestPlanner(FileTool::LoadFile(planner_path+planner_name+"_conf.yaml"));
+        planner = new TestPlanner(ConfNode::LoadFile(planner_path+planner_name+"_conf.yaml"));
     else
         ROS_ERROR("Car_Planning::Car_Planning: invalid planner name!");
     ROS_INFO("Car_Planning::Car_Planning: planner load para finished!");

@@ -1,13 +1,14 @@
 #include "refrenceline_provider.h"
 #include <string>
-#include "common/base/file_tool/file_tool.h"
+#include "common/base/file_tool/conf_node.h"
 #include "planning/replay/replay.h"
 
 namespace planning {
 
-using common::base::FileTool;
+using common::base::ConfNode;
+using common::base::ConfNode;
 
-RefrencelineProvider::RefrencelineProvider(const YAML::Node &yaml_conf)
+RefrencelineProvider::RefrencelineProvider(const common::base::ConfNode &yaml_conf)
     : Task(yaml_conf) {
   const auto &rp_conf = yaml_conf["refrenceline_provider"];
   conf_.mode = rp_conf["mode"].as<string>();
@@ -30,7 +31,7 @@ RefrencelineProvider::RefrencelineProvider(const YAML::Node &yaml_conf)
   std::string image_conf_path = rp_conf["origin_image_conf_path"].as<string>();
   AINFO << "image_conf_path: " << image_conf_path;
   AINFO << "origin_image_path: " << conf_.origin_image_path;
-  map_convert = new MapConvert(FileTool::LoadFile(image_conf_path));
+  map_convert = new MapConvert(ConfNode::LoadFile(image_conf_path));
 }
 
 RefrencelineProvider::~RefrencelineProvider() {}
@@ -42,16 +43,18 @@ bool RefrencelineProvider::Run(Frame *frame) {
   CHECK_NOTNULL(frame);
   // intput
   // output
-  auto *refrenceline = frame->mutable_refrenceline();
+  auto *raw_refrenceline = frame->mutable_raw_refrenceline();
   // process
   if (!work_thread_ && has_refrenceline_task_) {
     AINFO << "get refrenceline task";
     if (conf_.mode == "csv") {
       work_thread_ = std::make_unique<std::thread>(
-          &RefrencelineProvider::GetRefrencelineFromCSV, this, refrenceline);
+          &RefrencelineProvider::GetRefrencelineFromCSV, this,
+          raw_refrenceline);
     } else if (conf_.mode == "map") {
       work_thread_ = std::make_unique<std::thread>(
-          &RefrencelineProvider::GetRefrencelineFromMap, this, refrenceline);
+          &RefrencelineProvider::GetRefrencelineFromMap, this,
+          raw_refrenceline);
     } else {
       AERROR << "unknow refrenceline source!";
     }
@@ -175,7 +178,8 @@ void RefrencelineProvider::GetRefrencelineFromCSV(
     refrenceline->trajectory_path.push_back(point);
   }
   refrenceline->total_path_length = refrenceline->trajectory_path.size();
-  AINFO <<"GetRefrencelineFromCSV: "<<refrenceline->total_path_length<<" point.";
+  AINFO << "GetRefrencelineFromCSV: " << refrenceline->total_path_length
+        << " point.";
   count++;
   is_ready_ = 1;
 }

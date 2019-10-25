@@ -28,7 +28,7 @@ public:
 
 class path_optimizer{
 public:
-    path_optimizer(const YAML::Node& yaml_conf);
+    path_optimizer(const common::base::ConfNode& yaml_conf);
 
     AnalyticPolynomial* get_refrenceline(const car_msgs::trajectory& trajectory_in, car_msgs::trajectory& trajectory_out);
 

@@ -1,6 +1,6 @@
 #include "planning/planner/test_planner.h"
 
-TestPlanner::TestPlanner(const YAML::Node& yaml_conf)
+TestPlanner::TestPlanner(const common::base::ConfNode& yaml_conf)
 :Planner(yaml_conf){
     conf.available_l= yaml_conf["available_l"].as<double>();
     conf.aim_speed= yaml_conf["aim_speed"].as<double>();

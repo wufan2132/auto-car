@@ -22,7 +22,7 @@ public:
 
 class TrajectoryCost{
 public:
-    TrajectoryCost(const YAML::Node& yaml_conf);
+    TrajectoryCost(const common::base::ConfNode& yaml_conf);
     void init(ObstacleList* obslist);
     void reset(int totallevel);
     void evaluate(const VectorXf& QP5,

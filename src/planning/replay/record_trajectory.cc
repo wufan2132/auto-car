@@ -2,7 +2,7 @@
 
 namespace planning {
 
-RecordTrajectory::RecordTrajectory(const YAML::Node& yaml_conf)
+RecordTrajectory::RecordTrajectory(const common::base::ConfNode& yaml_conf)
     : Task(yaml_conf) {
   replay_ = std::make_unique<Replay>(FLAGS_record_trajectory_path, "write");
   if (yaml_conf["record_step"].IsDefined()) {

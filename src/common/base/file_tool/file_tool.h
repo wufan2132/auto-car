@@ -15,5 +15,6 @@ class FileTool {
   static const YAML::Node LoadFile(std::string path);
 };
 
+
 }  // namespace common
 }  // namespace autocar

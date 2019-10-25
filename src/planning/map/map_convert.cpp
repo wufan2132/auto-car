@@ -1,6 +1,6 @@
 #include "planning/map/map_convert.h"
 
-    MapConvert::MapConvert(const YAML::Node& yaml_conf){
+    MapConvert::MapConvert(const common::base::ConfNode& yaml_conf){
         resolution = yaml_conf["resolution"].as<double>();
         vector<double> origin = yaml_conf["origin"].as<vector<double> >();
         origin_x = origin[0];

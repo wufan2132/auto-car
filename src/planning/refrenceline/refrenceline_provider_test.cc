@@ -1,13 +1,13 @@
 #include "refrenceline_provider.h"
 #include <gtest/gtest.h>
 #include <string>
-#include "common/base/file_tool/file_tool.h"
+#include "common/base/file_tool/conf_node.h"
 #include "common/base/log.h"
 #include "planning/common/planning_gflags.h"
 
 namespace planning {
 
-using common::base::FileTool;
+using common::base::ConfNode;
 
 TEST(test, refrenceline_provider) {
   std::string yaml_str =

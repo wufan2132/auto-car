@@ -33,7 +33,7 @@ public:
 
 class Car_Planning{
     public:
-        Car_Planning(const YAML::Node& planning_conf);
+        Car_Planning(const common::base::ConfNode& planning_conf);
 
         void Init();
 

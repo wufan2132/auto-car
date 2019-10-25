@@ -138,6 +138,7 @@ add_library(planning
 target_link_libraries(planning
    frame
    task_factory
+   global_gflags
 )
 ## 添加子目录
 add_subdirectory(common)
@@ -147,6 +148,8 @@ add_subdirectory(map)
 add_subdirectory(refrenceline)
 add_subdirectory(tool)
 add_subdirectory(coordinate)
+add_subdirectory(trajectory)
+add_subdirectory(planner)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -182,7 +185,7 @@ target_link_libraries(${PROJECT_NAME}_node
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    planning_gflags
-   file_tool
+   conf_node
    planning
 )
 

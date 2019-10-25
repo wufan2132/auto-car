@@ -1,7 +1,7 @@
 #include "planning/trajectory_cost.h"
 #define MAX_COST 999999.9
 
-TrajectoryCost::TrajectoryCost(const YAML::Node& yaml_conf){
+TrajectoryCost::TrajectoryCost(const common::base::ConfNode& yaml_conf){
     conf.k_path = yaml_conf["k_path"].as<double>();
     conf.k_smooth_l = yaml_conf["k_smooth_l"].as<double>();
     conf.k_smooth_dl = yaml_conf["k_smooth_dl"].as<double>();

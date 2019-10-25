@@ -2,7 +2,7 @@
 #include <math.h>
 #include "common/base/log.h"
 
-Astar::Astar(const YAML::Node &yaml_conf)
+Astar::Astar(const common::base::ConfNode &yaml_conf)
     : kG(yaml_conf["kG"].as<double>()), kH(yaml_conf["kH"].as<double>()) {}
 
 void Astar::InitAstar(std::vector<std::vector<int>> &_maze) { maze = _maze; }

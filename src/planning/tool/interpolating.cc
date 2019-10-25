@@ -5,7 +5,7 @@ namespace planning {
 
 using namespace Eigen;
 
-Interpolating::Interpolating(const YAML::Node& yaml_conf) {
+Interpolating::Interpolating(const common::base::ConfNode& yaml_conf) {
   conf_.Spline_space = yaml_conf["spacing"].as<double>();
 }
 

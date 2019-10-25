@@ -3,7 +3,7 @@
 namespace planning {
 
 InterpolatingRefrenceline::InterpolatingRefrenceline(
-    const YAML::Node& yaml_conf)
+    const common::base::ConfNode& yaml_conf)
     : Task(yaml_conf) {
   interpolating_ = std::make_unique<Interpolating>(yaml_conf["Interpolating"]);
 }

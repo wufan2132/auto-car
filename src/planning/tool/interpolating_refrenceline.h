@@ -8,7 +8,7 @@ namespace planning {
 
 class InterpolatingRefrenceline : public Task {
  public:
-  InterpolatingRefrenceline(const YAML::Node& yaml_conf);
+  InterpolatingRefrenceline(const common::base::ConfNode& yaml_conf);
   ~InterpolatingRefrenceline();
 
   bool Init();

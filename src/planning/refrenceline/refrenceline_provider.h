@@ -14,7 +14,7 @@ namespace planning {
 
 class RefrencelineProvider : public Task {
  public:
-  RefrencelineProvider(const YAML::Node& yaml_conf);
+  RefrencelineProvider(const common::base::ConfNode& yaml_conf);
   ~RefrencelineProvider();
 
   bool Init();

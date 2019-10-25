@@ -15,7 +15,7 @@ public:
 
 class ObstacleList{
 public:
-    ObstacleList(const YAML::Node& yaml_conf);
+    ObstacleList(const common::base::ConfNode& yaml_conf);
 
     void init(car_msgs::trajectory* p_reference_line,
               car_msgs::trajectory_point* p_car_status,

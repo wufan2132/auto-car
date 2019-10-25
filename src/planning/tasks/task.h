@@ -10,7 +10,7 @@ namespace planning {
 
 class Task {
  public:
-  Task(const YAML::Node& yaml_conf){};
+  Task(const common::base::ConfNode& yaml_conf){};
   virtual ~Task() = default;
 
   virtual bool Init() = 0;

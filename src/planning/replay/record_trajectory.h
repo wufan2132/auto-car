@@ -9,7 +9,7 @@ namespace planning {
 
 class RecordTrajectory : public Task {
  public:
-  RecordTrajectory(const YAML::Node& yaml_conf);
+  RecordTrajectory(const common::base::ConfNode& yaml_conf);
   ~RecordTrajectory();
 
   bool Init();

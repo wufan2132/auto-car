@@ -13,7 +13,7 @@ public:
 
 class StCost{
 public:
-    StCost(const YAML::Node& yaml_conf);
+    StCost(const common::base::ConfNode& yaml_conf);
     void reset(int totallevel);
     double evaluate(const VectorXf& QP5,
                     const double start_s,

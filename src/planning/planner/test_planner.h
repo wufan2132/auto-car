@@ -28,7 +28,7 @@ public:
 
 class TestPlanner: public Planner{
 public:
-    TestPlanner(const YAML::Node& yaml_conf);
+    TestPlanner(const common::base::ConfNode& yaml_conf);
     void process(const car_msgs::trajectory_point car_status, const Car_State_SL& status_sl,
              const AnalyticPolynomial* refrenceline_Sp,  const car_msgs::trajectory& reference_line,
              car_msgs::trajectory& trajectory_out);

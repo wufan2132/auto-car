@@ -12,6 +12,7 @@
 #include "car_msgs/localization.h"
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
+#include "common/base/global_gflags/global_gflags.h"
 #include "nav_msgs/Odometry.h"
 #include "planning/common/frame.h"
 #include "planning/tasks/task_factory.h"
@@ -20,7 +21,7 @@ namespace planning {
 
 class Planning {
  public:
-  Planning(const YAML::Node& planning_conf);
+  Planning(const common::base::ConfNode& planning_conf);
 
   void Init(ros::NodeHandle* node_handle);
 

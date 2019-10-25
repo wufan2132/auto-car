@@ -5,4 +5,8 @@ add_library(task_factory
 )
 target_link_libraries(task_factory
     record_trajectory
+    refrenceline_provider
+    interpolating_refrenceline
+    trajectory
+    og_planner
 )  

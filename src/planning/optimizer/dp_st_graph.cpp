@@ -1,6 +1,6 @@
 #include "planning/dp_st_graph.h"
 
-DpStGraph::DpStGraph(const YAML::Node& yaml_conf){
+DpStGraph::DpStGraph(const common::base::ConfNode& yaml_conf){
     stcost = new StCost(yaml_conf);
 }
 

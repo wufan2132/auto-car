@@ -1,11 +1,11 @@
 #include "planning.h"
-#include "common/base/file_tool/file_tool.h"
+#include "common/base/file_tool/conf_node.h"
 
 namespace planning {
-using common::base::FileTool;
+using common::base::ConfNode;
 using namespace std;
 
-Planning::Planning(const YAML::Node& planning_conf) {
+Planning::Planning(const common::base::ConfNode& planning_conf) {
   TaskFactory task_factory;
   for (const auto& node : planning_conf["task_list"]) {
     const string& task_name = node.as<string>();
@@ -33,7 +33,7 @@ void Planning::Init(ros::NodeHandle* node_handle) {
   timer_ = node_handle->createTimer(ros::Duration(conf_.period),
                                     &Planning::OnTimer, this);
   //初始化其他模块
-  //frame
+  // frame
   frame_ = std::make_unique<Frame>();
   frame_->Init();
   for (auto& task : task_list_) {
@@ -86,7 +86,18 @@ void Planning::OnTimer(const ros::TimerEvent&) { this->RunOnce(); }
 void Planning::RunOnce(void) {
   //运行task
   for (auto& task : task_list_) {
-    task->Run(frame_.get());
+    if (!task->Run(frame_.get())) {
+      break;
+    }
+  }
+  //发布
+  if (frame_->refrenceline_is_ready()) {
+    refrenceline_publisher_.publish(frame_->refrenceline());
+    AINFO << "published refrenceline.";
+  }
+  if (frame_->trajectory_out_is_ready()) {
+    trajectory_publisher_.publish(frame_->trajectory_out());
+    AINFO << "published trajectory.";
   }
 }
 
