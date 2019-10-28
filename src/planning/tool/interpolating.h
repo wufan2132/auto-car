@@ -18,8 +18,9 @@ class Interpolating {
   ~Interpolating();
   //
 
-  AnalyticPolynomial* process(const car_msgs::trajectory& trajectory_in,
-                              car_msgs::trajectory* trajectory_out);
+  bool process(const car_msgs::trajectory& trajectory_in,
+                              car_msgs::trajectory* trajectory_out,
+                              AnalyticPolynomial* csp);
 
   // static function
   /*************三次样条插值***********/

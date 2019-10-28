@@ -17,9 +17,9 @@ class Coordinate {
  public:
   //这个只计算x,y
   static std::pair<double, double> POS_to_SL(
-      const car_msgs::trajectory& reference_line, double x, double y, int start,
+      const car_msgs::trajectory& refrenceline, double x, double y, int start,
       int end);
-  static bool POS_to_SL(const car_msgs::trajectory& reference_line,
+  static bool POS_to_SL(const car_msgs::trajectory& refrenceline,
                         car_msgs::trajectory_point& point,
                         CarStateSL& status_sl);
   static void SL_to_POS(const double s, const double l, const Eigen::MatrixXf& sx,

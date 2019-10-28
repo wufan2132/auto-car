@@ -14,7 +14,7 @@ bool Coordinate::POS_to_SL(const car_msgs::trajectory& reference_line,
   if (!point.header.seq > 0) {
     // debug
     AWARN << "POS_to_SL: trajectory_point is not received!";
-    return 0;
+    return false;
   }
   // cout<<"status_sl.index:"<<status_sl.index<<endl;
   int end_index = std::min(status_sl.index + FINDNUMS,
@@ -84,7 +84,7 @@ bool Coordinate::POS_to_SL(const car_msgs::trajectory& reference_line,
   // ROS_INFO("index:%d theta:%0.2f s:%.2f sv:%.2f sa:%.6f h:%.2f dh:%.2f
   // ddh:%.6f",
   // status_sl.index,theta,status_sl.s,status_sl.sv,status_sl.sa,status_sl.l,status_sl.dl,status_sl.ddl);
-  return 0;
+  return true;
 }
 
 //

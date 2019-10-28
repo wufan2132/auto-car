@@ -9,4 +9,5 @@ target_link_libraries(task_factory
     interpolating_refrenceline
     trajectory
     og_planner
+    coordinate_task
 )  

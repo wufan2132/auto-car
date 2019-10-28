@@ -28,6 +28,9 @@ case "$1" in
 -o | --output)
     RUN_MODE="output"
     ;;
+-e | --env)
+    RUN_MODE="env"
+    ;;
 *)
     ;;
 esac
@@ -38,6 +41,9 @@ esac
 if [ "${RUN_MODE}" == "default" ]; then
     info "runmode: default"
     roslaunch launch/auto-car-pc.launch
+elif [ "${RUN_MODE}" == "env" ]; then
+    info "runmode: env"
+    roslaunch launch/auto-car-env.launch
 elif [ "${RUN_MODE}" == "output" ]; then
     info "runmode: output"
     start planning -o

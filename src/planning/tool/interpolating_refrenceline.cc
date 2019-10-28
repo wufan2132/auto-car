@@ -17,13 +17,12 @@ bool InterpolatingRefrenceline::Run(Frame* frame) {
   const auto& raw_refrenceline = frame->raw_refrenceline();
   // output
   auto* refrenceline = frame->mutable_refrenceline();
-  auto* analytic_refrenceline_ = frame->mutable_analytic_refrenceline();
+  auto* analytic_refrenceline = frame->mutable_analytic_refrenceline();
   // process
   if (frame->refrenceline_is_ready()){
     return true;
   }
-  analytic_refrenceline_ =
-      interpolating_->process(raw_refrenceline, refrenceline);
+  interpolating_->process(raw_refrenceline, refrenceline, analytic_refrenceline);
   return true;
 }
 bool InterpolatingRefrenceline::Stop() {}

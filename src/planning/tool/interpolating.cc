@@ -11,9 +11,10 @@ Interpolating::Interpolating(const common::base::ConfNode& yaml_conf) {
 
 Interpolating::~Interpolating() {}
 
-AnalyticPolynomial* Interpolating::process(
+bool Interpolating::process(
     const car_msgs::trajectory& trajectory_in,
-    car_msgs::trajectory* trajectory_out) {
+    car_msgs::trajectory* trajectory_out,
+    AnalyticPolynomial* csp) {
   if (trajectory_in.total_path_length < 5) {
     AWARN << "process: origin trajectory is too short!";
     return 0;
@@ -24,7 +25,6 @@ AnalyticPolynomial* Interpolating::process(
     xVec(i) = trajectory_in.trajectory_path[i].x;
     yVec(i) = trajectory_in.trajectory_path[i].y;
   }
-  AnalyticPolynomial* csp = new AnalyticPolynomial;
   AINFO << "Spline2D";
   Interpolating::Spline2D(xVec, yVec, *csp, conf_.Spline_space);
   trajectory_out->header = trajectory_in.header;
