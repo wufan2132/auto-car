@@ -75,6 +75,8 @@ bool OgPlanner::Run(Frame *frame)
   trajectory_now.header.seq = count;
   //保存车体参数
   last_sl_ = status_sl;
+  // set_flag
+  frame->set_trajectory_out_is_ready(true);
   return true;
 }
 

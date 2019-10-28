@@ -29,6 +29,7 @@ function start() {
     # 输出到屏幕
     eval "rosrun ${NODE_NAME} ${NODE_NAME}_node \
           --flagfile=${PROJECT_ROOT_DIR}/src/${NODE_NAME}/conf/${NODE_NAME}.conf \
+          --logtostderr=true \
           &"
   else
     # 输出到文件
@@ -43,5 +44,6 @@ function stop() {
   set -e
   NODE_NAME=$1
   rosnode kill  /${NODE_NAME}
+  rosnode kill  /${NODE_NAME}_node
   info "${NODE_NAME} is stop"
 }

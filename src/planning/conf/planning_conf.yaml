@@ -8,7 +8,7 @@ mode: send
 #参考线来源 (replay refrenceline_provider)
 refrenceline_source: replay
 #工作周期:s
-period: 0.5
+period: 1
 #等待时间: s (-1 表示不等待直接运行planning模块)
 wait_time: 1000
 #########坐标转换
@@ -51,7 +51,7 @@ interpolating:
 ##task##trajectory_start_point
 trajectory_start_point:
   keep_t: 2 #规划保留时间:s
-  available_l:  2 # 重新规划的临界距离 m
+  available_l:  3 # 重新规划的临界距离 m
 
 ##task##og_planner
 og_planner:

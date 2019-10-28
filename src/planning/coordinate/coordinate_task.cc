@@ -25,6 +25,9 @@ bool CoordinateTask::Run(Frame *frame)
   Coordinate::POS_to_SL(reference_line,
                         car_state,
                         car_state_sl);
+  ADEBUG <<  "car_state_sl.s"  << car_state_sl.s;
+  ADEBUG <<  "car_state_sl.l"  << car_state_sl.l;
+  ADEBUG <<  "car_state_sl.t"  << car_state_sl.t;
   return true;
 }
 bool CoordinateTask::Stop() {
