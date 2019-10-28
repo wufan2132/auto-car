@@ -2,8 +2,9 @@
 #include "common/base/file_tool/conf_node.h"
 
 namespace planning {
+
 using common::base::ConfNode;
-using namespace std;
+using common::util::Activator;
 
 Planning::Planning(const common::base::ConfNode& planning_conf) {
   TaskFactory task_factory;
@@ -39,24 +40,25 @@ void Planning::Init(ros::NodeHandle* node_handle) {
   for (auto& task : task_list_) {
     task->Init();
   }
+  activator_ = std::make_unique<Activator>(2);
 }
 
 //读节点数据
 void Planning::LocalizationCallback(
     const car_msgs::localization& localization) {
-  //   car_localization = localization;
+  *(frame_->mutable_car_localization()) = localization;
+  frame_->mutable_car_state()->x = localization.position.x;
+  frame_->mutable_car_state()->y = localization.position.y;
+  frame_->mutable_car_state()->z = localization.position.z;
+  frame_->mutable_car_state()->theta = localization.angle.z;
+  activator_->Activate("LocalizationCallback");
 }
 
 void Planning::ChassisCallback(const car_msgs::chassis& chassis) {
-  //   if (STATE == 0) STATE = 1;
-  //   car_chassis = chassis;
-  //   car_status = generate_trajectory_point(car_localization, car_chassis);
-  //   if (conf.mode == "write") {
-  //     static replay replayer(conf.trajectory_dir, "write");
-  //     if (car_localization.header.seq > 0) {
-  //       replayer.saveOnce(car_status, conf.sampling_period);
-  //     }
-  //   }
+  *(frame_->mutable_car_chassis()) = chassis;
+  frame_->mutable_car_state()->speed = chassis.speed.x;
+  frame_->mutable_car_state()->accel = chassis.acc.x;
+  activator_->Activate("ChassisCallback");
 }
 
 void Planning::ObstacleCallback(
@@ -64,26 +66,13 @@ void Planning::ObstacleCallback(
   //   obstaclelist->refresh(obstacle_msg);
 }
 
-car_msgs::trajectory_point Planning::generate_trajectory_point(
-    const car_msgs::localization& localization,
-    const car_msgs::chassis& chassis) {
-  //   static int count = 0;
-  //   count++;
-  car_msgs::trajectory_point point;
-  //   //生成 point
-  //   point.header.seq = count;
-  //   point.x = localization.position.x;
-  //   point.y = localization.position.y;
-  //   point.z = localization.position.z;
-  //   point.theta = localization.angle.z;
-  //   point.speed = chassis.speed.x;
-  //   point.accel = chassis.acc.x;
-  return point;
-}
-
 void Planning::OnTimer(const ros::TimerEvent&) { this->RunOnce(); }
 
 void Planning::RunOnce(void) {
+  if (!activator_->State()) {
+    // not ready
+    return;
+  }
   //运行task
   for (auto& task : task_list_) {
     if (!task->Run(frame_.get())) {
@@ -91,8 +80,10 @@ void Planning::RunOnce(void) {
     }
   }
   //发布
-  if (frame_->refrenceline_is_ready()) {
+  if (!frame_->refrenceline_is_ready() &&
+      frame_->refrenceline().total_path_length > 0) {
     refrenceline_publisher_.publish(frame_->refrenceline());
+    frame_->set_refrenceline_is_ready(true);
     AINFO << "published refrenceline.";
   }
   if (frame_->trajectory_out_is_ready()) {

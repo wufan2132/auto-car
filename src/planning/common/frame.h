@@ -3,6 +3,8 @@
 
 #include "car_msgs/trajectory.h"
 #include "car_msgs/trajectory_point.h"
+#include "car_msgs/chassis.h"
+#include "car_msgs/localization.h"
 #include "planning/coordinate/car_state_sl.h"
 #include "planning/tool/analytic_polynomial.h"
 #include "yaml-cpp/yaml.h"
@@ -31,17 +33,24 @@ class Frame {
   // car state
   const car_msgs::trajectory_point& car_state() { return car_state_; };
   car_msgs::trajectory_point* mutable_car_state() { return &car_state_; };
+
   const CarStateSL& car_state_sl() { return car_state_sl_; };
   CarStateSL* mutable_car_state_sl() { return &car_state_sl_; };
+
+  const car_msgs::localization& car_localization() { return car_localization_; };
+  car_msgs::localization* mutable_car_localization() { return &car_localization_; };
+
+  const car_msgs::chassis& car_chassis() { return car_chassis_; };
+  car_msgs::chassis* mutable_car_chassis() { return &car_chassis_; };
   // planning traj
   const CarStateSL& planning_start_point() { return planning_start_point_; };
   CarStateSL* mutable_planning_start_point() { return &planning_start_point_; };
   const car_msgs::trajectory& trajectory_out() { return trajectory_out_; };
   car_msgs::trajectory* mutable_trajectory_out() { return &trajectory_out_; };
   // flags
-  bool refrenceline_is_ready(){return refrenceline_is_ready_;};
+  bool refrenceline_is_ready() { return refrenceline_is_ready_; };
   void set_refrenceline_is_ready(bool b) { refrenceline_is_ready_ = b; };
-  bool trajectory_out_is_ready(){return trajectory_out_is_ready_;};
+  bool trajectory_out_is_ready() { return trajectory_out_is_ready_; };
   void set_trajectory_out_is_ready(bool b) { trajectory_out_is_ready_ = b; };
 
  private:
@@ -52,13 +61,15 @@ class Frame {
   // car state
   car_msgs::trajectory_point car_state_;
   CarStateSL car_state_sl_;
+  car_msgs::localization car_localization_;
+  car_msgs::chassis car_chassis_;
   // planning traj
   CarStateSL planning_start_point_;
   car_msgs::trajectory trajectory_out_;
   // obstacle list
   // flags
-  bool refrenceline_is_ready_;
-  bool trajectory_out_is_ready_;
+  bool refrenceline_is_ready_ = 0;
+  bool trajectory_out_is_ready_ = 0;
 };
 
 }  // namespace planning

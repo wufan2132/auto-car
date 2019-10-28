@@ -5,7 +5,7 @@ namespace planning {
 RecordTrajectory::RecordTrajectory(const common::base::ConfNode& yaml_conf)
     : Task(yaml_conf) {
   replay_ = std::make_unique<Replay>(FLAGS_record_trajectory_path, "write");
-  if (yaml_conf["record_step"].IsDefined()) {
+  if (yaml_conf.IsDefined("record_step")) {
     record_step_ = yaml_conf["record_step"].as<int>();
   }
 }
@@ -21,10 +21,10 @@ bool RecordTrajectory::Init() {
 bool RecordTrajectory::Run(Frame* frame) {
   CHECK_NOTNULL(frame);
   CHECK_NOTNULL(replay_);
-  //intput
+  // intput
   const auto& car_state = frame->car_state();
-  //output
-  //process
+  // output
+  // process
   step_count_++;
   if (step_count_ >= record_step_) {
     step_count_ = 0;

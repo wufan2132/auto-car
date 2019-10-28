@@ -6,32 +6,36 @@
 namespace planning {
 
 using common::base::ConfNode;
-using common::base::ConfNode;
 
-RefrencelineProvider::RefrencelineProvider(const common::base::ConfNode &yaml_conf)
+RefrencelineProvider::RefrencelineProvider(
+    const common::base::ConfNode &yaml_conf)
     : Task(yaml_conf) {
   const auto &rp_conf = yaml_conf["refrenceline_provider"];
   conf_.mode = rp_conf["mode"].as<string>();
   //
-  conf_.csv_path = rp_conf["csv_path"].as<string>();
-  //
-  conf_.start_point_x = rp_conf["start_point_x"].as<double>();
-  conf_.start_point_y = rp_conf["start_point_y"].as<double>();
-  conf_.end_point_x = rp_conf["end_point_x"].as<double>();
-  conf_.end_point_y = rp_conf["end_point_y"].as<double>();
+  if (conf_.mode == "csv") {
+    conf_.csv_path = rp_conf["csv_path"].as<string>();
+  } else if (conf_.mode == "map") {
+    conf_.start_point_x = rp_conf["start_point_x"].as<double>();
+    conf_.start_point_y = rp_conf["start_point_y"].as<double>();
+    conf_.end_point_x = rp_conf["end_point_x"].as<double>();
+    conf_.end_point_y = rp_conf["end_point_y"].as<double>();
 
-  conf_.origin_image_path = rp_conf["origin_image_path"].as<string>();
-  conf_.output_image_path = rp_conf["output_image_path"].as<string>();
-  conf_.origin_road_width = rp_conf["origin_road_width"].as<int>();
-  conf_.scale = rp_conf["scale"].as<double>();
-  conf_.spacing = rp_conf["spacing"].as<double>();
-  conf_.smooth_order = rp_conf["smooth_order"].as<int>();
-  astar = new Astar(rp_conf["Astar"]);
+    conf_.origin_image_path = rp_conf["origin_image_path"].as<string>();
+    conf_.output_image_path = rp_conf["output_image_path"].as<string>();
+    conf_.origin_road_width = rp_conf["origin_road_width"].as<int>();
+    conf_.scale = rp_conf["scale"].as<double>();
+    conf_.smooth_order = rp_conf["smooth_order"].as<int>();
+    astar = new Astar(rp_conf["Astar"]);
 
-  std::string image_conf_path = rp_conf["origin_image_conf_path"].as<string>();
-  AINFO << "image_conf_path: " << image_conf_path;
-  AINFO << "origin_image_path: " << conf_.origin_image_path;
-  map_convert = new MapConvert(ConfNode::LoadFile(image_conf_path));
+    std::string image_conf_path =
+        rp_conf["origin_image_conf_path"].as<string>();
+    AINFO << "image_conf_path: " << image_conf_path;
+    AINFO << "origin_image_path: " << conf_.origin_image_path;
+    map_convert = new MapConvert(ConfNode::LoadFile(image_conf_path));
+  } else {
+    AERROR << "unknow refrenceline source!";
+  }
 }
 
 RefrencelineProvider::~RefrencelineProvider() {}
@@ -61,15 +65,15 @@ bool RefrencelineProvider::Run(Frame *frame) {
     has_refrenceline_task_ = 0;
   }
   // get result
-  if (is_ready_ == 0) {
+  if (is_ready_ == 0) { //not ready
     return false;
-  } else if (is_ready_ == 1) {
+  } else if (is_ready_ == 1) { //ok
     if (work_thread_) {
       work_thread_->join();
       work_thread_.reset();
     }
     return true;
-  } else {
+  } else { //some problem
     if (work_thread_) {
       work_thread_->join();
       work_thread_.reset();

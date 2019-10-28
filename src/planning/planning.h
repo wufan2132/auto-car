@@ -14,6 +14,7 @@
 #include "car_msgs/trajectory_point.h"
 #include "common/base/global_gflags/global_gflags.h"
 #include "nav_msgs/Odometry.h"
+#include "common/util/activator.h"
 #include "planning/common/frame.h"
 #include "planning/tasks/task_factory.h"
 
@@ -59,6 +60,7 @@ class Planning {
   //模块
   std::vector<std::unique_ptr<Task>> task_list_;
   std::unique_ptr<Frame> frame_;
+  std::unique_ptr<common::util::Activator> activator_;
   //   Planner* planner;
   //   Refrenceline_provider* rprovider;
   //   ObstacleList* obstaclelist;

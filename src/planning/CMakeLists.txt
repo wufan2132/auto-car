@@ -139,6 +139,7 @@ target_link_libraries(planning
    frame
    task_factory
    global_gflags
+   activator
 )
 ## 添加子目录
 add_subdirectory(common)

@@ -11,4 +11,5 @@ add_library(record_trajectory
 record_trajectory.cc)
 target_link_libraries(record_trajectory
     replay
+    conf_node
 )   

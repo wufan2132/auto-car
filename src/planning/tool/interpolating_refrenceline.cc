@@ -5,7 +5,7 @@ namespace planning {
 InterpolatingRefrenceline::InterpolatingRefrenceline(
     const common::base::ConfNode& yaml_conf)
     : Task(yaml_conf) {
-  interpolating_ = std::make_unique<Interpolating>(yaml_conf["Interpolating"]);
+  interpolating_ = std::make_unique<Interpolating>(yaml_conf["interpolating"]);
 }
 InterpolatingRefrenceline::~InterpolatingRefrenceline(){};
 
@@ -19,8 +19,12 @@ bool InterpolatingRefrenceline::Run(Frame* frame) {
   auto* refrenceline = frame->mutable_refrenceline();
   auto* analytic_refrenceline_ = frame->mutable_analytic_refrenceline();
   // process
+  if (frame->refrenceline_is_ready()){
+    return true;
+  }
   analytic_refrenceline_ =
       interpolating_->process(raw_refrenceline, refrenceline);
+  return true;
 }
 bool InterpolatingRefrenceline::Stop() {}
 }  // namespace planning
