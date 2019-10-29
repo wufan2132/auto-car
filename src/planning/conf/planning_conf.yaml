@@ -14,18 +14,18 @@ wait_time: 1000
 #########坐标转换
 find_len: 100 #每次向后寻找多少个点
 #########
-task_list: [
-  TaskTest,
-  RecordTrajectory,
-]
 # task_list: [
 #   TaskTest,
-#   RefrencelineProvider,
-#   InterpolatingRefrenceline,
-#   CoordinateTask,
-#   TrajectoryStartPoint,
-#   OgPlanner,
+#   RecordTrajectory,
 # ]
+task_list: [
+  TaskTest,
+  RefrencelineProvider,
+  InterpolatingRefrenceline,
+  CoordinateTask,
+  TrajectoryStartPoint,
+  OgPlanner,
+]
 ##task##refrenceline_provider
 record_trajectory:
   # 轨迹记录间隔（m）
