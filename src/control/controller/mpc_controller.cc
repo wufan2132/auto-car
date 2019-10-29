@@ -346,7 +346,7 @@ void MPCController::ComputeControlCommand(
   //   debug->steer_angle_limited = steer_angle_limited;
   // } else {
   // steer_angle = digital_filter_.Filter(steer_angle);
-  cmd->steer = steer_angle;
+  cmd->steer = steer_angle;  //(TODO: wf add)
   // }
 
   mpc_debug->acceleration_cmd_closeloop = acc_feedback;
