@@ -5,8 +5,6 @@
 #include "car_msgs/trajectory.h"
 #include "car_msgs/localization.h"
 #include "car_msgs/trajectory_point.h"
-#include "planning/common.h"
-#include "planning/obstacle/obstacle.h"
 #include "common/base/log.h"
 #include "stdlib.h"
 #include <unistd.h>
@@ -31,11 +29,11 @@ public:
     bool SaveOnce(const car_msgs::trajectory_point& point);
     bool ReadOnce(car_msgs::trajectory_point &point);
     //obstacle
-    bool ReadOnce(Obstacle& object);
+    //bool ReadOnce(Obstacle& object);
     
     int mode = 0;
-    ifstream inFile;
-    ofstream outFile;
+    std::ifstream inFile;
+    std::ofstream outFile;
     std::string save_path;
 };
 

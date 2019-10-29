@@ -1,6 +1,6 @@
 #pragma once
 
-#include "planning/common.h"
+
 #include "planning/replay.h"
 #include "planning/obstacle/obstacle.h"
 #include "planning/obstacle/obstacle_method.h"

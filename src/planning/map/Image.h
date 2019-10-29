@@ -6,7 +6,7 @@
 #include<cstdio>
 #include<cmath>
 #include<iomanip>
-#include "planning/common.h"
+
 #include "planning/map/map_point.h"
 
 using namespace std;

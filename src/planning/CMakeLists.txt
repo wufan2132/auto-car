@@ -240,7 +240,7 @@ target_link_libraries(${PROJECT_NAME}_node
 
 
 # add_library(common
-#   include/planning/common.h
+#   include/ 
 # )
 # add_dependencies(common ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 # target_link_libraries(common
