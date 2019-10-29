@@ -5,8 +5,9 @@ namespace planning {
 RecordTrajectory::RecordTrajectory(const common::base::ConfNode& yaml_conf)
     : Task(yaml_conf) {
   replay_ = std::make_unique<Replay>(FLAGS_record_trajectory_path, "write");
-  if (yaml_conf.IsDefined("record_step")) {
-    record_step_ = yaml_conf["record_step"].as<int>();
+  const auto& conf_node = yaml_conf["record_trajectory"];
+  if (conf_node.IsDefined("record_step")) {
+    record_step_ = conf_node["record_step"].as<double>();
   }
 }
 
@@ -25,10 +26,11 @@ bool RecordTrajectory::Run(Frame* frame) {
   const auto& car_state = frame->car_state();
   // output
   // process
-  step_count_++;
-  if (step_count_ >= record_step_) {
-    step_count_ = 0;
+  double d2 = (car_state.x - last_state_.x) * (car_state.x - last_state_.x) +
+              (car_state.y - last_state_.y) * (car_state.y - last_state_.y);
+  if (d2 >= record_step_ * record_step_) {
     replay_->SaveOnce(car_state);
+    last_state_ = car_state;
   }
   return true;
 }

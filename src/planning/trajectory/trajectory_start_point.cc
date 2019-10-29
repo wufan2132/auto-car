@@ -18,6 +18,7 @@ bool TrajectoryStartPoint::Run(Frame* frame) {
   // input
   const auto& status_sl = frame->car_state_sl();
   const auto& car_state = frame->car_state();
+  const auto& trajectory_sl = frame->trajectory_sl();
   // output
   auto& planning_start_point = *(frame->mutable_planning_start_point());
   auto& trajectory_now = *(frame->mutable_trajectory_out());
@@ -52,14 +53,14 @@ bool TrajectoryStartPoint::Run(Frame* frame) {
   if (is_replanning_) {
     T << (T0 + conf_.keep_t);
     is_replanning_ = 0;
-    while (end_index < trajectory_sl_.size() &&
-           T(0) > trajectory_sl_[end_index].t)
+    while (end_index < trajectory_sl.size() &&
+           T(0) > trajectory_sl[end_index].t)
       end_index++;
   } else {
     //预测一秒后的，本来这里要加上1，但由于后面相对时间是从0开始算的，已经加了1，
     T << T0;
-    while (end_index < trajectory_sl_.size() &&
-           T(0) > trajectory_sl_[end_index].t)
+    while (end_index < trajectory_sl.size() &&
+           T(0) > trajectory_sl[end_index].t)
       end_index++;
     end_index += last_keep_len_;
   }
@@ -73,7 +74,7 @@ bool TrajectoryStartPoint::Run(Frame* frame) {
     trajectory_now.trajectory_path[i].header.seq = i + 1;
   }
   ////////////////////////////////////////////////
-  planning_start_point = trajectory_sl_[end_index - last_keep_len_];
+  planning_start_point = trajectory_sl[end_index - last_keep_len_];
   planning_start_point.start_pos = len1;
   planning_start_point.t = conf_.keep_t;
   last_keep_len_ = len1;

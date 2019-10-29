@@ -16,12 +16,20 @@ find_len: 100 #每次向后寻找多少个点
 #########
 task_list: [
   TaskTest,
-  RefrencelineProvider,
-  InterpolatingRefrenceline,
-  CoordinateTask,
-  TrajectoryStartPoint,
-  OgPlanner,
+  RecordTrajectory,
 ]
+# task_list: [
+#   TaskTest,
+#   RefrencelineProvider,
+#   InterpolatingRefrenceline,
+#   CoordinateTask,
+#   TrajectoryStartPoint,
+#   OgPlanner,
+# ]
+##task##refrenceline_provider
+record_trajectory:
+  # 轨迹记录间隔（m）
+  record_step: 3
 ##task##refrenceline_provider
 refrenceline_provider:
   mode: csv
@@ -51,7 +59,7 @@ interpolating:
 ##task##trajectory_start_point
 trajectory_start_point:
   keep_t: 2 #规划保留时间:s
-  available_l:  3 # 重新规划的临界距离 m
+  available_l:  5 # 重新规划的临界距离 m
 
 ##task##og_planner
 og_planner:

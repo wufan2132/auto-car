@@ -20,7 +20,9 @@ class OgPlanner : public Planner {
   void path_planning(const CarStateSL& start_sl, const CarStateSL& end_sl,
                      const float planning_t,
                      const AnalyticPolynomial& refrenceline_Sp,
-                     car_msgs::trajectory& trajectory_out, int start_index = 0);
+                     car_msgs::trajectory& trajectory_out, 
+                     std::vector<CarStateSL>& trajectory_sl,
+                     int start_index = 0);
 
  private:
   class Conf {

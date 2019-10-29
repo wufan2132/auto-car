@@ -56,7 +56,7 @@ void Planning::LocalizationCallback(
 
 void Planning::ChassisCallback(const car_msgs::chassis& chassis) {
   *(frame_->mutable_car_chassis()) = chassis;
-  static int cnt = 1;
+  static u_int64_t cnt = 1;
   frame_->mutable_car_state()->speed = chassis.speed.x;
   frame_->mutable_car_state()->accel = chassis.acc.x;
   frame_->mutable_car_state()->header.seq = cnt++;

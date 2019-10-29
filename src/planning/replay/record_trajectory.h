@@ -18,8 +18,9 @@ class RecordTrajectory : public Task {
 
  private:
   // conf
-  int record_step_ = 10;
+  double record_step_ = 0.5;
   int step_count_ = 0;
+  car_msgs::trajectory_point last_state_;
   std::unique_ptr<Replay> replay_;
 };
 

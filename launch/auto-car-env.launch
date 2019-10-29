@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <launch>
-
+  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" 
+     args="--flagfile=$(find chassis)/conf/chassis.conf"  >
+  </node>
   <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
   </node>
   <node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="--slider-file $(find control)/conf/setting.yaml" />

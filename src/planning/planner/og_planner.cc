@@ -1,12 +1,11 @@
 #include "planning/planner/og_planner.h"
 #include "planning/trajectory/trajectory_generation.h"
-namespace planning
-{
+namespace planning {
 
 using namespace Eigen;
 
-OgPlanner::OgPlanner(const common::base::ConfNode &yaml_conf) : Planner(yaml_conf)
-{
+OgPlanner::OgPlanner(const common::base::ConfNode &yaml_conf)
+    : Planner(yaml_conf) {
   const auto &og_conf = yaml_conf["og_planner"];
   conf_.step_t = og_conf["step_t"].as<double>();
   conf_.planning_t = og_conf["planning_t"].as<double>();
@@ -20,8 +19,7 @@ OgPlanner::~OgPlanner() {}
 bool OgPlanner::Init() {}
 bool OgPlanner::Stop() {}
 
-bool OgPlanner::Run(Frame *frame)
-{
+bool OgPlanner::Run(Frame *frame) {
   // input
   const auto &car_status = frame->car_state();
   const auto &status_sl = frame->car_state_sl();
@@ -30,6 +28,7 @@ bool OgPlanner::Run(Frame *frame)
   const auto &start_sl = frame->planning_start_point();
   // output
   auto &trajectory_now = *(frame->mutable_trajectory_out());
+  auto &trajectory_sl = *(frame->mutable_trajectory_sl());
   // process
   static int count = 0;
   count++;
@@ -48,7 +47,7 @@ bool OgPlanner::Run(Frame *frame)
   /*********************************************/
 
   path_planning(start_sl, end_sl, conf_.planning_t - start_sl.t,
-                analytic_refrenceline, trajectory_now);
+                analytic_refrenceline, trajectory_now, trajectory_sl);
   for (int i = start_sl.start_pos; i < trajectory_now.total_path_length; i++)
     trajectory_now.trajectory_path[i].relative_time += start_sl.t;
   /************debug 1***********/
@@ -60,8 +59,7 @@ bool OgPlanner::Run(Frame *frame)
   // trajectory_now.trajectory_path[start_index+i].theta<<","<<
   // trajectory_now.trajectory_path[start_index+i].kappa;
   /************debug 2***********/
-  for (int i = 0; i < trajectory_now.total_path_length; i++)
-  {
+  for (int i = 0; i < trajectory_now.total_path_length; i++) {
     AINFO << trajectory_now.trajectory_path[i].header.seq << "."
           << " s:" << trajectory_now.trajectory_path[i].s
           << " t:" << trajectory_now.trajectory_path[i].relative_time
@@ -84,12 +82,11 @@ void OgPlanner::path_planning(const CarStateSL &start_sl,
                               const CarStateSL &end_sl, const float planning_t,
                               const AnalyticPolynomial &analytic_refrenceline,
                               car_msgs::trajectory &trajectory_now,
-                              int start_index)
-{
+                              std::vector<CarStateSL> &trajectory_sl,
+                              int start_index) {
   start_index = start_sl.start_pos;
   int len = planning_t / conf_.step_t + 1;
-  if (len < 5)
-    AINFO << "error: Planner::path_planning: sample error!";
+  if (len < 5) AINFO << "error: Planner::path_planning: sample error!";
   //速度规划
   QP4 = Fitting::quartic4_polynomial(start_sl.s, start_sl.sv, start_sl.sa,
                                      end_sl.sv, end_sl.sa, planning_t);
@@ -102,21 +99,38 @@ void OgPlanner::path_planning(const CarStateSL &start_sl,
                                      S_out(len - 1, 0) - start_sl.s);
   VectorXf S;
   S.resizeLike(S_out.col(0));
-  for (int i = 0; i < S.rows(); i++)
-  {
+  for (int i = 0; i < S.rows(); i++) {
     S(i) = S_out(i, 0) - start_sl.s;
   }
   MatrixXf L_out;
   Fitting::cal_point_quintic5(QP5, S, L_out);
-  AINFO << "S_out:";
-  AINFO << S_out;
-  AINFO << "L_out:";
-  AINFO << L_out;
-  AINFO << "T:";
-  AINFO << T;
+  // AINFO << "S_out:";
+  // AINFO << S_out;
+  // AINFO << "L_out:";
+  // AINFO << L_out;
+  // AINFO << "T:";
+  // AINFO << T;
+  //保存
+  trajectory_sl.resize(len);
+  for (int i = 0; i < len; i++) {
+    trajectory_sl[i].s = S_out(i, 0);
+    trajectory_sl[i].sv = S_out(i, 1);
+    trajectory_sl[i].sa = S_out(i, 2);
+    trajectory_sl[i].l = L_out(i, 0);
+    trajectory_sl[i].dl = L_out(i, 1);
+    trajectory_sl[i].ddl = L_out(i, 2);
+    trajectory_sl[i].t = T(i);
+  }
+  // check
+  for (int i = 0; i < len - 1; i++) {
+    if (S_out(i + 1, 0) - S_out(i, 0) < 0 ||  // S倒走
+        abs(L_out(i + 1, 0) - L_out(i, 0)) > 2 ||
+        L_out(i, 0) > 10)  //横向跳动太大
+      ROS_WARN("MpPlanner::path_generate: qp cal error!");
+  }
   //生成轨迹
   TrajectoryGeneration::getTrajectory_from_SLT(
       S_out, L_out, T, analytic_refrenceline, trajectory_now, start_index);
 }
 
-} // namespace planning
+}  // namespace planning

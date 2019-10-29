@@ -29,7 +29,6 @@ class TrajectoryStartPoint : public Task {
   bool is_replanning_;
   int last_keep_len_;
   double last_s_;
-  std::vector<CarStateSL> trajectory_sl_;
 };
 
 }  // namespace planning
