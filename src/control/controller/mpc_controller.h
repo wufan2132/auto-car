@@ -105,7 +105,7 @@ class MPCControllerConf {
  */
 class MPCController : public Controller {
  public:
-  MPCController(YAML::Node yaml_conf);
+  MPCController(const YAML::Node& yaml_conf);
   ~MPCController() override;
 
   void Init();

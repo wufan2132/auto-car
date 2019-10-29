@@ -14,7 +14,7 @@ namespace control {
  */
 class Controller {
  public:
-  Controller(YAML::Node yaml_conf){};
+  Controller(const YAML::Node& yaml_conf){};
   virtual ~Controller() = default;
 
   virtual void Init() = 0;

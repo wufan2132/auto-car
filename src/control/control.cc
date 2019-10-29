@@ -10,7 +10,7 @@ using namespace std;
 using common::base::FileTool;
 
 void Control::Init(void) {
-  YAML::Node control_conf = FileTool::LoadFile(FLAGS_control_conf_path);
+  const YAML::Node& control_conf = FileTool::LoadFile(FLAGS_control_conf_path);
   //模式参数
   control_mode_ = control_conf["control_mode"].as<int>();
   debug_mode_ = control_conf["debug_mode"].as<int>();

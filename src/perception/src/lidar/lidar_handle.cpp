@@ -3,7 +3,7 @@
 #define POINT_D 0.1
 #define MAX_PNUM 3
 
-LidarHandle::LidarHandle(YAML::Node yaml_conf){
+LidarHandle::LidarHandle(const YAML::Node& yaml_conf){
      double devide_d = yaml_conf["devide_d"].as<double>();
      conf.devide_d2 = devide_d*devide_d;
      conf.max_obs_num = yaml_conf["max_obs_num"].as<int>();

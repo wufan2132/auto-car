@@ -1,7 +1,7 @@
 #include "gazebo_client.h"
 
 namespace chassis {
-GazeboClient::GazeboClient(YAML::Node yaml_conf) {
+GazeboClient::GazeboClient(const YAML::Node& yaml_conf) {
   default_state_.pose.position.x =
       yaml_conf["default_position"]["x"].as<double>();
   default_state_.pose.position.y =

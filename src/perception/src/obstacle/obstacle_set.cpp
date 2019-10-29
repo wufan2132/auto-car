@@ -1,7 +1,7 @@
 #include "perception/obstacle_set.h"
 
 
-ObstacleSet::ObstacleSet(YAML::Node yaml_conf){
+ObstacleSet::ObstacleSet(const YAML::Node& yaml_conf){
     conf.obstacle_path = Common::convert_to_debugpath(yaml_conf["obstacle_path"].as<string>());
 }
 

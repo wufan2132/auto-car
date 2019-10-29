@@ -3,8 +3,7 @@
 # Usage:
 #  ./download_images.sh  [images_filename]
 
-
-
+set -e
 PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 source ${PROJECT_ROOT_DIR}/configure
 SERVER=${IMAGE_SERVER}

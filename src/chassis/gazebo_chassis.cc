@@ -7,7 +7,7 @@ namespace chassis {
 
 using common::util::Activator;
 
-GazeboChassis::GazeboChassis(YAML::Node yaml_conf) : Chassis(yaml_conf) {
+GazeboChassis::GazeboChassis(const YAML::Node& yaml_conf) : Chassis(yaml_conf) {
   AINFO << "gazebo chassis start...";
   // load config
   conf_.send_mode = yaml_conf["gazebo_chassis"]["send_mode"].as<std::string>();

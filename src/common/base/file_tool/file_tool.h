@@ -12,8 +12,9 @@ namespace base {
 class FileTool {
  public:
   static std::string ToAbsDir(std::string path);
-  static YAML::Node LoadFile(std::string path);
+  static const YAML::Node LoadFile(std::string path);
 };
+
 
 }  // namespace common
 }  // namespace autocar

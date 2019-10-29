@@ -1,7 +1,7 @@
 #include "perception/perception.h"
 
 
-Car_Perception::Car_Perception(YAML::Node planning_conf)
+Car_Perception::Car_Perception(const YAML::Node& planning_conf)
 {
     conf.period = planning_conf["period"].as<double>();
     conf.obstacle_source = planning_conf["obstacle_source"].as<string>();

@@ -13,4 +13,9 @@ target_link_libraries(file_tool
      global_gflags
      yaml-cpp)
 
+add_library(conf_node
+    conf_node.cc)
+target_link_libraries(conf_node
+     yaml-cpp)
+
 

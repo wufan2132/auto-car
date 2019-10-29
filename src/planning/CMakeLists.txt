@@ -126,31 +126,31 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
   ${CMAKE_SOURCE_DIR}
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
 )
 
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/planning.cpp
-# )
+add_library(planning
+  planning.cc
+)
+target_link_libraries(planning
+   frame
+   task_factory
+   global_gflags
+   activator
+)
 ## 添加子目录
-add_subdirectory(src/common)
-add_subdirectory(src/planning)
-add_subdirectory(src/optimizer)
-add_subdirectory(src/replay)
-add_subdirectory(src/tool)
-add_subdirectory(src/model)
-add_subdirectory(src/trajectory)
-add_subdirectory(src/sampler)
-add_subdirectory(src/apollo_tool)
-add_subdirectory(src/planner)
-add_subdirectory(src/map)
-add_subdirectory(src/refrenceline)
-add_subdirectory(src/obstacle)
-add_subdirectory(src/debugger)
+add_subdirectory(common)
+add_subdirectory(tasks)
+add_subdirectory(replay)
+add_subdirectory(map)
+add_subdirectory(refrenceline)
+add_subdirectory(tool)
+add_subdirectory(coordinate)
+add_subdirectory(trajectory)
+add_subdirectory(planner)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -159,7 +159,7 @@ add_subdirectory(src/debugger)
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/main.cpp)
+add_executable(${PROJECT_NAME}_node main.cc)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -186,20 +186,8 @@ target_link_libraries(${PROJECT_NAME}_node
 target_link_libraries(${PROJECT_NAME}_node
    ${catkin_LIBRARIES}
    planning_gflags
-   file_tool
+   conf_node
    planning
-   planner
-   optimizer
-   obstacle
-   replay
-   tool
-   car_model
-   trajectory
-   sampler
-   apollo_tool
-   refrenceline
-   map
-   debugger
 )
 
 #############
@@ -252,7 +240,7 @@ target_link_libraries(${PROJECT_NAME}_node
 
 
 # add_library(common
-#   include/planning/common.h
+#   include/ 
 # )
 # add_dependencies(common ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 # target_link_libraries(common

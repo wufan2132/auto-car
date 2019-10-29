@@ -23,7 +23,7 @@ public:
 
 class LidarHandle{
 public:
-    LidarHandle(YAML::Node yaml_conf);
+    LidarHandle(const YAML::Node& yaml_conf);
 
     void process(const sensor_msgs::PointCloud2& msg,
                         car_msgs::base_obstacle_list& obstacle_list);

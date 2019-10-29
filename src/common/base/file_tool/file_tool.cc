@@ -13,14 +13,14 @@ std::string FileTool::ToAbsDir(std::string path) {
   return FLAGS_base_dir + '/' + path;
 }
 
-YAML::Node FileTool::LoadFile(std::string path) {
+const YAML::Node FileTool::LoadFile(std::string path) {
   try {
     return YAML::LoadFile(path);
-  } catch(std::exception e) {
+  } catch (std::exception e) {
     CHECK(NULL) << "yaml load file failed, can not find file at: " << path;
     return YAML::Node();
   }
 }
 
+}  // namespace base
 }  // namespace common
-}  // namespace autocar

@@ -9,7 +9,7 @@ namespace chassis {
 
 class Chassis {
  public:
-  Chassis(YAML::Node yaml_conf) {};
+  Chassis(const YAML::Node& yaml_conf) {};
   virtual ~Chassis() = default;
 
   virtual void Init(ros::NodeHandle *node_handle) = 0;

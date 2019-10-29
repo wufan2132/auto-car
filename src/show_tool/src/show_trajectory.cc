@@ -151,8 +151,8 @@ void localization_topic_callback(const car_msgs::localization::ConstPtr &localiz
                 trajectory_marker_list.scale.z = 0.08;
                 trajectory_marker_list.color.a = 1.0; // Don't forget to set the alpha!
                 trajectory_marker_list.color.r = 0.0;
-                trajectory_marker_list.color.g = 1.0;
-                trajectory_marker_list.color.b = 1.0;
+                trajectory_marker_list.color.g = 1.0 - 0.01*i;
+                trajectory_marker_list.color.b = 1.0 - 0.01*i;
                 trajectory_markerPub.publish(trajectory_marker_list);
             }
         }
