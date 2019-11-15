@@ -35,7 +35,9 @@ export NVBLAS_CONFIG_FILE=/usr/local/cuda
 if [ -e "/${PROJECT_NAME}/configure" ]; then 
   source /${PROJECT_NAME}/configure; 
 fi
-ulimit -c unlimited" >>/home/${DOCKER_USER}/.bashrc
+ulimit -c unlimited
+source /opt/ros/melodic/setup.bash
+" >>/home/${DOCKER_USER}/.bashrc
   source /home/${DOCKER_USER}/.bashrc
 else
   echo '
