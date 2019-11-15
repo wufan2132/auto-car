@@ -2,7 +2,6 @@
 
 PROJECT_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${PROJECT_ROOT_DIR}/configure
-source ${PROJECT_ROOT_DIR}/devel/setup.sh
 
 if [ "$PROJECT_IN_DOCKER" == "false" ]; then
         error "build.sh must run in docker!"

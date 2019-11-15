@@ -52,7 +52,7 @@ create_data_dir
 
 echo ""
 info "1.install docker..."
-docker ps >/dev/null
+docker --help >/dev/null
 if [ $? == 0 ]; then
     echo "docker is already installed, skip install."
 else
@@ -60,6 +60,11 @@ else
     sudo bash "${PROJECT_ROOT_DIR}/docker/install/install_nvidia_docker.sh" 
     sudo bash "${PROJECT_ROOT_DIR}/docker/scripts/remove_root_permission.sh" 
 fi
+docker ps >/dev/null
+if [ $? != 0 ]; then
+    sudo bash "${PROJECT_ROOT_DIR}/docker/scripts/remove_root_permission.sh" 
+fi
+
 set -e
 echo ""
 info "2.download images tar..."

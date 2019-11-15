@@ -17,33 +17,51 @@
 /**
  * @file
  **/
-#include "modules/common/math/qp_solver/active_set_qp_solver.h"
+#include "active_set_qp_solver.h"
 
-#include "glog/logging.h"
-#include "gtest/gtest.h"
+#include <gflags/gflags.h>
+#include <glog/logging.h>
+#include <gtest/gtest.h>
 
-namespace apollo {
 namespace common {
 namespace math {
 
 using Eigen::MatrixXd;
 
+
 TEST(ActiveSetQpSolver, simple_problem_01) {
-  MatrixXd kernel_matrix = MatrixXd::Zero(1, 1);
-  kernel_matrix(0, 0) = 1.0;
-  MatrixXd offset = MatrixXd::Zero(1, 1);
-  offset(0, 0) = -8.0;
+  MatrixXd kernel_matrix(3, 3);
+    kernel_matrix << 2 , 0 , 0 ,
+                                      0 , 2 , 0 ,
+                                       0 , 0 , 2;
+  MatrixXd offset = MatrixXd::Zero(3, 1);
+
   MatrixXd affine_inequality_matrix;
   MatrixXd affine_inequality_boundary;
-  MatrixXd affine_equality_matrix;
-  MatrixXd affine_equality_boundary;
+  MatrixXd affine_equality_matrix  = MatrixXd::Zero(1, 3);
+  affine_equality_matrix  << 1 , 1 , 1;
+  MatrixXd affine_equality_boundary = MatrixXd::Zero(1, 1);
+  affine_equality_boundary  << 1;
   ActiveSetQpSolver solver(kernel_matrix, offset, affine_inequality_matrix,
                            affine_inequality_boundary, affine_equality_matrix,
                            affine_equality_boundary);
   solver.Solve();
-  EXPECT_NEAR(solver.params()(0, 0), 8.0, 1e-9);
+  EXPECT_EQ(solver.params().rows() , 3);
+  EXPECT_EQ(solver.params().cols() , 1);
+  EXPECT_NEAR(solver.params()(0, 0), 0.33333333333, 1e-3);
+  EXPECT_NEAR(solver.params()(1, 0), 0.33333333333, 1e-3);
+  EXPECT_NEAR(solver.params()(2, 0), 0.33333333333, 1e-3);
+}
+
+
+int main(int argc, char* argv[]) {
+  google::InitGoogleLogging(argv[0]);
+  google::ParseCommandLineFlags(&argc, &argv, true);
+  testing::InitGoogleTest(&argc, argv);
+
+  return RUN_ALL_TESTS();
 }
 
 }  // namespace math
 }  // namespace common
-}  // namespace apollo
+
