@@ -1,61 +1,55 @@
-#FROM nvidia/cuda:8.0-cudnn7-devel-ubuntu14.04
-FROM arm64v8/ubuntu:18.04
+# This is an auto generated Dockerfile for ros:robot
+# generated from docker_images/create_ros_image.Dockerfile.em
+FROM arm64v8/ros:melodic-ros-base-bionic
 
-# Run installers.
-# COPY installers /tmp/installers
-# RUN bash /tmp/installers/pre_install.sh
-# RUN bash /tmp/installers/install_adv_plat.sh
-# RUN bash /tmp/installers/install_bazel_aarch64.sh
-# RUN bash /tmp/installers/install_bazel_packages.sh
-# #RUN bash /tmp/installers/install_conda.sh
-# RUN bash /tmp/installers/install_gflags_glog_aarch64.sh
-# RUN bash /tmp/installers/install_glew_aarch64.sh
-# RUN bash /tmp/installers/install_glusterfs.sh
-# RUN bash /tmp/installers/install_gpu_caffe_aarch64.sh
-# RUN bash /tmp/installers/install_ipopt_aarch64.sh
-# RUN bash /tmp/installers/install_libjsonrpc-cpp.sh
-# RUN bash /tmp/installers/install_nlopt.sh
-# RUN bash /tmp/installers/install_node_aarch64.sh
-# RUN bash /tmp/installers/install_ota.sh
-# RUN bash /tmp/installers/install_pcl_aarch64.sh
-# RUN bash /tmp/installers/install_protobuf.sh
-# RUN bash /tmp/installers/install_python_modules.sh
-# RUN bash /tmp/installers/install_qp_oases.sh
-# RUN bash /tmp/installers/install_ros_aarch64.sh
-# RUN bash /tmp/installers/install_snowboy_aarch64.sh
-# RUN bash /tmp/installers/install_supervisor.sh
-# RUN bash /tmp/installers/install_undistort.sh
-# RUN bash /tmp/installers/install_user.sh
-# RUN bash /tmp/installers/install_yarn.sh
-# RUN bash /tmp/installers/install_cuda_aarch64.sh
-# RUN bash /tmp/installers/post_install.sh
-# RUN bash /tmp/installers/install_google_perftools_aarch64.sh
+# install ros packages
+RUN apt-get update && apt-get install -y \
+    ros-melodic-robot=1.4.1-0* \
+    && rm -rf /var/lib/apt/lists/*
 
-#RUN apt-get install -y \
-#   vim
-   #bc \
-   #cppcheck \
-   #debconf-utils \
-   #doxygen \
-   #graphviz \
-   #gdb \
-   #git \
-   # subversion \
-   # lcov \
-   # libblas-dev \
-   # libboost-all-dev \
-   # libcurl4-openssl-dev \
-   # libfreetype6-dev \
-   # liblapack-dev \
-   # libpcap-dev \
-   # locate \
-   #lsof \
-   #realpath \
-   #shellcheck \
-   #vim \
-   #v4l-utils \
-   #nfs-common \
-   #zip
+RUN apt-get update -y && \
+    apt-get install -y \
+    apt-utils \
+    sudo \
+    ca-certificates \
+    gnupg
+
+
+RUN apt-get update -y && \
+    apt-get install -y \
+    apt-transport-https \
+    bc \
+    build-essential \
+    cmake \
+    cppcheck \
+    curl \
+    vim \
+    debconf-utils \
+    doxygen \
+    gdb \
+    git \
+    google-perftools \
+    graphviz \
+    lcov \
+    libblas-dev \
+    libboost-all-dev \
+    libcurl4-openssl-dev \
+    libfreetype6-dev \
+    liblapack-dev \
+    libpcap-dev \
+    locate \
+    lsof \
+    nfs-common \
+    shellcheck \
+    software-properties-common \
+    sshfs \
+    subversion \
+    unzip \
+    v4l-utils \
+    wget \
+    zip && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    echo '\n\n\n' | ssh-keygen -t rsa
 
 WORKDIR /autocar
 #USER autocar
