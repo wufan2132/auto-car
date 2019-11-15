@@ -211,6 +211,7 @@ function main() {
 
     if [ "${USER}" != "root" ]; then
         docker exec -u root ${PROJECT_NAME}_dev bash -c "/${PROJECT_NAME}/docker/scripts/docker_adduser.sh"
+        docker exec -u root ${PROJECT_NAME}_dev sudo chown  -R  ${IN_DOCKER_USER}  "/${PROJECT_NAME}"
     fi
 
     ok "Finished setting up ${PROJECT_NAME} docker environment. Now you can enter with: \nbash docker/scripts/dev_into.sh"
