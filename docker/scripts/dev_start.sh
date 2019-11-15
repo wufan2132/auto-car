@@ -16,6 +16,10 @@
 # limitations under the License.
 ###############################################################################
 
+
+PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+source ${PROJECT_ROOT_DIR}/configure
+
 INCHINA="no"
 LOCAL_IMAGE="yes"
 VERSION=""
@@ -23,10 +27,6 @@ ARCH=$(uname -m)
 VERSION_OPT=""
 IN_DOCKER_USER=cat
 IN_DOCKER_GRP=${PROJECT_NAME}
-
-PROJECT_ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
-source ${PROJECT_ROOT_DIR}/configure
-
 
 function show_usage() {
     cat <<EOF
