@@ -18,7 +18,7 @@
 
 ### project config
 PROJECT_NAME=autocar
-IMAGE_SERVER=sixianka
+IMAGE_SERVER=NAS-205
 ##################################################
 PROJECT_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ARCH=$(uname -m)

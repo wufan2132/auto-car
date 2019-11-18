@@ -9,5 +9,5 @@ S_PWD="   "
 #
 S_PWD_DETALL="(三个空格)"
 # path 
-IMAGES_PATH=""
+IMAGES_PATH="/mnt/Download/images/"
 

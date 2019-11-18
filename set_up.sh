@@ -52,7 +52,7 @@ create_data_dir
 
 echo ""
 info "1.install docker..."
-docker --help >/dev/null
+docker ps --help >/dev/null
 if [ $? == 0 ]; then
     echo "docker is already installed, skip install."
 else
