@@ -1,7 +1,7 @@
 # ip
 S_IP=10.7.43.223
 # pc name
-S_NAME=203_pc
+S_NAME=205-server
 # user
 S_USER=ng
 # password

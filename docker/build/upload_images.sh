@@ -15,4 +15,4 @@ if [ "$PROJECT_IN_DOCKER" == "true" ]; then
 fi
 #
 echo "the password is ${S_PWD} ${S_PWD_DETALL}"
-scp  "$IMAGE" "${S_USER}@${S_IP}:${IMAGES_PATH}"
+scp  "./$IMAGE" "${S_USER}@${S_IP}:${IMAGES_PATH}"
