@@ -32,7 +32,7 @@
   </node>
   <node pkg="tf2_ros" type="static_transform_publisher" name="very_inaccurate_odom" args="0 0 0 0 0 0 odom base_link"/>
   <!-- <node pkg="car_demo" type="joystick_translator" name="joystick_translator"/> -->
-  <!-- <node pkg="car_demo" type="joystick_translator_agent" name="joystick_translator_agent"/> -->
+  <!-- <node pkg="car_demo" type="joystick_translator_agent" name="joystick_translator_agent" output="screen" /> -->
 
   <!-- Run two joy nodes publishing to the same topic, just to cover two possible joystick locations -->
   <!--node pkg="joy" type="joy_node" name="joy_node0">
@@ -44,19 +44,20 @@
 
     <!-- prius -->
   <param name="robot_description" textfile="$(find prius_description)/urdf/prius.urdf"/>
-  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"  output="screen"  
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
     args="-param robot_description -urdf -x -200 -y -15 -z 0.5 -model prius"/>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find car_demo)/rviz/demo.rviz" required="true" />
 
+  
   <!-- agent_0 -->
   <param name="agent_0_description" textfile="$(find prius_agent)/urdf/agent_0.urdf"/>
-  <node name="prius_agent_0" pkg="gazebo_ros" type="spawn_model"  output="screen" 
-    args="-param agent_0_description -urdf -x -150 -y -15 -z 0.5 -model agent_0"/>
-
-  <arg name="record_path" default="/autocar/data/bag/now" />
-  <node pkg="rosbag" type="play" name="bag_play" args= "$(arg record_path)/agent_0.bag">
-    <remap from="/agent_0/keyboard_cmd" to="/agent_0"/>
+  <node name="prius_agent_0" pkg="gazebo_ros" type="spawn_model" 
+    args="-param agent_0_description -urdf  -model agent_0 -x -150 -y -15 -z 0.5">
   </node>
+  
+  <arg name="record_path" default="/autocar/data/bag/now" />
+  <node pkg="rosbag" type="record" name="bag_record" 
+    args="-e  /agent_0/keyboard_cmd  -O $(arg record_path)/agent_0.bag"/>
 
-<!-- -R [value] -P [value] -Y [value] -->
+
 </launch>

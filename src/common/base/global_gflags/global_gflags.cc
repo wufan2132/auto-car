@@ -14,7 +14,7 @@ DEFINE_string(chassis_localization_topic, "/autocar/chassis/localization",
 DEFINE_string(chassis_car_state_topic, "/autocar/chassis/car_state",
               "publish topic name");
 //gazebo
-DEFINE_string(gazebo_Odometry_topic, "base_pose_ground_truth",
+DEFINE_string(gazebo_Odometry_topic, "/prius/p3d",
               "publish topic name");
 DEFINE_string(gazebo_imu_topic, "imu", "publish topic name");
 //planning
@@ -23,7 +23,7 @@ DEFINE_string(planning_refrenceline_topic, "/autocar/planning/refrenceline",
 DEFINE_string(planning_trajectory_topic, "/autocar/planning/trajectory",
               "publish topic name");
 //control
-DEFINE_string(control_controlcmd_topic, "prius",
+DEFINE_string(control_controlcmd_topic, "/prius",
               "publish topic name");
 DEFINE_string(control_debug_topic, "/autocar/control/debug",
               "publish topic name");

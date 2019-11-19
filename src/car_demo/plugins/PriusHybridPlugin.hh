@@ -71,6 +71,17 @@ namespace gazebo
     /// \param[in] _key key value
     private: void KeyControlTypeB(const int _key);
 
+    /// \brief Key control type C
+    /// \param[in] _key key value
+    private: void KeyControlTypeC(const int _key);
+
+    /// \brief Key control type C
+    /// \param[in] _key key value
+    private: void KeyControlTypeD(const int _key);
+
+
+    private: void KeyboardPub();
+
     /// \param[in] _msg Pose message
     private: void OnCmdVel(const ignition::msgs::Pose &_msg);
 

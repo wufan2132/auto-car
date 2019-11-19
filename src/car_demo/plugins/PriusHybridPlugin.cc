@@ -19,6 +19,7 @@
 #include <fstream>
 #include <mutex>
 #include <thread>
+#include <iostream>
 
 #include <ignition/math/Pose3.hh>
 #include <ignition/transport/Node.hh>
@@ -49,6 +50,8 @@ namespace gazebo
     public: ros::NodeHandle nh;
 
     public: ros::Subscriber controlSub;
+
+    public: ros::Publisher keyboardPub;
 
     /// \brief Pointer to the world
     public: physics::WorldPtr world;
@@ -297,11 +300,9 @@ using namespace gazebo;
 PriusHybridPlugin::PriusHybridPlugin()
     : dataPtr(new PriusHybridPluginPrivate)
 {
-  int argc = 0;
-  char *argv = nullptr;
-  ros::init(argc, &argv, "PriusHybridPlugin");
-  ros::NodeHandle nh;
-  this->dataPtr->controlSub = nh.subscribe("prius", 10, &PriusHybridPlugin::OnPriusCommand, this);
+  // int argc = 0;
+  // char *argv = nullptr;
+  // ros::init(argc, &argv, "PriusHybridPlugin");
 
   this->dataPtr->directionState = PriusHybridPluginPrivate::FORWARD;
   this->dataPtr->flWheelRadius = 0.3;
@@ -362,6 +363,16 @@ void PriusHybridPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   // shortcut to this->dataPtr
   PriusHybridPluginPrivate *dPtr = this->dataPtr.get();
 
+  std::string topicName= "/prius";
+  if (_sdf->HasElement("topicName"))
+    topicName = _sdf->Get<std::string>("topicName");
+  this->dataPtr->controlSub = 
+      dPtr->nh.subscribe(topicName, 10, &PriusHybridPlugin::OnPriusCommand, this);
+
+  this->dataPtr->keyboardPub =
+      dPtr->nh.advertise<car_msgs::control_cmd>(topicName+"/keyboard_cmd", 1000);
+
+
   this->dataPtr->model = _model;
   this->dataPtr->world = this->dataPtr->model->GetWorld();
   auto physicsEngine = this->dataPtr->world->Physics();
@@ -370,21 +381,23 @@ void PriusHybridPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   this->dataPtr->gznode = transport::NodePtr(new transport::Node());
   this->dataPtr->gznode->Init();
 
-  this->dataPtr->node.Subscribe("/prius/reset",
+  this->dataPtr->node.Subscribe(topicName+"/reset",
       &PriusHybridPlugin::OnReset, this);
-  this->dataPtr->node.Subscribe("/prius/stop",
+  this->dataPtr->node.Subscribe(topicName+"/stop",
       &PriusHybridPlugin::OnStop, this);
 
-  this->dataPtr->node.Subscribe("/cmd_vel", &PriusHybridPlugin::OnCmdVel, this);
-  this->dataPtr->node.Subscribe("/cmd_gear",
+  this->dataPtr->node.Subscribe(topicName+"/cmd_vel", &PriusHybridPlugin::OnCmdVel, this);
+  this->dataPtr->node.Subscribe(topicName+"/cmd_gear",
       &PriusHybridPlugin::OnCmdGear, this);
-  this->dataPtr->node.Subscribe("/cmd_mode",
+  this->dataPtr->node.Subscribe(topicName+"/cmd_mode",
       &PriusHybridPlugin::OnCmdMode, this);
 
+  
+
   this->dataPtr->posePub = this->dataPtr->node.Advertise<ignition::msgs::Pose>(
-      "/prius/pose");
+      topicName+"/pose");
   this->dataPtr->consolePub =
-    this->dataPtr->node.Advertise<ignition::msgs::Double_V>("/prius/console");
+    this->dataPtr->node.Advertise<ignition::msgs::Double_V>(topicName+"/console");
 
   std::string chassisLinkName = dPtr->model->GetName() + "::"
     + _sdf->Get<std::string>("chassis");
@@ -658,15 +671,22 @@ void PriusHybridPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   this->dataPtr->updateConnection = event::Events::ConnectWorldUpdateBegin(
       std::bind(&PriusHybridPlugin::Update, this));
 
+  int key_control = 0;
+  if (_sdf->HasElement("key_control"))
+    key_control = _sdf->Get<int>("key_control");
+
+  if (key_control) {
+  this->dataPtr->keyControl = key_control;
   this->dataPtr->keyboardSub =
     this->dataPtr->gznode->Subscribe("~/keyboard/keypress",
         &PriusHybridPlugin::OnKeyPress, this, true);
 
-  this->dataPtr->worldControlPub =
-    this->dataPtr->gznode->Advertise<msgs::WorldControl>("~/world_control");
-
   this->dataPtr->node.Subscribe("/keypress", &PriusHybridPlugin::OnKeyPressIgn,
       this);
+  }
+
+  this->dataPtr->worldControlPub =
+    this->dataPtr->gznode->Advertise<msgs::WorldControl>("~/world_control");
 }
 
 /////////////////////////////////////////////////
@@ -889,12 +909,225 @@ void PriusHybridPlugin::KeyControlTypeB(const int _key)
 }
 
 /////////////////////////////////////////////////
+void PriusHybridPlugin::KeyControlTypeC(const int _key)
+{
+  std::lock_guard<std::mutex> lock(this->dataPtr->mutex);
+
+  switch (_key)
+  {
+    //i  - accelerate forward
+    case 73:
+    case 105:
+    {
+      this->dataPtr->brakePedalPercent = 0.0;
+      this->dataPtr->gasPedalPercent += 0.1;
+      this->dataPtr->gasPedalPercent =
+          std::min(this->dataPtr->gasPedalPercent, 1.0);
+      this->dataPtr->directionState = PriusHybridPluginPrivate::FORWARD;
+      this->dataPtr->lastPedalCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // j - steer left
+    case 74:
+    case 106:
+    {
+      this->dataPtr->handWheelCmd += 0.25;
+      this->dataPtr->handWheelCmd = std::min(this->dataPtr->handWheelCmd,
+          this->dataPtr->handWheelHigh);
+      this->dataPtr->lastSteeringCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // k - reverse
+    case 75:
+    case 107:
+    {
+      this->dataPtr->brakePedalPercent = 0.0;
+      if (this->dataPtr->directionState != PriusHybridPluginPrivate::REVERSE)
+        this->dataPtr->gasPedalPercent = 0.0;
+      this->dataPtr->gasPedalPercent += 0.1;
+      this->dataPtr->gasPedalPercent =
+          std::min(this->dataPtr->gasPedalPercent, 1.0);
+      this->dataPtr->directionState = PriusHybridPluginPrivate::REVERSE;
+      this->dataPtr->lastPedalCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // l - steer right
+    case 76:
+    case 108:
+    {
+      this->dataPtr->handWheelCmd -= 0.25;
+      this->dataPtr->handWheelCmd = std::max(this->dataPtr->handWheelCmd,
+          this->dataPtr->handWheelLow);
+      this->dataPtr->lastSteeringCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // u brake
+    case 85:
+    case 117:
+    {
+      this->dataPtr->brakePedalPercent = 1.0;
+      this->dataPtr->gasPedalPercent = 0.0;
+      this->dataPtr->lastPedalCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // o neutral
+    case 79:
+    case 111:
+    {
+      this->dataPtr->directionState = PriusHybridPluginPrivate::NEUTRAL;
+      break;
+    }
+    // p - EV mode
+    case 80:
+    case 112:
+    {
+      // avoid rapid mode changes due to repeated key press
+      common::Time now = this->dataPtr->world->SimTime();
+      if ((now - this->dataPtr->lastModeCmdTime).Double() > 0.3)
+      {
+        this->dataPtr->evMode = !this->dataPtr->evMode;
+        this->dataPtr->lastModeCmdTime = now;
+      }
+      break;
+    }
+    default:
+    {
+      break;
+    }
+  }
+}
+
+/////////////////////////////////////////////////
+void PriusHybridPlugin::KeyControlTypeD(const int _key)
+{
+  std::lock_guard<std::mutex> lock(this->dataPtr->mutex);
+
+  switch (_key)
+  {
+    //i  - accelerate forward
+    case 16777235:
+    {
+      this->dataPtr->brakePedalPercent = 0.0;
+      this->dataPtr->gasPedalPercent += 0.1;
+      this->dataPtr->gasPedalPercent =
+          std::min(this->dataPtr->gasPedalPercent, 1.0);
+      this->dataPtr->directionState = PriusHybridPluginPrivate::FORWARD;
+      this->dataPtr->lastPedalCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // j - steer left
+    case 16777234:
+    {
+      this->dataPtr->handWheelCmd += 0.25;
+      this->dataPtr->handWheelCmd = std::min(this->dataPtr->handWheelCmd,
+          this->dataPtr->handWheelHigh);
+      this->dataPtr->lastSteeringCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // k - reverse
+    case 16777237:
+    {
+      this->dataPtr->brakePedalPercent = 0.0;
+      if (this->dataPtr->directionState != PriusHybridPluginPrivate::REVERSE)
+        this->dataPtr->gasPedalPercent = 0.0;
+      this->dataPtr->gasPedalPercent += 0.1;
+      this->dataPtr->gasPedalPercent =
+          std::min(this->dataPtr->gasPedalPercent, 1.0);
+      this->dataPtr->directionState = PriusHybridPluginPrivate::REVERSE;
+      this->dataPtr->lastPedalCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // l - steer right
+    case 16777236:
+    {
+      this->dataPtr->handWheelCmd -= 0.25;
+      this->dataPtr->handWheelCmd = std::max(this->dataPtr->handWheelCmd,
+          this->dataPtr->handWheelLow);
+      this->dataPtr->lastSteeringCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // u brake
+    case 92:
+    {
+      this->dataPtr->brakePedalPercent = 1.0;
+      this->dataPtr->gasPedalPercent = 0.0;
+      this->dataPtr->lastPedalCmdTime = this->dataPtr->world->SimTime();
+      break;
+    }
+    // o neutral
+    case 93:
+    {
+      this->dataPtr->directionState = PriusHybridPluginPrivate::NEUTRAL;
+      break;
+    }
+    // p - EV mode
+    case 91:
+    {
+      // avoid rapid mode changes due to repeated key press
+      common::Time now = this->dataPtr->world->SimTime();
+      if ((now - this->dataPtr->lastModeCmdTime).Double() > 0.3)
+      {
+        this->dataPtr->evMode = !this->dataPtr->evMode;
+        this->dataPtr->lastModeCmdTime = now;
+      }
+      break;
+    }
+    default:
+    {
+      break;
+    }
+  }
+}
+/////////////////////////////////////////////////
 void PriusHybridPlugin::KeyControl(const int _key)
 {
-  if (this->dataPtr->keyControl == 0)
+  switch (this->dataPtr->keyControl)
+  {
+    case 1:
     this->KeyControlTypeA(_key);
-  else if (this->dataPtr->keyControl == 1)
+      break;
+    case 2:
     this->KeyControlTypeB(_key);
+      break;
+    case 3:
+    this->KeyControlTypeC(_key);
+      break;
+    case 4:
+    this->KeyControlTypeD(_key);
+      break;
+    default:
+    this->KeyControlTypeA(_key);
+      break;
+  }
+  KeyboardPub();
+}
+
+void PriusHybridPlugin::KeyboardPub()
+{
+  static int count = 0;
+  car_msgs::control_cmd cmd;
+  cmd.header.seq = ++count;
+  cmd.header.stamp = ros::Time::now();
+  cmd.steer = (this->dataPtr->handWheelCmd < 0.)
+    ? (this->dataPtr->handWheelCmd / -this->dataPtr->handWheelLow)
+    : (this->dataPtr->handWheelCmd / this->dataPtr->handWheelHigh);
+  cmd.brake =  this->dataPtr->brakePedalPercent;
+  cmd.throttle = this->dataPtr->gasPedalPercent;
+  switch (this->dataPtr->directionState)
+  {
+    case PriusHybridPluginPrivate::NEUTRAL:
+      cmd.shift_gears = car_msgs::control_cmd::NEUTRAL;
+      break;
+    case PriusHybridPluginPrivate::FORWARD:
+      cmd.shift_gears = car_msgs::control_cmd::FORWARD;
+      break;
+    case PriusHybridPluginPrivate::REVERSE:
+      cmd.shift_gears = car_msgs::control_cmd::REVERSE;
+      break;
+    default:
+      break;
+  }
+  this->dataPtr->keyboardPub.publish(cmd);
 }
 
 /////////////////////////////////////////////////

@@ -5,7 +5,8 @@
 /user/
 
 # data
-/data/
+/data/log/
+/data/core/
 
 # docker images
 /docker/images/*.tar

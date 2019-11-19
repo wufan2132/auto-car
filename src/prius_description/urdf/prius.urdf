@@ -449,8 +449,10 @@
   </joint>
 
   <gazebo>
-    <plugin name="pruis_hybrid_drive" filename="libPriusHybridPlugin.so">
+    <plugin name="prius_hybrid_drive" filename="libPriusHybridPlugin.so">
       <chassis>chassis</chassis>
+      <topicName>/prius</topicName>
+      <key_control>3</key_control>
       <front_left_wheel>front_left_wheel_joint</front_left_wheel>
       <front_right_wheel>front_right_wheel_joint</front_right_wheel>
       <front_left_wheel_steering>front_left_steer_joint</front_left_wheel_steering>
@@ -502,7 +504,7 @@
     <plugin name="p3d" filename="libgazebo_ros_p3d.so">
       <!-- <robotNamespace>/prius</robotNamespace> -->
       <bodyName>base_link</bodyName>
-      <topicName>base_pose_ground_truth</topicName>
+      <topicName>/prius/p3d</topicName>
       <frameName>map</frameName>
       <updateRate>100.0</updateRate>
     </plugin>
