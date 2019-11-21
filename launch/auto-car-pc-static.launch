@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" 
+     args="--flagfile=$(find chassis)/conf/chassis.conf"  >
+  </node>
+
+  <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
+  </node>
+  
+  <node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="--slider-file $(find control)/conf/setting.yaml" />
+
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="verbose" value="true"/>
+    <arg name="world_name" value="$(find car_demo)/worlds/mcity.world"/>
+  </include>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" >
+    <!-- <remap from="prius_description" to="prius_description" /> -->
+    <!-- <remap from="joint_states" to="/prius/joint_states" /> -->
+  </node>
+  <node pkg="fake_localization" type="fake_localization" name="fake_localization">
+    <remap from="base_pose_ground_truth" to="/prius/p3d"/>
+  </node>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="very_inaccurate_odom" args="0 0 0 0 0 0 odom base_link"/>
+  <!-- <node pkg="car_demo" type="joystick_translator" name="joystick_translator"/> -->
+  <!-- <node pkg="car_demo" type="joystick_translator_agent" name="joystick_translator_agent"/> -->
+
+  <!-- Run two joy nodes publishing to the same topic, just to cover two possible joystick locations -->
+  <!--node pkg="joy" type="joy_node" name="joy_node0">
+    <param name="dev" value="/dev/input/js0"/>
+  </node>
+  <node pkg="joy" type="joy_node" name="joy_node1">
+    <param name="dev" value="/dev/input/js1"/>
+  </node>-->
+
+    <!-- prius -->
+  <param name="robot_description" textfile="$(find prius_description)/urdf/prius.urdf"/>
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"  output="screen"  
+    args="-param robot_description -urdf -x -200 -y -15 -z 0.5 -model prius"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find car_demo)/rviz/demo.rviz" required="true" />
+
+  <!-- agent_0 -->
+  <param name="agent_0_description" textfile="$(find prius_agent)/urdf/agent_0.urdf"/>
+  <node name="prius_agent_0" pkg="gazebo_ros" type="spawn_model"  output="screen" 
+    args="-param agent_0_description -urdf -x -150 -y -15 -z 0.5 -model agent_0"/>
+  <!-- agent_1 -->
+  <param name="agent_1_description" textfile="$(find prius_agent)/urdf/agent_1.urdf"/>
+  <node name="prius_agent_1" pkg="gazebo_ros" type="spawn_model"  output="screen" 
+    args="-param agent_1_description -urdf -x -160 -y -15 -z 0.5 -model agent_1"/>
+  <!-- agent_2 -->
+  <param name="agent_2_description" textfile="$(find prius_agent)/urdf/agent_2.urdf"/>
+  <node name="prius_agent_2" pkg="gazebo_ros" type="spawn_model"  output="screen" 
+    args="-param agent_2_description -urdf -x -170 -y -15 -z 0.5 -model agent_2"/>
+<!-- -R [value] -P [value] -Y [value] -->
+</launch>
