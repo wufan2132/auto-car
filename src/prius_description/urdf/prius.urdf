@@ -313,7 +313,7 @@
   <joint name="front_camera_joint" type="fixed">
     <parent link="chassis"/>
     <child link="front_camera_link"/>
-    <origin xyz="0 -0.4 1.4" rpy="0 0.05 -1.5707"/>
+    <origin xyz="0 -0.4 1.4" rpy="0 0 -1.5707"/>
   </joint>
 
   <link name="back_camera_link">
@@ -325,7 +325,7 @@
   <joint name="back_camera_joint" type="fixed">
     <parent link="chassis"/>
     <child link="back_camera_link"/>
-    <origin xyz="0 1.45 1.4" rpy="0 0.05 1.5707"/>
+    <origin xyz="0 1.45 1.4" rpy="0 0 1.5707"/>
   </joint>
 
   <link name="left_camera_link">
@@ -337,7 +337,7 @@
   <joint name="left_camera_joint" type="fixed">
     <parent link="chassis"/>
     <child link="left_camera_link"/>
-    <origin xyz="1 -0.7 1.0" rpy="0 0.05 0"/>
+    <origin xyz="1 -0.7 1.0" rpy="0 0 0"/>
   </joint>
 
   <link name="right_camera_link">
@@ -349,7 +349,7 @@
   <joint name="right_camera_joint" type="fixed">
     <parent link="chassis"/>
     <child link="right_camera_link"/>
-    <origin xyz="-1 -0.7 1.0" rpy="0 0.05 3.14159"/>
+    <origin xyz="-1 -0.7 1.0" rpy="0 0 3.14159"/>
   </joint>
 
   <link name="back_left_far_sonar_link">
@@ -452,7 +452,7 @@
     <plugin name="prius_hybrid_drive" filename="libPriusHybridPlugin.so">
       <chassis>chassis</chassis>
       <topicName>/prius</topicName>
-      <key_control>3</key_control>
+      <key_control>0</key_control>
       <front_left_wheel>front_left_wheel_joint</front_left_wheel>
       <front_right_wheel>front_right_wheel_joint</front_right_wheel>
       <front_left_wheel_steering>front_left_steer_joint</front_left_wheel_steering>
@@ -610,10 +610,10 @@
     <sensor type="camera" name="front_camera_sensor">
       <update_rate>30.0</update_rate>
       <camera name="front_camera">
-        <horizontal_fov>2.61799383</horizontal_fov>
+        <horizontal_fov>3.0000</horizontal_fov>
         <image>
-          <width>800</width>
-          <height>800</height>
+          <width>1280</width>
+          <height>720</height>
           <format>R8G8B8</format>
         </image>
         <clip>
@@ -625,6 +625,14 @@
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise>
+         <distortion>
+            <k1>-0.25</k1>
+            <k2>0.12</k2>
+            <k3>0.0</k3>
+            <p1>-0.00028</p1>
+            <p2>-0.00005</p2>
+            <center>0.5 0.5</center>
+        </distortion>
       </camera>
       <plugin name="front_camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>false</alwaysOn>
@@ -634,11 +642,6 @@
         <cameraInfoTopicName>/prius/front_camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
         <hackBaseline>0.07</hackBaseline>
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
       </plugin>
     </sensor>
   </gazebo>
@@ -647,10 +650,10 @@
     <sensor type="camera" name="back_camera_sensor">
       <update_rate>30.0</update_rate>
       <camera name="back_camera">
-        <horizontal_fov>2.61799383</horizontal_fov>
+        <horizontal_fov>3.0000</horizontal_fov>
         <image>
-          <width>800</width>
-          <height>800</height>
+          <width>1280</width>
+          <height>720</height>
           <format>R8G8B8</format>
         </image>
         <clip>
@@ -662,6 +665,14 @@
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise>
+        <distortion>
+            <k1>-0.25</k1>
+            <k2>0.12</k2>
+            <k3>0.0</k3>
+            <p1>-0.00028</p1>
+            <p2>-0.00005</p2>
+            <center>0.5 0.5</center>
+        </distortion>
       </camera>
       <plugin name="back_camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>false</alwaysOn>
@@ -671,11 +682,6 @@
         <cameraInfoTopicName>/prius/back_camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
         <hackBaseline>0.07</hackBaseline>
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
       </plugin>
     </sensor>
   </gazebo>
@@ -684,10 +690,10 @@
     <sensor type="camera" name="left_camera_sensor">
       <update_rate>30.0</update_rate>
       <camera name="left_camera">
-        <horizontal_fov>2.61799383</horizontal_fov>
+        <horizontal_fov>3.0000</horizontal_fov>
         <image>
-          <width>800</width>
-          <height>800</height>
+          <width>1280</width>
+          <height>720</height>
           <format>R8G8B8</format>
         </image>
         <clip>
@@ -699,6 +705,14 @@
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise>
+        <distortion>
+            <k1>-0.25</k1>
+            <k2>0.12</k2>
+            <k3>0.0</k3>
+            <p1>-0.00028</p1>
+            <p2>-0.00005</p2>
+            <center>0.5 0.5</center>
+         </distortion>
       </camera>
       <plugin name="left_camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>false</alwaysOn>
@@ -707,12 +721,7 @@
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>/prius/left_camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
-        <hackBaseline>0.07</hackBaseline>
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
+
       </plugin>
     </sensor>
   </gazebo>
@@ -721,10 +730,10 @@
     <sensor type="camera" name="right_camera_sensor">
       <update_rate>30.0</update_rate>
       <camera name="right_camera">
-        <horizontal_fov>2.61799383</horizontal_fov>
+        <horizontal_fov>3.0000</horizontal_fov>
         <image>
-          <width>800</width>
-          <height>800</height>
+          <width>1280</width>
+          <height>720</height>
           <format>R8G8B8</format>
         </image>
         <clip>
@@ -736,6 +745,14 @@
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise>
+        <distortion>
+            <k1>-0.25</k1>
+            <k2>0.12</k2>
+            <k3>0.0</k3>
+            <p1>-0.00028</p1>
+            <p2>-0.00005</p2>
+            <center>0.5 0.5</center>
+        </distortion>
       </camera>
       <plugin name="right_camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>false</alwaysOn>
@@ -745,11 +762,6 @@
         <cameraInfoTopicName>/prius/right_camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
         <hackBaseline>0.07</hackBaseline>
-        <distortionK1>0.0</distortionK1>
-        <distortionK2>0.0</distortionK2>
-        <distortionK3>0.0</distortionK3>
-        <distortionT1>0.0</distortionT1>
-        <distortionT2>0.0</distortionT2>
       </plugin>
     </sensor>
   </gazebo>
