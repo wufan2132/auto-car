@@ -313,7 +313,7 @@
   <joint name="front_camera_joint" type="fixed">
     <parent link="chassis"/>
     <child link="front_camera_link"/>
-    <origin xyz="0 -0.4 1.4" rpy="0 0 -1.5707"/>
+    <origin xyz="0 -1.4 1.4" rpy="0 0 -1.5707"/>
   </joint>
 
   <link name="back_camera_link">
@@ -325,7 +325,7 @@
   <joint name="back_camera_joint" type="fixed">
     <parent link="chassis"/>
     <child link="back_camera_link"/>
-    <origin xyz="0 1.45 1.4" rpy="0 0 1.5707"/>
+    <origin xyz="0 1.95 1.4" rpy="0 0 1.5707"/>
   </joint>
 
   <link name="left_camera_link">
