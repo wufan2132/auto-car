@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" 
+     args="--flagfile=$(find chassis)/conf/chassis_arm.conf"  >
+  </node>
+
+</launch>

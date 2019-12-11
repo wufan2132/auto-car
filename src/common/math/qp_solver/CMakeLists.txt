@@ -10,6 +10,7 @@ add_library(qp_solver
 
 target_link_libraries(qp_solver qpOASES)
 
+# 生成单元测试
 enable_testing()
 find_package(GTest REQUIRED)
 

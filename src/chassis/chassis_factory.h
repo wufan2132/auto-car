@@ -17,6 +17,7 @@ class ChassisFactory {
   ChassisFactory() {
     // RegisterChassis("gazebo", GazeboChassis);
     RegisterChassis("gazebo", GazeboChassis);
+    RegisterChassis("vehicle", GazeboChassis);
   }
 
   std::unique_ptr<Chassis> CreatObject(std::string type, const YAML::Node& conf) {
