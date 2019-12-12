@@ -2,6 +2,7 @@
 #include <boost/bind.hpp>
 #include <iostream>
 #include <memory>
+#include "common/base/log.h"
 
 namespace chassis {
 
@@ -12,16 +13,12 @@ namespace chassis {
 #define BYTE2(dwTemp) (*((char *)(&dwTemp) + 2))
 #define BYTE3(dwTemp) (*((char *)(&dwTemp) + 3))
 
-//uart串口，用于与底层stm32通信。
+// uart串口，用于与底层stm32通信。
 class Usart {
  public:
-  Usart(const std::string &port_name);
+  Usart(std::string port_name, uint32_t baud_rate = 115200);
   ~Usart();
-
- private:
-  bool init_port(const std::string port, const unsigned int char_size);
-
- public:
+  boost::asio::serial_port *SerialPort() { return serial_port_.get(); };
   void send_to_serial(const uint16_t &throttle, const uint16_t &brake,
                       const int16_t &steer);
 

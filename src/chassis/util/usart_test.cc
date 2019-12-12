@@ -25,25 +25,29 @@
 
 namespace chassis {
 
+char SendBUF[64];
+char ReadBUF[64];
+
 TEST(uart_test, send) {
   Usart uart_adapter("/dev/ttyUSB0");
-  LOG(INFO) << "usart init.....";
-  while (1) {
+  for (int i = 0; i < 3; i++) {
     sleep(1);
-    LOG(INFO) << "send .....";
-    uart_adapter.send_to_serial(123, 123, 123);
-    sleep(1);
-    LOG(INFO) << "reveive .....";
-    double data[11];
-    char flag;
-    uart_adapter.reveive_from_serial(data[0], data[1], data[2], data[3],
-                                     data[4], data[5], data[6], data[7],
-                                     data[8], data[9], flag);
-    for (int i = 0; i < 10; i++) {
-      LOG(INFO) << "data" << i << ":" << data[i];
-    }
+    sprintf(SendBUF, "hello %d\n", i);
+    LOG(INFO) << SendBUF;
+    write(*uart_adapter.SerialPort(),
+          boost::asio::buffer(SendBUF, strlen(SendBUF)));
   }
 }
+
+// TEST(uart_test, read) {
+//   Usart uart_adapter("/dev/ttyUSB0");
+//   memset(ReadBUF, 0, sizeof(ReadBUF));
+//   for (int i = 0; i < 3; i++) {
+//     sleep(1);
+//     read(*uart_adapter.SerialPort(), boost::asio::buffer(ReadBUF, 10));
+//     LOG(INFO) << ReadBUF;
+//   }
+// }
 
 int main(int argc, char* argv[]) {
   google::InitGoogleLogging(argv[0]);
