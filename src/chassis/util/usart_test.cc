@@ -39,15 +39,15 @@ TEST(uart_test, send) {
   }
 }
 
-// TEST(uart_test, read) {
-//   Usart uart_adapter("/dev/ttyUSB0");
-//   memset(ReadBUF, 0, sizeof(ReadBUF));
-//   for (int i = 0; i < 3; i++) {
-//     sleep(1);
-//     read(*uart_adapter.SerialPort(), boost::asio::buffer(ReadBUF, 10));
-//     LOG(INFO) << ReadBUF;
-//   }
-// }
+TEST(uart_test, read) {
+  Usart uart_adapter("/dev/ttyUSB0");
+  memset(ReadBUF, 0, sizeof(ReadBUF));
+  for (int i = 0; i < 3; i++) {
+    sleep(1);
+    read(*uart_adapter.SerialPort(), boost::asio::buffer(ReadBUF, 10));
+    LOG(INFO) << ReadBUF;
+  }
+}
 
 int main(int argc, char* argv[]) {
   google::InitGoogleLogging(argv[0]);

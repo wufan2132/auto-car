@@ -1,29 +1,29 @@
-#include "gazebo_chassis.h"
+#include "gazebo_simulation.h"
 
-namespace chassis {
+namespace simulation {
 
 //单位m
 #define POSITION_OFFSET 1
 
 using common::util::Activator;
 
-GazeboChassis::GazeboChassis(const YAML::Node& yaml_conf) : Chassis(yaml_conf) {
-  AINFO << "gazebo chassis start...";
+GazeboSimulation::GazeboSimulation(const YAML::Node& yaml_conf) : Simulation(yaml_conf) {
+  AINFO << "gazebo simulation start...";
   // load config
-  conf_.send_mode = yaml_conf["gazebo_chassis"]["send_mode"].as<std::string>();
-  conf_.send_period = yaml_conf["gazebo_chassis"]["send_period"].as<double>();
+  conf_.send_mode = yaml_conf["gazebo_simulation"]["send_mode"].as<std::string>();
+  conf_.send_period = yaml_conf["gazebo_simulation"]["send_period"].as<double>();
   //
   activator_ = std::make_unique<Activator>(2);
 }
 
-GazeboChassis::~GazeboChassis() { this->Stop(); }
+GazeboSimulation::~GazeboSimulation() { this->Stop(); }
 
-void GazeboChassis::Init(ros::NodeHandle *node_handle) {
+void GazeboSimulation::Init(ros::NodeHandle *node_handle) {
   // subscriber
   imu_subscriber_ = node_handle->subscribe(FLAGS_gazebo_imu_topic, 1,
-                                           &GazeboChassis::ImuCallback, this);
+                                           &GazeboSimulation::ImuCallback, this);
   odo_subscriber_ = node_handle->subscribe(FLAGS_gazebo_Odometry_topic, 1,
-                                           &GazeboChassis::OdoCallback, this);
+                                           &GazeboSimulation::OdoCallback, this);
   //
   localization_publisher_ = node_handle->advertise<car_msgs::localization>(
       FLAGS_chassis_localization_topic, 1000);
@@ -33,7 +33,7 @@ void GazeboChassis::Init(ros::NodeHandle *node_handle) {
   if (conf_.send_mode == "period") {
     AINFO << "Send mode: period";
     timer_ = node_handle->createTimer(ros::Duration(conf_.send_period),
-                                      &GazeboChassis::OnTimer, this);
+                                      &GazeboSimulation::OnTimer, this);
   } else if (conf_.send_mode == "callback") {
     AINFO << "Send mode: callback";
 
@@ -43,7 +43,7 @@ void GazeboChassis::Init(ros::NodeHandle *node_handle) {
   }
 }
 
-void GazeboChassis::OdoCallback(const nav_msgs::Odometry::ConstPtr &odo_msg) {
+void GazeboSimulation::OdoCallback(const nav_msgs::Odometry::ConstPtr &odo_msg) {
   activator_->Activate("OdoCallback");
   double roll, pitch, yaw;
   tf::Quaternion quat;
@@ -93,15 +93,15 @@ void GazeboChassis::OdoCallback(const nav_msgs::Odometry::ConstPtr &odo_msg) {
     car_state_publisher_.publish(car_state_);
   }
 }
-void GazeboChassis::ImuCallback(const sensor_msgs::Imu::ConstPtr &imu_msg) {
+void GazeboSimulation::ImuCallback(const sensor_msgs::Imu::ConstPtr &imu_msg) {
   activator_->Activate("ImuCallback");
   car_state_.acc.x = -imu_msg->linear_acceleration.x;
   car_state_.acc.y = imu_msg->linear_acceleration.y;
   car_state_.acc.z = imu_msg->linear_acceleration.z;
 }
 
-void GazeboChassis::OnTimer(const ros::TimerEvent &) { this->RunOnce(); }
-void GazeboChassis::RunOnce() {
+void GazeboSimulation::OnTimer(const ros::TimerEvent &) { this->RunOnce(); }
+void GazeboSimulation::RunOnce() {
   if (!activator_->State()) {
     // not ready
     return;
@@ -112,6 +112,6 @@ void GazeboChassis::RunOnce() {
   }
 };
 
-void GazeboChassis::Stop() { AINFO << "gazebo chassis stop..."; };
+void GazeboSimulation::Stop() { AINFO << "gazebo chassis stop..."; };
 
-};  // namespace chassis
+};  // namespace simulation

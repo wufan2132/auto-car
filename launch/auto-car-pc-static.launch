@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <launch>
 
-  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" 
-     args="--flagfile=$(find chassis)/conf/chassis.conf"  >
+  <node pkg="simulation" type="simulation_node" name="simulation_node" output="screen" 
+     args="--flagfile=$(find simulation)/conf/simulation.conf"  >
   </node>
 
   <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >

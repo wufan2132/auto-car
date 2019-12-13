@@ -4,8 +4,8 @@
   <node pkg="control" type="control_node" name="control_node" output="screen" 
     args="--flagfile=$(find control)/conf/control.conf"  >
   </node>
-  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" 
-     args="--flagfile=$(find chassis)/conf/chassis.conf"  >
+  <node pkg="simulation" type="simulation_node" name="simulation_node" output="screen" 
+     args="--flagfile=$(find simulation)/conf/simulation.conf"  >
   </node>
   <!-- <node pkg="perception" type="perception_node" name="perception_node" output="screen" >
   </node> -->
