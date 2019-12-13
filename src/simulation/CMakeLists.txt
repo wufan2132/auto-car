@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(chassis)
+project(simulation)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++14)
@@ -130,13 +130,13 @@ add_subdirectory(common)
 add_subdirectory(util)
 # add_subdirectory(../common/math math.out)
 ## Declare a C++ library
-# add_library(gazebo_chassis
-#   gazebo_chassis.cc
-# )
-# target_link_libraries(gazebo_chassis
-#   activator
-#   file_tool
-# )
+add_library(gazebo_simulation
+  gazebo_simulation.cc
+)
+target_link_libraries(gazebo_simulation
+  activator
+  file_tool
+)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -169,7 +169,8 @@ target_link_libraries(${PROJECT_NAME}_node
 
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
-  chassis_gflags
+  gazebo_simulation
+  simulation_gflags
   file_tool
 )
 

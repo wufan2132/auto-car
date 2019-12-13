@@ -2,7 +2,8 @@
 
 #include <string>
 #include <unordered_map>
-#include "gazebo_chassis.h"
+#include <functional>
+#include "chassis.h"
 
 namespace chassis {
 
@@ -15,8 +16,7 @@ class ChassisFactory {
  public:
   using Productor = std::function<Chassis*(const YAML::Node&)>;
   ChassisFactory() {
-    // RegisterChassis("gazebo", GazeboChassis);
-    RegisterChassis("gazebo", GazeboChassis);
+    //RegisterChassis("vehicle", GazeboChassis);
   }
 
   std::unique_ptr<Chassis> CreatObject(std::string type, const YAML::Node& conf) {

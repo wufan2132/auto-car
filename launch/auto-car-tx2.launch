@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" >
+  <node pkg="simulation" type="simulation_node" name="simulation_node" output="screen" >
   </node>
   <include file="$(find rplidar_ros)/launch/rplidar.launch"/>
   <include file="$(find cartographer_ros)/launch/demo_backpack_2d_localization.launch"/>

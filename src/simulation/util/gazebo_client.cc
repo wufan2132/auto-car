@@ -1,6 +1,6 @@
 #include "gazebo_client.h"
 
-namespace chassis {
+namespace simulation {
 GazeboClient::GazeboClient(const YAML::Node& yaml_conf) {
   default_state_.pose.position.x =
       yaml_conf["default_position"]["x"].as<double>();
@@ -41,4 +41,4 @@ void GazeboClient::ResetCar() {
 
 void GazeboClient::SetCar() {}
 
-}  // namespace chassis
+}  // namespace simulation

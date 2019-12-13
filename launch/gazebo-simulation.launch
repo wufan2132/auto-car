@@ -3,7 +3,7 @@
 
   <node pkg="control" type="control_node" name="control_node" output="screen" >
   </node>
-  <node pkg="chassis" type="chassis_node" name="chassis_node" output="screen" >
+  <node pkg="simulation" type="simulation_node" name="simulation_node" output="screen" >
   </node>
   <node pkg="planning" type="planning_node" name="planning_node" output="screen" >
   </node>

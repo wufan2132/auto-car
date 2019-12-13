@@ -5,23 +5,13 @@ namespace chassis {
 using boost::asio::buffer;
 using boost::asio::serial_port;
 
-Usart::Usart(const std::string &port_name) {
+Usart::Usart(std::string port_name, uint32_t baud_rate) {
   serial_port_ = std::make_unique<serial_port>(ios_);
-  if (serial_port_) {
-    init_port(port_name, 8);
-  }
-}
+  CHECK(serial_port_) << "can not open serial port:" << port_name;
+  uint32_t char_size = 8;
+  serial_port_->open(port_name, err_code_);
 
-Usart::~Usart() {}
-
-bool Usart::init_port(const std::string port, const unsigned int char_size) {
-  if (!serial_port_) {
-    return false;
-  }
-
-  serial_port_->open(port, err_code_);
-
-  serial_port_->set_option(serial_port::baud_rate(115200), err_code_);
+  serial_port_->set_option(serial_port::baud_rate(baud_rate), err_code_);
   serial_port_->set_option(
       serial_port::flow_control(serial_port::flow_control::none), err_code_);
   serial_port_->set_option(serial_port::parity(serial_port::parity::none),
@@ -29,9 +19,9 @@ bool Usart::init_port(const std::string port, const unsigned int char_size) {
   serial_port_->set_option(serial_port::stop_bits(serial_port::stop_bits::one),
                            err_code_);
   serial_port_->set_option(serial_port::character_size(char_size), err_code_);
-
-  return true;
 }
+
+Usart::~Usart() {}
 
 void Usart::send_to_serial(const uint16_t &throttle, const uint16_t &brake,
                            const int16_t &steer) {

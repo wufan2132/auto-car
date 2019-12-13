@@ -40,7 +40,7 @@ esac
 
 if [ "${RUN_MODE}" == "default" ]; then
     info "runmode: default"
-    roslaunch launch/auto-car-pc-static.launch
+    roslaunch launch/auto-car-pc.launch
 elif [ "${RUN_MODE}" == "env" ]; then
     info "runmode: env"
     roslaunch launch/auto-car-env.launch

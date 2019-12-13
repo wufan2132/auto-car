@@ -5,7 +5,7 @@
 #include <ros/ros.h>
 
 //用于给gazebo发送reset之类的指令
-namespace chassis {
+namespace simulation {
 class GazeboClient {
  public:
   GazeboClient(const YAML::Node& yaml_conf);
@@ -23,4 +23,4 @@ class GazeboClient {
   // conf
   gazebo_msgs::ModelState default_state_;
 };
-}  // namespace chassis
+}  // namespace simulation

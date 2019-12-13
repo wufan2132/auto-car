@@ -6,9 +6,6 @@
 #include <memory>
 #include "car_msgs/chassis.h"
 #include "car_msgs/localization.h"
-#include "chassis.h"
-#include "chassis/car_chassis.h"
-#include "chassis/common/chassis_gflags.h"
 #include "common/base/file_tool/file_tool.h"
 #include "common/base/global_gflags/global_gflags.h"
 #include "common/util/activator.h"
@@ -16,15 +13,17 @@
 #include "geometry_msgs/Transform.h"
 #include "nav_msgs/Odometry.h"
 #include "sensor_msgs/Imu.h"
+#include "simulation.h"
+#include "simulation/common/simulation_gflags.h"
 #include "tf/transform_datatypes.h"
 #include "tf2_msgs/TFMessage.h"
 
-namespace chassis {
+namespace simulation {
 
-class GazeboChassis : public Chassis {
+class GazeboSimulation : public Simulation {
  public:
-  GazeboChassis(const YAML::Node& yaml_conf);
-  ~GazeboChassis() override;
+  GazeboSimulation(const YAML::Node &yaml_conf);
+  ~GazeboSimulation() override;
 
   void Init(ros::NodeHandle *node_handle) override;
   void RunOnce() override;
@@ -59,4 +58,4 @@ class GazeboChassis : public Chassis {
   std::unique_ptr<common::util::Activator> activator_;
 };
 
-}  // namespace chassis
+}  // namespace simulation

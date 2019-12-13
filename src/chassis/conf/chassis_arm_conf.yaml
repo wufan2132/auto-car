@@ -1,0 +1,33 @@
+
+######### gazebo_chassis conf
+gazebo_chassis:
+  # 发送模式 [period callback]
+  send_mode: callback
+  # 发送周期: s (send_mode为period时有效)
+  send_period: 0.02
+
+######## gazebo_client conf
+gazebo_client:
+  # 默认姿态
+  default_position:
+    x: -200
+    y: -15
+    z: 0.01
+  default_orientation:
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  defaule_linear:
+    x: 0
+    y: 0
+    z: 0
+  defaule_angular:
+    x: 0
+    y: 0
+    z: 0
+  
+
+
+
+  
