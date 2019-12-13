@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
   <!-- $(find cartographer_ros)/configuration_files/demo_2d.rviz -->
-  <!-- $(find car_demo)/rviz/demo-for-nvidia.rviz -->
+  <!-- $(find gazebo_world)/rviz/demo-for-nvidia.rviz -->
 
   <arg name="rvizconfig" default="$(find cartographer_ros)/configuration_files/demo_2d.rviz" />
 

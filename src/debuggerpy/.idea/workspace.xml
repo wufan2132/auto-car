@@ -4,7 +4,7 @@
     <list default="true" id="cf501aad-10dd-4ad6-a08c-a4e89d9f3c36" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../../.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../.vscode/settings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../launch/planning-debug.launch" beforeDir="false" afterPath="$PROJECT_DIR$/../../launch/planning-debug.launch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../car_demo/CATKIN_IGNORE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gazebo_world/CATKIN_IGNORE" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../planning/file/output/roadout_pool.bmp" beforeDir="false" afterPath="$PROJECT_DIR$/../planning/file/output/roadout_pool.bmp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../planning/file/trajectory/trajectory.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../planning/file/trajectory/trajectory.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../planning/planning_conf.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../planning/planning_conf.yaml" afterDir="false" />

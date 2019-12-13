@@ -29,4 +29,4 @@ TODO
 
 https://github.com/ApolloAuto/apollo     
 https://github.com/CPFL/Autoware         
-https://github.com/osrf/car_demo          //里面有gazebo模型
+https://github.com/osrf/gazebo_world          //里面有gazebo模型

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(car_demo)
+project(gazebo_world)
 
 set (PRIUSCUP_MAJOR_VERSION 0)
 set (PRIUSCUP_MINOR_VERSION 1)

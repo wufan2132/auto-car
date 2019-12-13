@@ -38,7 +38,8 @@ function build_x86_64() {
 
 function build_aarch64() {
     info "build for arm"
-    ARM_TARGET="$(echo "car_msgs; \
+    ARM_TARGET="$(echo " \
+                car_msgs; \
 	        	common; \
 	        	chassis;\
 			" | sed 's/[ \t]*//g')"
