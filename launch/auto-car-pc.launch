@@ -17,7 +17,7 @@
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="verbose" value="true"/>
-    <arg name="world_name" value="$(find gazebo_world)/worlds/mcity.world"/>
+    <arg name="world_name" value="$(find gazebo_world)/worlds/parking_lot.world"/>
   </include>
 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" >
@@ -40,13 +40,13 @@
   </node>-->
 
     <!-- prius -->
-  <param name="robot_description" textfile="$(find prius_description)/urdf/prius.urdf"/>
+  <param name="robot_description" textfile="$(find car_model)/prius_description/urdf/prius.urdf"/>
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"  output="screen"  
     args="-param robot_description -urdf -x -0 -y -0 -z 0 -model prius"/>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find gazebo_world)/rviz/demo.rviz" required="true" />
 
   <!-- agent_0 -->
-  <param name="agent_0_description" textfile="$(find prius_agent)/urdf/agent_0.urdf"/>
+  <param name="agent_0_description" textfile="$(find car_model)/prius_agent/urdf/agent_0.urdf"/>
   <node name="prius_agent_0" pkg="gazebo_ros" type="spawn_model"  output="screen" 
     args="-param agent_0_description -urdf -x 12 -y -6 -z 0 -model agent_0"/>
 

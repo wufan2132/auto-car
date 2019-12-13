@@ -10,14 +10,14 @@
   <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
   </node>
 
-  <arg name="model" default="$(find prius_description)/urdf/prius.urdf"/>
+  <arg name="model" default="$(find car_model)/prius_description/urdf/prius.urdf"/>
   <arg name="rvizconfig" default="$(find gazebo_world)/rviz/demo.rviz" />
 
   <param name="robot_description" textfile="$(arg model)"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="verbose" value="true"/>
-    <arg name="world_name" value="$(find gazebo_world)/worlds/mcity.world"/>
+    <arg name="world_name" value="$(find gazebo_world)/worlds/parking_lot.world"/>
   </include>
 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" >

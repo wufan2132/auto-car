@@ -7,7 +7,7 @@
   </node>
   <node name = "rqt_pub" pkg ="rqt_ez_publisher" type ="rqt_ez_publisher" args ="--slider-file $(find control)/conf/setting.yaml" />
 
-  <arg name="model" default="$(find prius_description)/urdf/prius.urdf"/>
+  <arg name="model" default="$(find car_model)/prius_description/urdf/prius.urdf"/>
   <arg name="rvizconfig" default="$(find gazebo_world)/rviz/demo.rviz" />
 
   <param name="robot_description" textfile="$(arg model)"/>

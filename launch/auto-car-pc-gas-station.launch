@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="control" type="control_node" name="control_node" output="screen" 
+    args="--flagfile=$(find control)/conf/control.conf"  >
+  </node>
+  <node pkg="simulation" type="simulation_node" name="simulation_node" output="screen" 
+     args="--flagfile=$(find simulation)/conf/simulation.conf"  >
+  </node>
+  <!-- <node pkg="perception" type="perception_node" name="perception_node" output="screen" >
+  </node> -->
+  <node pkg="planning" type="planning_node" name="planning_node" output="screen" 
+  args="--flagfile=$(find planning)/conf/planning.conf"  >
+  </node>
+  <node pkg="show_tool" type="show_tool_node" name="show_tool_node" output="screen" >
+  </node>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="verbose" value="true"/>
+    <arg name="world_name" value="$(find gazebo_world)/worlds/gas_station.world"/>
+  </include>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" >
+    <!-- <remap from="prius_description" to="prius_description" /> -->
+    <!-- <remap from="joint_states" to="/prius/joint_states" /> -->
+  </node>
+  <node pkg="fake_localization" type="fake_localization" name="fake_localization">
+    <remap from="base_pose_ground_truth" to="/prius/p3d"/>
+  </node>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="very_inaccurate_odom" args="0 0 0 0 0 0 odom base_link"/>
+  <!-- <node pkg="gazebo_world" type="joystick_translator" name="joystick_translator"/> -->
+  <!-- <node pkg="gazebo_world" type="joystick_translator_agent" name="joystick_translator_agent"/> -->
+
+  <!-- Run two joy nodes publishing to the same topic, just to cover two possible joystick locations -->
+  <!--node pkg="joy" type="joy_node" name="joy_node0">
+    <param name="dev" value="/dev/input/js0"/>
+  </node>
+  <node pkg="joy" type="joy_node" name="joy_node1">
+    <param name="dev" value="/dev/input/js1"/>
+  </node>-->
+
+    <!-- prius -->
+  <param name="robot_description" textfile="$(find car_model)/prius_description/urdf/prius.urdf"/>
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"  output="screen"  
+    args="-param robot_description -urdf -x -0 -y -0 -z 0 -model prius"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find gazebo_world)/rviz/demo.rviz" required="true" />
+
+  <!-- agent_0 -->
+  <param name="agent_0_description" textfile="$(find car_model)/prius_agent/urdf/agent_0.urdf"/>
+  <node name="prius_agent_0" pkg="gazebo_ros" type="spawn_model"  output="screen" 
+    args="-param agent_0_description -urdf -x 12 -y -6 -z 0 -model agent_0"/>
+
+  <arg name="record_path" default="/autocar/data/bag/now" />
+  <node pkg="rosbag" type="play" name="bag_play" args= "$(arg record_path)/agent_0.bag">
+    <remap from="/agent_0/keyboard_cmd" to="/agent_0"/>
+  </node>
+
+<!-- -R [value] -P [value] -Y [value] -->
+</launch>

@@ -33,21 +33,21 @@
   </node>-->
 
     <!-- prius -->
-  <param name="robot_description" textfile="$(find prius_description)/urdf/prius.urdf"/>
+  <param name="robot_description" textfile="$(find car_model)/prius_description/urdf/prius.urdf"/>
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"  output="screen"  
     args="-param robot_description -urdf -x -0 -y -0 -z -0 -model prius"/>
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find gazebo_world)/rviz/demo.rviz" required="true" />
 
   <!-- agent_0 -->
-  <param name="agent_0_description" textfile="$(find prius_agent)/urdf/agent_0.urdf"/>
+  <param name="agent_0_description" textfile="$(find car_model)/prius_agent/urdf/agent_0.urdf"/>
   <node name="prius_agent_0" pkg="gazebo_ros" type="spawn_model"  output="screen" 
     args="-param agent_0_description -urdf -x 12 -y -6 -z 0 -model agent_0"/>
   <!-- agent_1 -->
-  <!-- param name="agent_1_description" textfile="$(find prius_agent)/urdf/agent_1.urdf"/>
+  <!-- param name="agent_1_description" textfile="$(find car_model)/prius_agent/urdf/agent_1.urdf"/>
   <node name="prius_agent_1" pkg="gazebo_ros" type="spawn_model"  output="screen" 
     args="-param agent_1_description -urdf -x -160 -y -15 -z 0.5 -model agent_1"/-->
   <!-- agent_2 -->
-  <!-- param name="agent_2_description" textfile="$(find prius_agent)/urdf/agent_2.urdf"/>
+  <!-- param name="agent_2_description" textfile="$(find car_model)/prius_agent/urdf/agent_2.urdf"/>
   <node name="prius_agent_2" pkg="gazebo_ros" type="spawn_model"  output="screen" 
     args="-param agent_2_description -urdf -x -170 -y -15 -z 0.5 -model agent_2"/-->
 <!-- -R [value] -P [value] -Y [value] -->
