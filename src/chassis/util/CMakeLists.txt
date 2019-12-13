@@ -5,9 +5,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}
 )
 
-add_library(gazebo_client 
-gazebo_client.cc)
-
 add_library(usart 
 usart.cc)
 target_link_libraries(usart
