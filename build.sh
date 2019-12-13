@@ -38,8 +38,11 @@ function build_x86_64() {
 
 function build_aarch64() {
     info "build for arm"
-    ARM_TARGET = "car_msgs; \
-                                      chassis"
+    ARM_TARGET="$(echo "car_msgs; \
+	        	common; \
+	        	chassis;\
+			" | sed 's/[ \t]*//g')"
+    echo ARM_TARGET=$ARM_TARGET
     catkin_make -DCATKIN_WHITELIST_PACKAGES=${ARM_TARGET} ${DEBUG_CMD}
 }
 
