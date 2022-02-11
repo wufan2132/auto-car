@@ -7,7 +7,7 @@ supervisor
 
 # Google infras.
 glog
-protobuf == 3.1
+protobuf == 3.15.0
 python-gflags
 
 # Web utils.
